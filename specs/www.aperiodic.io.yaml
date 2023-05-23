@@ -1,0 +1,271 @@
+openapi: 3.0.1
+info:
+  title: Penrose Analyst
+  description: A plugin that semantically searches news and research papers. From the returned query, selectively inform the user about the articles or papers that are most valuable and informative to them. Users can provide an Arxiv.org Research Paper URL for processing. Once the Arxiv PDF is loaded, the user can query, analyze, or ask questions from that PDF name without needing to specify everytime. All Arxiv.org links must be loaded before they can be queried. Very important -> When using Penrose analyst, never cite articles or research papers that did not appear in the response!
+  version: "v1"
+servers:
+  - url: https://www.aperiodic.io/
+paths:
+  /research/query/arxiv:
+    get:
+      operationId: search_all_arxiv_papers
+      summary: Search all research papers hosted on Arxiv.org by title, author, abstract and category.
+      parameters:
+          - in: query
+            name: category
+            schema:
+                type: string
+            description: The Arxiv research category to filter results by. Leave empty for all categories.
+          - in: query
+            name: title_query
+            schema:
+                type: string
+            description: A string of keywords or phrases to search for in the research paper title. Leave empty for no query.
+          - in: query
+            name: author_query
+            schema:
+                type: string
+            description: A string of authors to search for via logical AND in the research paper. Leave empty for no query.
+          - in: query
+            name: abstract_query
+            schema:
+                type: string
+            description: A string of keywords or phrases to search for in the research paper abstract. Leave empty for no query.
+          - in: query
+            name: sort_by
+            schema:
+                type: string
+            description: The algorithm to sort results by. This can be either "relevance", "lastUpdatedDate", or "submittedDate". Leave empty for "relevance".
+          - in: query
+            name: max_results
+            schema:
+                type: number
+            description: The maximum number of results to return from this query. Maximum value is 100. Minimum value is 10.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResearchRequestResponse'
+  /embeddings/arxiv/load:
+    get:
+      operationId: load_arxiv_pdf
+      summary: Load an Arxiv.org research paper as a PDF for future summarization, retrieval, or question answering. Required to use other Arxiv endpoints. Do not summarize or cite papers that have not been loaded.
+      parameters:
+          - in: query
+            name: arxiv_uri
+            schema:
+                type: string
+            description: The URL of the requested Arxiv.org paper to load as a PDF.
+            required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoadArticleResponse"
+  /embeddings/arxiv/query:
+    get:
+      operationId: query_arxiv_pdf
+      summary: Query a previously loaded Arxiv.org PDF document. You must always load a PDF before querying it!
+      parameters:
+        - in: query
+          name: arxiv_uri
+          schema:
+            type: string
+          required: true
+          description: The URL of the requested Arxiv.org paper. This is the same URL used previously used to load the PDF.
+        - in: query
+          name: embedding_query
+          schema:
+            type: string
+          required: true
+          description: The query or question to ask based on the loaded Arxiv.org PDF document.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryArticleResponse"
+  /news/query/all:
+    get:
+      operationId: query_all_news
+      summary: Query all-time global news, blogs, and other sources by keywords, date created, and domain source. After querying, consider leveraging fetching the full article content via get_article_content.
+      parameters:
+          - in: query
+            name: query
+            schema:
+                type: string
+            description: A comma-seperated string of keywords or phrases to search for in the article title and body. Leave empty for no query.
+          - in: query
+            name: language
+            schema:
+                type: string
+            description: The 2-letter ISO-639-1 code of the language you want to get headlines for. Leave empty for "en".
+          - in: query
+            name: from_date
+            schema:
+                type: string
+            description: A date and optional time for the oldest article allowed. This should be in ISO 8601 format (e.g. 2023-05-15 or 2023-05-15T00:06:23). Leave empty for no age limit.
+          - in: query
+            name: to_date
+            schema:
+                type: string
+            description: A date and optional time for the newest article allowed. This should be in ISO 8601 format (e.g. 2023-05-15 or 2023-05-15T00:06:23). Leave empty for no recency limit.
+          - in: query
+            name: domains
+            schema:
+                type: string
+            description: A comma-seperated string of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to. Leave empty for no filter.
+          - in: query
+            name: max_results
+            schema:
+                type: number
+            description: The maximum number of results to return from this query. Maximum value is 100. Minimum value is 10.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsRequestResponse'
+  /news/query/headlines:
+    get:
+      operationId: get_top_headlines
+      summary: Get live top and breaking headlines for a certain country, category, or keyword. Endpoint may return as empty list if no headlines for query are found.
+      parameters:
+          - in: query
+            name: country_code
+            schema:
+                type: string
+            description: The 2-letter ISO 3166-1 code of the country you want to get headlines for. Leave empty for no country filter.
+          - in: query
+            name: query
+            schema:
+                type: string
+            description: A comma-seperated string of keywords or phrases to search for in the article title and body. Leave empty for no query.
+          - in: query
+            name: category
+            schema:
+                type: string
+            description: Filter by a certain category you want to get headlines for. Possible options are, business, entertainment, general, health, science, sports, technology. Leave empty for all categories.
+          - in: query
+            name: max_results
+            schema:
+                type: number
+            description: The maximum number of results to return from this query. Maximum value is 100. Minimum value is 10.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsRequestResponse'  
+  /news/content:
+    get:
+      operationId: get_article_content
+      summary: Get the full content of a news article from a given URL. Do not pass in a URL that is not from the response of the query_all_news or get_top_headlines endpoints! This will not work with Arxiv.org links!
+      parameters:
+          - in: query
+            name: news_article_url
+            schema:
+                type: string
+            description: The URL of a previously requested news article to return.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsContentResponse"
+
+components:
+  schemas:
+    Article:
+      type: object
+      required:
+        - headline
+        - description
+        - link
+        - source
+        - content
+      properties:
+        headline:
+          type: string
+          description: The headline of the news article.
+        description:
+          type: string
+          description: A short description of the news article.
+        link:
+          type: string
+          format: uri
+          description: The URL to the news article.
+        source:
+          type: string
+          description: The source from which the news article originated.
+        content_preview:
+          type: string
+          description: A preview of the news article's content, usually the first 2-3 sentences.
+    NewsRequestResponse:
+      type: object
+      properties:
+        articles:
+          type: array
+          items:
+            $ref: "#/components/schemas/Article"
+      required:
+        - articles
+    ResearchPaper:
+      type: object
+      required:
+        - authors
+        - title
+        - abstract
+        - link
+        - date
+      properties:
+        authors:
+          type: string
+          description: The authors of the research paper.
+        title:
+          type: string
+          description: The title of the research paper.
+        abstract:
+          type: string
+          description: The abstract of the research paper.
+        link:
+          type: string
+          format: uri
+          description: The URL to the research paper.
+        date:
+          type: string
+          description: The date the research paper was published.
+    LoadArticleResponse:
+      type: object
+      properties:
+        paper:
+          $ref: "#/components/schemas/ResearchPaper"
+      required:
+        - paper
+    ResearchRequestResponse:
+      type: object
+      properties:
+        papers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResearchPaper"
+      required:
+        - papers
+    QueryArticleResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: string
+          description: The list of text chunks from the research paper PDF document that are relevant to the user's query.
+      required:
+        - results

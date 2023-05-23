@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "CoinCap",
+  "name_for_model": "coincap",
+  "description_for_human": "Get cryptocurrency information from CoinCap.",
+  "description_for_model": "Get cryptocurrency information from CoinCap.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://coincap.gptplug.chat/openapi.yml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://seeklogo.com/images/C/coincap-logo-B1854DA521-seeklogo.com.png",
+  "contact_email": "ShadovvBeast@gmail.com",
+  "legal_info_url": "https://coincap.gptplug.chat/legal_info.html"
+}

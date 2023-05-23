@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "SEO CORE AI",
+  "name_for_model": "seoanalysis",
+  "description_for_human": "Use AI to analyze and improve the SEO of a website. Get advice on websites, keywords and competitors.",
+  "description_for_model": "Get associated data for analyzing and comparing SEO and content from a web page by website, competition or keyword.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://ai.seovendor.co/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://ai.seovendor.co/seo-analysis-logo.jpg",
+  "contact_email": "support@seovendor.co",
+  "legal_info_url": "https://seovendor.co/oem-agency-terms-and-conditions/"
+}

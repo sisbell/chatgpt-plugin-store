@@ -1,0 +1,50 @@
+openapi: 3.0.1
+info:
+  title: ImageSearch ChatGPT Plugin
+  description: A plugin that connects to the Unsplash API to find and display images based on user's query.
+  version: 'v1'
+servers:
+  - url: https://imagesearch.jjzhang.repl.co
+paths:
+  /image:
+    get:
+      operationId: fetchImage
+      summary: Get an image based on the search query
+      parameters:
+        - name: query
+          in: query
+          description: The search term to find an image for
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fetchImageResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+components:
+  schemas:
+    fetchImageResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The description of the image
+        url:
+          type: string
+          format: uri
+          description: The URL of the image
+    errorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: An error message describing the issue

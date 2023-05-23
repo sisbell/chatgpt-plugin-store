@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Wahi",
+  "name_for_model": "wahi",
+  "description_for_human": "Hey Ontario, ask and get so in the know on the latest listings, property insights and more.",
+  "description_for_model": "Search real estate listings in Toronto, GTA, and Ontario.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://wahi.com/gpt/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://wahi.com/wp-content/uploads/2022/10/wahi-logo.svg",
+  "contact_email": "support@wahi.com",
+  "legal_info_url": "https://wahi.com/ca/en/terms-of-use/"
+}

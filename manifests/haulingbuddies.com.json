@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Hauling Buddies",
+  "name_for_model": "haulingbuddies",
+  "description_for_human": "Locate dependable animal transporters using recommendations, reviews, and regulatory compliance search features.",
+  "description_for_model": "Find reliable animal transporters in your vicinity using ChatGPT. Request recommendations, read reviews, and access contact details of local animal transporters. Additionally, search for transporters' USDA certificates database by Name or APHIS number, and FMCSA database by DOT Number or company name, ensuring they comply with necessary regulations.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://haulingbuddies.com/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://haulingbuddies.nyc3.cdn.digitaloceanspaces.com/icon_68_68.png",
+  "contact_email": "support@haulingbuddies.com",
+  "legal_info_url": "https://haulingbuddies.com/terms"
+}

@@ -1,0 +1,165 @@
+openapi: 3.0.3
+info:
+  title: Chess Assistant API
+  version: 1.0.0
+paths:
+  /api/levels:
+    get:
+      summary: Get available levels
+      operationId: getLevels
+      responses:
+        "200":
+          description: A list of available levels with Elo ratings and descriptions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Level"
+
+  /api/new_game:
+    post:
+      summary: Start a new chess game. Creates a board in the default state for a new game.
+      operationId: newGame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assistant_color:
+                  type: string
+                  enum: [white, black]
+                  description: >
+                    The color the chess assistant will play as. Must be "white" or "black".
+                elo:
+                  type: integer
+                  description: >
+                    The Elo rating at which the assistant will play, must be between 1000 and 3000.
+      responses:
+        "200":
+          description: New game state and board information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BoardState"
+        "400":
+          description: Bad request, invalid assistant color or Elo rating
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/move:
+    post:
+      summary: Make a chess move use SAN format. Convert from UCI if necessary. Display the results to the user.
+      operationId: makeMove
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                move:
+                  type: string
+                  description: >
+                    The move to make in Standard Algebraic Notation (SAN), e.g., "e4", "Nf3".
+      responses:
+        "200":
+          description: Updated game state and board information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BoardState"
+        "400":
+          description: Bad request, illegal or invalid move
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Game not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/fen:
+    get:
+      summary: Get the FEN (Forsyth-Edwards Notation) representation of the board - use this is the user asks for the FEN
+      operationId: getFEN
+      responses:
+        "200":
+          description: The current game's FEN
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  FEN:
+                    type: string
+                    description: The FEN (Forsyth-Edwards Notation) representation of the board - use this to determine where the pieces are
+        "404":
+          description: Game not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/move_history:
+    get:
+      summary: Get the complete move hisory of the game - use this if the user asks for the move history or an analysis of the game
+      operationId: getMoveHistory
+      responses:
+        "200":
+          description: The move history e.g. "1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. O-O Nxe4 5. Re1 Nd6 6. Nxe5 Be7 7. Bxc6"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MoveHistory"
+components:
+  schemas:
+    Level:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The level's name, e.g., "Beginner", "Intermediate"
+        elo:
+          type: integer
+          description: The Elo rating associated with this level
+        description:
+          type: string
+          description: A brief description of the level
+    BoardState:
+      type: object
+      properties:
+        game_over:
+          type: boolean
+          description: Indicates if the game is over
+        display:
+          type: string
+          description: Markdown string to display the board
+        best_moves:
+          type: string
+          description: A comma-separated list of the assistant's best moves in SAN format
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+          description: Instructions for the assistant on how to proceed
+    MoveHistory:
+      type: object
+      properties:
+        move_history:
+          type: string
+          description: The move history in SAN format, paired by white and black moves
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the request was successful
+        message:
+          type: string
+          description: A description of the error encountered

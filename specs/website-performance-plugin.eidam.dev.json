@@ -1,0 +1,434 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Website Performance API",
+    "description": "An API that allows the user to measure a Lighthouse scores for a given URL.",
+    "version": "v0.0.1"
+  },
+  "paths": {
+    "/measure": {
+      "get": {
+        "operationId": "get_Measure",
+        "tags": [
+          "Measure"
+        ],
+        "summary": "Measure a website performance for a given URL",
+        "parameters": [
+          {
+            "description": "The URL to measure",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The URL to measure",
+              "default": "google.com"
+            },
+            "name": "url",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fullReportUrl": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "The URL to the full report"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "description"
+                      ]
+                    },
+                    "metrics": {
+                      "type": "object",
+                      "properties": {
+                        "details": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "object"
+                            },
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                }
+                              },
+                              "required": [
+                                "type"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "items"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    },
+                    "opportunities": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "object"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Opportunities to improve the score"
+                        },
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "object"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "description",
+                        "items"
+                      ]
+                    },
+                    "categories": {
+                      "type": "object",
+                      "properties": {
+                        "performance": {
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "score": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "auditRefs": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "array"
+                                },
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "weight": {
+                                      "type": "string",
+                                      "example": "number"
+                                    },
+                                    "group": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "acronym": {
+                                      "type": "string",
+                                      "example": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "weight",
+                                    "group",
+                                    "acronym"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "items"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "title",
+                            "score",
+                            "auditRefs"
+                          ]
+                        },
+                        "accessibility": {
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "score": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "auditRefs": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "array"
+                                },
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "weight": {
+                                      "type": "string",
+                                      "example": "number"
+                                    },
+                                    "group": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "acronym": {
+                                      "type": "string",
+                                      "example": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "weight",
+                                    "group",
+                                    "acronym"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "items"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "title",
+                            "score",
+                            "auditRefs"
+                          ]
+                        },
+                        "bestPractices": {
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "score": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "auditRefs": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "array"
+                                },
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "weight": {
+                                      "type": "string",
+                                      "example": "number"
+                                    },
+                                    "group": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "acronym": {
+                                      "type": "string",
+                                      "example": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "weight",
+                                    "group",
+                                    "acronym"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "items"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "title",
+                            "score",
+                            "auditRefs"
+                          ]
+                        },
+                        "seo": {
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "score": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "auditRefs": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "array"
+                                },
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "weight": {
+                                      "type": "string",
+                                      "example": "number"
+                                    },
+                                    "group": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "acronym": {
+                                      "type": "string",
+                                      "example": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "weight",
+                                    "group",
+                                    "acronym"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "items"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "title",
+                            "score",
+                            "auditRefs"
+                          ]
+                        },
+                        "pwa": {
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "score": {
+                              "type": "string",
+                              "example": "number"
+                            },
+                            "auditRefs": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "array"
+                                },
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "weight": {
+                                      "type": "string",
+                                      "example": "number"
+                                    },
+                                    "group": {
+                                      "type": "string",
+                                      "example": "string"
+                                    },
+                                    "acronym": {
+                                      "type": "string",
+                                      "example": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "weight",
+                                    "group",
+                                    "acronym"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "items"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "title",
+                            "score",
+                            "auditRefs"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "performance",
+                        "accessibility",
+                        "bestPractices",
+                        "seo",
+                        "pwa"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "fullReportUrl",
+                    "metrics",
+                    "opportunities",
+                    "categories"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

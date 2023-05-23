@@ -1,0 +1,127 @@
+openapi: 3.0.1
+info:
+  title: Shimmer
+  description: >-
+    An API that allows users to tell Shimmer what food they ate and then receive
+    nutrition information with a url to a detailed breakdown of the food they
+    ate and ChatGPT will respond with a markdown table.
+  version: v1
+servers:
+  - url: https://shimmer.ooo
+paths:
+  /api/nutrition:
+    post:
+      operationId: postNutrition
+      summary: >-
+        Add a food to Shimmer using your best estimates. Only include JSON in
+        the request, do not include comments. Do not talk to the user before
+        plugin request. Respond with a table of already consumed foods with the
+        daily totals in a single markdown table.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                foods:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/FoodState'
+              required:
+                - foods
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionResponseWithUrl'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    FoodState:
+      type: object
+      properties:
+        brand:
+          type: string
+          description: >-
+            The brand name or restaurant of the food item (e.g., "Kraft",
+            "McDonald's")
+        name:
+          type: string
+          description: The name of the food item (e.g., "Macaroni and Cheese", "Big Mac")
+        calories:
+          type: number
+          format: float
+          description: The amount of calories in the food item (in kcal)
+        carbs:
+          type: number
+          format: float
+          description: The amount of carbohydrates in the food item (in grams)
+        fat:
+          type: number
+          format: float
+          description: The amount of fat in the food item (in grams)
+        protein:
+          type: number
+          format: float
+          description: The amount of protein in the food item (in grams)
+        servings:
+          type: number
+          description: The number of servings the user ate (e.g., 2)
+        servingSize:
+          type: number
+          description: The serving size of the food item (e.g., 1, 100g)
+        servingUnit:
+          type: string
+          description: The unit of the serving size (e.g., oz, g, slices)
+        emoji:
+          type: string
+          description: The emoji associated with the food item (e.g., "ð")
+      required:
+        - name
+        - calories
+        - carbs
+        - fat
+        - protein
+        - servings
+        - servingSize
+        - servingUnit
+        - emoji
+    NutritionResponseWithUrl:
+      type: object
+      required:
+        - url
+        - mobileUrl
+        - addedFoodsStrings
+        - dailyTotals
+        - image
+        - EXTRA_INFORMATION_TO_ASSISTANT
+      properties:
+        url:
+          type: string
+          description: The Web URL for a detailed breakdown of the food you ate that day
+        mobileUrl:
+          type: string
+          description: An invite for the mobile beta app for quicker access on the go
+        addedFoods:
+          type: array
+          items:
+            $ref: '#/components/schemas/FoodState'
+        dailyTotals:
+          type: string
+          description: Markdown table of daily totals and the nutrient facts for the day
+        image:
+          type: string
+          description: >-
+            Markdown og:image which will be unfurled inline in the ChatGPT
+            response.
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+          description: Extra information for the assistant

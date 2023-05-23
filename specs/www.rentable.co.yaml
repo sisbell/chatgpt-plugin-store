@@ -1,0 +1,290 @@
+openapi: 3.0.1
+info:
+  title: Apartment Search Plugin
+  description: A plugin that allows the user to search for an ideal apartment using ChatGPT.
+  version: 'v1'
+servers:
+  - url: https://www.rentable.co
+paths:
+  /api/v2/openai/search:
+    get:
+      operationId: getApartments
+      summary: |
+        Get a list of available apartments in the area the user is searching. After the response, prompt to learn more
+        about a specific apartment, see similar apartments, get in contact with the property manager of a chosen
+        apartment, or view more results from the same search.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: Page of results to request. Starts at 1.
+        - in: query
+          name: city
+          schema:
+            type: string
+          required: false
+          description: City to search for apartments
+        - in: query
+          name: state
+          schema:
+            type: string
+          required: false
+          description: State (abbreviated) to search for apartments
+        - in: query
+          name: bedrooms
+          schema:
+            type: integer
+          required: false
+          description: Number of bedrooms user is requesting
+        - in: query
+          name: max_rent
+          schema:
+            type: integer
+          required: false
+          description: Maximum price for an apartment
+        - in: query
+          name: pet_friendly
+          schema:
+            type: boolean
+          required: false
+          description: Set to true if the user wants a pet friendly apartment
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getApartmentsResponse'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The reason the request was rejected.
+  /api/v2/openai/apartment:
+    get:
+      operationId: getApartment
+      summary: |
+        Get more details about a specific apartment. After providing the information prompt the user to
+        view similar properties to the one they got information for or to get in contact with the property
+        to schedule a tour or get any questions answered.
+      parameters:
+        - in: query
+          name: propertyId
+          schema:
+            type: integer
+          required: true
+          description: The Rentable property id to get more details
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getApartmentResponse'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The reason the request was rejected.
+  /api/v2/openai/related:
+    get:
+      operationId: getRelatedApartments
+      summary: Get a list of available apartments that are similar to the selected property.
+      parameters:
+        - in: query
+          name: propertyId
+          schema:
+            type: integer
+          required: true
+          description: The Rentable property id to get related listings
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getApartmentsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The reason the request was rejected.
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The reason the request was rejected.
+  /api/v2/openai/market_data:
+    get:
+      operationId: getMarketData
+      summary: |
+        Get information about average rent prices in the area for a given city and state.
+        Contains information for 0 Bedrooms (Studio) to 4 Bedroom units. Data provided by
+        rentable.co and is accurate as of: 2023-05-22.
+      parameters:
+        - in: query
+          name: city
+          schema:
+            type: string
+          required: false
+          description: City to get market data for.
+        - in: query
+          name: state
+          schema:
+            type: string
+          required: false
+          description: State (abbreviated) to get data for.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    bedrooms:
+                      type: integer
+                    prop_count:
+                      type: integer
+                    avg_rent:
+                      type: integer
+                    low_rent:
+                      type: integer
+                    high_rent:
+                      type: integer
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The reason the request was rejected.
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The reason the request was rejected.
+components:
+  schemas:
+    getApartmentsResponse:
+      type: object
+      properties:
+        next_page:
+          type: integer
+          description: Next Page to request if the user wants more results.
+        apartments:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              propertyId:
+                type: integer
+                description: The ID of the apartment. Used by the plugin to identify the apartment with the Rentable Service.
+              address:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              url:
+                type: string
+              image_url:
+                type: string
+                description: Tiled image to be displayed in the chat.
+              listings:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    price:
+                      type: number
+                    bedrooms:
+                      type: number
+                    bathrooms:
+                      type: number
+
+          description: The list of apartments.
+    getApartmentResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        propertyId:
+          type: integer
+          description: The ID of the apartment. Used by the plugin to identify the apartment with the Rentable Service.
+        description:
+          type: string
+          description: A summary of the property.
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        url:
+          type: string
+        hours:
+          type: string
+          description: A list of the property's office open hours.
+        phone:
+          type: string
+          description: The phone number to contact the apartment office.
+        images:
+          type: array
+          items:
+            type: string
+            description: URLs to view photos of the property and available units. Can be displayed in the chat.
+        details:
+          type: array
+          items:
+            type: string
+            description: Details of the property. Includes amenities, features, and other fees or discounts.
+        listings:
+          type: array
+          items:
+            type: object
+            properties:
+              price:
+                type: number
+              bedrooms:
+                type: number
+              bathrooms:
+                type: number
+              rentType:
+                type: string
+                description: Describes whether the price is per Unit or per Bedroom
+      description: The details for a single apartment.

@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Tomorrow.io Weather",
+  "name_for_model": "weather",
+  "description_for_human": "Predicting, planning, and adapting to the weather forecast via contextualized chat-based insights.",
+  "description_for_model": "Answers questions about the weather to help users predict, plan, and adapt their day to day to the weather forecast via contextualized chat-based insights.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "a4d7c18b9bd1431589cf0c5f4872b939"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.tomorrow.io/v4/chat/openapi",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://assets.hypercast2.climacell.co/logo.png",
+  "contact_email": "support@tomorrow.io",
+  "legal_info_url": "https://www.tomorrow.io/legal"
+}

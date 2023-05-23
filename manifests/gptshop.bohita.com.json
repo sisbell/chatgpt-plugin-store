@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Bohita",
+  "name_for_model": "Bohita",
+  "description_for_human": "Create apparel with any image you can describe! Get it delivered right to your door.",
+  "description_for_model": "Plugin for creating apparel like T-Shirt or Hoodies. The prompt creates the graphic used for the design.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gptshop.bohita.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gptshop.bohita.com/logo.png",
+  "contact_email": "genie@bohita.com",
+  "legal_info_url": "https://gptshop.bohita.com/legal"
+}

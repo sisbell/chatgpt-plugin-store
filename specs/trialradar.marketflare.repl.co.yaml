@@ -1,0 +1,2849 @@
+openapi: 3.0.1
+info:
+  title: Clinical Trial Radar
+  description: 'Discover current info on global clinical trials, organizations, diseases, and biomarkers from public & private studies.'
+  version: 'v1'
+servers:
+  - url: https://trialradar.marketflare.repl.co
+paths:
+  '/trials/{id}':
+    get:
+      summary: Get One Trial
+      description: 'Retrieve a clinical trial by ID; use getTrialByQuery operation with id if ResponseTooLargeError. brief_summary usually provides information on study design, objectives, patient population (which diseases are treated with this trial), endpoints, modifications, and research focus.'
+      operationId: getTrialById
+      parameters:
+        - in: path
+          name: id
+          description: NCI ID or NCT ID of Trial.
+          required: true
+          schema:
+            type: string
+          examples:
+            'valid nci_id: NCI-2019-02616':
+              value: NCI-2019-02616
+            'valid nct_id: NCT03386721':
+              value: NCT03386721
+            'non-existent nci_id: NCI-2014-99999  (will result in 404 response code)':
+              value: NCI-2014-99999
+            'non-existent nct_id: NCT99999999  (will result in 404 response code)':
+              value: NCT99999999
+            nci_id 15-00414:
+              value: NCI-2015-00414
+            nci_id 16-00376:
+              value: NCI-2016-00376
+            nci_id 16-00469:
+              value: NCI-2016-00469
+            nci_id 17-00679:
+              value: NCI-2017-00679
+            nci_id 18-02229:
+              value: NCI-2018-02229
+            nci_id 16-01319:
+              value: NCI-2016-01319
+            nci_id 16-01435:
+              value: NCI-2016-01435
+            nci_id 17-00223:
+              value: NCI-2017-00223
+            nct_id 03391791:
+              value: NCT03391791
+            NCT02369029:
+              value: NCT02369029
+            NCT02877862:
+              value: NCT02877862
+            NCT02565758:
+              value: NCT02565758
+            NCT03110159:
+              value: NCT03110159
+            NCT02896907:
+              value: NCT02896907
+            NCT02816697:
+              value: NCT02816697
+            NCT03092856:
+              value: NCT03092856
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.
+
+  /trials:
+    get:
+      summary: Search Trials by GET
+      description: Trial search with various filter parameters. brief_summary usually provides information on study design, objectives, patient population (which diseases are treated with this trial), endpoints, modifications, and research focus. 
+      operationId: getTrialByQuery
+      parameters:
+        - in: query
+          name: id
+          description: Search by ID.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: trial_status
+          description: Filter by trial status (OPEN as default).
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'OPEN ':
+              value: OPEN
+            Invalid value (search will result in 500 response code):
+              value: SOMETHING
+        - in: query
+          name: size
+          description: >-
+            Not using the size parameter, by default, will give you ALL the results
+            AND, in addition, will give you the 'total' field in the results, with
+            the total count of the results. Once you do use the size parameter
+            however, the number of results will be according to the size specified,
+            AND, in addition, the 'total' field will not exist in your results.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - in: query
+          name: order
+          description: Asc or Desc. Required when using 'sort'.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            ascending order:
+              value: asc
+            descending order:
+              value: desc
+        - in: query
+          name: from
+          description: >-
+            Starting from nth position of results lineup. Start the results from a
+            supplied starting point (default is 0).
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - in: query
+          name: current_trial_status
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Active:
+              value: Active
+            Administratively Complete:
+              value: Administratively Complete
+            Approved:
+              value: Approved
+            Closed to Accrual:
+              value: Closed to Accrual
+            Closed to Accrual and Intervention:
+              value: Closed to Accrual and Intervention
+            Complete:
+              value: Complete
+            INACTIVE:
+              value: INACTIVE
+            Enrolling by Invitation:
+              value: Enrolling by Invitation
+            Temporarily Closed to Accrual and Intervention:
+              value: Temporarily Closed to Accrual and Intervention
+            Temporarily Closed to Accrual:
+              value: Temporarily Closed to Accrual
+            In Review:
+              value: In Review
+            Withdrawn:
+              value: Withdrawn
+        - in: query
+          name: export
+          description: >-
+            Export all query results into a file. The data will be available to
+            download using a link that will arrive by email. Supported formats
+            are JSON ('export=json') and Excel ('export=xls'). Requires
+            'email' parameter. See also optional 'filename'
+            parameter. Note that 'size' parameter will be ignored during
+            exports.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Export in JSON format:
+              value: json
+            excel (xls):
+              value: xls
+            Invalid value (search will result in 400 response code):
+              value: SOMETHING
+        - in: query
+          name: filename
+          description: >-
+            To be used with 'export' to indicate the beginning of the
+            file name for exported data. If omitted, filename will start with
+            'report'.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: email
+          description: >-
+            Required when using 'export' to indicate the email address
+            for exported data.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: generic_contact
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: sites.generic_contact
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: lead_org_cancer_center
+          description: Search by Lead Org Cancer Center
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Mayo Clinic Cancer Center:
+              value: Mayo Clinic Cancer Center
+            Alvin J. Siteman Cancer Center:
+              value: Alvin J. Siteman Cancer Center
+            University of Chicago Comprehensive Cancer Center:
+              value: University of Chicago Comprehensive Cancer Center
+            MD Anderson Cancer Center:
+              value: MD Anderson Cancer Center
+            Roswell Park Cancer Institute:
+              value: Roswell Park Cancer Institute
+            Stanford Cancer Institute:
+              value: Stanford Cancer Institute
+        - in: query
+          name: nci_funded
+          description: Search by NCI funded
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Indirect:
+              value: Indirect
+            Direct:
+              value: Direct
+            'No':
+              value: 'No'
+        - in: query
+          name: sort
+          description: 'Sort by field. Sorting should be available on most fields as long as they are sortable (i.e not available on objects and list/array fields and fields with list/array parent)'
+          required: false
+          schema:
+            type: string
+          examples:
+            use default:
+              value: ''
+            _study_protocol_type_sort_order:
+              value: _study_protocol_type_sort_order
+            _primary_purpose_sort_order:
+              value: _primary_purpose_sort_order
+            _phase_sort_order:
+              value: _phase_sort_order
+            _current_trial_status_sort_order:
+              value: _current_trial_status_sort_order
+            nci_id:
+              value: nci_id
+            nct_id:
+              value: nct_id
+            current_trial_status:
+              value: current_trial_status
+            study_protocol_type:
+              value: study_protocol_type
+            brief_title:
+              value: brief_title
+            official_title:
+              value: official_title
+            study_source:
+              value: study_source
+            minimum_target_accrual_number:
+              value: minimum_target_accrual_number
+            amendment_date:
+              value: amendment_date
+            current_trial_status_date:
+              value: current_trial_status_date
+            record_verification_date:
+              value: record_verification_date
+            eligibility.structured.min_age_in_years:
+              value: eligibility.structured.min_age_in_years
+            eligibility.structured.max_age_in_years:
+              value: eligibility.structured.max_age_in_years
+            eligibility.structured.min_age_number:
+              value: eligibility.structured.min_age_number
+            eligibility.structured.max_age_number:
+              value: eligibility.structured.max_age_number
+        - in: query
+          name: missing
+          description: Filter by empty results (i.e by nulls, missing fields, empty array)
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            sites:
+              value: sites
+            acronym:
+              value: acronym
+            brief_title:
+              value: brief_title
+            current_trial_status:
+              value: current_trial_status
+        - in: query
+          name: exists
+          description: Filter by opposite of missing, and search for existence of field with value
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            sites:
+              value: sites
+            acronym:
+              value: acronym
+            brief_title:
+              value: brief_title
+            current_trial_status:
+              value: current_trial_status
+        - in: query
+          name: include
+          description: "Include only the supplied fields in results. Use multiple times to include multiple fields. These include field values can be delimited with %2F {'include':'nct_id%2Fbrief_title'} and the plugin python code will create the correct url params from this, for example: include=nct_id&include=brief_title. Use less fields or the value DEFAULT to decrease payload if the response is too large."
+          required: false
+          schema:
+            type: string
+          examples:
+            all fields:
+              value: ''
+            no data; just get the count:
+              value: none
+            default fields:
+              value: DEFAULT
+            nci_id only:
+              value: nci_id
+            nct_id only:
+              value: nct_id
+            phase:
+              value: nct_id
+            current_trial_status:
+              value: current_trial_status
+            sites.org_name:
+              value: sites.org_name
+            sites.contact_name:
+              value: sites.contact_name
+        - in: query
+          name: exclude
+          description: >-
+            Exclude the supplied filter param fields from all results (useful if
+            you want most of the payload returned with the exception of a few
+            fields). Use multiple times to exclude multiple fields. If using
+            with 'include' param, and values are found in both,
+            fields in these values will be included in the results.
+          required: false
+          schema:
+            type: string
+          examples:
+            all fields (don't exclude any):
+              value: ''
+            sites:
+              value: sites
+            diseases:
+              value: diseases
+        - in: query
+          name: _fulltext
+          description: >-
+            DEPRECATED. Use 'keyword' together with
+            'keyword_field' instead.
+          deprecated: true
+          schema:
+            type: string
+        - in: query
+          name: <field_param>_fulltext
+          description: >-
+            DEPRECATED. Use '<field_param>._fulltext' where
+            available, described above.
+          deprecated: true
+          schema:
+            type: string
+        - in: query
+          name: _trialids
+          description: DEPRECATED. Use 'trial_ids' instead.
+          deprecated: true
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: trial_ids
+          description: >-
+            Filter results by examining trial identifiers (ccr_id, ctep_id,
+            dcp_id, nci_id, nct_id, other_ids.value, protocol_id).
+
+            Example: trials?trial_ids=nci-2011&trial_ids=NCT00
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            nci-2011:
+              value: nci-2011
+            NCT00:
+              value: NCT00
+        - in: query
+          name: keyword
+          description: Text to be searched in multiple fields, can be combined with keyword_field and used to filter results. If text is multiple words and not quoted or not identified as a phrase, then separate the words into name/value pairs, for example, keyword=MDS&keyword=eltanexor. Max 10 usages and yields an OR condition. To search for keywords in fields use 'keyword' parameter and the 'keyword_field' parameter. Example, find trials led by Karyopharm Therapeutics Inc, use 'keyword=karyopharm' and 'keyword_field=lead_org._auto' [lead_org._auto; matches beginning, lead_org._fulltext; matches first occurance of word, lead_org._raw; matches by exact, case sensitive match].
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'example search keyword: breast cancer':
+              value: breast cancer
+        - in: query
+          name: keyword_field
+          description: >-
+            Field(s) to be searched for the text provided in 'keyword'. 
+            Use multiple times; once for each field to be searched. For example, 
+            keyword_field=brief_title._fulltext&keyword_field=lead_org._auto
+            Use keyword_field to override the default fields used by 'keyword'; 
+            a maximum of 10 fields is currently allowed.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            brief_title._fulltext:
+              value: brief_title._fulltext
+            lead_org._auto:
+              value: lead_org._auto
+        - in: query
+          name: agg_field
+          description: 'Field to be used for aggregation. '
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            lead_org:
+              value: lead_org
+            current_trial_status:
+              value: current_trial_status
+        - in: query
+          name: agg_name
+          description: >-
+            Filter aggregation (use with 'agg_field'). Autocomplete of this
+            value must match the value of the field in 'agg_field'.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Anderson:
+              value: Anderson
+        - in: query
+          name: agg_min_count
+          description: >-
+            Filter aggregation (use with 'agg_field'). The number of
+            documents ('doc_count') for a given key ('agg_field') must
+            be a minimum of a given number amount (this filter will not lower
+            key doc_count).
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - in: query
+          name: sites.org_name._fulltext
+          description: >-
+            Filter results by examining words that make up organization name e.g
+            'Mayo'.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Mayo:
+              value: Mayo
+            Paducah:
+              value: Paducah
+            Green Bay Oncology:
+              value: Green Bay Oncology
+            Saint Vincent Hospital:
+              value: Saint Vincent Hospital
+        - in: query
+          name: nci_id
+          description: Search by NCI ID.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'valid nci_id: NCI-2019-02616':
+              value: NCI-2019-02616
+            'non-existent nci_id: NCI-2014-99999  (will find 0 results)':
+              value: NCI-2014-99999
+            nci_id 16-00376:
+              value: NCI-2016-00376
+            nci_id 15-00414:
+              value: NCI-2015-00414
+        - in: query
+          name: nct_id
+          description: Search by NCT ID.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'valid nct_id: NCT03386721':
+              value: NCT03386721
+            'non-existent nct_id: NCT99999999  (will find 0 results)':
+              value: NCT99999999
+        - in: query
+          name: protocol_id
+          description: Search by Protocol ID.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            BNT411-01:
+              value: BNT411-01
+            NU 19B03:
+              value: NU 19B03
+            2018-0104:
+              value: 2018-0104
+            AALL1732:
+              value: AALL1732
+            CCT5001:
+              value: CCT5001
+            ENT0065:
+              value: ENT0065
+            14-396:
+              value: 14-396
+            2015-0835:
+              value: 2015-0835
+        - in: query
+          name: ccr_id
+          description: Search by CCR ID.  (No examples available.)
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: ctep_id
+          description: Search by CTEP ID
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            A011401:
+              value: A011401
+            E4512:
+              value: E4512
+            EAY131:
+              value: EAY131
+            A081105:
+              value: A081105
+            NRG-BR003:
+              value: NRG-BR003
+            EA5163:
+              value: EA5163
+            A011202:
+              value: A011202
+            A081801:
+              value: A081801
+            A021703:
+              value: A021703
+            S1609:
+              value: S1609
+            EA1131:
+              value: EA1131
+            A031501:
+              value: A031501
+            EA9161:
+              value: EA9161
+            NRG-GY009:
+              value: NRG-GY009
+            S1418:
+              value: S1418
+            A041702:
+              value: A041702
+            A031704:
+              value: A031704
+            S1801:
+              value: S1801
+            S1613:
+              value: S1613
+            NRG-GI005:
+              value: NRG-GI005
+            S1815:
+              value: S1815
+            EA6134:
+              value: EA6134
+            EA5181:
+              value: EA5181
+            A021502:
+              value: A021502
+            EA8153:
+              value: EA8153
+            NRG-GY019:
+              value: NRG-GY019
+            A051701:
+              value: A051701
+            NSABP-B-51:
+              value: NSABP-B-51
+            EA3161:
+              value: EA3161
+            EA1181:
+              value: EA1181
+            NRG-BR004:
+              value: NRG-BR004
+            S1826:
+              value: S1826
+            EAA173:
+              value: EAA173
+            A031702:
+              value: A031702
+            S1803:
+              value: S1803
+            EA2142:
+              value: EA2142
+            EA2186:
+              value: EA2186
+            EA6141:
+              value: EA6141
+            S1712:
+              value: S1712
+            NRG-LU003:
+              value: NRG-LU003
+            AGCT1531:
+              value: AGCT1531
+            EA3132:
+              value: EA3132
+            EA6174:
+              value: EA6174
+            EA5191:
+              value: EA5191
+            S1929:
+              value: S1929
+            EA2182:
+              value: EA2182
+            EA4181:
+              value: EA4181
+            GOG-0263:
+              value: GOG-0263
+            EA2187:
+              value: EA2187
+            S1608:
+              value: S1608
+        - in: query
+          name: dcp_id
+          description: Search by DCP ID.  (No examples available.)
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: phase
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            I:
+              value: I
+            II:
+              value: II
+            II_III:
+              value: II_III
+            III:
+              value: III
+        - in: query
+          name: study_protocol_type
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Interventional:
+              value: Interventional
+        - in: query
+          name: nci_programs
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            NCORP (NCI Community Oncology Research Program):
+              value: NCORP
+            NCTN (National Clinical Trials Network):
+              value: NCTN
+            ETCTN (Experimental Therapeutics Clinical Trials Network):
+              value: ETCTN
+        - in: query
+          name: brief_title
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Weight Loss Interventions:
+              value: Weight Loss Interventions
+            Breast Cancer Recurrence:
+              value: Breast Cancer Recurrence
+            Advanced Refractory Solid Tumors:
+              value: Advanced Refractory Solid Tumors
+            Rare Tumors:
+              value: Rare Tumors
+            Chronic Lymphocytic Leukemia:
+              value: Chronic Lymphocytic Leukemia
+            Irinotecan Hydrochloride:
+              value: Irinotecan Hydrochloride
+        - in: query
+          name: brief_summary
+          description: 'Information about the study design, objectives, patient population (which diseases are treated with this trial), endpoints, and potential modifications (dose escalation, expansion), and the general focus of the research.'
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Weight Loss Interventions:
+              value: Weight Loss Interventions
+            Breast Cancer Recurrence:
+              value: Breast Cancer Recurrence
+            Advanced Refractory Solid Tumors:
+              value: Advanced Refractory Solid Tumors
+            Rare Tumors:
+              value: Rare Tumors
+            Chronic Lymphocytic Leukemia:
+              value: Chronic Lymphocytic Leukemia
+            Irinotecan Hydrochloride:
+              value: Irinotecan Hydrochloride
+        - in: query
+          name: official_title
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Weight Loss Interventions:
+              value: Weight Loss Interventions
+            Breast Cancer Recurrence:
+              value: Breast Cancer Recurrence
+            Advanced Refractory Solid Tumors:
+              value: Advanced Refractory Solid Tumors
+            Rare Tumors:
+              value: Rare Tumors
+            Chronic Lymphocytic Leukemia:
+              value: Chronic Lymphocytic Leukemia
+            Irinotecan Hydrochloride:
+              value: Irinotecan Hydrochloride
+        - in: query
+          name: primary_purpose
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            TREATMENT:
+              value: TREATMENT
+        - in: query
+          name: accepts_healthy_volunteers_indicator
+          description: >-
+            DEPRECATED. Use
+            'eligibility.structured.accepts_healthy_volunteers'
+            instead.
+          deprecated: true
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: eligibility.structured.accepts_healthy_volunteers
+          description: ''
+          required: false
+          schema:
+            type: boolean
+          examples:
+            '':
+              value: ''
+            'true':
+              value: 'true'
+            'false':
+              value: 'false'
+        - in: query
+          name: acronym
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: amendment_date
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            '2019-07-18T00:00:00':
+              value: '2019-07-18T00:00:00'
+            '2020-11-10T00:00:00':
+              value: '2020-11-10T00:00:00'
+            '2020-11-18':
+              value: '2020-11-18'
+            '2020-10-22':
+              value: '2020-10-22'
+            '2019-08-15':
+              value: '2019-08-15'
+            '2014-09-15':
+              value: '2014-09-15'
+        - in: query
+          name: anatomic_sites
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Non-Hodgkin's Lymphoma:
+              value: Non-Hodgkin's Lymphoma
+            Stomach:
+              value: Stomach
+            Esophagus:
+              value: Esophagus
+            Brain and Nervous System:
+              value: Brain and Nervous System
+            Lung:
+              value: Lung
+            Pancreas:
+              value: Pancreas
+            Kidney:
+              value: Kidney
+            Multiple:
+              value: Multiple
+        - in: query
+          name: arms.description
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Patients undergo radiation therapy once daily:
+              value: undergo radiation therapy once daily
+            Patients undergo observation:
+              value: Patients undergo observation
+            Patients receive standard of care carboplatin:
+              value: Patients receive standard of care carboplatin
+            Patients undergo 3D-CRT:
+              value: Patients undergo 3D-CRT
+            Patients receive chemoradiotherapy:
+              value: Patients receive chemoradiotherapy
+        - in: query
+          name: arms.name
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Arm I:
+              value: Arm I
+            Arm A:
+              value: Arm A
+            Low Risk Group:
+              value: Low Risk Group
+            High Risk Group:
+              value: High Risk Group
+            radiation therapy:
+              value: radiation therapy
+        - in: query
+          name: arms.type
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            EXPERIMENTAL:
+              value: EXPERIMENTAL
+            PLACEBO_COMPARATOR:
+              value: PLACEBO_COMPARATOR
+            ACTIVE_COMPARATOR:
+              value: ACTIVE_COMPARATOR
+        - in: query
+          name: arms.interventions.nci_thesaurus_concept_id
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            C81934:
+              value: C81934
+            C349:
+              value: C349
+            C491:
+              value: C491
+            C408:
+              value: C408
+            C633:
+              value: C633
+        - in: query
+          name: arms.interventions.description
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Patients undergo radiation therapy once daily:
+              value: undergo radiation therapy once daily
+            Patients undergo observation:
+              value: Patients undergo observation
+            Patients receive standard of care carboplatin:
+              value: Patients receive standard of care carboplatin
+            Patients undergo 3D-CRT:
+              value: Patients undergo 3D-CRT
+            Patients receive chemoradiotherapy:
+              value: Patients receive chemoradiotherapy
+        - in: query
+          name: arms.interventions.name
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Ibrutinib:
+              value: Ibrutinib
+            Carmustine:
+              value: Carmustine
+            Etoposide:
+              value: Etoposide
+            Cytarabine:
+              value: Cytarabine
+            Melphalan:
+              value: Melphalan
+            Pharmacogenomic Study:
+              value: Pharmacogenomic Study
+        - in: query
+          name: arms.interventions.type
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Drug:
+              value: Drug
+            Procedure / Surgery:
+              value: Procedure / Surgery
+            Other:
+              value: Other
+        - in: query
+          name: arms.interventions.synonyms
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Imbruvica:
+              value: Imbruvica
+            Lastet:
+              value: Lastet
+            Melphalanum:
+              value: Melphalanum
+            Anti-Tumor Agents:
+              value: Anti-Tumor Agents
+            Anti-Cancer Agents:
+              value: Anti-Cancer Agents
+            Enzyme Antagonist:
+              value: Enzyme Antagonist
+            Immunosuppressive Agents:
+              value: Immunosuppressive Agents
+        - in: query
+          name: associated_studies.study_id
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            NCI-2015-00668:
+              value: NCI-2015-00668
+            NCI-2014-02057:
+              value: NCI-2014-02057
+            NCI-2017-01251:
+              value: NCI-2017-01251
+        - in: query
+          name: associated_studies.study_id_type
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            NCI:
+              value: NCI
+        - in: query
+          name: eligibility.structured.gender
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            BOTH:
+              value: BOTH
+            FEMALE:
+              value: FEMALE
+            MALE:
+              value: MALE
+        - in: query
+          name: eligibility.structured.min_age_in_years_lte
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: eligibility.structured.min_age_in_years_gte
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: eligibility.structured.max_age_in_years_lte
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: eligibility.structured.max_age_in_years_gte
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: eligibility.structured.min_age_unit
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Years:
+              value: Years
+            Months:
+              value: Months
+        - in: query
+          name: eligibility.structured.min_age_number_lte
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: eligibility.structured.min_age_number_gte
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: eligibility.structured.max_age_unit
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Years:
+              value: Years
+            Months:
+              value: Months
+        - in: query
+          name: eligibility.structured.max_age_number_lte
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: eligibility.structured.max_age_number_gte
+          description: ''
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: current_trial_status_date_lte
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            '2020-11-18':
+              value: '2020-11-18'
+            '2020-10-22':
+              value: '2020-10-22'
+            '2019-08-15':
+              value: '2019-08-15'
+            '2014-09-15':
+              value: '2014-09-15'
+        - in: query
+          name: current_trial_status_date_gte
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            '2020-11-18':
+              value: '2020-11-18'
+            '2020-10-22':
+              value: '2020-10-22'
+            '2019-08-15':
+              value: '2019-08-15'
+            '2014-09-15':
+              value: '2014-09-15'
+        - in: query
+          name: record_verification_date_lte
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            '2020-11-18':
+              value: '2020-11-18'
+            '2020-10-22':
+              value: '2020-10-22'
+            '2019-08-15':
+              value: '2019-08-15'
+            '2014-09-15':
+              value: '2014-09-15'
+        - in: query
+          name: record_verification_date_gte
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            '2020-11-18':
+              value: '2020-11-18'
+            '2020-10-22':
+              value: '2020-10-22'
+            '2019-08-15':
+              value: '2019-08-15'
+            '2014-09-15':
+              value: '2014-09-15'
+        - in: query
+          name: sites.org_coordinates_lat
+          description: >-
+            Organization's Latitude - for example: 43.7029. Geolocation Search
+            only works to find sites in the United States.
+          required: false
+          schema:
+            type: number
+            minimum: -999
+            maximum: 999
+          examples:
+            '':
+              value: ''
+            '43.7029':
+              value: '43.7029'
+        - in: query
+          name: sites.org_coordinates_lon
+          description: >-
+            Organization's Longitude - for example: -72.2895. Geolocation Search
+            only works to find sites in the United States.
+          required: false
+          schema:
+            type: number
+            minimum: -999
+            maximum: 999
+          examples:
+            '':
+              value: ''
+            '-72.2895':
+              value: '-72.2895'
+        - in: query
+          name: sites.org_coordinates_dist
+          description: >-
+            The radius around the provided zip code.  Accepts these units of
+            measurements [NM, nmi, nauticalmiles, mi, miles, yd, yards, ft,
+            feet, in, inch, km, kilometers, cm, centimeters, mm, milimeters, m,
+            meters].  If not provided defaults to 25mi. </br>'Use of
+            invalid postal codes, or non-US postal codes will return a 400
+            error.'
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: sites.contact_email
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: sites.contact_name
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Anthony John Jaslowski:
+              value: Anthony John Jaslowski
+            Dwight L. Fitch:
+              value: Dwight L. Fitch
+            Site Public Contact:
+              value: Site Public Contact
+        - in: query
+          name: sites.contact_name._auto
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Anthony John Jaslowski:
+              value: Anthony John Jaslowski
+            Dwight L. Fitch:
+              value: Dwight L. Fitch
+            Site Public Contact:
+              value: Site Public Contact
+        - in: query
+          name: sites.contact_name._raw
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Anthony John Jaslowski:
+              value: Anthony John Jaslowski
+            Dwight L. Fitch:
+              value: Dwight L. Fitch
+            Site Public Contact:
+              value: Site Public Contact
+        - in: query
+          name: sites.contact_phone
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: sites.org_address_line_1
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: sites.org_address_line_2
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Suite 100:
+              value: Suite 100
+            MIND Building Suite 110:
+              value: MIND Building Suite 110
+            MidOalkland Medical Center Suite 106:
+              value: MidOalkland Medical Center Suite 106
+        - in: query
+          name: sites.org_city
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Antwerpen:
+              value: Antwerpen
+            Aurora:
+              value: Aurora
+            Bern:
+              value: Bern
+            Montreal:
+              value: Montreal
+            Vienna:
+              value: Vienna
+            Villejuif:
+              value: Villejuif
+            Winnipeg:
+              value: Winnipeg
+        - in: query
+          name: sites.org_postal_code
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Washington DC:
+              value: '20470'
+            Bethesda Maryland:
+              value: '20890'
+            Groningen Netherlands:
+              value: 9700 GZ
+            Montreal Canada:
+              value: H2L 4M1
+            Rockville Maryland:
+              value: 20850-2062
+            Aurora Colorado:
+              value: '80012'
+        - in: query
+          name: sites.org_state_or_province
+          description: 'Abbreviate US States'
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            AL - Alabama:
+              value: AL
+            CA - California:
+              value: CA
+            CO - Colorado:
+              value: CO
+            DC - District of Columbia:
+              value: DC
+            FL - Florida:
+              value: FL
+            MD - Maryland:
+              value: MD
+            NY - New York:
+              value: NY
+            WI - Wisconsin:
+              value: WI
+            Ontario:
+              value: Ontario
+        - in: query
+          name: sites.org_country
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Canada:
+              value: Canada
+            Italy:
+              value: Italy
+            Netherlands:
+              value: Netherlands
+            Switzerland:
+              value: Switzerland
+            United States:
+              value: United States
+        - in: query
+          name: sites.org_country._raw
+          description: Country name (case sensitive)
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Canada:
+              value: Canada
+            Italy:
+              value: Italy
+            Netherlands:
+              value: Netherlands
+            Switzerland:
+              value: Switzerland
+            United States:
+              value: United States
+        - in: query
+          name: sites.org_email
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: sites.org_family
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Mayo Clinic Cancer Center:
+              value: Mayo Clinic Cancer Center
+            Alvin J. Siteman Cancer Center:
+              value: Alvin J. Siteman Cancer Center
+            University of Chicago Comprehensive Cancer Center:
+              value: University of Chicago Comprehensive Cancer Center
+            MD Anderson Cancer Center:
+              value: MD Anderson Cancer Center
+            Roswell Park Cancer Institute:
+              value: Roswell Park Cancer Institute
+            Stanford Cancer Institute:
+              value: Stanford Cancer Institute
+        - in: query
+          name: sites.org_fax
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: sites.org_name
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'Alegemeen Ziekenhuis Middelheim, Antwerpen Belgium':
+              value: Alegemeen Ziekenhuis Middelheim
+            'Cancer Trials Support Unit, Rockville Maryland':
+              value: Cancer Trials Support Unit
+            'CancerCare Manitoba, Winnipeg Canada':
+              value: CancerCare Manitoba
+            'Henry Ford Hospital, Detroit MI':
+              value: Henry Ford Hospital
+            'Centre Leon Berard, Lyon France':
+              value: Centre Leon Berard
+        - in: query
+          name: sites.org_name._auto
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'Alegemeen Ziekenhuis Middelheim, Antwerpen Belgium':
+              value: Alegemeen Ziekenhuis Middelheim
+            'Cancer Trials Support Unit, Rockville Maryland':
+              value: Cancer Trials Support Unit
+            'CancerCare Manitoba, Winnipeg Canada':
+              value: CancerCare Manitoba
+            'Henry Ford Hospital, Detroit MI':
+              value: Henry Ford Hospital
+            'Centre Leon Berard, Lyon France':
+              value: Centre Leon Berard
+        - in: query
+          name: sites.org_name._raw
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'Alegemeen Ziekenhuis Middelheim, Antwerpen Belgium':
+              value: Alegemeen Ziekenhuis Middelheim
+            'Cancer Trials Support Unit, Rockville Maryland':
+              value: Cancer Trials Support Unit
+            'CancerCare Manitoba, Winnipeg Canada':
+              value: CancerCare Manitoba
+            'Henry Ford Hospital, Detroit MI':
+              value: Henry Ford Hospital
+            'Centre Leon Berard, Lyon France':
+              value: Centre Leon Berard
+        - in: query
+          name: sites.org_phone
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: sites.recruitment_status
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            ACTIVE:
+              value: ACTIVE
+            INACTIVE:
+              value: INACTIVE
+            CLOSED_TO_ACCRUAL:
+              value: CLOSED_TO_ACCRUAL
+            TEMPORARILY_CLOSED_TO_ACCRUAL:
+              value: TEMPORARILY_CLOSED_TO_ACCRUAL
+        - in: query
+          name: sites.recruitment_status_date
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            '2020-11-18':
+              value: '2020-11-18'
+            '2020-10-22':
+              value: '2020-10-22'
+            '2019-08-15':
+              value: '2019-08-15'
+            '2014-09-15':
+              value: '2014-09-15'
+        - in: query
+          name: sites.recruitment_status_date_lte
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            '2020-11-18':
+              value: '2020-11-18'
+            '2020-10-22':
+              value: '2020-10-22'
+            '2019-08-15':
+              value: '2019-08-15'
+            '2014-09-15':
+              value: '2014-09-15'
+        - in: query
+          name: sites.recruitment_status_date_gte
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            '2020-11-18':
+              value: '2020-11-18'
+            '2020-10-22':
+              value: '2020-10-22'
+            '2019-08-15':
+              value: '2019-08-15'
+            '2014-09-15':
+              value: '2014-09-15'
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.                            
+
+  /trialLocations/{id}:
+    get:
+      operationId: getTrialLocations
+      summary: Retrieve clinical trial site locations by ID
+      parameters:
+        - in: path
+          name: id
+          description: NCI ID or NCT ID of Trial.
+          required: true
+          schema:
+            type: string
+          examples:
+            'valid nci_id: NCI-2019-02616':
+              value: NCI-2019-02616
+            'valid nct_id: NCT03386721':
+              value: NCT03386721
+            'non-existent nci_id: NCI-2014-99999  (will result in 404 response code)':
+              value: NCI-2014-99999
+            'non-existent nct_id: NCT99999999  (will result in 404 response code)':
+              value: NCT99999999
+            nci_id 15-00414:
+              value: NCI-2015-00414
+            nci_id 16-00376:
+              value: NCI-2016-00376
+            nci_id 16-00469:
+              value: NCI-2016-00469
+            nci_id 17-00679:
+              value: NCI-2017-00679
+            nci_id 18-02229:
+              value: NCI-2018-02229
+            nci_id 16-01319:
+              value: NCI-2016-01319
+            nci_id 16-01435:
+              value: NCI-2016-01435
+            nci_id 17-00223:
+              value: NCI-2017-00223
+            nct_id 03391791:
+              value: NCT03391791
+            NCT02369029:
+              value: NCT02369029
+            NCT02877862:
+              value: NCT02877862
+            NCT02565758:
+              value: NCT02565758
+            NCT03110159:
+              value: NCT03110159
+            NCT02896907:
+              value: NCT02896907
+            NCT02816697:
+              value: NCT02816697
+            NCT03092856:
+              value: NCT03092856
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.
+
+  /trialArmsOutcomes/{id}:
+    get:
+      operationId: getTrialArmsOutcomes
+      summary: Retrieve clinical trial arms and related outcomes and measures information by ID
+      parameters:
+        - in: path
+          name: id
+          description: NCI ID or NCT ID of Trial.
+          required: true
+          schema:
+            type: string
+          examples:
+            'valid nci_id: NCI-2019-02616':
+              value: NCI-2019-02616
+            'valid nct_id: NCT03386721':
+              value: NCT03386721
+            'non-existent nci_id: NCI-2014-99999  (will result in 404 response code)':
+              value: NCI-2014-99999
+            'non-existent nct_id: NCT99999999  (will result in 404 response code)':
+              value: NCT99999999
+            nci_id 15-00414:
+              value: NCI-2015-00414
+            nci_id 16-00376:
+              value: NCI-2016-00376
+            nci_id 16-00469:
+              value: NCI-2016-00469
+            nci_id 17-00679:
+              value: NCI-2017-00679
+            nci_id 18-02229:
+              value: NCI-2018-02229
+            nci_id 16-01319:
+              value: NCI-2016-01319
+            nci_id 16-01435:
+              value: NCI-2016-01435
+            nci_id 17-00223:
+              value: NCI-2017-00223
+            nct_id 03391791:
+              value: NCT03391791
+            NCT02369029:
+              value: NCT02369029
+            NCT02877862:
+              value: NCT02877862
+            NCT02565758:
+              value: NCT02565758
+            NCT03110159:
+              value: NCT03110159
+            NCT02896907:
+              value: NCT02896907
+            NCT02816697:
+              value: NCT02816697
+            NCT03092856:
+              value: NCT03092856
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.
+
+  /trialEligibility/{id}:
+    get:
+      operationId: getTrialEligibility
+      summary: Retrieve clinical trial eligibility, inclusion, and exclusion information by ID
+      parameters:
+        - in: path
+          name: id
+          description: NCI ID or NCT ID of Trial.
+          required: true
+          schema:
+            type: string
+          examples:
+            'valid nci_id: NCI-2019-02616':
+              value: NCI-2019-02616
+            'valid nct_id: NCT03386721':
+              value: NCT03386721
+            'non-existent nci_id: NCI-2014-99999  (will result in 404 response code)':
+              value: NCI-2014-99999
+            'non-existent nct_id: NCT99999999  (will result in 404 response code)':
+              value: NCT99999999
+            nci_id 15-00414:
+              value: NCI-2015-00414
+            nci_id 16-00376:
+              value: NCI-2016-00376
+            nci_id 16-00469:
+              value: NCI-2016-00469
+            nci_id 17-00679:
+              value: NCI-2017-00679
+            nci_id 18-02229:
+              value: NCI-2018-02229
+            nci_id 16-01319:
+              value: NCI-2016-01319
+            nci_id 16-01435:
+              value: NCI-2016-01435
+            nci_id 17-00223:
+              value: NCI-2017-00223
+            nct_id 03391791:
+              value: NCT03391791
+            NCT02369029:
+              value: NCT02369029
+            NCT02877862:
+              value: NCT02877862
+            NCT02565758:
+              value: NCT02565758
+            NCT03110159:
+              value: NCT03110159
+            NCT02896907:
+              value: NCT02896907
+            NCT02816697:
+              value: NCT02816697
+            NCT03092856:
+              value: NCT03092856
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.
+
+  /trialEligibilityDiseases/{id}:
+    get:
+      operationId: getTrialEligibilityDiseases
+      summary: Retrieve clinical trial eligibility for inclusion or not based on disease or medical condition. This endpoint is NOT for determining diseases the clinical trial is for; rather use brief_summary for patient population info (which diseases are treated with this trial).
+      parameters:
+        - in: path
+          name: id
+          description: NCI ID or NCT ID of Trial.
+          required: true
+          schema:
+            type: string
+          examples:
+            'valid nci_id: NCI-2019-02616':
+              value: NCI-2019-02616
+            'valid nct_id: NCT03386721':
+              value: NCT03386721
+            'non-existent nci_id: NCI-2014-99999  (will result in 404 response code)':
+              value: NCI-2014-99999
+            'non-existent nct_id: NCT99999999  (will result in 404 response code)':
+              value: NCT99999999
+            nci_id 15-00414:
+              value: NCI-2015-00414
+            nci_id 16-00376:
+              value: NCI-2016-00376
+            nci_id 16-00469:
+              value: NCI-2016-00469
+            nci_id 17-00679:
+              value: NCI-2017-00679
+            nci_id 18-02229:
+              value: NCI-2018-02229
+            nci_id 16-01319:
+              value: NCI-2016-01319
+            nci_id 16-01435:
+              value: NCI-2016-01435
+            nci_id 17-00223:
+              value: NCI-2017-00223
+            nct_id 03391791:
+              value: NCT03391791
+            NCT02369029:
+              value: NCT02369029
+            NCT02877862:
+              value: NCT02877862
+            NCT02565758:
+              value: NCT02565758
+            NCT03110159:
+              value: NCT03110159
+            NCT02896907:
+              value: NCT02896907
+            NCT02816697:
+              value: NCT02816697
+            NCT03092856:
+              value: NCT03092856
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.
+
+  /organizations:
+    get:
+      operationId: getOrganizations
+      summary: The organizations endpoint is intended for typeaheads and other use cases where it is necessary to search for available organizations which can later be used to filter clinical trial results.
+      parameters:
+        - in: query
+          name: name
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'Alegemeen Ziekenhuis Middelheim, Antwerpen Belgium':
+              value: Alegemeen Ziekenhuis Middelheim
+            'Cancer Trials Support Unit, Rockville Maryland':
+              value: Cancer Trials Support Unit
+            'CancerCare Manitoba, Winnipeg Canada':
+              value: CancerCare Manitoba
+            'Henry Ford Hospital, Detroit MI':
+              value: Henry Ford Hospital
+            'Centre Leon Berard, Lyon France':
+              value: Centre Leon Berard
+        - in: query
+          name: contact_name
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Anthony John Jaslowski:
+              value: Anthony John Jaslowski
+            Dwight L. Fitch:
+              value: Dwight L. Fitch
+            Site Public Contact:
+              value: Site Public Contact
+        - in: query
+          name: contact_email
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            info@westernstatesncorp.org:
+              value: info@westernstatesncorp.org
+            clinical.trials@daytonncorp.org:
+              value: clinical.trials@daytonncorp.org
+        - in: query
+          name: contact_phone
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            800-398-3996:
+              value: 800-398-3996
+            626-564-3455:
+              value: 626-564-3455
+            800-611-1811:
+              value: 800-611-1811
+        - in: query
+          name: org_address_line_1
+          description: ''
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: org_address_line_2
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Suite 100:
+              value: Suite 100
+            MIND Building Suite 110:
+              value: MIND Building Suite 110
+            MidOalkland Medical Center Suite 106:
+              value: MidOalkland Medical Center Suite 106
+        - in: query
+          name: org_city
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Antwerpen:
+              value: Antwerpen
+            Aurora:
+              value: Aurora
+            Bern:
+              value: Bern
+            Montreal:
+              value: Montreal
+            Vienna:
+              value: Vienna
+            Villejuif:
+              value: Villejuif
+            Winnipeg:
+              value: Winnipeg
+        - in: query
+          name: org_country
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Canada:
+              value: Canada
+            Italy:
+              value: Italy
+            Netherlands:
+              value: Netherlands
+            Switzerland:
+              value: Switzerland
+            United States:
+              value: United States
+        - in: query
+          name: org_email
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            info@westernstatesncorp.org:
+              value: info@westernstatesncorp.org
+            clinical.trials@daytonncorp.org:
+              value: clinical.trials@daytonncorp.org
+        - in: query
+          name: org_phone
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            800-398-3996:
+              value: 800-398-3996
+            626-564-3455:
+              value: 626-564-3455
+            800-611-1811:
+              value: 800-611-1811
+        - in: query
+          name: org_fax
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            317-831-9292:
+              value: 317-831-9292
+        - in: query
+          name: org_tty
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            800-735-2258:
+              value: 800-735-2258
+        - in: query
+          name: org_state_or_province
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            AL - Alabama:
+              value: AL
+            CA - California:
+              value: CA
+            CO - Colorado:
+              value: CO
+            DC - District of Columbia:
+              value: DC
+            FL - Florida:
+              value: FL
+            MD - Maryland:
+              value: MD
+            NY - New York:
+              value: NY
+            WI - Wisconsin:
+              value: WI
+            Ontario:
+              value: Ontario
+        - in: query
+          name: org_va
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'true':
+              value: 'true'
+            'false':
+              value: 'false'
+        - in: query
+          name: org_postal_code
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Washington DC:
+              value: '20470'
+            Bethesda Maryland:
+              value: '20890'
+            Groningen Netherlands:
+              value: 9700 GZ
+            Montreal Canada:
+              value: H2L 4M1
+            Rockville Maryland:
+              value: 20850-2062
+            Aurora Colorado:
+              value: '80012'
+        - in: query
+          name: org_family
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Mayo Clinic Cancer Center:
+              value: Mayo Clinic Cancer Center
+            Alvin J. Siteman Cancer Center:
+              value: Alvin J. Siteman Cancer Center
+            University of Chicago Comprehensive Cancer Center:
+              value: University of Chicago Comprehensive Cancer Center
+            MD Anderson Cancer Center:
+              value: MD Anderson Cancer Center
+            Roswell Park Cancer Institute:
+              value: Roswell Park Cancer Institute
+            Stanford Cancer Institute:
+              value: Stanford Cancer Institute
+        - in: query
+          name: org_coordinates_lat
+          description: 'Organization''s Latitude - for example: 43.7029'
+          required: false
+          schema:
+            type: number
+            minimum: -999
+            maximum: 999
+          examples:
+            '':
+              value: ''
+            Kaiser Permanente-Glenlake Medical Center:
+              value: '33.9325'
+            Riverside Methodist Hospital:
+              value: '40.0525'
+            Baptist MD Anderson Cancer Center:
+              value: '30.291'
+        - in: query
+          name: org_coordinates_lon
+          description: 'Organization''s Longitude - for example: -72.2895'
+          required: false
+          schema:
+            type: number
+            minimum: -999
+            maximum: 999
+          examples:
+            '':
+              value: ''
+            Kaiser Permanente-Glenlake Medical Center:
+              value: '-84.3852'
+            Riverside Methodist Hospital:
+              value: '-83.02'
+            Baptist MD Anderson Cancer Center:
+              value: '-81.6318'
+        - in: query
+          name: org_coordinates_dist
+          description: >-
+            The radius around a given geolocation. The geolocation can be
+            provided by using both org_coordinates_lon and org_coordinates_lat,
+            as described above, OR by specifying the zip code org_postal_code,
+            at which point the geolocation will be calculated for you. We only
+            support miles or kilometers for distance: for example
+            org_coordinates_dist=25mi or org_coordinates_dist=25km. Geolocation
+            Search only works to find sites in the United States. If not
+            provided with geolocation parameters, currently defaults to 0.67mi
+            to provide 'at location' results.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: include
+          description: >-
+            Include only this field(s) in trials and exclude others. Use
+            multiple times to include multiple fields.  (Useful if you want to
+            minimize the payload returned)
+          required: false
+          schema:
+            type: string
+          examples:
+            all fields:
+              value: ''
+            no data; just get the count:
+              value: none
+            name:
+              value: name
+            contact_name:
+              value: contact_name
+            contact_email:
+              value: contact_email
+            contact_phone:
+              value: contact_phone
+            org_address_line_1:
+              value: org_address_line_1
+            org_address_line_2:
+              value: org_address_line_2
+            org_city:
+              value: org_city
+            org_country:
+              value: org_country
+            org_email:
+              value: org_email
+            recruitment_status:
+              value: recruitment_status
+            recruitment_status_date:
+              value: recruitment_status_date
+            org_phone:
+              value: org_phone
+            org_fax:
+              value: org_fax
+            org_tty:
+              value: org_tty
+            org_state_or_province:
+              value: org_state_or_province
+            org_va:
+              value: org_va
+            org_postal_code:
+              value: org_postal_code
+            org_family:
+              value: org_family
+            org_coordinates:
+              value: org_coordinates
+        - in: query
+          name: sort
+          description: Default set to 'name'. Currently works only for 'name'.
+          required: false
+          schema:
+            type: string
+          examples:
+            use default:
+              value: ''
+            name:
+              value: name
+            count:
+              value: count
+            contact_name (Not available. Will result in 400 response code):
+              value: contact_name
+            contact_email (Not available. Will result in 400 response code):
+              value: contact_email
+            org_country (Not available. Will result in 400 response code):
+              value: org_country
+            org_state_or_province (Not available. Will result in 400 response code):
+              value: org_state_or_province       
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.
+
+  /interventions:
+    get:
+      operationId: getInterventions
+      summary: The interventions endpoint is intended for typeaheads and other use cases where it is necessary to search for available interventions which can later be used to filter clinical trial results.
+      parameters:
+        - in: query
+          name: name
+          description: >-
+            Note that name checks for values assigned to name as well as values
+            assigned to synonyms.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            'D-Glucose-1,2-13C2':
+              value: 'D-Glucose-1,2-13C2'
+            Carcinoma:
+              value: Carcinoma
+            Acute Lymphoblastic Leukemia in Remission:
+              value: Acute Lymphoblastic Leukemia in Remission
+            Cutaneous Mastocytosis:
+              value: Cutaneous Mastocytosis
+            Cutaneous Angiosarcoma:
+              value: Cutaneous Angiosarcoma
+            '1,2-Carbon C 13-labeled Glucose':
+              value: '1,2-Carbon C 13-labeled Glucose'
+            Monoclonal Antibody:
+              value: Monoclonal Antibody
+            Antineoplastic Antibody:
+              value: Antineoplastic Antibody
+            Baltaleucel:
+              value: Baltaleucel
+            Basiliximab:
+              value: Basiliximab
+            Cancer Vaccine:
+              value: Cancer Vaccine
+            Chemoradiotherapy:
+              value: Chemoradiotherapy
+            Computer-Assisted:
+              value: Computer-Assisted
+            Computer-Assisted Smoking Cessation Intervention:
+              value: Computer-Assisted Smoking Cessation Intervention
+            Diary:
+              value: Diary
+            EGFR:
+              value: EGFR
+            EGFR-targeting Agent:
+              value: EGFR-targeting Agent
+            Flaxseed:
+              value: Flaxseed
+            Gemcitabine:
+              value: Gemcitabine
+            Intubation:
+              value: Intubation
+            Music Therapy:
+              value: Music Therapy
+            PDGFR:
+              value: PDGFR
+            Polyvalent:
+              value: Polyvalent
+            Psychosocial:
+              value: Psychosocial
+            Scale:
+              value: Scale
+            Smoking:
+              value: Smoking
+            Study:
+              value: Study
+            Thalidomide:
+              value: Thalidomide
+            Vaccin:
+              value: Vaccin
+            Zalifrelimab:
+              value: Zalifrelimab
+        - in: query
+          name: category
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            none:
+              value: none
+            agent:
+              value: agent
+            agent category:
+              value: agent category
+            other:
+              value: other
+        - in: query
+          name: type
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            behavioral:
+              value: behavioral
+            biological:
+              value: biological
+            biological/vaccine:
+              value: biological/vaccine
+            drug:
+              value: drug
+            genetic:
+              value: genetic
+            procedure:
+              value: procedure
+            procedure/surgery:
+              value: procedure/surgery
+            radiation:
+              value: radiation
+            surgery:
+              value: surgery
+            vaccine:
+              value: vaccine
+            other:
+              value: other
+        - in: query
+          name: codes
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            C82414:
+              value: C82414
+            C171257:
+              value: C171257
+            C129967:
+              value: C129967
+            C17934:
+              value: C17934
+            C124648:
+              value: C124648
+            C94726:
+              value: C94726
+            C274:
+              value: C274
+            C130058:
+              value: C130058
+            C62533:
+              value: C62533
+            C3588:
+              value: C3588
+            C3211:
+              value: C3211
+            C3208:
+              value: C3208
+            C131085:
+              value: C131085
+            C27134:
+              value: C27134
+            C27859:
+              value: C27859
+        - in: query
+          name: include
+          description: >-
+            Include only this field(s) in trials and exclude others. Use
+            multiple times to include multiple fields.  (Useful if you want to
+            minimize the payload returned)
+          required: false
+          schema:
+            type: string
+          examples:
+            all fields:
+              value: ''
+            no data; just get the count:
+              value: none
+            name:
+              value: name
+            category:
+              value: category
+            codes:
+              value: codes
+            type:
+              value: type
+            synonyms:
+              value: synonyms
+            count:
+              value: count
+        - in: query
+          name: sort
+          description: >-
+            Default set to 'name'. Currently works only for 'name'
+            and 'count'.
+          required: false
+          schema:
+            type: string
+          examples:
+            use default:
+              value: ''
+            name:
+              value: name
+            count:
+              value: count
+            category (Not available. Will result in 400 response code):
+              value: category
+            code (Not available. Will result in 400 response code):
+              value: code
+            type (Not available. Will result in 400 response code):
+              value: type
+            parent_ids (Not available. Will result in 400 response code):
+              value: parent_ids   
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.
+
+  /diseases:
+    get:
+      operationId: getDiseases
+      summary: The diseases endpoint is intended for typeaheads and other use cases where it is necessary to search for available diseases which can later be used to filter clinical trial results. 
+      parameters:
+        - in: query
+          name: name
+          description: >-
+            Note that name checks for values assigned to name as well as values
+            assigned to synonyms.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            Myeloid Leukemia:
+              value: Myeloid Leukemia
+            Carcinoma:
+              value: Carcinoma
+            Acute Lymphoblastic Leukemia in Remission:
+              value: Acute Lymphoblastic Leukemia in Remission
+            Cutaneous Mastocytosis:
+              value: Cutaneous Mastocytosis
+            Cutaneous Angiosarcoma:
+              value: Cutaneous Angiosarcoma
+        - in: query
+          name: type
+          description: >-
+            Type of Disease - Note that multiple values for type creates an 'OR'
+            condition for the result set. Results will meet one of the type
+            values requested. Use 'type' and 'type_not' together to further
+            filter results.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            finding:
+              value: finding
+            maintype:
+              value: maintype
+            subtype:
+              value: subtype
+            stage:
+              value: stage
+            grade:
+              value: grade
+        - in: query
+          name: type_not
+          description: >-
+            This will do the opposite of 'type' above and exclude rather than
+            include. Note that multiple values for type creates an 'AND'
+            condition for the result set. Results will meet all menu_not values
+            requested. Use 'type' and 'type_not' together to further filter
+            results.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            finding:
+              value: finding
+            maintype:
+              value: maintype
+            subtype:
+              value: subtype
+            stage:
+              value: stage
+            grade:
+              value: grade
+        - in: query
+          name: parent_ids
+          description: >-
+            Setting the parent_id value will get you a direct child along a
+            disease path.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            C3211:
+              value: C3211
+            C3208:
+              value: C3208
+            C3172:
+              value: C3208
+            C27134:
+              value: C27134
+            C27859:
+              value: C27859
+        - in: query
+          name: ancestor_ids
+          description: >-
+            Setting an ancestor_ids value will get you any of the children along
+            a disease path.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            C3211:
+              value: C3211
+            C3208:
+              value: C3208
+            C3172:
+              value: C3172
+            C27134:
+              value: C27134
+            C27859:
+              value: C27859
+        - in: query
+          name: codes
+          description: ''
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            C5192:
+              value: C5192
+            C3588:
+              value: C3588
+            C3211:
+              value: C3211
+            C3208:
+              value: C3208
+            C131085:
+              value: C131085
+            C27134:
+              value: C27134
+            C27859:
+              value: C27859
+        - in: query
+          name: include
+          description: >-
+            Include only this field(s) in trials and exclude others. Use
+            multiple times to include multiple fields.  (Useful if you want to
+            minimize the payload returned)
+          required: false
+          schema:
+            type: string
+          examples:
+            all fields:
+              value: ''
+            no data; just get the count:
+              value: none
+            name:
+              value: name
+            code:
+              value: code
+            codes:
+              value: codes
+            type:
+              value: type
+            parent_ids:
+              value: parent_ids
+            ancestor_ids:
+              value: ancestor_ids
+            synonym:
+              value: synonym
+            synonyms:
+              value: synonyms
+            count:
+              value: count
+        - in: query
+          name: sort
+          description: >-
+            Default set to 'name'. Currently works only for 'name'
+            and 'count'.
+          required: false
+          schema:
+            type: string
+          examples:
+            use default:
+              value: ''
+            name:
+              value: name
+            count:
+              value: count
+            code (Not available. Will result in 400 response code):
+              value: code
+            type (Not available. Will result in 400 response code):
+              value: type
+            parent_ids (Not available. Will result in 400 response code):
+              value: parent_ids
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.
+
+  /biomarkers:
+    get:
+      summary: Search Biomarkers by GET
+      description: The biomarkers endpoint is intended for typeaheads and other use cases where it is necessary to search for available biomarkers which can later be used to filter clinical trial results. 
+      operationId: getBiomarkers
+      parameters:
+        - in: query
+          name: name
+          description: >-
+            Note that name checks for values assigned to name as well as values
+            assigned to synonyms.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            ALK Positive:
+              value: ALK Positive
+            Chromosome:
+              value: Chromosome
+            DNA Structure:
+              value: DNA Structure
+            Kinases:
+              value: Kinases
+            Finding:
+              value: Finding
+        - in: query
+          name: eligibility_criterion
+          description: Eligibility criterion - inclusion or exclusion.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            inclusion:
+              value: inclusion
+            exclusion:
+              value: exclusion
+        - in: query
+          name: type
+          description: >-
+            Type of Biomarker - Note that multiple values for type creates an
+            'OR' condition for the result set. Results will meet one of the type
+            values requested. Use 'type' and 'type_not' together to further
+            filter results.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            reference_gene:
+              value: reference_gene
+            branch:
+              value: branch
+        - in: query
+          name: type_not
+          description: >-
+            This will do the opposite of 'type' above and exclude rather than
+            include. Note that multiple values for type creates an 'AND'
+            condition for the result set. Results will meet all menu_not values
+            requested. Use 'type' and 'type_not' together to further filter
+            results.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            reference_gene:
+              value: reference_gene
+            branch:
+              value: branch
+        - in: query
+          name: parent_ids
+          description: >-
+            Setting the parent_id value will get you a direct child along a
+            biomarker path.
+          required: false
+          schema:
+            type: string
+          examples:
+            '':
+              value: ''
+            C98357:
+              value: C98357
+            C25871:
+              value: C25871
+            C98303:
+              value: C98303
+            C131912:
+              value: C131912
+        - in: query
+          name: ancestor_ids
+          description: >-
+            Setting an ancestor_ids value will get you any of the children along
+            a biomarker path.
+          required: false
+          schema:
+            type: string     
+      responses:
+        "200":
+          description: The list matching given search criteria.
+        "400":
+          description: Bad Request.
+        "500":
+          description: An exception occurred at the backend.
+        "502":
+          description: An exception occurred at the backend.
+
+components:
+  schemas:
+    ClinicalTrialsPluginResponse:
+      type: object
+      properties:
+        result:
+          type: string
+          description: The result of the operation, either formatted search results or a single trial data      
+    integer_1_to_999:
+      type: integer
+      minimum: 1
+      maximum: 999
+  responses:
+    badReq:
+      description: Error Bad Request
+      headers:
+        Access-Control-Allow-Origin:
+          allowEmptyValue: true
+          example: 'http://127.0.0.1'
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                description: HTTP status code 400 -  Bad Request
+                type: integer
+                format: int64
+                x-go-name: Code
+    forbiddenReq:
+      description: Error Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                description: HTTP status code 403 -  Forbidden
+                type: integer
+                format: int64
+                x-go-name: Code
+    notFoundReq:
+      description: Error Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                description: HTTP status code 404 -  Not Found
+                type: integer
+                format: int64
+                x-go-name: Code
+    okResp:
+      description: Success response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                description: HTTP status code 200 - OK
+                type: integer
+                format: int64
+                x-go-name: Code            
+# Additional components, schemas, and definitions can be added here
+# ...

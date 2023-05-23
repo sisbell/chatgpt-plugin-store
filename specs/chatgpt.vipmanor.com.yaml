@@ -1,0 +1,191 @@
+openapi: 3.0.2
+info:
+  title: ManorleadAPI ChatGPT Plugin
+  version: 1.0.0
+  description: The Manorlead ChatGPT plugin allows you to search for active listings across Canada and the U.S., based on several criteria (city, price, property type, beds, baths, sqft), and returns a link with the users desired listings.
+servers:
+  - url: https://chatgpt.vipmanor.com
+paths:
+  /listings:
+    get:
+      summary: Search for relevant residential listings for rent / for sale specific to user requirements
+      operationId: searchListings
+      parameters:
+        - in: query
+          name: min_bed
+          schema:
+            type: number
+          description: The minimum number of bedrooms the user wants
+        - in: query
+          name: max_bed
+          schema:
+            type: number
+          description: The maximum number of bedrooms the user wants
+        - in: query
+          name: min_bath
+          schema:
+            type: number
+          description: The minimum number of bathrooms the user wants
+        - in: query
+          name: max_bath
+          schema:
+            type: number
+          description: The maximum number of bathrooms the user wants
+        - in: query
+          name: min_price
+          schema:
+            type: number
+          description: The minimum price the user wants
+        - in: query
+          name: max_price
+          schema:
+            type: number
+          description: The maximum price the user wants
+        - in: query
+          name: city_state_list
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+          description: A list of strings in the format of '{city}_{state}', where city is the full city name, and state is the 2 letter code for the city's state / province
+        - in: query
+          name: lease_or_sale
+          required: true
+          schema:
+            enum:
+              - Lease
+              - Sale
+            type: string
+          description: The enum value indicating whether the user wants listings for sale or for lease
+        - in: query
+          name: property_types
+          schema:
+            type: array
+            items:
+              enum:
+                - Single-Family
+                - Townhome
+                - Condo
+              type: string
+          description: A list of enum values for the property types that the user wants
+        - in: query
+          name: keywords
+          schema:
+            type: array
+            items:
+              enum:
+                - waterfront
+                - open-concept
+                - basement
+                - pool
+              type: string
+            description: A list of enum values for some key features the user wants, including waterfront, open-concept, basement, pool
+        - in: query
+          name: min_sqft
+          schema:
+            type: number
+            description: The minimum square feet the user wants
+        - in: query
+          name: max_sqft
+          schema:
+            type: number
+            description: The maximum square feet the user wants
+
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Listing'
+        "500":
+          description: Error Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListingError'
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    Listings:
+      title: API response for listing search
+      type: object
+      properties:
+        results:
+          title: List of results, each item representing results for individual city and property type
+          type: array
+          items:
+            $ref: '#/components/schemas/Listing'
+    Listing:
+      title: Search results for one city and one property type
+      type: object
+      properties:
+        url:
+          required: true
+          title: The URL for relevant listing search results, not necessarily a manorlead URL.
+          type: string
+        preview_urls:
+          title: URLs for a few listings that match user search criteria
+          type: array
+          items:
+            type: string
+        statistics:
+          $ref: '#/components/schemas/ListingStatistics'
+    ListingStatistics:
+      title: Displays active and sold listing statistics
+      type: object
+      properties:
+        active:
+          $ref: '#/components/schemas/ListingActiveStatistics'
+        sold:
+          $ref: '#/components/schemas/ListingSoldStatistics'
+    ListingActiveStatistics:
+      title: Active listing statistics for the specific criteria user searched
+      type: object
+      properties:
+         average_listing_price:
+           title: The average price for the listings
+           type: number
+         listing_count:
+           title: The total number of active listings in the city
+           type: integer
+         min_listing_price:
+           title: The minimum listing price
+           type: integer
+         max_listing_price:
+           title: The maximum listing price
+           type: integer
+         median_listing_price:
+           title: The median listing price
+           type: number
+    ListingSoldStatistics:
+      title: Sold listing statistics for listings sold within past 30 days, matching user search criteria
+      type: object
+      properties:
+        sold_listing_count:
+          title: The total number of sold listings in the city
+          type: integer
+        average_sold_price:
+          title: The average sold price for the listings
+          type: number
+        min_sold_price:
+          title: The minimum sold price
+          type: integer
+        max_sold_price:
+          title: The maximum sold price
+          type: integer
+        median_sold_price:
+          title: The median sold price
+          type: number
+    ListingError:
+      type: object
+      properties:
+        message:
+          title: The error message for when listing could not be retrieved
+          type: string
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

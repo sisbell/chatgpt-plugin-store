@@ -1,0 +1,137 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MixerBox News Plugin",
+    "description": "Plugin for real-time & categorized news with links and dates. Provides info on significant global events. Allow users to stay informed with what is happening around the world.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://api.mixerboxnews.com"
+    }
+  ],
+  "paths": {
+    "/services?funcs=GetLatestNewsForChatGPT&mobile=1": {
+      "get": {
+        "operationId": "getLatestNews",
+        "summary": "Get real-time or categorized news based on user's language with links and dates.",
+        "description": "Users can request real-time news updates or categorized news. Each news item comes with a link and date, and users can ask for more information at the end of the content.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "isToday",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "If the content mentions a word related to 'today', then it is true, otherwise it is false."
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "en",
+                "zh",
+                "ja"
+              ]
+            },
+            "description": "If the proportion of Traditional Chinese and Simplified Chinese content is higher, set it to 'zh'. If the proportion of Japanese content is higher, set it to 'ja'. Otherwise, the default is 'en'.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "business",
+                "finance",
+                "economics",
+                "politics",
+                "society",
+                "entertainment",
+                "fun",
+                "gossip",
+                "sports",
+                "lifestyle",
+                "technology",
+                "local",
+                "world",
+                "international",
+                "global",
+                "military"
+              ]
+            },
+            "description": "If the user mentions related keyword in any languages, use the corresponding category ('business', 'finance', 'economics', 'politics', 'society', 'entertainment', 'fun', 'gossip', 'sports', 'lifestyle', 'technology', 'local', 'world', 'international', 'global', 'military') as a category parameter. If the user does not mention any specific keyword, the default value for the category parameter is an empty string."
+          },
+          {
+            "in": "query",
+            "name": "keyword",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Based on the context, infer the keywords that the user wants to search for. If there are no matching keywords, default to an empty string."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LatestNewsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LatestNewsResponse": {
+        "required": [
+          "getLatestNews"
+        ],
+        "type": "object",
+        "properties": {
+          "getLatestNews": {
+            "type": "array",
+            "title": "Result Of Latest News List",
+            "description": "Result of latest news list.",
+            "items": {
+              "$ref": "#/components/schemas/NewsItem"
+            }
+          }
+        }
+      },
+      "NewsItem": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "title": "News URL"
+          },
+          "title": {
+            "type": "string",
+            "title": "News Title"
+          },
+          "subtitle": {
+            "type": "string",
+            "title": "News Subtitle"
+          },
+          "thumbnail": {
+            "type": "string",
+            "title": "News Thumbnail"
+          },
+          "created": {
+            "type": "string",
+            "title": "News Published Time"
+          }
+        }
+      }
+    }
+  }
+}

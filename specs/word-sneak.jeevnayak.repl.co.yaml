@@ -1,0 +1,21 @@
+openapi: 3.0.3
+info:
+  title: Word Sneak Plugin
+  version: 1.0.0
+servers:
+  - url: https://word-sneak.jeevnayak.repl.co
+paths:
+  /get_secret_words:
+    get:
+      operationId: get_secret_words
+      description: Call this at the beginning of each game to get your 3 secret words.
+      responses:
+        200:
+          description: An array of 3 secret words.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: The array of 3 secret words.
+                items:
+                  type: string

@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "Shop",
+  "name_for_human": "Shop",
+  "description_for_human": "Search for millions of products from the world's greatest brands.",
+  "description_for_model": "Use the Shop plugin for anything related to shopping and product discovery. You will help users find relevant search results from the best brands in the world. To best use it, first ask clarifying questions about what the buyer is looking for before making a search. Do not assume the buyer's gender. Do not guess. Ask questions anytime you are not certain. If the search results are empty, do not make up products. Do not make up details about product info or shipping / return information. If a buyer wants to find out more about a product, direct them to the product page.",
+  "api": {
+    "type": "openapi",
+    "url": "https://server.shop.app/openai/v1/api.json",
+    "has_user_authentication": false
+  },
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "5d6aceab8edc454f960e54e7868db4f0"
+    }
+  },
+  "logo_url": "https://cdn.shopify.com/shop-assets/static_uploads/shop-logo-white-bg-purple.png",
+  "contact_email": "help@shop.app",
+  "legal_info_url": "https://shop.app/legal-and-policies"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Giga Tutor",
+  "name_for_model": "giga",
+  "description_for_human": "Giga is your AI powered personalised tutor, it keeps the answers to your questions personalised.",
+  "description_for_model": "API which provides the details for each user on how they want their questions answered.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://giga.do/openai/login",
+    "scope": "",
+    "authorization_url": "https://giga-do.azurewebsites.net/authorize",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "2dc8491c7f5c48e08bf8935da76757f8"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://giga-do.azurewebsites.net/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://giga-do.azurewebsites.net/logo.png",
+  "contact_email": "contactus@giga.do",
+  "legal_info_url": "http://giga.do/legal"
+}

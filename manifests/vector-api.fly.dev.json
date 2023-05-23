@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "AbridgedDueDiligence",
+  "name_for_human": "Abridged Due Diligence",
+  "description_for_model": "Accepts search query objects array. Break down complex questions into sub-questions. Add a filter object to the query with a ticker attribute to get relevant results. Leave a link to allow the user to discover more details, in the format: abridgeddd.com/details/{acc_no}.",
+  "description_for_human": "Discover the details! Search through recent SEC filings, with links to deeper analysis.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "aea9a4597c474d6787697054d0e2fad3"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://vector-api.fly.dev/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://vector-api.fly.dev/.well-known/logo.png",
+  "contact_email": "admin@abridgeddd.com",
+  "legal_info_url": "abridgeddd.com"
+}

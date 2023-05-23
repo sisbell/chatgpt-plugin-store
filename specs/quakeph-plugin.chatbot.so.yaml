@@ -1,0 +1,25 @@
+openapi: 3.0.2
+info:
+  title: QuakePH
+  description: Stay updated with the latest earthquakes in the Philippines.
+  version: 'v1'
+servers:
+  - url: https://quakeph-plugin.chatbot.so/
+paths:
+  /query:
+    get:
+      operationId: getResults
+      summary: Results
+      parameters:
+        - name: event
+          in: query
+          description: The event to check 'recent' or 'latest'
+          required: true
+          schema:
+            type: string
+            example: "recent"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}

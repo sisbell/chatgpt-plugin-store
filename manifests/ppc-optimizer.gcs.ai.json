@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Competitor PPC Ads",
+  "name_for_model": "competitorppcads",
+  "description_for_human": "Discover your competitors' best PPC ads by entering their website address.",
+  "description_for_model": "Plugin for retrieving the latest PPC ad history of a domain.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://ppc-optimizer.gcs.ai/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://ppc-optimizer.gcs.ai/PaidAdsOptimizer-logo.png",
+  "contact_email": "CompetitorPPCAds@gcs.ai",
+  "legal_info_url": "http://gcs.ai/legal"
+}

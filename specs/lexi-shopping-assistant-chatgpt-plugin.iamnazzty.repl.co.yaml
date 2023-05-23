@@ -1,0 +1,80 @@
+openapi: 3.0.1
+info:
+  title: Amazon Shopping Assistant
+  description: A plugin that recommends an Amazon product based on a user request and also provides an explanation of why that product was recommended.
+  version: 'v1'
+servers:
+  - url: https://lexi-shopping-assistant-chatgpt-plugin.iamnazzty.repl.co
+paths:
+  /recommendation:
+    post:
+      operationId: getProductRecommendation
+      summary: Get product recommendation based on user input with an explanation of why the product was recommended.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userMessage:
+                  type: string
+                  description: The message sent by user to ChatGPT
+                  required: true
+                searchPhrase:
+                  type: string
+                  description: The search phrase extracted from the user message for finding products on Amazon
+                  required: true
+                embeddingId:
+                  type: string
+                  description: A unique message identifier
+                  required: true
+                language:
+                  type: string
+                  description: The ISO-639-1 language code used for the request. For example, en, hi, or ja.
+                  required: true
+                country:
+                  type: string
+                  description: The ISO-3166-1 country code for which the search results should be localized. For example, US, IN or EG.
+                  required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: The title of the recommended product
+                  asin:
+                    type: string
+                    description: The Amazon Standard Identification Number of the product
+                  link:
+                    type: string
+                    description: The URL to view the product on Amazon with the affiliate tag
+                  brand:
+                    type: string
+                    description: The brand of the product
+                  image_link:
+                    type: string
+                    description: Link to the main image of the product
+                  rating:
+                    type: number
+                    description: The average rating of the product
+                  ratings_total:
+                    type: integer
+                    description: The total number of ratings for the product
+                  price:
+                    type: string
+                    description: The price of the product
+                  delivery:
+                    type: string
+                    description: The delivery information for the product
+                  similarity:
+                    type: number
+                    description: The similarity score between the user input and the recommended product
+                  explanation:
+                    type: string
+                    description: An explanation of why the product is recommended

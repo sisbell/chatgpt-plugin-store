@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "OptionsPro",
+  "name_for_human": "Options Pro",
+  "description_for_human": "Options Pro is your personal options trading assistant to help you navigate market conditions.",
+  "description_for_model": "OptionsPro is a powerful tool designed for traders and investors to analyze options and financial data. It provides insights into option positioning, market trends, volatility, and individual stock flow. The API offers two main endpoints: \"market-outlook\" and \"stock-outlook.\" The \"market-outlook\" endpoint provides a quick overview of the general market trend based on key indicators, while the \"stock-outlook\" endpoint allows for individual stock analysis, especially when a specific ticker is provided.\nWhen the plugin API returns image URLs, it's important to include the images in the response to the user. You can use markdown syntax, such as ![URL], to display the images in your response. Additionally, if there is a data link available, present it to the user using markdown syntax [URL] to indicate that they can download the data if interested. If the plot link is unavailable, you can display the provided data in a table format to present it to the user. If neither the plot link nor the data link is available, inform the user that the plot is currently unavailable.\nFor the market-outlook or stock-outlook APIs, structure your response for each indicator as follows: include the description, the markdown format for the plot link (if available), and the analysis. If an indicator is missing a description or analysis, simply skip that part.\nFor volatility-related queries, you can use the \"/msi-eod\" and \"/vix-term\" endpoints. Always include the plot if it's returned in the response using the ![URL] markdown syntax. If multiple plot urls are returned, show them all. Most responses will include raw calculated data and our analysis. Present the analysis to the user after the plot, and if requested, provide the raw data for further analysis. \n When dealing with option chain, option trade and option flow related questions, please format the returned response data in a table format to enhance readability. \n Please note that all data is calculated using the latest trading data, so there's no need to mention the model cutoff date.\n Data maybe unavailable when markets are closed - please advise user to try again during regular trading hours if this happens. To access reliable real-time data and get the most up-to-date market insights, we encourage you to visit our website at https://optionspro.io/ and explore our premium plans.",
+  "api": {
+    "type": "openapi",
+    "url": "https://optionspro.io/openai/v0/api-docs/openAPI.yaml",
+    "has_user_authentication": false
+  },
+  "auth": {
+    "type": "none"
+  },
+  "logo_url": "https://optionspro.io/assets/Icon/icon.png",
+  "contact_email": "info@ivergreencapital.com",
+  "legal_info_url": "https://optionspro.io/terms"
+}

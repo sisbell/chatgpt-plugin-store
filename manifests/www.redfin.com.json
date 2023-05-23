@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Redfin",
+  "name_for_model": "redfin",
+  "description_for_human": "Have questions about the housing market? Find the answers to help you win in today's market.",
+  "description_for_model": "This tool is designed to provide users with current and accurate information regarding real estate listings within the United States and Canada. Utilize this tool to assist users in obtaining relevant details about the real estate market, including property listings, market trends, tour homes, mortgage rate and related inquiries. Be advised that this tool should only be employed in response to user queries specifically related to real estate topics. Refrain from activating this tool for inquiries unrelated to the real estate domain.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "c286f5cb39624f3da750345d621db935"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.redfin.com/webhooks/tron/descriptions/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://ssl.cdn-redfin.com/vLATEST/images/logos/redfin-logo-square-red-500.png",
+  "contact_email": "support@redfin.com",
+  "legal_info_url": "https://www.redfin.com/about/terms-of-use"
+}

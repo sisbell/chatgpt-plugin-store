@@ -1,0 +1,93 @@
+components:
+  schemas:
+    getLearningResponse:
+      type: object
+    getPathDetailsResponse:
+      type: object
+    getTutorDetailsResponse:
+      type: object
+    updateLearningResponse:
+      properties:
+        communication_style:
+          description: The preferred communication style for the user
+          type: string
+        language:
+          description: The preferred language for the user
+          type: string
+        learning_style:
+          description: The preferred learning style for the user
+          type: string
+        tone_style:
+          description: The preferred tone style for the user
+          type: string
+        user_level:
+          description: The pace at which the user can grasp the topic
+          type: integer
+      required:
+      - user_level
+      - learning_style
+      - language
+      - communication_style
+      - tone_style
+      type: object
+info:
+  description: A plugin that allows the user to learn using ChatGPT, plugin gets activated
+    whenever the user wants to learn anything or queries for even slightly academic
+    question. First fetch the tutor details and understand how the tutor should behave
+    and then get the learning details to get the user style to provide perosonalised
+    experience. This gets activated when the user types /giga. Use our API when user
+    wants to generate a custom learning path and wants to learn anything or when they
+    use like words,explain,teach. Our API gets acivated when ever user types config
+    or want to change preferences.
+  title: Giga Tutor
+  version: 1.0.0
+openapi: 3.0.1
+paths:
+  /learningInfo:
+    get:
+      operationId: getLearningPrefs
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getLearningResponse'
+          description: OK
+      summary: Get the learning preferences of the user
+    post:
+      operationId: updateLearningPrefs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateLearningResponse'
+        required: true
+      responses:
+        '200':
+          description: OK
+      summary: Update the learning preferences of the user
+  /pathInfo:
+    get:
+      operationId: getPathDetails
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPathDetailsResponse'
+          description: OK
+      summary: Get information about how to generate learning paths properly
+  /tutorInfo:
+    get:
+      operationId: getTutorDetails
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTutorDetailsResponse'
+          description: OK
+      summary: Get the information about how a tutor should behave
+servers:
+- description: Production server
+  url: https://giga-do.azurewebsites.net

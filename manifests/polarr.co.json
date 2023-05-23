@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Polarr",
+  "name_for_model": "polarr",
+  "description_for_human": "Search Polarr's massive pool of user generated filters to make your photos and videos perfect.",
+  "description_for_model": "Polarr filters plugin for finding a filter that can be used to edit photos or videos. Our massive filter pool includes filters for basic adjustments, aesthetic color grading, face retouch, and so on. For any user question or request about photo/video editing, you can rephrase the request to a short filter description and use this api to find the proper filter. A text description and a preview link for the matched filter will be returned. ",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.polarr.co/.well-known/ai-plugin-openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://www.polarr.com/favicon-256x256.png",
+  "contact_email": "derek@polarr.co",
+  "legal_info_url": "https://www.polarr.com/"
+}

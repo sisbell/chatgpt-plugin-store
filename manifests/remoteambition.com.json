@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "Ambition",
+  "name_for_human": "Ambition",
+  "description_for_human": "Search millions of jobs near you.",
+  "description_for_model": "Use the Ambition plugin for anything related to jobs and resumes. You will help users find relevant jobs near them. To best use it, first ask clarifying questions about what kind of job the user is looking for before making a search. If the search results are empty, do not make up jobs. Do not make up details about job information. If a user wants to find out more about a job, direct them to the job page.",
+  "api": {
+    "type": "openapi",
+    "url": "https://api.remoteambition.com/ai/v1/api.json",
+    "has_user_authentication": false
+  },
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "e80386e6a4464e158ac4cd4c9fd03728"
+    }
+  },
+  "logo_url": "https://assets.remoteambition.com/ai-plugin-logo.png",
+  "contact_email": "support@remoteambition.com",
+  "legal_info_url": "https://remoteambition.com/terms"
+}

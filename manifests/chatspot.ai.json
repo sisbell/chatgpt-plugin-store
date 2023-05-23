@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ChatSpot",
+  "name_for_model": "chatspot",
+  "description_for_human": "Get access to marketing/sales data including domain information, company research and search keyword research.",
+  "description_for_model": "Provides information about companies, search keywords, website domains, and funding round information.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatspot.ai/plugin/api.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://chatspot.ai/plugin/logo.png",
+  "contact_email": "dshah@hubspot.com",
+  "legal_info_url": "https://legal.hubspot.com/hubspot-beta-terms"
+}

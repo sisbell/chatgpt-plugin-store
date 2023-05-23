@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "BlockAtlas",
+  "name_for_model": "blockatlas",
+  "description_for_human": "Search the US Census! Find data sets, ask questions, and visualize.",
+  "description_for_model": "Search the US Census API.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://blockatlas.com/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://blockatlas.com/logo.png",
+  "contact_email": "info@blockatlas.com",
+  "legal_info_url": "https://blockatlas.com/legal"
+}

@@ -1,0 +1,107 @@
+openapi: 3.0.3
+info:
+  title: UK Latest News
+  version: 1.0.0
+  description: This API fetches the latest news stories from the UK's top news outlets including BBC News, Sky News, The Independent, The Guardian, and The Telegraph. It can also return the content of a specific article given its URL.
+servers:
+  - url: https://gptnews.uk
+paths:
+  /api/v1/stories:
+    get:
+      operationId: getLatestStories
+      summary: Get latest news stories
+      description: Fetches the latest news stories from multiple UK news sources and returns an array of Open Graph-compatible data for each story.
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    og:url:
+                      type: string
+                      format: uri
+                      description: URL of the news article
+                    og:title:
+                      type: string
+                      description: Title of the news article
+                    og:publisher:
+                      type: string
+                      description: Name of the news publisher
+                    og:published_time:
+                      type: string
+                      description: The time since the article was published, formatted as a human-readable string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        "502":
+          description: Failed to fetch stories
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  /api/v1/story:
+    get:
+      operationId: getStoryContent
+      summary: Get story content
+      description: Given a URL, extracts the story content from the webpage.
+      parameters:
+        - in: query
+          name: url
+          schema:
+            type: string
+            format: uri
+          required: true
+          description: URL of the story
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: The story content
+        "400":
+          description: URL parameter is required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        "422":
+          description: Failed to extract story content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        "500":
+          description: An unexpected error occurred
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message

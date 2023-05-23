@@ -1,0 +1,177 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "v1",
+    "title": "One Word Domains ChatGPT Plugin"
+  },
+  "servers": [
+    {
+      "url": "https://oneword.domains"
+    }
+  ],
+  "tags": [
+    {
+      "name": "open-ai-domain-check-endpoint",
+      "description": "Open AI Domain Check Endpoint. This endpoint is used to check the availability of a domain name and return a link to purchase the domain."
+    },
+    {
+      "name": "open-ai-domain-compare-endpoint",
+      "description": "Open AI Domain Compare Endpoint. This endpoint is used to compare the prices of a given domain (based on their TLD) across multiple registrars and find the cheapest registrar to purchase the domain."
+    }
+  ],
+  "paths": {
+    "/api/gpt/check": {
+      "post": {
+        "tags": [
+          "open-ai-domain-check-endpoint"
+        ],
+        "summary": "API to check the availability of a domain name and return a link to purchase the domain.",
+        "operationId": "domainCheckUsingPOST",
+        "requestBody": {
+          "description": "Request body containing the domain and registrar information.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "description": "Must be an array of valid domains (without the protocol).",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "registrar": {
+                    "description": "Must be a valid string following the enum. If not provided, the API will return the first available registrar.",
+                    "type": "string",
+                    "enum": [
+                      "namecheap",
+                      "godaddy",
+                      "google",
+                      "porkbun",
+                      "gandi",
+                      "epik",
+                      "rebel",
+                      "101"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Checked availability for domain!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DomainAvailabilityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Domain not found"
+          },
+          "500": {
+            "description": "internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/gpt/compare": {
+      "get": {
+        "tags": [
+          "open-ai-domain-compare-endpoint"
+        ],
+        "summary": "API to compare the prices of a given domain (based on their TLD) across multiple registrars and find the cheapest registrar to purchase the domain.",
+        "operationId": "domainCompareUsingGET",
+        "parameters": [
+          {
+            "name": "tld",
+            "in": "query",
+            "description": "query, must be a valid top-level domain (TLD), e.g. com, net, org, io, co.uk, etc.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved prices for domain across multiple registrars!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DomainPricesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unsupported TLD"
+          },
+          "500": {
+            "description": "internal server error"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DomainAvailabilityResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "The domain name being checked for availability."
+            },
+            "available": {
+              "type": "boolean",
+              "description": "Indicates whether the domain is available for purchase."
+            },
+            "purchaseLink": {
+              "type": "string",
+              "format": "uri",
+              "description": "A link to purchase the domain if it is available in the format https://oneword.domains/d/{domain}. If there is a registrar specified in the request, add the query parameter registrar={registrar} to the link."
+            }
+          },
+          "required": [
+            "domain",
+            "available",
+            "purchaseLink"
+          ]
+        }
+      },
+      "DomainPricesResponse": {
+        "type": "object",
+        "properties": {
+          "tld": {
+            "type": "string",
+            "description": "The TLD for which the prices are being compared."
+          },
+          "registrars": {
+            "type": "object",
+            "description": "A map of registrar names to their prices for the given TLD."
+          },
+          "cheapestRegistrar": {
+            "type": "object",
+            "description": "The registrar with the cheapest price for the given TLD."
+          }
+        },
+        "required": [
+          "tld",
+          "registrars",
+          "cheapestRegistrar"
+        ]
+      }
+    }
+  }
+}

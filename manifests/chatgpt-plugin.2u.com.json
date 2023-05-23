@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "edX",
+  "name_for_human": "edX",
+  "description_for_model": "A plugin for incorporating information, advice, and guidance on academic topics into ChatGPT conversations using the edX course library and course content.",
+  "description_for_human": "Find courses and content from leading universities to expand your knowledge at any level.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatgpt-plugin.2u.com/.well-known/openapi.yaml",
+    "has_user_authentication": "false"
+  },
+  "logo_url": "https://www.edx.org/images/logos/edx_logo_chatgpt_plugin.svg",
+  "contact_email": "edx-chatgpt-plugin-support@2u.com",
+  "legal_info_url": "https://www.edx.org/edx-privacy-policy"
+}

@@ -1,0 +1,371 @@
+openapi: 3.0.1
+info:
+  title: DAIZY Plugin
+  description: Use for getting price, performance, risk and sustainability data for a stock, an ETF or a crypto. DAIZY is also for searching, finding, filtering and sorting stocks, ETFs or cryptos. Users can sort the results by various factors such as by AUM, or by ESG score. The search can also return information about individual holdings and stocks within an ETF asset.
+  version: 1.0.0
+servers:
+  - url: https://plugin.daizy.com
+
+paths:
+  /assets/details:
+    post:
+      operationId: getAssetDetails
+      summary: Get the latest details and analysis of an asset.
+      description: This path returns extensive details on an individual stock, etf, or crypto. Details include performance, risk, metrics, stats, sustainability, sentiment and the latest news stories driving the stock.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/assetAnalysisRequestBody"
+      responses:
+        "200":
+          description: Returns asset_analysis which contains data based on the analysis_Type which should be summarised by ChatGPT and markdown syntax which should be displayed by ChatGPT.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/assetAnalysisSuccessfulResponse"
+        "400":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestError"
+                
+  /etfs/search:
+    post:
+      operationId: getEtfsSearch
+      summary: Search for various types of ETFs.
+      description: This path allows users to search for various types of ETFs based on ETF categories and investment themes and to sort the results by various factors. The path returns markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/etfsSearchRequestBody"
+      responses:
+        "200":
+          description: Returns markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+          content:
+            application/json:
+              description: The markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+              schema:
+                $ref: "#/components/schemas/searchSuccessfulResponse"
+        "400":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestError"
+
+  /etfs/lookthrough:
+    post:
+      operationId: getEtfsHoldings
+      summary: Give info on holdings within an ETF.
+      description: This path returns sorted results based on the holdings within an ETF. Used for queries that are based on the constituents of an ETF as well as exposures to the specific industry or sector. The path returns markdown syntax which should be displayed by GPT in a table format.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/etfsHoldingsRequestBody"
+      responses:
+        "200":
+          description: Returns markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+          content:
+            application/json:
+              description: The markdown syntax which should be formatted and displayed by ChatGPT in a table format.
+              schema:
+                $ref: "#/components/schemas/searchSuccessfulResponse"
+        "400":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestError"
+
+components:
+  schemas:
+    etfsSearchRequestBody:
+      title: etfsSearchRequestBody
+      type: object
+      required:
+        - prompt
+        - etfSortType
+      properties:
+        prompt:
+          type: string
+          description: The prompt that user asked.
+        limit:
+          type: number
+          description: Use this parameter to specify the number of results to return based on the user prompt. Default value is 10.
+        etfSortOrder:
+          type: string
+          description: Use this parameter to provide the users sort order for the list of ETFs returned by the API.
+          enum: [ESG_SCORE, ESG_ENVIRONMENTAL_SCORE, ESG_GOVERNANCE_SCORE, ESG_SOCIAL_SCORE, ESG_RATING, CARBON_EXPOSURE, FEMALE_DIRECTORS, ALCOHOL, ADULT_ENTERTAINMENT, GAMBLING, CONTROLVERSIAL_WEAPONS, CIVILIAN_FIREARMS, CONVENTIONAL_WEAPONS, TOBACCO, THERMAL_COAL, POOR_ANIMAL_WELFARE, GENETIC_ENGINEERING, POLLUTION_PREVENTION, SUSTAINABLE_WATER, EDUCATION, DISEASE_TREATMENT, PE_RATIO, BETA, DIVIDEND_YIELD, DIVIDEND_AMOUNT, VOLATILITY_200_DAY, EXPENSE_RATIO, ISSUER, 1_WEEK_PERFORMANCE, 1_MONTH_PERFORMANCE, 1_YEAR_PERFORMANCE, YTD_PERFORMANCE, AVERAGE_DAILY_VOLUME]
+        etfSortType:
+          type: string
+          description: Use this parameter to specify the order of the search results by either descending or ascending. This parameter supports prompts asking for the best or worst, or top or bottom. This parameter also supports prompts asking for data to be excluded such as 'without', 'no', or 'excluding'.
+          enum: [asc, desc]
+        etfTheme:
+          type: string
+          description: The low level theme or category of ETFs that the user has searched for in the prompt.
+          enum: [ALPS MLP (Master Limited Partnership) ETFs, Actively Managed ETFs, Adult Entertainment ETFs, Affordable Real Estate ETFs, Agricultural Commodities, Alcohol ETFs, All Cap Equities, Alternative Energy ETFs, Alternative Energy Equities, Artificial Intelligence ETFs, Asia Pacific Equities, Autonomous Vehicle ETFs, Bitcoin ETFs, Blockchain ETFs, Board Diversity ETFs, Broad International Bond ETFs, Broad International Dividend ETFs, Broad International Equity ETFs, Broad International Small-Cap Value ETFs, Broad International Value ETFs, Building & Construction , California Munis, Carbon Intensity ETFs, Catholic Values ETFs, Charles Schwab Bond ETFs, China Equities, China Internet ETFs, China Real Estate ETFs, Commodities, Commodity Producers Equities, Communications Equities, Consumer Discretionary Equities, Consumer Staples Equities, Corporate Bonds, Currency, Disruptive Technology ETFs, Diversified Portfolio, Dividend Growth ETFs, Education ETFs, Emerging Market Dividend ETFs, Emerging Markets Bond ETFs, Emerging Markets Bonds, Emerging Markets Equities, Energy Efficiency ETFs, Energy Equities, Entrepreneur ETFs, Environmentally Responsible ETFs, Europe Equities, European Bond ETFs, European Dividend ETFs, European ETFs, European Small-Cap ETFs, FAANG ETFs, Fidelity Bond ETFs, Financials Equities, Firearms ETFs, Foreign Large Cap Equities, Foreign Small & Mid Cap Equities, Fossil Fuel Reserves ETFs, GMO Involvement ETFs, Gambling ETFs, Genome Editing ETFs, Global Bond ETFs, Global Dividend ETFs, Global Equities, Global Infrastructure ETFs, Global REIT ETFs, Global Real Estate, Global Real Estate ETFs, Global Sanitation ETFs, Governance Issues ETFs, Government Bonds, Green Building ETFs, Guggenheim Solar ETFs, Health & Biotech Equities, Healthy Nutrition ETFs, Hedge Fund, High Yield Bonds, High Yield Corporate Bond ETFs, Human Rights Violations ETFs, Immunotherapy ETFs, Income Focused Equity ETFs, India Small-Cap ETFs, Industrials Equities, Inflation-Protected Bonds, International Bond ETFs, International Dividend ETFs, International Equity ETFs, International Government Bonds, International Real Estate ETFs, International Small-Cap ETFs, International Small-Cap Value ETFs, International Value ETFs, Inverse Bonds, Inverse Commodities, Inverse Equities, Inverse Volatility, Inverse/Short Broad Emerging Markets ETFs, Inverse/Short China ETFs, Inverse/Short ETFs, Inverse/Short Emerging Markets ETFs, Inverse/Short Euro ETFs, Inverse/Short Gold ETFs, Inverse/Short Gold Miners ETFs, Inverse/Short High Yield Bond ETFs, Inverse/Short Japan ETFs, Inverse/Short Natural Gas ETFs, Inverse/Short Oil ETFs, Inverse/Short Silver ETFs, Inverse/Short US Dollar ETFs, Japan Equities, Japan Small-Cap ETFs, Large Cap Blend Equities, Large Cap Growth Equities, Large Cap Value Equities, Latin America Equities, Leveraged 2x ETFs, Leveraged 3x ETFs, Leveraged 3x Energy Commodity ETFs, Leveraged 3x Energy Sector ETFs, Leveraged 3x Gold ETFs, Leveraged 3x Gold Miners Industry ETFs, Leveraged 3x Inverse Short ETFs, Leveraged 3x Long/Bull ETFs, Leveraged 3x Natural Gas ETFs, Leveraged 3x Oil ETFs, Leveraged 3x Silver ETFs, Leveraged Bonds, Leveraged Commodities, Leveraged Crude Oil ETFs, Leveraged Currency, Leveraged ETFs, Leveraged Energy Commodity ETFs, Leveraged Energy ETFs, Leveraged Equities, Leveraged Gold ETFs, Leveraged Gold Miners ETFs, Leveraged Inverse ETFs, Leveraged Long Bull ETFs, Leveraged Multi-Asset, Leveraged Natural Gas ETFs, Leveraged Oil ETFs, Leveraged Real Estate, Leveraged Silver ETFs, Leveraged Volatility, Long Crude Oil ETFs, Long Oil ETFs, Long US Dollar ETFs, Long-Short, Long-Term Government Bond ETFs, MLPs, Major Disease Treatment ETFs, Marijuana ETFs, Materials, Metals, Mid Cap Blend Equities, Mid Cap Growth Equities, Mid Cap Value Equities, Money Market, Mortgage Backed Securities, National Munis, New York Munis, Nuclear Power ETFs, Oil & Gas, Oil ETFs, PIMCO Bond ETFs, Physically Backed Gold ETFs, Physically Backed Silver ETFs, Poison Pill ETFs, Pollution Prevention ETFs, Precious Metals, Predatory Lending ETFs, Preferred Stock/Convertible Bonds, Real Estate, Robotics ETFs, SME Finance ETFs, SPDR Dividend ETFs, SPDR Gold ETFs, SPDR High Yield Bond ETFs, Sharia Compliant Investing ETFs, Short-Term Corporate Bond ETFs, Short-Term Government Bond ETFs, Short-Term Municipal Bond ETFs, Small Cap Blend Equities, Small Cap Growth Equities, Small Cap Value Equities, Small-Cap Biotechnology ETFs, Small-Cap Broad Energy ETFs, Small-Cap Dividend ETFs, Small-Cap Energy ETFs, Small-Cap Technology ETFs, Smart Beta ETFs, Socially Responsible ETFs, Space ETFs, Target Retirement Date, Technology Equities, Tobacco ETFs, Total Bond Market, Transportation Equities, Utilities Equities, Vanguard Bond ETFs, Vanguard Broad International ETFs, Vanguard Consumer Staples ETFs, Vanguard Corporate Bond ETFs, Vanguard Dividend ETFs, Vanguard Emerging Market ETFs, Vanguard Energy ETFs, Vanguard European ETFs, Vanguard Global All World ETFs, Vanguard Growth ETFs, Vanguard Health Care ETFs, Vanguard Intermediate Term Bond ETFs, Vanguard International Bond ETFs, Vanguard International ETFs, Vanguard International Stock Market ETFs, Vanguard Large-Cap ETFs, Vanguard Large-Cap Growth ETFs, Vanguard Large-Cap Value ETFs, Vanguard Long-Term Bond ETFs, Vanguard Materials ETFs, Vanguard Mid-Cap ETFs, Vanguard Municipal Bond ETFs, Vanguard Real Estate ETFs, Vanguard Short-Term Bond ETFs, Vanguard Short-Term Corporate Bond ETFs, Vanguard Small-Cap ETFs, Vanguard Small-Cap Growth ETFs, Vanguard Technology ETFs, Vanguard Total Bond Market ETFs, Vanguard Total World Stock ETFs, Vanguard Utility ETFs, Vanguard Value ETFs, Volatility, Volatility Hedged Equity, Water Equities, Water Stress ETFs, Water Sustainability ETFs, Weapons Involvement ETFs, iShares Bond ETFs, iShares Broad Emerging Markets ETFs, iShares Dividend ETFs, iShares Energy ETFs, iShares Europe ETFs, iShares Gold ETFs, iShares India ETFs, iShares Russia ETFs, iShares Technology Sector ETFs]
+
+    etfsHoldingsRequestBody:
+      title: etfsHoldingsRequestBody
+      type: object
+      required:
+        - prompt
+        - assetId
+        - etfSortOrder
+        - etfSortType
+      properties:
+        prompt:
+          type: string
+          description: The prompt that user asked.
+        assetId:
+          type: string
+          description: The ticker symbol or ISIN code of the asset detected in the prompt.
+        limit:
+          type: number
+          description: Use this parameter to specify the number of results to return based on the user prompt. Default value is 10.
+        etfSortOrder:
+          type: string
+          description: Use this parameter to provide the users sort order for the list of ETFs returned by the API.
+          enum: [ESG_SCORE, ESG_ENVIRONMENTAL_SCORE, ESG_GOVERNANCE_SCORE, ESG_SOCIAL_SCORE, ESG_RATING, TOBACCO, ALCOHOL, GAMBLING, ADULT_ENTERTAINMENT, FEMALE_DIRECTORS, CONVENTIONAL_WEAPONS, POOR_ANIMAL_WELFARE, CIVILIAN_FIREARMS, THERMAL_COAL, GENETIC_ENGINEERING, ASSET_WEIGHT, PE_RATIO, BETA, MARKET_CAP, DIVIDEND_YIELD]
+        etfSortType:
+          type: string
+          description: Use this parameter to specify the order of the search results by either descending or ascending. This parameter supports prompts asking for the best or worst, or top or bottom. This parameter also supports prompts asking for data to be excluded such as 'without', 'no', or 'excluding'.
+          enum: [asc, desc]
+        sectorOrIndustry:
+          type: string
+          description: Use this parameter to specify a sector or industry detected in the prompt.'
+          enum: [Academic & Educational Services, Advertising Agencies, Aerospace & Defense, Aerospace & Defense, Agricultural Inputs, Airlines, Airports & Air Services, Aluminum, Apparel Manufacturing, Apparel Retail, Application Software, Asset Management, Auto & Truck Dealerships, Auto Components, Auto Components, Auto Manufacturers, Auto Manufacturers - Major, Auto Parts, Automobiles, Automobiles & Auto Parts, Banking Services, Banks, Banks, Banks-Diversified, Banks-Regional, Basic Materials, Beverages, Beverages - Wineries & Distillers, Beverages-Brewers, Beverages-Non-Alcoholic, Beverages-Wineries & Distilleries, Biotechnology, Biotechnology, Biotechnology & Medical Research, Broadcasting, Building Materials, Building Products & Equipment, Business Equipment & Supplies, Business Services, CATV Systems, Capital Goods, Capital Markets, Capital Markets, Chemicals, Chemicals - Major Diversified, Coal, Coking Coal, Collective Investments, Communication Equipment, Communication Services, Communications & Networking, Communications Equipment, Computer Hardware, Computers, Confectioners, Conglomerates, Conglomerates, Construction & Engineering, Construction Materials, Construction Services, Constructionï¿½& Engineering, Consulting Services, Consumer Cyclical, Consumer Defensive, Consumer Discretionary, Consumer Discretionary, Consumer Electronics, Consumer Goods, Consumer Goods Conglomerates, Consumer Non-Cyclicals, Consumer Staples, Containers & Packaging, Copper, Credit Services, Data Storage Devices, Department Stores, Diagnostics & Research, Discount Stores, Diversified Consumer Services, Diversified Financial Services, Diversified Financial Services, Diversified Investments, Diversified Machinery, Diversified Retail, Diversified Telecommunication Services, Diversified Utilities, Drug Manufacturers - Major, Drug Manufacturers-General, Drug Manufacturers-Specialty & Generic, Drugs - Generic, Education & Training Services, Electric Utilities, Electrical Equipment & Parts, Electrical Utilities & IPPs, Electronic Components, Electronic Equipment, Electronic Equipment, Electronic Equipment, Electronic Equipment & Parts, Electronic Gaming & Multimedia, Electronics & Computer Distribution, Energy, Energy Equipment & Services, Engineering & Construction, Entertainment, Entertainment - Diversified, Equity Real Estate Investment Trusts (REITs), Equity Real Estate Investment Trusts (REITs), Farm & Heavy Construction Machinery, Farm Products, Financial, Financial, Financial Conglomerates, Financial Data & Stock Exchanges, Financial Services, Financial Technology (Fintech) & Infrastructure, Financials, Fixtures & Appliances, Food & Drug Retailing, Food & Staples Retailing, Food & Tobacco, Food Distribution, Footwear & Accessories, Freight & Logistics Services, Furnishings, Gambling, Gaming Activities, Gas & Consumable Fuels, General Building Materials, Gold, Grocery Stores, Health Care Equipment & Supplies, Health Care Providers & Services, Health Care Technology, Health Information Services, Healthcare, Healthcare, Healthcare Equipment & Supplies, Healthcare Information Services, Healthcare Plans, Healthcare Providers & Services, Heavy Construction, Heavy Vehicles, Home Improvement Retail, Homebuilding & Construction Supplies, Hotels, Hotels & Entertainment Services, Household & Personal Products, Household Goods, IT Services, IT Services, Independent Oil & Gas, Independent Power and Renewable Electricity Producers, Industrial Distribution, Industrial Electrical Equipment, Industrial Goods, Industrial Metals & Minerals, Industrials, Industrials, Information Technology, Information Technology, Information Technology Services, Infrastructure Operations, Instruments & Components, Instruments & Components, Insurance, Insurance, Insurance Brokers, Insurance-Diversified, Insurance-Life, Insurance-Property & Casualty, Insurance-Reinsurance, Insurance-Specialty, Integrated Freight & Logistics, Integrated Hardware & Software, Interactive Media & Services, Internet Content & Information, Internet Retail, Internet Software & Services, Investment Banking & Investment Services, Investment Brokerage - National, Investment Holding Companies, Leisure, Leisure Products, Lodging, Lumber & Wood Production, Luxury Goods, Machinery, Machinery, Major Integrated Oil & Gas, Marine Shipping, Marketing Services, Materials, Media, Media & Publishing, Medical Appliances & Equipment, Medical Care Facilities, Medical Devices, Medical Distribution, Medical Instruments & Supplies, Medical Laboratories & Research, Metal Fabrication, Metals & Mining, Miscellaneous Educational Service Providers, Money Center Banks, Mortgage Finance, Mortgage Real Estate Investment Trusts (REITs), Multi-Utilities, Multiline Retail, Multiline Utilities, Natural Gas Utilities, Oil, Oil & Gas, Oil & Gas Drilling, Oil & Gas Drilling & Exploration, Oil & Gas E&P, Oil & Gas Equipment & Services, Oil & Gas Integrated, Oil & Gas Midstream, Oil & Gas Refining & Marketing, Oil & Gas Related Equipment and Services, Other, Other, Other, Other Industrial Metals & Mining, Other Precious Metals & Mining, Packaged Foods, Packaging & Containers, Paper & Forest Products, Paper & Paper Products, Passenger Transportation Services, Personal & Household Products & Services, Personal Products, Personal Services, Pharmaceutical Retailers, Pharmaceuticals, Pharmaceuticals, Phones & Household Electronics, Pollution & Treatment Controls, Professional & Commercial Services, Professional Services, Property & Casualty Insurance, Publishing, Publishing - Newspapers, REIT-Diversified, REIT-Healthcare Facilities, REIT-Hotel & Motel, REIT-Industrial, REIT-Mortgage, REIT-Office, REIT-Residential, REIT-Retail, REIT-Specialty, Railroads, Real Estate, Real Estate, Real Estate Development, Real Estate Management & Development, Real Estate Operations, Real Estate Services, Real Estate-Development, Real Estate-Diversified, Recreational Goods, Recreational Vehicles, Regional - Southeast Banks, Regional Banks, Renewable Energy, Rental & Leasing Services, Residential & Commercial REITs, Residential Construction, Resorts & Casinos, Restaurants, Restaurants & Leisure, Road & Rail, Road & Rail, Scientific & Technical Instruments, Security & Protection Services, Semiconductor - Broad Line, Semiconductor Equipment & Materials, Semiconductors, Semiconductors & Semiconductor Equipment, Services, Shell Companies, Shipping, Silver, Software, Software, Software & IT Services, Software-Application, Software-Infrastructure, Solar, Specialty Business Services, Specialty Chemicals, Specialty Industrial Machinery, Specialty Retail, Specialty Retailers, Staffing & Employment Services, Staffing & Outsourcing Services, Steel, Steel & Iron, Technical & System Software, Technology, Telecom Services, Telecommunications Services, Textile - Apparel Clothing, Textile - Apparel Footwear & Accessories, Textile Manufacturing, Textiles & Apparel, Thermal Coal, Tobacco, Tools, Tools & Accessories, Trading Companies & Distributors, Trains & Ships, Transport Infrastructure, Travel Services, Trucking, Uranium, Utilities, Utilities, Utilities-Diversified, Utilities-Independent Power Producers, Utilities-Regulated Electric, Utilities-Regulated Gas, Utilities-Regulated Water, Utilities-Renewable, Waste Management, Water & Related Utilities, Wireless Communications]
+
+
+    assetAnalysisRequestBody:
+      title: assetAnalysisRequestBody
+      type: object
+      required:
+        - prompt
+        - assetId
+        - assetType
+        - analysisType
+      properties:
+        prompt:
+          type: string
+          description: The prompt that user asked.
+        assetId:
+          type: string
+          description: The ticker symbol or ISIN code of the asset detected in the prompt.
+        assetName:
+          type: string
+          description: The name of the stock, etf, or crypto the user is asking about. If the question is about a brand name, translate that to the parent company name.
+        assetType:
+          type: string
+          description: Based on the asset detected in the prompt, the value provided should be either stock, etf or crypto.
+        analysisType:
+          type: string
+          description: Based on the analysis intent detected in the prompt.
+          enum: [performance, risk, sentiment, carbon, climate, sustainability, equality, summary, morality, price, esg, environment, governance, social, temperature, injuries_fatalities, fundamentals, etf_allocations, negative_impact, revenue_sources, water_consumption, correlation, analyst_recommendations, news]
+        timePeriod:
+          type: string
+          description: Responsible for date ranges in performance analysis_Type propmts.
+          enum: [EARLIEST,INTRA,1D,1W,1M,1Y,YTD,QTD,MTD,3M,6M]
+
+    assetAnalysisSuccessfulResponse:
+      title: assetAnalysisSuccessfulResponse
+      type: object
+      properties:
+        markdown:
+          type: string
+          format: markdown
+          description: Returns markdown syntax which must be formatted and displayed by ChatGPT as a set of images.
+        timestamp:
+          type: string
+          description: Represents the date and time when the data sources were last updated, in ISO timestamp format. This timestamp can be used to determine the freshness of the data, and to track changes over time.
+        data_sources:
+          type: string
+          description: Provides transparency into the origin of the data, allowing users to verify its accuracy and reliability. The data sources are listed as strings, and can include URLs, database names, or other identifying information.
+        learn_more:
+          type: string
+          description: Provides a deep link to additional information on the topic that may be relevant to the data returned. This link can be used by end-users who want to investigate more deeply into the topic, and to gain a better understanding of the data. By including this link, we aim to provide users with a way to learn more about the topic and to use the data in a more informed way.
+        help_guide:
+          type: string
+          description: This web page provides help and guidance on using the Daizy ChatGPT plugin. It should be included in all responses.
+
+        highlights:
+          type: object
+          description: Important data about the stock, etf, or crypto.
+          $ref: "#/components/schemas/highlights"
+            
+        key_stats:
+          type: object
+          description: Additional data for the stock, etf, or crypto.
+          $ref: "#/components/schemas/keyStats"
+
+        asset_analysis:
+          type: object
+          description: Contains the data required to answer prompts about asset performance, risk, sustainability, sentiment, or other analysis types.
+
+        news:
+          type: array
+          description: A collection of recent news articles related to the prompt. This should be the only source of news in the response. 
+          items:
+            $ref: "#/components/schemas/newsArticleItem"
+          
+    highlights:
+      title: highlights
+      type: object
+      properties:
+        symbol:
+          type: string
+          description: The symbol or ticker of the asset.
+        asset_name:
+          type: string
+          description: The name of the asset.
+        latest_price:
+          type: string
+          description: The latest price of the asset. Always and only use this field for asset price quotes.
+        exchange:
+          type: string
+          description: The exchange the asset is listed on.
+        description:
+          type: string
+          description: The description of the asset.
+        sector:
+          type: string
+          description: The sector of the asset.
+        industry:
+          type: string
+          description: The industry of the asset.
+        category:
+          type: string
+          description: The category of the ETF.
+        market_cap:
+          type: string
+          description: The market capitalization of the asset.
+        1_day_return:
+          type: string
+          description: The 1 day return of the asset.
+        1_week_return:
+          type: string
+          description: The 1 week return of the asset.
+        1_month_return:
+          type: string
+          description: The 1 month return of the asset.
+        3_months_return:
+          type: string
+          description: The 3 months return of the asset.
+        year_to_date_return:
+          type: string
+          description: The year to date return of the asset.
+        1_year_return:
+          type: string
+          description: The 12 month return of the asset.
+        dividend_yield:
+          type: number
+          description: The dividend yield of the asset. Should be shown as a percentage.
+        pe_ratio:
+          type: number
+          description: The PE ratio of the asset.
+        beta:
+          type: number
+          description: The Beta of the asset.
+        wall_street_target_price:
+          type: number
+          description: The analysts target price of the asset.
+        total_assets:
+          type: number
+          description: The total assets under management of the ETF.
+        net_expense_ratio:
+          type: number
+          description: The expense ratio of the ETF.
+        holdings_count:
+          type: number
+          description: The number of holdings in the ETF.
+        annual_holdings_turnover:
+          type: number
+          description: The amount of asset turnover of the ETF.
+        market_capitalization:
+          type: number
+          description: The market capitalization of the asset.
+        market_capitalization_diluted:
+          type: number
+          description: The diluted market capitalization of the asset.
+        circulating_supply:
+          type: number
+          description: The circulating supply of the crypto currency.
+        total_supply:
+          type: number
+          description: The total supply of the crypto currency.
+        max_supply:
+          type: number
+          description: The maximum supply of the crypto currency.
+        market_cap_dominance:
+          type: number
+          description: The market cap dominance of the crypto currency.
+        technical_doc:
+          type: string
+          description: The technical document for the crypto currency.
+        high_all_time:
+          type: number
+          description: The all time high price of the crypto currency.
+
+          
+    newsArticleItem:
+      title: newsArticleItem
+      type: object
+      properties:
+        datetime:
+          type: number
+          format: date
+          description: The unix timestamp of the news article
+        headline:
+          type: string
+          description: The headline of the news article
+        source:
+          type: string
+          description: The source of the news article
+        summary:
+          type: string
+          description: The summary of the news article
+        url:
+          type: string
+          description: The URL of the news article
+        image_url:
+          type: string
+          description: The image URL of the news article
+          
+
+    searchSuccessfulResponse:
+      title: searchSuccessfulResponse
+      type: object
+      properties:
+        markdown:
+          type: string
+          format: markdown
+          description: The markdown syntax which must be formatted and displayed by ChatGPT in a table format.
+        timestamp:
+          type: string
+          description: Represents the date and time when the data sources were last updated, in ISO timestamp format. This timestamp can be used to determine the freshness of the data, and to track changes over time.
+        data_sources:
+          type: string
+          description: Provides transparency into the origin of the data, allowing users to verify its accuracy and reliability. The data sources are listed as strings, and can include URLs, database names, or other identifying information.
+        learn_more:
+          type: string
+          description: Provides a deep link to additional information on the topic that may be relevant to the data returned. This link can be used by end-users who want to investigate more deeply into the topic, and to gain a better understanding of the data. By including this link, we aim to provide users with a way to learn more about the topic and to use the data in a more informed way.
+        help_guide:
+          type: string
+          description: This web page provides help and guidance on using the Daizy ChatGPT plugin.
+          
+    badRequestError:
+      title: badRequestError
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          title: Error message
+          type: string

@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+  title: ChatSpot
+  description: All-in-one tool to access marketing/sales data including search keywords, domain information, and company/competitor research.
+  version: 'v1'
+servers:
+  - url: https://chatspot.ai/api/chatspot/plugin
+paths:
+  /chat:
+    post:
+      operationId: chat
+      summary: Send a message to ChatSpot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chatRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chatResponse'
+
+components:
+  schemas:
+    chatRequest:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: The entire message sent by the user when invoking this plugin
+          required: true
+    chatResponse:
+      type: object
+      properties:
+        response:
+          type: string
+          description: The text component of a ChatSpot response
+        data_table:
+          type: array
+          items:
+            type: array
+            items: {}
+          description: A two-dimensional array representing the data table component of a ChatSpot response

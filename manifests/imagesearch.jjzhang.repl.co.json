@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ImageSearch",
+  "name_for_model": "ImageSearch",
+  "description_for_human": "Find and display image from unsplash.",
+  "description_for_model": "Find and display image from unsplash.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://imagesearch.jjzhang.repl.co/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://imagesearch.jjzhang.repl.co/logo.png",
+  "contact_email": "roberts@aigenprompt.com",
+  "legal_info_url": ""
+}

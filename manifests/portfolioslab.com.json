@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "PortfoliosLab",
+  "name_for_model": "PortfoliosLab",
+  "description_for_human": "Stocks, ETFs, funds, crypto analysis: historical performance, volatility, risk metrics, Sharpe ratio, drawdowns, etc.",
+  "description_for_model": "Stocks, ETFs, funds, crypto analysis: historical performance, volatility, risk metrics, Sharpe ratio, drawdowns, etc.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://portfolioslab.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://portfolioslab.com/logo.png",
+  "contact_email": "support@portfolioslab.com",
+  "legal_info_url": "https://portfolioslab.com/terms-of-service"
+}

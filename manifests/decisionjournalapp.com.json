@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "decision_journal",
+  "name_for_human": "Decision Journal",
+  "description_for_model": "Useful for logging and reviewing decisions a user is making. Use it whenever a user is making a decision, has made a decision, or wants to review a decision.",
+  "description_for_human": "Become a better decision maker by keeping track of your decisions and reviewing how they turn out.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://dashboard.decisionjournalapp.com/oauth/authorize",
+    "scope": "all:write,all:read",
+    "authorization_url": "https://api.decisionjournalapp.com/oauth/token",
+    "authorization_content_type": "application/x-www-form-urlencoded",
+    "verification_tokens": {
+      "openai": "17f55c312c474ba497bf2a3701afca81"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://decisionjournalapp.com/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://decisionjournalapp.com/.well-known/logo.png",
+  "contact_email": "support@decisionjournalapp.com",
+  "legal_info_url": "https://decisionjournalapp.com/terms/"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ChatWithVideo",
+  "name_for_model": "chatwithvideo",
+  "description_for_human": "Ask questions, analyzing, and parsing through YouTube videos by simply providing a YouTube video URL.",
+  "description_for_model": "Allows users to load and query YouTube videos. Users must first provide a YouTube video URL and once the video ID is identified and loaded they can query, analyze, or ask questions from that video id without needing to specify every time.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatwithvideo.sdan.io/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://chatwithvideo.sdan.io/logo.png",
+  "contact_email": "support@chatwithvideo@sdan.io",
+  "legal_info_url": "https://chatwithvideo.sdan.io/legal"
+}

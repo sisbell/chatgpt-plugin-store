@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: ChatWithVideo
+  description: Allows users to load and query YouTube videos. Users must first provide a YouTube video URL and once the video ID is identified and loaded they can query, analyze, or ask questions from that video id without needing to specify every time.
+  version: "v1"
+servers:
+  - url: https://chatwithvideo.sdan.io
+paths:
+  /video/load:
+    post:
+      operationId: loadVideo
+      summary: Load a YouTube video
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loadVideoRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/queryVideoResponse"
+components:
+  schemas:
+    loadVideoRequest:
+      type: object
+      required:
+        - video_id
+      properties:
+        video_id:
+          type: string
+          format: uri
+          description: The ID of the YouTube video to load.
+          required: true
+    queryVideoResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: string
+          description: The list of text chunks from the YouTube video transcript that are relevant to the user's query.

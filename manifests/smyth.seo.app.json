@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "SEO.app",
+  "name_for_model": "SEO",
+  "description_for_human": "Your personal SEO assistant for content marketing.",
+  "description_for_model": "SEO assistant which helps with content creation and common SEO tasks.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://smyth.seo.app/authorize",
+    "scope": "offline_access openid profile email",
+    "authorization_url": "https://smyth.seo.app/oauth/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "ddff4cb40fb14467a7cb2d62254b0156"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://smyth.seo.app/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://smyth.seo.app/static/seo-app-icon.png",
+  "contact_email": "hello@seo.app",
+  "legal_info_url": "https://seo.app/terms/"
+}

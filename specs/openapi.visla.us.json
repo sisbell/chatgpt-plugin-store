@@ -1,0 +1,231 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Visla ChatGPT Plugin",
+    "description": "Visla OpenAPI specification for ChatGPT Plugin",
+    "contact": {
+      "name": "Visla API Team",
+      "email": "developer@visla.us"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://openapi.visla.us",
+      "description": "Open API Url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "chatgpt-plugin-create-video-endpoint",
+      "description": "ChatGPT Plugin Create Video Endpoint. This endpoint is used to create video and return a link to the video and claim code for saving the video."
+    }
+  ],
+  "paths": {
+    "/chatgpt-plugin/create-video": {
+      "post": {
+        "tags": [
+          "chatgpt-plugin-create-video-endpoint"
+        ],
+        "summary": "API to create a video and return a link to the video and a claim code for saving the video",
+        "operationId": "createVideoUsingPOST",
+        "parameters": [
+          {
+            "name": "openai-conversation-id",
+            "in": "header",
+            "description": "openai conversation id",
+            "required": false,
+            "allowReserved": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "openai-ephemeral-user-id",
+            "in": "header",
+            "description": "openai ephemeral user id",
+            "required": false,
+            "allowReserved": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request body containing user-defined inputs for the video.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVideoReqBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result«PluginProjectPreviewVo»"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateVideoReqBody": {
+        "title": "CreateVideoReqBody",
+        "required": [
+          "video_content"
+        ],
+        "type": "object",
+        "properties": {
+          "aspect_ratio": {
+            "type": "string",
+            "description": "The aspect ratio for the video, representing the width-to-height ratio of the video frame, expressed as a ratio (e.g., 16:9, 9:16, 1:1) or a description (e.g., \"widescreen,\" \"portrait,\" \"square\").",
+            "example": "1-16:9; 2-9:16; 3-1:1",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "widescreen",
+              "portrait",
+              "square"
+            ]
+          },
+          "publish_platform": {
+            "type": "string",
+            "description": "The platform or service where to publish or share the video, including popular platforms like YouTube, Vimeo, TikTok, Instagram, Facebook, Visla, or any other video-sharing platform.",
+            "example": "Visla",
+            "enum": [
+              "Facebook",
+              "Instagram",
+              "TikTok",
+              "Vimeo",
+              "Visla",
+              "YouTube"
+            ]
+          },
+          "video_content": {
+            "type": "string",
+            "description": "The user specified subject and purpose of the video, outlining the overall theme and narrative.",
+            "example": "A motivational video for people struggling with self-doubt"
+          },
+          "video_idea": {
+            "type": "string",
+            "description": "A brief description of the concept for the video, including subject matter, storyline, message, and other creative elements that shape the video.",
+            "example": "Combine powerful quotes, inspiring imagery, and uplifting music to create an emotional and motivating experience"
+          },
+          "video_tone": {
+            "type": "string",
+            "description": "The emotional atmosphere and mood of the video, influenced by language, pacing, and presentation, guiding the audience's reaction and setting the overall feel, such as informative, persuasive, or humorous.",
+            "example": "persuasive"
+          },
+          "video_type": {
+            "type": "string",
+            "description": "the format or genre of the video, such as educational, promotional, documentary, tutorial, or entertainment. ",
+            "example": "tutorial"
+          },
+          "video_title": {
+            "type": "string",
+            "description": "The name or title of the video. It is a concise summary that reflects the content of the video and is typically used to attract viewer's attention and provide a clue about the video's content.",
+            "example": "Mastering Self-Doubt: A Journey Towards Self-Belief"
+          },
+          "video_description": {
+            "type": "string",
+            "description": "A detailed summary of the video's content. This is typically used to provide more information about the video, such as the topics covered, featured guests or locations, or the purpose of the video. It also often includes keywords to help viewers find the video through search.",
+            "example": "Join us on this motivational journey where we tackle the issue of self-doubt, using inspiring quotes, powerful imagery, and uplifting music. Let's boost your self-confidence and reshape your perspective towards life."
+          },
+          "video_tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags or keywords associated with the video. These are used to help categorize the video and make it more discoverable to users searching for related content. Tags can be single words or short phrases related to the video's subject, theme, or context.",
+            "example": [
+              "Self-Doubt",
+              "Motivation",
+              "Inspiration",
+              "Self-Belief",
+              "Personal Growth"
+            ]
+          }
+        }
+      },
+      "PluginProjectPreviewVo": {
+        "title": "PluginProjectPreviewVo",
+        "type": "object",
+        "properties": {
+          "video_claim_code": {
+            "type": "string",
+            "description": "claim code for the user to save the video in order to continue editing or downloading"
+          },
+          "video_link": {
+            "type": "string",
+            "description": "url link to preview the video"
+          },
+          "video_title": {
+            "type": "string",
+            "description": "The title of the video. It briefly encapsulates the content, attracting viewers and hinting at the subject matter."
+          },
+          "video_description": {
+            "type": "string",
+            "description": "A detailed summary providing additional context about the video content."
+          },
+          "video_tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords associated with the video, helping in categorization and discoverability."
+          }
+        },
+        "description": "response of user created video via visla plugin"
+      },
+      "Result«PluginProjectPreviewVo»": {
+        "title": "Result«PluginProjectPreviewVo»",
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "result code",
+            "format": "int32",
+            "example": 0
+          },
+          "data": {
+            "$ref": "#/components/schemas/PluginProjectPreviewVo"
+          },
+          "msg": {
+            "type": "string",
+            "description": "result message",
+            "example": "success"
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "trace id",
+            "example": "0af7651916cd43dd8448eb211c80319c"
+          }
+        },
+        "description": "result object"
+      }
+    }
+  }
+}

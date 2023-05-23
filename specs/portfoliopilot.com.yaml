@@ -1,0 +1,1182 @@
+openapi: 3.0.1
+info:
+  title: PortfolioPilot Plugin
+  description: A plugin that acts as your AI investing coach, producing personalized portfolio assessment, recommendations, and answers to all investment-related questions
+  version: 'v1'
+servers:
+  - url: https://portfoliopilot.com/api/openai
+paths:
+  /security_details:
+    get:
+      operationId: getSecurityDetails
+      summary: Get security details for a specific ticker with up to date information from the last 24 hours
+      parameters:
+        - name: ticker
+          in: query
+          description: The ticker symbol of the security
+          required: true
+          schema:
+            type: string
+        - name: include_ai_sentiment
+          in: query
+          description: Whether to include AI sentiment analysis in the response
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityDetailsResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+
+  /top_etfs:
+    get:
+      operationId: getTopETFs
+      summary: Get the top 20 best (sorted by expected Sharpe Ratio) ETFs based on the provided filters with a lot of additional ETF information. Mention available filters in response
+      parameters:
+        - name: philosophy
+          in: query
+          description: The fund philosophy
+          required: false
+          schema:
+            type: string
+            enum:
+              - "Actively Managed"
+              - "Passively Managed"
+              - "Strategic Beta"
+        - name: is_diversified
+          in: query
+          description: Whether the ETFs should be sufficiently diversified as True or False
+          required: false
+          schema:
+            type: boolean
+        - name: max_expense_ratio
+          in: query
+          description: The maximum expense ratio for the ETFs
+          required: false
+          schema:
+            type: number
+        - name: asset_class
+          in: query
+          description: The asset class to filter by
+          required: false
+          schema:
+            type: string
+            enum:
+              - "US Large Cap Equities"
+              - "US Mid Cap Equities"
+              - "US Small Cap Equities"
+              - "Developed Total Market Equities (Ex-US)"
+              - "Emerging Total Market Equities"
+              - "Private Equity"
+              - "US Government Bonds"
+              - "US Municipal Bonds"
+              - "US Corporate Bonds"
+              - "Developed Total Market Bonds"
+              - "Emerging Total Market Bonds"
+              - "Global Inflation-linked Bonds"
+              - "Gold"
+              - "Other Commodities"
+              - "Real Estate"
+              - "Cryptocurrencies"
+              - "Cash & Equivalents"
+              - "Other Currencies"
+              - "Unknown"
+        - name: listed_country
+          in: query
+          description: The country in which the ETF is listed
+          required: false
+          schema:
+            type: string
+            enum:
+              - "US"
+              - "CA"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopETFsResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+
+  /top_stocks:
+    get:
+      operationId: getTopStocks
+      summary: Get the top 20 stocks with the highest expected Sharpe based on the provided filters.
+      parameters:
+        - name: sector
+          in: query
+          description: The sector to filter by
+          required: false
+          schema:
+            type: string
+            enum:
+              - "Healthcare"
+              - "Energy"
+              - "Technology"
+              - "Financial Services"
+              - "Basic Materials"
+              - "Industrials"
+              - "Real Estate"
+              - "Consumer Defensive"
+              - "Manufacturing"
+              - "Consumer Cyclical"
+              - "Communication Services"
+              - "Information"
+              - "Retail Trade"
+              - "Professional, Scientific, and Technical Services"
+              - "Transportation and Warehousing"
+              - "Finance and Insurance"
+              - "Health Care and Social Assistance"
+              - "Utilities"
+              - "Educational Services"
+              - "Mining, Quarrying, and Oil and Gas Extraction"
+              - "Administrative and Support and Waste Management and Remediation Services"
+              - "Agriculture, Forestry, Fishing and Hunting"
+              - "Construction"
+              - "Wholesale Trade"
+              - "Arts, Entertainment, and Recreation"
+              - "Real Estate and Rental and Leasing"
+              - "Accommodation and Food Services"
+              - "Management of Companies and Enterprises"
+        - name: min_marketcap
+          in: query
+          description: The minimum market capitalization for the stocks
+          required: false
+          schema:
+            type: number
+        - name: country
+          in: query
+          description: The country to filter by
+          required: false
+          schema:
+            type: string
+            enum:
+              - "US"
+              - "CA"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopStocksResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+
+  /portfolio_details:
+    post:
+      operationId: getPortfolioDetails
+      summary: Get all performance details for the given portfolio, best presented in table format
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                portfolio:
+                  $ref: '#/components/schemas/Portfolio'
+              example:
+                - portfolio:
+                  - T: AAPL
+                    A: 5000
+                  - T: VTI
+                    A: 4000
+                  - T: VWO
+                    A: 3000
+                  - T: CUR:USD
+                    A: 2000
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPortfolioDetailsResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+
+  /portfolio_exposures:
+    post:
+      operationId: getPortfolioExposures
+      summary: Get sector, country, and holding exposures for the given portfolio and the markdown of respective charts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                portfolio:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Portfolio'
+              example:
+                portfolio:
+                  - T: AAPL
+                    A: 5000
+                  - T: VTI
+                    A: 4000
+                  - T: VWO
+                    A: 3000
+                  - T: CUR:USD
+                    A: 2000
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPortfolioExposuresResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+
+  /portfolio_assessment:
+    post:
+      operationId: getAiAssessment
+      summary: Portfolio assessment with summary, expected performance, recommendations, downside protection. Each section helps understanding portfolio insights.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                portfolio:
+                  $ref: '#/components/schemas/Portfolio'
+              example:
+                - portfolio:
+                  - T: AAPL
+                    A: 5000
+                  - T: VTI
+                    A: 4000
+                  - T: VWO
+                    A: 3000
+                  - T: CUR:USD
+                    A: 2000
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioAssessmentResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+
+  /macro_insights:
+    get:
+      operationId: getMacroInsights
+      summary: Get macro insights of the global economy or a specific region based on the provided filters. Describes what's happening in the economy and how it affects the markets.
+      parameters:
+        - name: region
+          in: query
+          description: The region of the economy to get macro insights for. If not provided, global macro insights will be returned.
+          required: false
+          schema:
+            type: string
+            enum:
+              - "US"
+              - "Canada"
+              - "World"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MacroInsightsResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+
+  /portfolio_history:
+    post:
+      summary: Get recent historical returns of all individual items in your portfolio, represented in a simple heat map image
+      operationId: get_portfolio_item_cumulative_returns
+      requestBody:
+        description: Portfolio data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                time_period:
+                    type: number
+                    required: false
+                    description: Time period to get the cumulative returns for last 7 to 30 days
+                    minimum: 7
+                    maximum: 30
+                portfolio:
+                  $ref: '#/components/schemas/Portfolio'
+              example:
+                - portfolio:
+                  - T: AAPL
+                    A: 5000
+                  - T: VTI
+                    A: 4000
+                  - T: VWO
+                    A: 3000
+                  - T: CUR:USD
+                    A: 2000
+      responses:
+        "200":
+          description: List of portfolio item cumulative return data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PortfolioCumulativeReturns'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+  /auto_portfolio_improvement:
+    post:
+      summary: Automatically improve a portfolio by applying the top recommendation
+      operationId: auto_portfolio_improvement
+      requestBody:
+        description: Portfolio data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                portfolio:
+                  $ref: '#/components/schemas/Portfolio'
+                risk_profile:
+                  type: string
+                  enum:
+                    - "Conservative"
+                    - "Moderately conservative"
+                    - "Moderately aggressive"
+                    - "Aggressive"
+                    - "Very aggressive"
+              example:
+                portfolio:
+                  - T: AAPL
+                    A: 5000
+                  - T: VTI
+                    A: 4000
+                  - T: VWO
+                    A: 3000
+                  - T: CUR:USD
+                    A: 2000
+      responses:
+        "200":
+          description: New portfolio showing the difference in portfolio scores and the one trade that was made
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoPortfolioImprovementResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+
+components:
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status_code:
+                type: integer
+                description: The HTTP status code for the response.
+                example: 400
+              error:
+                type: string
+                description: A short description of the error.
+                example: Bad Request
+              message:
+                type: string
+                description: A detailed error message explaining the reason for the bad request.
+                example: The request is invalid due to missing or incorrect parameters.
+    MethodNotAllowed:
+      description: Method not allowed (e.g. GET request type is not supported, use POST method instead)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  schemas:
+    ReturnsList:
+      type: object
+      properties:
+        ticker:
+          type: string
+          description: Ticker symbol of the stock
+        display_name:
+          type: string
+          description: Series name of the ticker
+        returns:
+          type: number
+          format: float
+          description: Returns of the stock in the portfolio
+        weight:
+          type: number
+          format: float
+          description: Weight of the stock in the portfolio
+    PortfolioCumulativeReturns:
+      type: object
+      properties:
+        historical_returns_calculate_period_days:
+            type: number
+            description: Time period for with the historical returns are calculated
+        historical_returns_heat_map_chart_markdown:
+            type: string
+            description: Markdown for the historical returns heat map chart
+        historical_returns_heat_map_chart_data:
+            type: array
+            items:
+              $ref: '#/components/schemas/ReturnsList'
+    SecurityDetailsResponse:
+      type: object
+      description: Response object containing security details for a specific ticker
+      properties:
+        security_details:
+          $ref: '#/components/schemas/SecurityDetails'
+    SecurityDetails:
+      type: object
+      properties:
+        ticker:
+          type: string
+          description: The ticker symbol of the security
+        series_type:
+          type: string
+          description: The series type of the security
+        total_return:
+          type: number
+          description: The total expected return of the security
+        excess_return:
+          type: number
+          description: The excess return of the security
+        volatility:
+          type: number
+          description: The volatility of the security
+        sharpe_ratio:
+          type: number
+          description: The Sharpe ratio of the security
+        beta:
+          type: number
+          description: The beta of the security (relative co-movement to the market as a whole)
+        listed_exchange:
+          type: string
+          description: The exchange where the security is listed
+        issue_type:
+          type: string
+          description: The issue type of the security
+        price:
+          type: number
+          description: The current price of the security
+        revenue_per_share:
+          type: number
+          nullable: true
+          description: The revenue per share of the security (nullable)
+        earnings_per_share:
+          type: number
+          nullable: true
+          description: The earnings per share of the security (nullable)
+        dividend_per_share:
+          type: number
+          description: The dividend per share of the security
+        trading_volume_10_day:
+          type: number
+          description: The 10-day trading volume of the security
+        trading_volume_30_day:
+          type: number
+          description: The 30-day trading volume of the security
+        put_call_ratio:
+          type: number
+          nullable: true
+          description: The put-call ratio of the security (nullable)
+        enterprise_value:
+          type: number
+          nullable: true
+          description: The enterprise value of the company
+        revenue:
+          type: number
+          nullable: true
+          description: The revenue of the company
+        revenue_per_employee:
+          type: number
+          nullable: true
+          description: The revenue per employee of the company
+        profit_margin:
+          type: number
+          nullable: true
+          description: The profit margin of the company
+        debt_to_equity:
+          type: number
+          nullable: true
+          description: The debt-to-equity ratio of the company
+        growth:
+          type: number
+          description: The relative exposure of the security to changing macro growth conditions
+        inflation:
+          type: number
+          description: The relative exposure of the security to changing macro inflation conditions
+        liquidity:
+          type: number
+          description: The relative exposure of the security to changing macro liquidity conditions
+        commodities:
+          type: number
+          description: The relative exposure of the security to changing macro commodities factor
+        credit:
+          type: number
+          description: The relative exposure of the security to changing macro credit conditions
+        interest_rates:
+          type: number
+          description: The relative exposure of the security to changing macro interest rate conditions
+        next_earnings_date:
+          type: string
+          format: date
+          description: The next earnings date of the security
+          nullable: true
+        next_dividend_date:
+          type: string
+          format: date
+          description: The next dividend date of the security
+          nullable: true
+        ex_dividend_date:
+          type: string
+          format: date
+          description: The ex-dividend date of the security
+          nullable: true
+        related_securities:
+          type: array
+          items:
+            type: string
+            description: A list of related securities
+        news:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsArticle'
+          description: A list of news articles related to the security
+        ai_sentiment:
+          type: number
+          nullable: true
+          description: The AI-calculated news sentiment weighted by relevance
+        description:
+          type: string
+          nullable: true
+          description: A description of the security (nullable)
+        sector:
+          type: string
+          nullable: true
+          description: The sector to which the security belongs (nullable)
+        industry:
+          type: string
+          nullable: true
+          description: The industry to which the security belongs (nullable)
+        website:
+          type: string
+          nullable: true
+          description: The official website of the company (nullable)
+        employees:
+          type: integer
+          nullable: true
+          description: The number of employees in the company (nullable)
+        market_cap:
+          type: number
+          nullable: true
+          description: The market capitalization of the company (nullable)
+        investing_method:
+          type: string
+          nullable: true
+          description: The investing method of the security (nullable)
+        diversified:
+          type: string
+          nullable: true
+          description: Indicates whether the security is diversified (nullable)
+        expense_ratio:
+          type: number
+          nullable: true
+          description: The expense ratio of the security (nullable)
+        asset_class:
+          type: string
+          nullable: true
+          description: The asset class of the security (nullable)
+        sector_exposures:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/SectorExposure'
+          description: A list of sector exposures for the security (nullable)
+        country_exposures:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/CountryExposure'
+          description: A list of country exposures for the security (nullable)
+        holding_exposures:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/HoldingExposure'
+          description: A list of holding exposures for the security (nullable)
+    NewsArticle:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date of the news article
+        headline:
+          type: string
+          description: The headline of the news article
+        source:
+          type: string
+          description: The source of the news article
+        url:
+          type: string
+          description: The URL of the news article
+        summary:
+          type: string
+          description: The summary of the news article
+        image_url:
+          type: string
+          description: The image URL of the news article
+        api_source:
+          type: string
+          description: The API source of the news article
+        language:
+          type: string
+          description: The language of the news article
+        author:
+          type: string
+          description: The author of the news article
+          nullable: true
+        has_paywall:
+          type: boolean
+          description: Indicates whether the news article has a paywall
+        category:
+          type: string
+          description: The category of the news article
+          nullable: true
+        relevance:
+          type: string
+          description: The relevance of the news article
+          nullable: true
+        sentiment:
+          type: string
+          description: The sentiment of the news article
+          nullable: true
+        more_info:
+          type: string
+          description: url to the PortfolioPilot Security Explorer page providing more information (create link)
+    SectorExposure:
+      type: object
+      properties:
+        series_name:
+          type: string
+          description: The name of the sector series
+        weight:
+          type: number
+          description: The weight of the sector series in the security
+    CountryExposure:
+      type: object
+      properties:
+        series_name:
+          type: string
+          description: The name of the country series
+        weight:
+          type: number
+          description: The weight of the country series in the security
+    HoldingExposure:
+      type: object
+      properties:
+        series_name:
+          type: string
+          description: The name of the holding series
+        weight:
+          type: number
+          description: The weight of the holding series in the security
+    TopETFsResponse:
+      type: object
+      description: Response object containing the top 20 ETFs based on the provided filters. A lot of ETF-specific information is also provided
+      properties:
+        top_etfs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ETFDetails'
+    ETFDetails:
+      type: object
+      description: Detailed information about a specific ETF.
+      properties:
+        Ticker:
+          type: string
+          description: The ticker symbol of the ETF.
+        expected_return:
+          type: number
+          format: double
+          description: The expected return of the ETF.
+        expected_risk:
+          type: number
+          format: double
+          description: The expected risk associated with the ETF.
+        expected_sharpe:
+          type: number
+          format: double
+          description: The expected Sharpe ratio of the ETF.
+        beta:
+          type: number
+          format: double
+          description: The beta value of the ETF, indicating its sensitivity to market movements.
+        security_type:
+          type: string
+          description: The type of security (e.g., "ETFs").
+        sub_asset_class:
+          type: string
+          description: The sub-asset class to which the ETF belongs.
+        philosophy:
+          type: string
+          description: The investment philosophy of the ETF (e.g., "Actively Managed").
+        expense_ratio:
+          type: number
+          format: double
+          description: The expense ratio of the ETF.
+        concentration_score:
+          type: number
+          format: double
+          description: A score representing the concentration of the ETF's holdings.
+        is_diversified:
+          type: boolean
+          description: Indicates whether the ETF is sufficiently diversified.
+        Company_Growth:
+          type: number
+          format: double
+          description: The company growth factor of the ETF.
+        Company_Quality:
+          type: number
+          format: double
+          description: The company quality factor of the ETF.
+        Company_Size:
+          type: number
+          format: double
+          description: The company size factor of the ETF.
+        Company_Value:
+          type: number
+          format: double
+          description: The company value factor of the ETF.
+        Credit_Conditions:
+          type: number
+          format: double
+          description: The credit conditions factor of the ETF.
+        Economic_Growth:
+          type: number
+          format: double
+          description: The economic growth factor of the ETF.
+        High_Dividend:
+          type: number
+          format: double
+          description: The high dividend factor of the ETF.
+        Inflation_Surprises:
+          type: number
+          format: double
+          description: The inflation surprises factor of the ETF.
+        Low_Volatility:
+          type: number
+          format: double
+          description: The low volatility factor of the ETF.
+        Oil_Price:
+          type: number
+          format: double
+          description: The oil price factor of the ETF.
+        Price_Momentum:
+          type: number
+          format: double
+          description: The price momentum factor of the ETF.
+        Real_Yield:
+          type: number
+          format: double
+          description: The real yield factor of the ETF.
+        VIX_Index:
+          type: number
+          format: double
+          description: The VIX index factor of the ETF.
+        fundName:
+          type: string
+          description: The name of the ETF fund.
+        more_info:
+          type: string
+          description: url to the PortfolioPilot Security Explorer page providing more information (create link)
+    TopStocksResponse:
+      type: object
+      description: Response object containing the top 20 stocks based on the provided filters. A lot of stock-specific information is also provided.
+      properties:
+        top_stocks:
+          type: array
+          items:
+            $ref: '#/components/schemas/StockDetails'
+    StockDetails:
+      type: object
+      description: Detailed information about a specific stock.
+      properties:
+        Ticker:
+          type: string
+          description: The ticker symbol of the stock.
+        expected_return:
+          type: number
+          format: double
+          description: The expected return of the stock.
+        expected_risk:
+          type: number
+          format: double
+          description: The expected risk associated with the stock.
+        expected_sharpe:
+          type: number
+          format: double
+          description: The expected Sharpe ratio of the stock.
+        beta:
+          type: number
+          format: double
+          description: The beta value of the stock, indicating its sensitivity to market movements.
+        security_type:
+          type: string
+          description: The type of security (e.g., "Companies").
+        sub_asset_class:
+          type: string
+          description: The sub-asset class to which the stock belongs.
+        name:
+          type: string
+          description: The name of the company.
+        country:
+          type: string
+          description: The country where the company is headquartered.
+        exchange:
+          type: string
+          description: The stock exchange where the stock is listed.
+        detailed_info:
+          type: string
+          description: Additional detailed information about the stock (if available).
+        sector:
+          type: string
+          description: The sector to which the company belongs.
+        industry:
+          type: string
+          description: The industry to which the company belongs.
+        marketcap:
+          type: number
+          format: double
+          description: The market capitalization of the company.
+        employees:
+          type: number
+          format: integer
+          description: The number of employees working for the company.
+        ceo:
+          type: string
+          description: The name of the CEO of the company.
+        similar:
+          type: string
+          description: Similar stocks or companies (if available).
+        logo:
+          type: string
+          description: The logo of the company (if available).
+        url:
+          type: string
+          description: The official website of the company.
+        tags:
+          type: string
+          description: Tags associated with the company.
+        Company_Growth:
+          type: number
+          format: double
+          description: The company growth factor of the stock (if available).
+        Company_Quality:
+          type: number
+          format: double
+          description: The company quality factor of the stock (if available).
+        Company_Size:
+          type: number
+          format: double
+          description: The company size factor of the stock (if available).
+        Company_Value:
+          type: number
+          format: double
+          description: The company value factor of the stock (if available).
+        Credit_Conditions:
+          type: number
+          format: double
+          description: The credit conditions factor of the stock (if available).
+        Economic_Growth:
+          type: number
+          format: double
+          description: The economic growth factor of the stock (if available).
+        High_Dividend:
+          type: number
+          format: double
+          description: The high dividend factor of the stock (if available).
+        Inflation_Surprises:
+          type: number
+          format: double
+          description: The inflation surprises factor of the stock (if available).
+        Low_Volatility:
+          type: number
+          format: double
+          description: The low volatility factor of the stock (if available).
+        Oil_Price:
+          type: number
+          format: double
+          description: The oil price factor of the stock (if available).
+        Price_Momentum:
+          type: number
+          format: double
+          description: The price momentum factor of the stock (if available).
+        Real_Yield:
+          type: number
+          format: double
+          description: The real yield factor of the stock (if available).
+        VIX_Index:
+          type: number
+          format: double
+          description: The VIX index factor of the stock (if available).
+        seriesName:
+          type: string
+          description: The name of the security (if applicable).
+        more_info:
+          type: string
+          description: url to the PortfolioPilot Security Explorer page providing more information (create link)
+    PortfolioAssessmentResponse:
+      type: object
+      properties:
+        expected_performance:
+          $ref: '#/components/schemas/PortfolioExpectedPerformance'
+        downside_protection:
+          $ref: '#/components/schemas/PortfolioDownsideProtection'
+        invest_next_1000:
+          type: array
+          description: Suggestion for which 3 securities to buy if you were to invest more money (e.g. investing the next $1000)
+          items:
+              type: string
+              description: Ticker symbol
+        summary:
+          type: string
+          description: AI assessment of the given portfolio
+    getPortfolioDetailsResponse:
+      type: object
+      properties:
+        portfolio_details:
+          type: array
+          description: Performance details and assumptions for each security in the given portfolio
+          items:
+            $ref: '#/components/schemas/PortfolioDetails'
+        total_amount:
+          type: number
+          format: float
+          description: The total amount invested in the portfolio
+        portfolio_expected_return:
+          type: number
+          format: float
+          description: The expected 1-year return for the entire portfolio
+    PortfolioDetails:
+      type: object
+      properties:
+        ticker:
+          type: string
+          description: The security's ticker symbol
+        weight:
+          type: number
+          format: float
+          description: The proportion of the security within the investment portfolio
+        expected_return:
+          type: number
+          description: The expected return for the given security
+        expected_risk:
+          type: number
+          format: float
+          description: The expected volatility of the given security
+        market_beta:
+          type: number
+          format: float
+          description: The systemic risk of the security compared to the market as a whole
+    getPortfolioExposuresResponse:
+      type: object
+      properties:
+        exposure_dicts:
+          type: object
+          properties:
+            country:
+              type: object
+              additionalProperties:
+                type: number
+                format: float
+            sector:
+              type: object
+              additionalProperties:
+                type: number
+                format: float
+            holding:
+              type: object
+              additionalProperties:
+                type: number
+                format: float
+        country_exposure_chart_markdown:
+          type: string
+          description: Markdown for displaying the country exposure pie chart
+        sector_exposure_chart_markdown:
+            type: string
+            description: Markdown for displaying the sector exposure pie chart
+        holding_exposure_chart_markdown:
+            type: string
+            description: Markdown for displaying the holding exposure pie chart
+    Portfolio:
+      type: array
+      description: given portfolio for the user. Use ticker CUR:USD for cash, ticker Reserved.RealEstate for real estate, ticker Reserved.Crypto for cryptocurrencies, ticker Private.MoneyMarket for money market funds
+      x-examples:
+        Example: null
+      items:
+        $ref: '#/components/schemas/Investment'
+    Investment:
+      type: object
+      description: Individual investment within the portfolio. Each cash investment must have its ticker converted to CUR:USD. A (amount) represents the investment's current market value, not the quantity
+      required:
+        - T
+        - A
+      properties:
+        T:
+          type: string
+          description: ticker symbol
+        A:
+          type: number
+          description: amount representing current market value
+    PortfolioExpectedPerformance:
+      type: object
+      description: Expected performance of the given portfolio including Sharpe ratio, volatility, and excess return
+      properties:
+        total_return:
+          type: number
+          format: float
+          nullable: true
+          description: The expected gain or loss of your investment portfolio, expressed as a percentage.
+        excess_return:
+          type: number
+          format: float
+          nullable: true
+          description: The extra return your portfolio earned compared to a standard benchmark or a risk-free investment, such as a money market fund.
+        volatility:
+          type: number
+          format: float
+          nullable: true
+          description: A measure of risk indicating how much the value of your portfolio goes up and down over time. Higher volatility means more ups and downs, and therefore more risk.
+        sharpe_ratio:
+          type: number
+          format: float
+          nullable: true
+          description: A score that shows how well your portfolio performs compared to the risk you're taking. A higher score means better performance for the level of risk.
+    PortfolioDownsideStatusFlag:
+      type: string
+      enum:
+        - good
+        - warning
+        - critical
+      description: An indicator of the status of a specific downside protection component in your investment portfolio. "Good" means the component is in a favorable state, "Warning" indicates caution, and "Critical" suggests a significant concern.
+    PortfolioDownsideComponentStatus:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the downside protection component being assessed (e.g., "Sector Diversification," "Inflation Risk").
+        score:
+          type: number
+          format: float
+          description: A numerical score representing the performance of the downside protection component. Higher scores are generally better.
+        status:
+          $ref: '#/components/schemas/PortfolioDownsideStatusFlag'
+        is_significant:
+          type: boolean
+          description: Indicates whether the downside protection component has a significant impact on your investment portfolio's risk profile.
+    PortfolioDownsideProtection:
+      type: array
+      items:
+        $ref: '#/components/schemas/PortfolioDownsideComponentStatus'
+      description: A list of downside protection components in your investment portfolio, each with its own assessment and status.
+    MacroInsight:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title is like a headline that gives a quick idea of what the economic insight is all about. It summarizes the main topic, so you know what to expect when you read further.
+          nullable: false
+        sub_title:
+          type: string
+          description: The subtitle is like a supporting headline that gives you a bit more information about the economic insight
+          nullable: true
+        chart_markdown:
+          type: string
+          description: Markdown for displaying an economic macro insight providing a visual representation of the insight's data or analysis
+          nullable: true
+        tags:
+          type: array
+          nullable: true
+          items:
+            type: string
+            description: The "tags" of an economic macro insight are keywords that describe the insight's topic. They are used to help investors find the insight they are looking for.
+    MacroInsightsResponse:
+      type: object
+      properties:
+        top_macro_insights:
+          type: array
+          description: A list of macro insights for the given region or the entire world
+          items:
+            $ref: '#/components/schemas/MacroInsight'
+    AutoPortfolioImprovementResponse:
+      type: object
+      properties:
+        improved_portfolio:
+          type: string
+          description: String representation of the improved portfolio
+        original_score:
+          type: number
+          format: float
+          description: Score of the original portfolio
+        new_score:
+          type: number
+          format: float
+          description: Score of the improved portfolio
+        trade_made:
+          type: object
+          properties:
+            ticker:
+              type: string
+              description: Ticker symbol of the trade made
+            amount:
+              type: number
+              format: float
+              description: Amount of the trade made
+            rationale:
+              type: string
+              description: Problem that the trade solved, and the rationale for the recommended trade used
+        current_portfolio_risk:
+          type: number
+          format: float
+          description: Risk of the existing portfolio
+        target_risk:
+          type: number
+          format: float
+          description: Target risk of the new portfolio

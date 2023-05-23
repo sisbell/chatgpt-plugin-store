@@ -1,0 +1,230 @@
+---
+openapi: 3.0.2
+info:
+  title: Bohita - Wear your dreams
+  description: Create apparel (t-shirts and hoodies) of your dreams
+  contact:
+    name: Bohita Support
+    email: genie@bohita.com
+  version: 0.0.4
+paths:
+  "/apparel":
+    post:
+      summary: Create Apparel
+      operationId: create_apparel_apparel_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ApparelReq"
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ApparelReturn"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  "/":
+    get:
+      summary: Read Index
+      operationId: read_index__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  "/logo.png":
+    get:
+      summary: Plugin Logo
+      operationId: plugin_logo_logo_png_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  "/legal":
+    get:
+      summary: Plugin Legal
+      operationId: plugin_legal_legal_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  "/.well-known/ai-plugin.json":
+    get:
+      summary: Plugin Manifest
+      operationId: plugin_manifest__well_known_ai_plugin_json_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  "/openapi.yaml":
+    get:
+      summary: Openapi Spec
+      operationId: openapi_spec_openapi_yaml_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    Apparel:
+      title: Apparel
+      required:
+      - title
+      - url
+      - model
+      - cropped
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+          description: Unique identifier
+        title:
+          title: Title
+          type: string
+          description: The Title of the product
+        url:
+          title: Url
+          type: string
+          description: The url of the product page for this product
+        model:
+          title: Model
+          type: string
+          description: The generative model used for the design
+        cropped:
+          title: Cropped
+          type: boolean
+          description: If the design was cropped to show main subject or not
+    ApparelReq:
+      title: ApparelReq
+      required:
+      - subject
+      - prompt
+      - product_type
+      type: object
+      properties:
+        subject:
+          title: Subject
+          type: string
+          description: The main subject of the graphic
+        prompt:
+          title: Prompt
+          type: string
+          description: The exact description that will generate the graphic that will
+            be printed on the garment. You do not need to say Create, or T-shirt,
+            etc. Just use the exact description of the image you want. Currently does
+            not support text. Describe the image in detail, do not give instructions.
+        product_type:
+          title: Product Type
+          enum:
+          - T-shirt
+          - Hoodie
+          type: string
+        shop_category:
+          title: Shop Category
+          enum:
+          - Men
+          - Women
+          type: string
+          description: The category of shop that you would like to shop for
+          default: Men
+        user_name:
+          title: User Name
+          type: string
+          description: If the user gave a name, please include it so we can credit
+            them as the creator of the design. Leave it out if you do not know
+        tid:
+          title: Tid
+          type: string
+          description: Previous tid if any in this chat session
+          format: uuid
+        question:
+          title: Question
+          type: string
+          description: The actual question asked
+        models:
+          title: Models
+          type: array
+          items:
+            enum:
+            - dalle
+            - kim
+            - pam
+            - dallebg
+            - kimbg
+            - pambg
+            type: string
+          description: The models to use to generate the design. Can repeat.
+    ApparelReturn:
+      title: ApparelReturn
+      required:
+      - items
+      - message
+      - tid
+      type: object
+      properties:
+        items:
+          title: Items
+          type: array
+          items:
+            "$ref": "#/components/schemas/Apparel"
+          description: List of products created by the prompt
+        message:
+          title: Message
+          type: string
+        tid:
+          title: Tid
+          type: string
+          format: uuid
+        permalink:
+          title: Permalink
+          type: string
+          description: Permanent url of all products. Give priority to items please.
+            But show this at the end if they want to visit
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            "$ref": "#/components/schemas/ValidationError"
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

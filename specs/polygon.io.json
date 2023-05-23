@@ -1,0 +1,3283 @@
+{
+  "info": {
+    "description": "Polygon.io provides data from financial markets. We have APIs for stocks, options, indices, forex, and crypto.",
+    "title": "Polygon API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.3",
+  "security": [
+    {
+      "apiKey": []
+    }
+  ],
+  "servers": [
+    {
+      "description": "Polygon Platform API",
+      "url": "https://api.polygon.io"
+    }
+  ],
+  "paths": {
+    "/v1/summaries": {
+      "get": {
+        "description": "Get everything needed to understand or visualize the latest price movement of a list of tickers.",
+        "operationId": "SnapshotSummary",
+        "parameters": [
+          {
+            "description": "Comma separated list of tickers. This API currently supports Stocks/Equities, Crypto, Options, and Forex. Crypto tickers are prefixed with X:, Options with O:, and Forex with C:.",
+            "example": "NCLH,O:SPY250321C00380000,C:EURUSD,X:BTCUSD",
+            "in": "query",
+            "name": "ticker.any_of",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "results": {
+                      "items": {
+                        "properties": {
+                          "branding": {
+                            "properties": {
+                              "icon_url": {
+                                "description": "A link to this ticker's company's icon. Icon's are generally smaller, square images that represent the company at a glance. Note that you must provide an API key when accessing this URL. See the \"Authentication\" section at the top of this page for more details.",
+                                "type": "string"
+                              },
+                              "logo_url": {
+                                "description": "A link to this ticker's company's logo. Note that you must provide an API key when accessing this URL. See the \"Authentication\" section at the top of this page for more details.",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "error": {
+                            "description": "The error while looking for this ticker.",
+                            "type": "string"
+                          },
+                          "last_updated": {
+                            "description": "The nanosecond timestamp of when this information was updated.",
+                            "format": "int64",
+                            "type": "integer"
+                          },
+                          "market_status": {
+                            "description": "The market status for the market that trades this ticker.",
+                            "type": "string"
+                          },
+                          "message": {
+                            "description": "The error message while looking for this ticker.",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "Name of ticker, forex, or crypto asset.",
+                            "type": "string"
+                          },
+                          "options": {
+                            "properties": {
+                              "contract_type": {
+                                "description": "The type of contract. Can be \"put\", \"call\", or in some rare cases, \"other\".",
+                                "enum": [
+                                  "put",
+                                  "call",
+                                  "other"
+                                ],
+                                "type": "string"
+                              },
+                              "exercise_style": {
+                                "description": "The exercise style of this contract.",
+                                "enum": [
+                                  "american",
+                                  "european",
+                                  "bermudan"
+                                ],
+                                "type": "string"
+                              },
+                              "expiration_date": {
+                                "description": "The contract's expiration date in YYYY-MM-DD format.",
+                                "format": "date",
+                                "type": "string"
+                              },
+                              "shares_per_contract": {
+                                "description": "The number of shares per contract for this contract.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "strike_price": {
+                                "description": "The strike price of the option contract.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "underlying_ticker": {
+                                "description": "The ticker for the option contract.",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "contract_type",
+                              "expiration_date",
+                              "exercise_style",
+                              "shares_per_contract",
+                              "strike_price",
+                              "underlying_ticker"
+                            ],
+                            "type": "object"
+                          },
+                          "price": {
+                            "description": "The most up to date ticker price.",
+                            "format": "double",
+                            "type": "number"
+                          },
+                          "session": {
+                            "properties": {
+                              "change": {
+                                "description": "The value of the price change for the asset from the previous trading day.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "change_percent": {
+                                "description": "The percent of the price change for the asset from the previous trading day.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "close": {
+                                "description": "The closing price of the asset for the day.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "early_trading_change": {
+                                "description": "Today's early trading change amount, difference between price and previous close if in early trading hours, otherwise difference between last price during early trading and previous close.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "early_trading_change_percent": {
+                                "description": "Today's early trading change as a percentage.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "high": {
+                                "description": "The highest price of the asset for the day.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "late_trading_change": {
+                                "description": "Today's late trading change amount, difference between price and today's close if in late trading hours, otherwise difference between last price during late trading and today's close.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "late_trading_change_percent": {
+                                "description": "Today's late trading change as a percentage.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "low": {
+                                "description": "The lowest price of the asset for the day.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "open": {
+                                "description": "The open price of the asset for the day.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "previous_close": {
+                                "description": "The closing price of the asset for the previous trading day.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "volume": {
+                                "description": "The trading volume for the asset for the day.",
+                                "format": "double",
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "change",
+                              "change_percent",
+                              "close",
+                              "high",
+                              "low",
+                              "open",
+                              "previous_close"
+                            ],
+                            "type": "object"
+                          },
+                          "ticker": {
+                            "description": "Ticker of asset queried.",
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "The market for this ticker of stock, crypto, fx, option.",
+                            "enum": [
+                              "stocks",
+                              "crypto",
+                              "options",
+                              "fx"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "ticker",
+                          "name",
+                          "price",
+                          "branding",
+                          "market_status",
+                          "type",
+                          "session",
+                          "options",
+                          "last_updated"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "The status of this request's response.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Snapshot Summary for ticker list"
+          }
+        },
+        "summary": "Summaries"
+      }
+    },
+    "/v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}": {
+      "get": {
+        "description": "Get aggregate bars for a stock, option, crypto, or forex over a given date range in custom time window sizes. For example, if timespan = âminuteâ and multiplier = â5â then 5-minute bars will be returned. ",
+        "operationId": "ListAggregates",
+        "parameters": [
+          {
+            "description": "The ticker symbol of the stock, option, crypto pair, or forex pair. Options are prefixed with O:, crypto pair with X:, and forex pair with C:",
+            "example": "AAPL",
+            "in": "path",
+            "name": "ticker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The size of the timespan multiplier.",
+            "example": 1,
+            "in": "path",
+            "name": "multiplier",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The size of the time window.",
+            "example": "day",
+            "in": "path",
+            "name": "timespan",
+            "required": true,
+            "schema": {
+              "enum": [
+                "minute",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "quarter",
+                "year"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The start of the aggregate time window. Either a date with the format YYYY-MM-DD or a millisecond timestamp.",
+            "example": "2023-01-09",
+            "in": "path",
+            "name": "from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The end of the aggregate time window. Either a date with the format YYYY-MM-DD or a millisecond timestamp.",
+            "example": "2023-01-09",
+            "in": "path",
+            "name": "to",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Whether or not the results are adjusted for splits.  By default, results are adjusted. Set this to false to get results that are NOT adjusted for splits. ",
+            "example": true,
+            "in": "query",
+            "name": "adjusted",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Sort the results by timestamp. `asc` will return results in ascending order (oldest at the top), `desc` will return results in descending order (newest at the top). ",
+            "example": "asc",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "ticker": {
+                          "description": "The exchange symbol that this item is traded under.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "ticker"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "adjusted": {
+                          "description": "Whether or not this response was adjusted for splits.",
+                          "type": "boolean"
+                        },
+                        "queryCount": {
+                          "description": "The number of aggregates (minute or day) used to generate the response.",
+                          "type": "integer"
+                        },
+                        "request_id": {
+                          "description": "A request id assigned by the server.",
+                          "type": "string"
+                        },
+                        "resultsCount": {
+                          "description": "The total number of results for this request.",
+                          "type": "integer"
+                        },
+                        "status": {
+                          "description": "The status of this request's response.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "adjusted",
+                        "queryCount",
+                        "resultsCount",
+                        "request_id"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "items": {
+                            "properties": {
+                              "c": {
+                                "description": "The close price for the symbol in the given time period.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "h": {
+                                "description": "The highest price for the symbol in the given time period.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "l": {
+                                "description": "The lowest price for the symbol in the given time period.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "n": {
+                                "description": "The number of transactions in the aggregate window.",
+                                "type": "integer"
+                              },
+                              "o": {
+                                "description": "The open price for the symbol in the given time period.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "otc": {
+                                "description": "Whether or not this aggregate is for an OTC ticker. This field will be left off if false.",
+                                "type": "boolean"
+                              },
+                              "t": {
+                                "description": "The Unix Msec timestamp for the start of the aggregate window.",
+                                "type": "integer"
+                              },
+                              "v": {
+                                "description": "The trading volume of the symbol in the given time period.",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "vw": {
+                                "description": "The volume weighted average price.",
+                                "format": "double",
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "o",
+                              "h",
+                              "l",
+                              "c",
+                              "v",
+                              "t"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "next_url": {
+                          "description": "If present, this value can be used to fetch the next page of data.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Stock Aggregates."
+          }
+        },
+        "summary": "Aggregates (Bars)"
+      }
+    },
+    "/v2/reference/news": {
+      "get": {
+        "description": "Get the most recent news articles relating to a stock ticker symbol, including a summary of the article and a link to the original source.",
+        "operationId": "ListNews",
+        "parameters": [
+          {
+            "description": "Return results that contain this ticker.",
+            "in": "query",
+            "name": "ticker",
+            "schema": {
+              "description": "The exchange symbol that this item is traded under.",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return results published on, before, or after this date.",
+            "in": "query",
+            "name": "published_utc",
+            "schema": {
+              "oneOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "description": "Search for ticker values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "ticker.gte",
+            "schema": {
+              "description": "The exchange symbol that this item is traded under.",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are greater than the given value",
+            "in": "query",
+            "name": "ticker.gt",
+            "schema": {
+              "description": "The exchange symbol that this item is traded under.",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are less than or equal to the given value",
+            "in": "query",
+            "name": "ticker.lte",
+            "schema": {
+              "description": "The exchange symbol that this item is traded under.",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are less than the given value",
+            "in": "query",
+            "name": "ticker.lt",
+            "schema": {
+              "description": "The exchange symbol that this item is traded under.",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for published utc values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "published_utc.gte",
+            "schema": {
+              "oneOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "description": "Search for published utc values that are greater than the given value",
+            "in": "query",
+            "name": "published_utc.gt",
+            "schema": {
+              "oneOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "description": "Search for published utc values that are less than or equal to the given value",
+            "in": "query",
+            "name": "published_utc.lte",
+            "schema": {
+              "oneOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "description": "Search for published utc values that are less than the given value",
+            "in": "query",
+            "name": "published_utc.lt",
+            "schema": {
+              "oneOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "description": "Order results based on the `sort` field.",
+            "in": "query",
+            "name": "order",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "example": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit the number of results returned, default is 10 and max is 1000.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "example": 10,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Sort field used for ordering.",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "default": "published_utc",
+              "enum": [
+                "published_utc"
+              ],
+              "example": "published_utc",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "description": "The total number of results for this request.",
+                      "type": "integer"
+                    },
+                    "next_url": {
+                      "description": "If present, this value can be used to fetch the next page of data.",
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "description": "A request id assigned by the server.",
+                      "type": "string"
+                    },
+                    "results": {
+                      "items": {
+                        "properties": {
+                          "amp_url": {
+                            "description": "The mobile friendly Accelerated Mobile Page (AMP) URL.",
+                            "type": "string"
+                          },
+                          "article_url": {
+                            "description": "A link to the news article.",
+                            "type": "string"
+                          },
+                          "author": {
+                            "description": "The article's author.",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "A description of the article.",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "Unique identifier for the article.",
+                            "type": "string"
+                          },
+                          "image_url": {
+                            "description": "The article's image URL.",
+                            "type": "string"
+                          },
+                          "keywords": {
+                            "description": "The keywords associated with the article (which will vary depending on the publishing source).",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "published_utc": {
+                            "description": "The date the article was published on.",
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          "publisher": {
+                            "properties": {
+                              "favicon_url": {
+                                "description": "The publisher's homepage favicon URL.",
+                                "type": "string"
+                              },
+                              "homepage_url": {
+                                "description": "The publisher's homepage URL.",
+                                "type": "string"
+                              },
+                              "logo_url": {
+                                "description": "The publisher's logo URL.",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "The publisher's name.",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "logo_url",
+                              "homepage_url"
+                            ],
+                            "type": "object"
+                          },
+                          "tickers": {
+                            "description": "The ticker symbols associated with the article.",
+                            "items": {
+                              "description": "The exchange symbol that this item is traded under.",
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "title": {
+                            "description": "The title of the news article.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "publisher",
+                          "title",
+                          "author",
+                          "published_utc",
+                          "article_url",
+                          "tickers"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "The status of this request's response.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "An array of news articles."
+          }
+        },
+        "summary": "Ticker News"
+      }
+    },
+    "/v3/reference/conditions": {
+      "get": {
+        "description": "List all conditions that Polygon.io uses.",
+        "operationId": "ListConditions",
+        "parameters": [
+          {
+            "description": "Filter for conditions within a given asset class.",
+            "in": "query",
+            "name": "asset_class",
+            "schema": {
+              "description": "An identifier for a group of similar financial instruments.",
+              "enum": [
+                "stocks",
+                "options",
+                "crypto",
+                "fx"
+              ],
+              "example": "stocks",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by data type.",
+            "in": "query",
+            "name": "data_type",
+            "schema": {
+              "description": "The type of financial data represented by a data model.",
+              "enum": [
+                "trade",
+                "bbo",
+                "nbbo"
+              ],
+              "example": "trade",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter for conditions with a given ID.",
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "description": "An identifier used by Polygon.io for this condition. Unique per data type.",
+              "example": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Filter by SIP. If the condition contains a mapping for that SIP, the condition will be returned.",
+            "in": "query",
+            "name": "sip",
+            "schema": {
+              "description": "One of the SIPs.",
+              "enum": [
+                "CTA",
+                "UTP",
+                "OPRA"
+              ],
+              "example": "CTA",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order results based on the `sort` field.",
+            "in": "query",
+            "name": "order",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "example": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit the number of results returned, default is 10 and max is 1000.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "example": 10,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Sort field used for ordering.",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "default": "asset_class",
+              "enum": [
+                "asset_class",
+                "id",
+                "type",
+                "name",
+                "data_types",
+                "legacy"
+              ],
+              "example": "asset_class",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "count": 1,
+                    "request_id": "31d59dda-80e5-4721-8496-d0d32a654afe",
+                    "results": [
+                      {
+                        "asset_class": "stocks",
+                        "data_types": [
+                          "trade"
+                        ],
+                        "id": 2,
+                        "name": "Average Price Trade",
+                        "sip_mapping": {
+                          "CTA": "B",
+                          "UTP": "W"
+                        },
+                        "type": "condition",
+                        "update_rules": {
+                          "consolidated": {
+                            "updates_high_low": false,
+                            "updates_open_close": false,
+                            "updates_volume": true
+                          },
+                          "market_center": {
+                            "updates_high_low": false,
+                            "updates_open_close": false,
+                            "updates_volume": true
+                          }
+                        }
+                      }
+                    ],
+                    "status": "OK"
+                  },
+                  "properties": {
+                    "count": {
+                      "description": "The total number of results for this request.",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "next_url": {
+                      "description": "If present, this value can be used to fetch the next page of data.",
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "description": "A request ID assigned by the server.",
+                      "example": "31d59dda-80e5-4721-8496-d0d32a654afe",
+                      "type": "string"
+                    },
+                    "results": {
+                      "description": "An array of conditions that match your query.",
+                      "items": {
+                        "description": "A condition generally refers to any extra information passed in a trade or a quote. These conditions may or may not affect the behavior of aggregates.",
+                        "properties": {
+                          "abbreviation": {
+                            "description": "A commonly-used abbreviation for this condition.",
+                            "type": "string"
+                          },
+                          "asset_class": {
+                            "description": "An identifier for a group of similar financial instruments.",
+                            "enum": [
+                              "stocks",
+                              "options",
+                              "crypto",
+                              "fx"
+                            ],
+                            "example": "stocks",
+                            "type": "string"
+                          },
+                          "data_types": {
+                            "description": "Data types that this condition applies to.",
+                            "items": {
+                              "description": "The type of financial data represented by a data model.",
+                              "enum": [
+                                "trade",
+                                "bbo",
+                                "nbbo"
+                              ],
+                              "example": "trade",
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "description": {
+                            "description": "A short description of the semantics of this condition.",
+                            "type": "string"
+                          },
+                          "exchange": {
+                            "description": "If present, mapping this condition from a Polygon.io code to a SIP symbol depends on this attribute. In other words, data with this condition attached comes exclusively from the given exchange.",
+                            "type": "integer"
+                          },
+                          "id": {
+                            "description": "An identifier used by Polygon.io for this condition. Unique per data type.",
+                            "example": 1,
+                            "type": "integer"
+                          },
+                          "legacy": {
+                            "description": "If true, this condition is from an old version of the SIPs' specs and no longer is used. Other conditions may or may not reuse the same symbol as this one.",
+                            "type": "boolean"
+                          },
+                          "name": {
+                            "description": "The name of this condition.",
+                            "example": "Acquisition",
+                            "type": "string"
+                          },
+                          "sip_mapping": {
+                            "description": "A mapping to a symbol for each SIP that has this condition.",
+                            "properties": {
+                              "CTA": {
+                                "type": "string"
+                              },
+                              "OPRA": {
+                                "type": "string"
+                              },
+                              "UTP": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": {
+                            "description": "An identifier for a collection of related conditions.",
+                            "enum": [
+                              "sale_condition",
+                              "quote_condition",
+                              "sip_generated_flag",
+                              "financial_status_indicator",
+                              "short_sale_restriction_indicator",
+                              "settlement_condition",
+                              "market_condition",
+                              "trade_thru_exempt"
+                            ],
+                            "type": "string"
+                          },
+                          "update_rules": {
+                            "description": "A list of aggregation rules.",
+                            "properties": {
+                              "consolidated": {
+                                "description": "Describes aggregation rules on a consolidated (all exchanges) basis.",
+                                "properties": {
+                                  "updates_high_low": {
+                                    "description": "Whether or not trades with this condition update the high/low.",
+                                    "type": "boolean"
+                                  },
+                                  "updates_open_close": {
+                                    "description": "Whether or not trades with this condition update the open/close.",
+                                    "type": "boolean"
+                                  },
+                                  "updates_volume": {
+                                    "description": "Whether or not trades with this condition update the volume.",
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "updates_high_low",
+                                  "updates_open_close",
+                                  "updates_volume"
+                                ],
+                                "type": "object"
+                              },
+                              "market_center": {
+                                "description": "Describes aggregation rules on a per-market-center basis.",
+                                "properties": {
+                                  "updates_high_low": {
+                                    "description": "Whether or not trades with this condition update the high/low.",
+                                    "type": "boolean"
+                                  },
+                                  "updates_open_close": {
+                                    "description": "Whether or not trades with this condition update the open/close.",
+                                    "type": "boolean"
+                                  },
+                                  "updates_volume": {
+                                    "description": "Whether or not trades with this condition update the volume.",
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "updates_high_low",
+                                  "updates_open_close",
+                                  "updates_volume"
+                                ],
+                                "type": "object"
+                              }
+                            },
+                            "required": [
+                              "consolidated",
+                              "market_center"
+                            ],
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "name",
+                          "asset_class",
+                          "sip_mapping",
+                          "data_types"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "The status of this request's response.",
+                      "example": "OK",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "request_id",
+                    "count",
+                    "results"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Conditions"
+      }
+    },
+    "/v3/reference/dividends": {
+      "get": {
+        "description": "Get a list of historical cash dividends, including the ticker symbol, declaration date, ex-dividend date, record date, pay date, frequency, and amount.",
+        "operationId": "ListDividends",
+        "parameters": [
+          {
+            "description": "Return the dividends that contain this ticker.",
+            "in": "query",
+            "name": "ticker",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by ex-dividend date with the format YYYY-MM-DD.",
+            "in": "query",
+            "name": "ex_dividend_date",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by record date with the format YYYY-MM-DD.",
+            "in": "query",
+            "name": "record_date",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by declaration date with the format YYYY-MM-DD.",
+            "in": "query",
+            "name": "declaration_date",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by pay date with the format YYYY-MM-DD.",
+            "in": "query",
+            "name": "pay_date",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by the number of times per year the dividend is paid out.  Possible values are 0 (one-time), 1 (annually), 2 (bi-annually), 4 (quarterly), and 12 (monthly).",
+            "in": "query",
+            "name": "frequency",
+            "schema": {
+              "enum": [
+                0,
+                1,
+                2,
+                4,
+                12
+              ],
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Query by the cash amount of the dividend.",
+            "in": "query",
+            "name": "cash_amount",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Query by the type of dividend. Dividends that have been paid and/or are expected to be paid on consistent schedules are denoted as CD. Special Cash dividends that have been paid that are infrequent or unusual, and/or can not be expected to occur in the future are denoted as SC.",
+            "in": "query",
+            "name": "dividend_type",
+            "schema": {
+              "description": "The type of dividend. Dividends that have been paid and/or are expected to be paid on consistent schedules are denoted as CD. Special Cash dividends that have been paid that are infrequent or unusual, and/or can not be expected to occur in the future are denoted as SC. Long-Term and Short-Term capital gain distributions are denoted as LT and ST, respectively.",
+              "enum": [
+                "CD",
+                "SC",
+                "LT",
+                "ST"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "ticker.gte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are greater than the given value",
+            "in": "query",
+            "name": "ticker.gt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are less than or equal to the given value",
+            "in": "query",
+            "name": "ticker.lte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are less than the given value",
+            "in": "query",
+            "name": "ticker.lt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ex dividend date values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "ex_dividend_date.gte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ex dividend date values that are greater than the given value",
+            "in": "query",
+            "name": "ex_dividend_date.gt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ex dividend date values that are less than or equal to the given value",
+            "in": "query",
+            "name": "ex_dividend_date.lte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ex dividend date values that are less than the given value",
+            "in": "query",
+            "name": "ex_dividend_date.lt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for record date values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "record_date.gte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for record date values that are greater than the given value",
+            "in": "query",
+            "name": "record_date.gt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for record date values that are less than or equal to the given value",
+            "in": "query",
+            "name": "record_date.lte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for record date values that are less than the given value",
+            "in": "query",
+            "name": "record_date.lt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for declaration date values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "declaration_date.gte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for declaration date values that are greater than the given value",
+            "in": "query",
+            "name": "declaration_date.gt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for declaration date values that are less than or equal to the given value",
+            "in": "query",
+            "name": "declaration_date.lte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for declaration date values that are less than the given value",
+            "in": "query",
+            "name": "declaration_date.lt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for pay date values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "pay_date.gte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for pay date values that are greater than the given value",
+            "in": "query",
+            "name": "pay_date.gt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for pay date values that are less than or equal to the given value",
+            "in": "query",
+            "name": "pay_date.lte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for pay date values that are less than the given value",
+            "in": "query",
+            "name": "pay_date.lt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for cash amount values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "cash_amount.gte",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Search for cash amount values that are greater than the given value",
+            "in": "query",
+            "name": "cash_amount.gt",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Search for cash amount values that are less than or equal to the given value",
+            "in": "query",
+            "name": "cash_amount.lte",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Search for cash amount values that are less than the given value",
+            "in": "query",
+            "name": "cash_amount.lt",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Order results based on the `sort` field.",
+            "in": "query",
+            "name": "order",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "example": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit the number of results returned, default is 10 and max is 1000.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "example": 10,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Sort field used for ordering.",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "default": "ex_dividend_date",
+              "enum": [
+                "ex_dividend_date",
+                "pay_date",
+                "declaration_date",
+                "record_date",
+                "cash_amount",
+                "ticker"
+              ],
+              "example": "ex_dividend_date",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A list of dividends.",
+                  "example": {
+                    "next_url": "https://api.polygon.io/v3/reference/dividends/AAPL?cursor=YWN0aXZlPXRydWUmZGF0ZT0yMDIxLTA0LTI1JmxpbWl0PTEmb3JkZXI9YXNjJnBhZ2VfbWFya2VyPUElN0M5YWRjMjY0ZTgyM2E1ZjBiOGUyNDc5YmZiOGE1YmYwNDVkYzU0YjgwMDcyMWE2YmI1ZjBjMjQwMjU4MjFmNGZiJnNvcnQ9dGlja2Vy",
+                    "results": [
+                      {
+                        "cash_amount": 0.22,
+                        "declaration_date": "2021-10-28",
+                        "dividend_type": "CD",
+                        "ex_dividend_date": "2021-11-05",
+                        "frequency": 4,
+                        "pay_date": "2021-11-11",
+                        "record_date": "2021-11-08",
+                        "ticker": "AAPL"
+                      },
+                      {
+                        "cash_amount": 0.22,
+                        "declaration_date": "2021-07-27",
+                        "dividend_type": "CD",
+                        "ex_dividend_date": "2021-08-06",
+                        "frequency": 4,
+                        "pay_date": "2021-08-12",
+                        "record_date": "2021-08-09",
+                        "ticker": "AAPL"
+                      }
+                    ],
+                    "status": "OK"
+                  },
+                  "properties": {
+                    "next_url": {
+                      "description": "If present, this value can be used to fetch the next page of data.",
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "results": {
+                      "items": {
+                        "properties": {
+                          "cash_amount": {
+                            "description": "The cash amount of the dividend per share owned.",
+                            "type": "number"
+                          },
+                          "currency": {
+                            "description": "The currency in which the dividend is paid.",
+                            "type": "string"
+                          },
+                          "declaration_date": {
+                            "description": "The date that the dividend was announced.",
+                            "type": "string"
+                          },
+                          "dividend_type": {
+                            "description": "The type of dividend. Dividends that have been paid and/or are expected to be paid on consistent schedules are denoted as CD. Special Cash dividends that have been paid that are infrequent or unusual, and/or can not be expected to occur in the future are denoted as SC. Long-Term and Short-Term capital gain distributions are denoted as LT and ST, respectively.",
+                            "enum": [
+                              "CD",
+                              "SC",
+                              "LT",
+                              "ST"
+                            ],
+                            "type": "string"
+                          },
+                          "ex_dividend_date": {
+                            "description": "The date that the stock first trades without the dividend, determined by the exchange.",
+                            "type": "string"
+                          },
+                          "frequency": {
+                            "description": "The number of times per year the dividend is paid out.  Possible values are 0 (one-time), 1 (annually), 2 (bi-annually), 4 (quarterly), and 12 (monthly).",
+                            "type": "integer"
+                          },
+                          "pay_date": {
+                            "description": "The date that the dividend is paid out.",
+                            "type": "string"
+                          },
+                          "record_date": {
+                            "description": "The date that the stock must be held to receive the dividend, set by the company.",
+                            "type": "string"
+                          },
+                          "ticker": {
+                            "description": "The ticker symbol of the dividend.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "ticker",
+                          "ex_dividend_date",
+                          "frequency",
+                          "cash_amount",
+                          "dividend_type"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Dividends v3"
+      }
+    },
+    "/v3/reference/exchanges": {
+      "get": {
+        "description": "List all exchanges that Polygon.io knows about.",
+        "operationId": "ListExchanges",
+        "parameters": [
+          {
+            "description": "Filter by asset class.",
+            "in": "query",
+            "name": "asset_class",
+            "schema": {
+              "description": "An identifier for a group of similar financial instruments.",
+              "enum": [
+                "stocks",
+                "options",
+                "crypto",
+                "fx"
+              ],
+              "example": "stocks",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by locale.",
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "description": "An identifier for a geographical location.",
+              "enum": [
+                "us",
+                "global"
+              ],
+              "example": "us",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "description": "The total number of results for this request.",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "request_id": {
+                      "description": "A request ID assigned by the server.",
+                      "example": "31d59dda-80e5-4721-8496-d0d32a654afe",
+                      "type": "string"
+                    },
+                    "results": {
+                      "items": {
+                        "description": "An entity that reports trades.",
+                        "properties": {
+                          "acronym": {
+                            "description": "A commonly used abbreviation for this exchange.",
+                            "example": "AMEX",
+                            "type": "string"
+                          },
+                          "asset_class": {
+                            "description": "An identifier for a group of similar financial instruments.",
+                            "enum": [
+                              "stocks",
+                              "options",
+                              "crypto",
+                              "fx"
+                            ],
+                            "example": "stocks",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier used by Polygon.io for this exchange.",
+                            "example": 1,
+                            "type": "integer"
+                          },
+                          "locale": {
+                            "description": "An identifier for a geographical location.",
+                            "enum": [
+                              "us",
+                              "global"
+                            ],
+                            "example": "us",
+                            "type": "string"
+                          },
+                          "mic": {
+                            "description": "The Market Identifer Code of this exchange (see ISO 10383).",
+                            "example": "XASE",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "Name of this exchange.",
+                            "example": "NYSE American, LLC",
+                            "type": "string"
+                          },
+                          "operating_mic": {
+                            "description": "The MIC of the entity that operates this exchange.",
+                            "example": "XNYS",
+                            "type": "string"
+                          },
+                          "participant_id": {
+                            "description": "The ID used by SIP's to represent this exchange.",
+                            "example": "A",
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "Represents the type of exchange.",
+                            "enum": [
+                              "exchange",
+                              "TRF",
+                              "SIP"
+                            ],
+                            "example": "exchange",
+                            "type": "string"
+                          },
+                          "url": {
+                            "description": "A link to this exchange's website, if one exists.",
+                            "example": "https://www.nyse.com/markets/nyse-american",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "asset_class",
+                          "locale",
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "The status of this request's response.",
+                      "example": "OK",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Exchanges"
+      }
+    },
+    "/v3/reference/options/contracts": {
+      "get": {
+        "description": "Query for historical options contracts. This provides both active and expired options contracts.",
+        "operationId": "ListOptionsContracts",
+        "parameters": [
+          {
+            "description": "This parameter has been deprecated. To search by specific options ticker, use the Options Contract endpoint.",
+            "in": "query",
+            "name": "ticker",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query for contracts relating to an underlying stock ticker.",
+            "in": "query",
+            "name": "underlying_ticker",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by the type of contract.",
+            "in": "query",
+            "name": "contract_type",
+            "schema": {
+              "enum": [
+                "call",
+                "put"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by contract expiration with date format YYYY-MM-DD.",
+            "in": "query",
+            "name": "expiration_date",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Specify a point in time for contracts as of this date with format YYYY-MM-DD. Defaults to today's date.",
+            "in": "query",
+            "name": "as_of",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by strike price of a contract.",
+            "in": "query",
+            "name": "strike_price",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Query for expired contracts. Default is false.",
+            "in": "query",
+            "name": "expired",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Search for underlying ticker values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "underlying_ticker.gte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for underlying ticker values that are greater than the given value",
+            "in": "query",
+            "name": "underlying_ticker.gt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for underlying ticker values that are less than or equal to the given value",
+            "in": "query",
+            "name": "underlying_ticker.lte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for underlying ticker values that are less than the given value",
+            "in": "query",
+            "name": "underlying_ticker.lt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for expiration date values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "expiration_date.gte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for expiration date values that are greater than the given value",
+            "in": "query",
+            "name": "expiration_date.gt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for expiration date values that are less than or equal to the given value",
+            "in": "query",
+            "name": "expiration_date.lte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for expiration date values that are less than the given value",
+            "in": "query",
+            "name": "expiration_date.lt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for strike price values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "strike_price.gte",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Search for strike price values that are greater than the given value",
+            "in": "query",
+            "name": "strike_price.gt",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Search for strike price values that are less than or equal to the given value",
+            "in": "query",
+            "name": "strike_price.lte",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Search for strike price values that are less than the given value",
+            "in": "query",
+            "name": "strike_price.lt",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "Order results based on the `sort` field.",
+            "in": "query",
+            "name": "order",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "example": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit the number of results returned, default is 10 and max is 1000.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "example": 10,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Sort field used for ordering.",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "default": "ticker",
+              "enum": [
+                "ticker",
+                "underlying_ticker",
+                "expiration_date",
+                "strike_price"
+              ],
+              "example": "ticker",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "next_url": {
+                      "description": "If present, this value can be used to fetch the next page of data.",
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "results": {
+                      "items": {
+                        "properties": {
+                          "additional_underlyings": {
+                            "description": "If an option contract has additional underlyings or deliverables associated with it, they will appear here.",
+                            "items": {
+                              "properties": {
+                                "amount": {
+                                  "description": "The number of shares per contract of the additional underlying, or the cash-in-lieu amount of the currency.",
+                                  "type": "number"
+                                },
+                                "type": {
+                                  "description": "The type of the additional underlying asset, either equity or currency.",
+                                  "type": "string"
+                                },
+                                "underlying": {
+                                  "description": "The name of the additional underlying asset.",
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "cfi": {
+                            "description": "The 6 letter CFI code of the contract (as defined in ISO 10962)",
+                            "type": "string"
+                          },
+                          "contract_type": {
+                            "description": "The type of contract. Can be \"put\", \"call\", or in some rare cases, \"other\".",
+                            "type": "string"
+                          },
+                          "correction": {
+                            "description": "The correction number for this option contract.",
+                            "type": "integer"
+                          },
+                          "exercise_style": {
+                            "description": "The exercise style of this contract.",
+                            "enum": [
+                              "american",
+                              "european",
+                              "bermudan"
+                            ],
+                            "type": "string"
+                          },
+                          "expiration_date": {
+                            "description": "The contract's expiration date in YYYY-MM-DD format.",
+                            "type": "string"
+                          },
+                          "primary_exchange": {
+                            "description": "The MIC code of the primary exchange that this contract is listed on.",
+                            "type": "string"
+                          },
+                          "shares_per_contract": {
+                            "description": "The number of shares per contract for this contract.",
+                            "type": "number"
+                          },
+                          "strike_price": {
+                            "description": "The strike price of the option contract.",
+                            "type": "number"
+                          },
+                          "ticker": {
+                            "description": "The ticker for the option contract.",
+                            "type": "string"
+                          },
+                          "underlying_ticker": {
+                            "description": "The underlying ticker that the option contract relates to.",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of options contracts"
+          }
+        },
+        "summary": "Options Contracts"
+      }
+    },
+    "/vX/reference/financials": {
+      "get": {
+        "description": "Get historical financial data for a stock ticker. The financials data is extracted from 10-K and 10-Q documents that companies file with the SEC.",
+        "operationId": "ListFinancials",
+        "parameters": [
+          {
+            "description": "Query filings by company ticker.",
+            "in": "query",
+            "name": "ticker",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query filings by central index key Number",
+            "in": "query",
+            "name": "cik",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query filings by company name.",
+            "in": "query",
+            "name": "company_name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query filings by standard industrial classification",
+            "in": "query",
+            "name": "sic",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by the date when the filing with financials data was filed in YYYY-MM-DD format. Best used when querying over date ranges to find financials based on filings that happen in a time period. Examples: To get financials based on filings that have happened after January 1, 2009 use the query param filing_date.gte=2009-01-01  To get financials based on filings that happened in the year 2009 use the query params filing_date.gte=2009-01-01&filing_date.lt=2010-01-01",
+            "in": "query",
+            "name": "filing_date",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The period of report for the filing with financials data in YYYY-MM-DD format.",
+            "in": "query",
+            "name": "period_of_report_date",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by timeframe. Annual financials originate from 10-K filings, and quarterly financials originate from 10-Q filings.",
+            "in": "query",
+            "name": "timeframe",
+            "schema": {
+              "enum": [
+                "annual",
+                "quarterly",
+                "ttm"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Whether or not to include the `xpath` and `formula` attributes for each financial data point. See the `xpath` and `formula` response attributes for more info. False by default.",
+            "in": "query",
+            "name": "include_sources",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Search for financials where the company name is a partial text matches of the given value",
+            "in": "query",
+            "name": "company_name.search",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for filings where the filing date values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "filing_date.gte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for filings where the filing date values that are greater than the given value",
+            "in": "query",
+            "name": "filing_date.gt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for filings where the filing date values that are less than or equal to the given value",
+            "in": "query",
+            "name": "filing_date.lte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for filings where the filing date values that are less than the given value",
+            "in": "query",
+            "name": "filing_date.lt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for filings where the period of report date values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "period_of_report_date.gte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for filings where the period of report date values that are greater than the given value",
+            "in": "query",
+            "name": "period_of_report_date.gt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for filings where the period of report date values that are less than or equal to the given value",
+            "in": "query",
+            "name": "period_of_report_date.lte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for filings where the period of report date values that are less than the given value",
+            "in": "query",
+            "name": "period_of_report_date.lt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order results based on the `sort` field.",
+            "in": "query",
+            "name": "order",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit the number of results returned, default is 10 and max is 100.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "example": 10,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Sort field used for ordering.",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "default": "period_of_report_date",
+              "enum": [
+                "filing_date",
+                "period_of_report_date"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "description": "The total number of results for this request.",
+                      "type": "integer"
+                    },
+                    "next_url": {
+                      "description": "If present, this value can be used to fetch the next page of data.",
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "description": "A request id assigned by the server.",
+                      "type": "string"
+                    },
+                    "results": {
+                      "items": {
+                        "properties": {
+                          "acceptance_datetime": {
+                            "description": "The datetime (EST timezone) the filing was accepted by EDGAR in YYYYMMDDHHMMSS format."
+                          },
+                          "cik": {
+                            "description": "The CIK number for the company.",
+                            "type": "string"
+                          },
+                          "company_name": {
+                            "description": "The company name.",
+                            "type": "string"
+                          },
+                          "end_date": {
+                            "description": "The end date of the period that these financials cover in YYYYMMDD format.",
+                            "type": "string"
+                          },
+                          "filing_date": {
+                            "description": "The date that the SEC filing which these financials were derived from was made available. Note that this is not necessarily the date when this information became public, as some companies may publish a press release before filing with the SEC."
+                          },
+                          "financials": {
+                            "properties": {
+                              "balance_sheet": {
+                                "description": "Balance sheet.",
+                                "properties": {
+                                  "*": {
+                                    "description": "An individual financial data point.",
+                                    "properties": {
+                                      "derived_from": {
+                                        "description": "The list of report IDs (or errata) which were used to derive this data point. This value is only returned for data points taken directly from XBRL when the `include_sources` query parameter is `true` and if source is SourceInterReportDerived.",
+                                        "items": {
+                                          "type": "string"
+                                        },
+                                        "type": "array"
+                                      },
+                                      "formula": {
+                                        "description": "The name of the formula used to derive this data point from other financial data points. This value is only returned for data points that are not explicitly expressed within the XBRL source file when the `include_sources` query parameter is `true` and if source is SourceIntraReportImpute.",
+                                        "type": "string"
+                                      },
+                                      "label": {
+                                        "description": "A human readable label for the financial data point.",
+                                        "type": "string"
+                                      },
+                                      "order": {
+                                        "description": "An indicator of what order within the statement that you would find this data point.",
+                                        "type": "integer"
+                                      },
+                                      "source": {
+                                        "description": "The source where this data point came from. This will be one of: SourceDirectReport, SourceIntraReportImpute or SourceInterReportDerived."
+                                      },
+                                      "unit": {
+                                        "description": "The unit of the financial data point.",
+                                        "type": "string"
+                                      },
+                                      "value": {
+                                        "description": "The value of the financial data point.",
+                                        "type": "number"
+                                      },
+                                      "xpath": {
+                                        "description": "The XPath 1.0 query that identifies the fact from within the XBRL source file. This value is only returned for data points taken directly from XBRL when the `include_sources` query parameter is `true` and if source is SourceDirectReport.",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "label",
+                                      "order",
+                                      "value",
+                                      "unit"
+                                    ],
+                                    "type": "object"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "cash_flow_statement": {
+                                "description": "Cash flow statement.",
+                                "type": "object"
+                              },
+                              "comprehensive_income": {
+                                "description": "Comprehensive income.",
+                                "type": "object"
+                              },
+                              "income_statement": {
+                                "description": "Income statement.",
+                                "type": "object"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "fiscal_period": {
+                            "description": "Fiscal period of the report according to the company (Q1, Q2, Q3, Q4, or FY).",
+                            "type": "string"
+                          },
+                          "fiscal_year": {
+                            "description": "Fiscal year of the report according to the company.",
+                            "type": "string"
+                          },
+                          "source_filing_file_url": {
+                            "description": "The URL of the specific XBRL instance document within the SEC filing that these financials were derived from."
+                          },
+                          "source_filing_url": {
+                            "description": "The URL of the SEC filing that these financials were derived from.",
+                            "type": "string"
+                          },
+                          "start_date": {
+                            "description": "The start date of the period that these financials cover in YYYYMMDD format.",
+                            "type": "string"
+                          },
+                          "tickers": {
+                            "description": "The list of ticker symbols for the company.",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "timeframe": {
+                            "description": "The timeframe of the report (quarterly, annual or ttm).",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "cik",
+                          "company_name",
+                          "financials",
+                          "timeframe",
+                          "fiscal_period"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "The status of this request's response.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "request_id",
+                    "count",
+                    "results"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stock Financials for a company as reported to the SEC"
+          }
+        },
+        "summary": "Stock Financials"
+      }
+    },
+    "/v3/reference/options/contracts/{options_ticker}": {
+      "get": {
+        "description": "Get an options contract",
+        "operationId": "GetOptionsContract",
+        "parameters": [
+          {
+            "description": "Query for a contract by options ticker.  Options tickers are always prefixed with O:",
+            "example": "O:EVRI240119C00002500",
+            "in": "path",
+            "name": "options_ticker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Specify a point in time for the contract as of this date with format YYYY-MM-DD. Defaults to today's date.",
+            "in": "query",
+            "name": "as_of",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "results": {
+                      "properties": {
+                        "additional_underlyings": {
+                          "description": "If an option contract has additional underlyings or deliverables associated with it, they will appear here.",
+                          "items": {
+                            "properties": {
+                              "amount": {
+                                "description": "The number of shares per contract of the additional underlying, or the cash-in-lieu amount of the currency.",
+                                "type": "number"
+                              },
+                              "type": {
+                                "description": "The type of the additional underlying asset, either equity or currency.",
+                                "type": "string"
+                              },
+                              "underlying": {
+                                "description": "The name of the additional underlying asset.",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "cfi": {
+                          "description": "The 6 letter CFI code of the contract (as defined in ISO 10962)",
+                          "type": "string"
+                        },
+                        "contract_type": {
+                          "description": "The type of contract. Can be \"put\", \"call\", or in some rare cases, \"other\".",
+                          "type": "string"
+                        },
+                        "correction": {
+                          "description": "The correction number for this option contract.",
+                          "type": "integer"
+                        },
+                        "exercise_style": {
+                          "description": "The exercise style of this contract.",
+                          "enum": [
+                            "american",
+                            "european",
+                            "bermudan"
+                          ],
+                          "type": "string"
+                        },
+                        "expiration_date": {
+                          "description": "The contract's expiration date in YYYY-MM-DD format.",
+                          "type": "string"
+                        },
+                        "primary_exchange": {
+                          "description": "The MIC code of the primary exchange that this contract is listed on.",
+                          "type": "string"
+                        },
+                        "shares_per_contract": {
+                          "description": "The number of shares per contract for this contract.",
+                          "type": "number"
+                        },
+                        "strike_price": {
+                          "description": "The strike price of the option contract.",
+                          "type": "number"
+                        },
+                        "ticker": {
+                          "description": "The ticker for the option contract.",
+                          "type": "string"
+                        },
+                        "underlying_ticker": {
+                          "description": "The underlying ticker that the option contract relates to.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A specific options contract"
+          }
+        },
+        "summary": "Options Contract"
+      }
+    },
+    "/v3/reference/splits": {
+      "get": {
+        "description": "Get a list of historical stock splits, including the execution date and the factors of the split ratio.",
+        "operationId": "ListStockSplits",
+        "parameters": [
+          {
+            "description": "Return the stock splits that contain this ticker.",
+            "in": "query",
+            "name": "ticker",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query by execution date with the format YYYY-MM-DD.",
+            "in": "query",
+            "name": "execution_date",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Query for reverse stock splits. A split ratio where split_from is greater than split_to represents a reverse split. By default this filter is not used.",
+            "in": "query",
+            "name": "reverse_split",
+            "schema": {
+              "nullable": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Search for splits where the ticker value is greater than or equal to the given value",
+            "in": "query",
+            "name": "ticker.gte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for splits where the ticker value is greater than the given value",
+            "in": "query",
+            "name": "ticker.gt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for splits where the ticker value is less than or equal to the given value",
+            "in": "query",
+            "name": "ticker.lte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for splits where the ticker value is less than the given value",
+            "in": "query",
+            "name": "ticker.lt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for splits where the execution date is greater than or equal to the given value",
+            "in": "query",
+            "name": "execution_date.gte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for splits where the execution date is greater than the given value",
+            "in": "query",
+            "name": "execution_date.gt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for splits where the execution date is less than or equal to the given value",
+            "in": "query",
+            "name": "execution_date.lte",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for splits where the execution date is less than the given value",
+            "in": "query",
+            "name": "execution_date.lt",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order results based on the `sort` field.",
+            "in": "query",
+            "name": "order",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "example": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit the number of results returned, default is 10 and max is 1000.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "example": 10,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Sort field used for ordering.",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "default": "execution_date",
+              "enum": [
+                "execution_date",
+                "ticker"
+              ],
+              "example": "execution_date",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "next_url": {
+                      "description": "If present, this value can be used to fetch the next page of data.",
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "results": {
+                      "items": {
+                        "properties": {
+                          "execution_date": {
+                            "description": "The execution date of the stock split. On this date the stock split was applied.",
+                            "type": "string"
+                          },
+                          "split_from": {
+                            "description": "The second number in the split ratio.  For example: In a 2-for-1 split, split_from would be 1.",
+                            "format": "float",
+                            "type": "number"
+                          },
+                          "split_to": {
+                            "description": "The first number in the split ratio.  For example: In a 2-for-1 split, split_to would be 2.",
+                            "format": "float",
+                            "type": "number"
+                          },
+                          "ticker": {
+                            "description": "The ticker symbol of the stock split.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "split_from",
+                          "split_to"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "The status of this request's response.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of stock splits."
+          }
+        },
+        "summary": "Stock Splitsz"
+      }
+    },
+    "/v3/reference/tickers": {
+      "get": {
+        "description": "List all tickers supported by Polygon, or filter by market type. Search for a ticker based on it's name, or use a known ticker to find detailed information.",
+        "operationId": "ListTickers",
+        "parameters": [
+          {
+            "description": "Search for a specific ticker. Defaults to empty string which queries all tickers. Crypto pairs are prefixed with 'X:', and Forex pairs are prexied with 'C:'",
+            "in": "query",
+            "name": "ticker",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by market type. By default all markets are included. Fx is forex, and OTC is for over the counter stocks.",
+            "in": "query",
+            "name": "market",
+            "schema": {
+              "enum": [
+                "stocks",
+                "crypto",
+                "fx",
+                "otc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Specify the primary exchange of the asset in the ISO code format. Defaults to empty string which queries all exchanges.",
+            "in": "query",
+            "name": "exchange",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Specify the CUSIP code of the asset you want to search for. Defaults to empty string which queries all CUSIPs.  Note: Although you can query by CUSIP, due to legal reasons we do not return the CUSIP in the response.",
+            "in": "query",
+            "name": "cusip",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Specify the CIK of the asset you want to search for. Defaults to empty string which queries all CIKs.",
+            "in": "query",
+            "name": "cik",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Specify a point in time to retrieve tickers available on that date. Defaults to the most recent available date.",
+            "in": "query",
+            "name": "date",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for tickers by partial text match within the ticker or entity name.",
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Specify if the tickers returned should be actively traded on the queried date. Default is true.",
+            "example": true,
+            "in": "query",
+            "name": "active",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Search for ticker values that are greater than or equal to the given value",
+            "in": "query",
+            "name": "ticker.gte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are greater than the given value",
+            "in": "query",
+            "name": "ticker.gt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are less than or equal to the given value",
+            "in": "query",
+            "name": "ticker.lte",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search for ticker values that are less than the given value",
+            "in": "query",
+            "name": "ticker.lt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order results based on the `sort` field.",
+            "in": "query",
+            "name": "order",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "example": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Limit the number of results returned, default is 100 and max is 1000.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "example": 1,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Sort field used for ordering.",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "default": "ticker",
+              "enum": [
+                "ticker",
+                "name",
+                "market",
+                "locale",
+                "primary_exchange",
+                "type",
+                "currency_symbol",
+                "currency_name",
+                "base_currency_symbol",
+                "base_currency_name",
+                "cik",
+                "composite_figi",
+                "share_class_figi",
+                "last_updated_utc",
+                "delisted_utc"
+              ],
+              "example": "ticker",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "description": "The total number of results for this request.",
+                      "type": "integer"
+                    },
+                    "next_url": {
+                      "description": "If present, this value can be used to fetch the next page of data.",
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "description": "A request id assigned by the server.",
+                      "type": "string"
+                    },
+                    "results": {
+                      "description": "An array of tickers that match your query.  Note: Although you can query by CUSIP, due to legal reasons we do not return the CUSIP in the response.",
+                      "items": {
+                        "properties": {
+                          "active": {
+                            "description": "Whether or not the asset is actively traded. False means the asset has been delisted.",
+                            "type": "boolean"
+                          },
+                          "cik": {
+                            "description": "The CIK number for this ticker.",
+                            "type": "string"
+                          },
+                          "composite_figi": {
+                            "description": "The composite OpenFIGI number for this ticker.",
+                            "type": "string"
+                          },
+                          "currency_name": {
+                            "description": "The name of the currency that this asset is traded with.",
+                            "type": "string"
+                          },
+                          "delisted_utc": {
+                            "description": "The last date that the asset was traded.",
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          "last_updated_utc": {
+                            "description": "The information is accurate up to this time.",
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          "locale": {
+                            "description": "The locale of the asset.",
+                            "enum": [
+                              "us",
+                              "global"
+                            ],
+                            "type": "string"
+                          },
+                          "market": {
+                            "description": "The market type of the asset.",
+                            "enum": [
+                              "stocks",
+                              "crypto",
+                              "fx",
+                              "otc",
+                              "indices"
+                            ],
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "The name of the asset. For stocks/equities this will be the companies registered name. For crypto/fx this will be the name of the currency or coin pair.",
+                            "type": "string"
+                          },
+                          "primary_exchange": {
+                            "description": "The ISO code of the primary listing exchange for this asset.",
+                            "type": "string"
+                          },
+                          "share_class_figi": {
+                            "description": "The share Class OpenFIGI number for this ticker.",
+                            "type": "string"
+                          },
+                          "ticker": {
+                            "description": "The exchange symbol that this item is traded under.",
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "The type of the asset. Find the types that we support via our Ticker Types API.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "ticker",
+                          "name",
+                          "market",
+                          "locale"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "The status of this request's response.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Reference Tickers."
+          }
+        },
+        "summary": "Tickers"
+      }
+    },
+    "/v3/reference/tickers/{ticker}": {
+      "get": {
+        "description": "Get a single ticker supported by Polygon.io. This response will have detailed information about the ticker and the company behind it.",
+        "operationId": "GetTicker",
+        "parameters": [
+          {
+            "description": "The ticker symbol of the asset.",
+            "example": "AAPL",
+            "in": "path",
+            "name": "ticker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Specify a point in time to get information about the ticker available on that date. When retrieving information from SEC filings, we compare this date with the period of report date on the SEC filing.  For example, consider an SEC filing submitted by AAPL on 2019-07-31, with a period of report date ending on 2019-06-29. That means that the filing was submitted on 2019-07-31, but the filing was created based on information from 2019-06-29. If you were to query for AAPL details on 2019-06-29, the ticker details would include information from the SEC filing.  Defaults to the most recent available date.",
+            "in": "query",
+            "name": "date",
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "description": "The total number of results for this request.",
+                      "type": "integer"
+                    },
+                    "request_id": {
+                      "description": "A request id assigned by the server.",
+                      "type": "string"
+                    },
+                    "results": {
+                      "description": "Ticker with details.",
+                      "properties": {
+                        "active": {
+                          "description": "Whether or not the asset is actively traded. False means the asset has been delisted.",
+                          "type": "boolean"
+                        },
+                        "address": {
+                          "properties": {
+                            "address1": {
+                              "description": "The first line of the company's headquarters address.",
+                              "type": "string"
+                            },
+                            "city": {
+                              "description": "The city of the company's headquarters address.",
+                              "type": "string"
+                            },
+                            "postal_code": {
+                              "description": "The postal code of the company's headquarters address.",
+                              "type": "string"
+                            },
+                            "state": {
+                              "description": "The state of the company's headquarters address.",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "branding": {
+                          "properties": {
+                            "icon_url": {
+                              "description": "A link to this ticker's company's icon. Icon's are generally smaller, square images that represent the company at a glance. Note that you must provide an API key when accessing this URL. See the \"Authentication\" section at the top of this page for more details.",
+                              "type": "string"
+                            },
+                            "logo_url": {
+                              "description": "A link to this ticker's company's logo. Note that you must provide an API key when accessing this URL. See the \"Authentication\" section at the top of this page for more details.",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "cik": {
+                          "description": "The CIK number for this ticker.",
+                          "type": "string"
+                        },
+                        "composite_figi": {
+                          "description": "The composite OpenFIGI number for this ticker.",
+                          "type": "string"
+                        },
+                        "currency_name": {
+                          "description": "The name of the currency that this asset is traded with.",
+                          "type": "string"
+                        },
+                        "delisted_utc": {
+                          "description": "The last date that the asset was traded.",
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "description": {
+                          "description": "A description of the company and what they do/offer.",
+                          "type": "string"
+                        },
+                        "homepage_url": {
+                          "description": "The URL of the company's website homepage.",
+                          "type": "string"
+                        },
+                        "list_date": {
+                          "description": "The date that the symbol was first publicly listed in the format YYYY-MM-DD.",
+                          "type": "string"
+                        },
+                        "locale": {
+                          "description": "The locale of the asset.",
+                          "enum": [
+                            "us",
+                            "global"
+                          ],
+                          "type": "string"
+                        },
+                        "market": {
+                          "description": "The market type of the asset.",
+                          "enum": [
+                            "stocks",
+                            "crypto",
+                            "fx",
+                            "otc",
+                            "indices"
+                          ],
+                          "type": "string"
+                        },
+                        "market_cap": {
+                          "description": "The most recent close price of the ticker multiplied by weighted outstanding shares.",
+                          "format": "double",
+                          "type": "number"
+                        },
+                        "name": {
+                          "description": "The name of the asset. For stocks/equities this will be the companies registered name. For crypto/fx this will be the name of the currency or coin pair.",
+                          "type": "string"
+                        },
+                        "phone_number": {
+                          "description": "The phone number for the company behind this ticker.",
+                          "type": "string"
+                        },
+                        "primary_exchange": {
+                          "description": "The ISO code of the primary listing exchange for this asset.",
+                          "type": "string"
+                        },
+                        "round_lot": {
+                          "description": "Round lot size of this security.",
+                          "format": "double",
+                          "type": "number"
+                        },
+                        "share_class_figi": {
+                          "description": "The share Class OpenFIGI number for this ticker.",
+                          "type": "string"
+                        },
+                        "share_class_shares_outstanding": {
+                          "description": "The recorded number of outstanding shares for this particular share class.",
+                          "format": "double",
+                          "type": "number"
+                        },
+                        "sic_code": {
+                          "description": "The standard industrial classification (SIC) code for this ticker.",
+                          "type": "string"
+                        },
+                        "sic_description": {
+                          "description": "A description of this ticker's SIC code.",
+                          "type": "string"
+                        },
+                        "ticker": {
+                          "description": "The exchange symbol that this item is traded under.",
+                          "type": "string"
+                        },
+                        "ticker_root": {
+                          "description": "The root of a specified ticker. For example, the root of BRK.A is BRK.",
+                          "type": "string"
+                        },
+                        "ticker_suffix": {
+                          "description": "The suffix of a specified ticker. For example, the suffix of BRK.A is A.",
+                          "type": "string"
+                        },
+                        "total_employees": {
+                          "description": "The approximate number of employees for the company.",
+                          "type": "number"
+                        },
+                        "type": {
+                          "description": "The type of the asset. Find the types that we support via our Ticker Types API.",
+                          "type": "string"
+                        },
+                        "weighted_shares_outstanding": {
+                          "description": "The shares outstanding calculated assuming all shares of other share classes are converted to this share class.",
+                          "format": "double",
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "ticker",
+                        "name",
+                        "market",
+                        "locale",
+                        "active",
+                        "currency_name"
+                      ],
+                      "type": "object"
+                    },
+                    "status": {
+                      "description": "The status of this request's response.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Reference Tickers."
+          }
+        },
+        "summary": "Ticker Details v3"
+      }
+    },
+    "/vX/reference/tickers/{id}/events": {
+      "get": {
+        "description": "Get a timeline of events including ticker changes for the entity associated with the given ticker, CUSIP, or Composite FIGI.",
+        "operationId": "GetEvents",
+        "parameters": [
+          {
+            "description": "Identifier of an asset. This can currently be a Ticker, CUSIP, or Composite FIGI. When given a ticker, we return events for the entity currently represented by that ticker. To find events for entities previously associated with a ticker, find the relevant identifier using the Ticker Details Endpoint",
+            "example": "META",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "A comma-separated list of the types of event to include. Currently ticker_change is the only supported event_type. Leave blank to return all supported event_types.",
+            "in": "query",
+            "name": "types",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "request_id": {
+                      "description": "A request id assigned by the server.",
+                      "type": "string"
+                    },
+                    "results": {
+                      "properties": {
+                        "events": {
+                          "items": {
+                            "oneOf": [
+                              {
+                                "properties": {
+                                  "date": {
+                                    "description": "The date the event took place",
+                                    "format": "date",
+                                    "type": "string"
+                                  },
+                                  "event_type": {
+                                    "description": "The type of historical event for the asset",
+                                    "type": "string"
+                                  },
+                                  "ticker_change": {
+                                    "properties": {
+                                      "ticker": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  }
+                                },
+                                "required": [
+                                  "event_type",
+                                  "date"
+                                ],
+                                "type": "object"
+                              }
+                            ]
+                          },
+                          "type": "array"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "status": {
+                      "description": "The status of this request's response.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Ticker Events."
+          }
+        },
+        "summary": "Ticker Events"
+      }
+    }
+  }
+}

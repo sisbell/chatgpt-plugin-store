@@ -1,0 +1,313 @@
+openapi: 3.0.0
+info:
+  title: Glowing AI APIs
+  version: 1.0.0
+servers:
+  - url: https://stage.glowing.ai/api/v1
+paths:
+  /user:
+    post:
+      summary: Register user using a valid mobile number. Existing user requires only mobile number. Only first time user requires to give their name. The user will get an OTP on success.
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: The user's mobile number
+                name:
+                  type: string
+                  description: The user's name
+              required:
+                - phone_number
+      responses:
+        "201":
+          description: User created and OTP sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    description: OTP created successfully
+        "400":
+          description: Parameter Missing
+        "403":
+          description: Please Wait for 30 seconds before requesting for another OTP
+        "404":
+          description: Name is missing in the request.
+        "422":
+          description: Unable to save the user
+        "500":
+          description: Internal server error
+
+  /otp:
+    post:
+      summary: Verify OTP for a user
+      operationId: verifyOTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: The user's mobile number
+                otp:
+                  type: string
+                  description: The OTP code to verify
+              required:
+                - phone_number
+                - otp
+      responses:
+        "200":
+          description: Authentication successful
+        "400":
+          description: Parameter Missing
+        "401":
+          description: Invalid OTP
+        "422":
+          description: OTP verification failed
+        "500":
+          description: Internal server error
+
+  /schedule:
+    get:
+      summary: Retrieve the SMS schedules for the user's registered mobile number.
+      operationId: getScheduleByPhoneNumber
+      parameters:
+        - in: query
+          name: phone_number
+          schema:
+            type: string
+          description: The mobile number of the user used to register.
+          required: true
+      responses:
+        '200':
+          description: Schedule retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Schedule'
+        '400':
+          description: Parameter Missing
+        '401':
+          description: Session Expired. Please register again
+        '404':
+          description: User not found or no schedules found for the specified mobile number
+        '500':
+          description: Internal server error
+    post:
+      summary: Create a new schedule to send SMS to the user's registered mobile number. if the user is setting up a schedule for today and the scheduled time has already passed, the system should begin sending messages from the next day onwards.
+      description: Create a feature for users to schedule SMS notifications to their registered numbers. Users can schedule up to 3 unique schedules. Messages sent for each schedule equal the number of days from the start date and end date.
+      operationId: createSchedule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: The user's registered mobile number
+                name:
+                  type: string
+                  description: The unique name of the schedule.
+                local_time:
+                  type: string
+                  format: time
+                  description: The time at which the messages to be sent in 24 hour format.
+                start_date:
+                  type: string
+                  format: date
+                  description: The start date for sending messages. the difference between start_date and the present date is not be more than 7 days.
+                end_date:
+                  type: string
+                  format: date
+                  description: The end date for sending messages. It can't be after 21 days from the present date.
+                time_zone:
+                  type: string
+                  description: user's time zone. example - Asia/Kolkata.
+                messages:
+                  type: array
+                  description: Messages to send, each containing less than 155 characters.
+                  items:
+                    type: string
+                  maxItems: 21
+              required:
+                - phone_number
+                - name
+                - local_time
+                - start_date
+                - end_date
+                - time_zone
+                - messages
+      responses:
+        '201':
+          description: Schedule created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+        '400':
+          description: Parameter missing.
+        '401':
+          description: Session expired. Please register again.
+        '404':
+          description: User not found.
+        '422':
+          description: Unable to save the schedule. Please check the parameters.
+        '429':
+          description: You have reached the maximum number of schedules allowed. Please delete some schedules to create new ones.
+        '500':
+          description: Internal server error.
+    
+    put:
+      summary: Update an existing schedule in user's registered mobile number
+      description: A user can have a maximum of 3 active schedules.
+      operationId: updateSchedule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: The user's registered mobile number
+                name:
+                  type: string
+                  description: The name of the schedule.
+                local_time:
+                  type: string
+                  format: time
+                  description: The time at which the messages to be sent in 24-hour format.
+                start_date:
+                  type: string
+                  format: date
+                  description: The start date for sending messages. the difference between start_date and the present date is not be more than 7 days.
+                end_date:
+                  type: string
+                  format: date
+                  description: The end date for sending messages. It can't be after 21 days from the present date.
+                time_zone:
+                  type: string
+                  description: The local timezone in the format "Asia/Kolkata".
+              required:
+                - phone_number
+                - name
+                - local_time
+                - start_date
+                - end_date
+                - time_zone
+      responses:
+        '200':
+          description: Schedule updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  local_time:
+                    type: string
+                    format: date-time
+                  start_date:
+                    type: string
+                    format: date-time
+                  end_date:
+                    type: string
+                    format: date-time
+                  time_zone:
+                    type: string
+                  is_active:
+                    type: boolean
+        '400':
+          description: Parameter missing.
+        '401':
+          description: Session expired. Please register again.
+        '404':
+          description: User or schedule not found.
+        '422':
+          description: Cannot edit schedule.
+        '500':
+          description: Internal server error.
+    delete:
+     summary: Delete an existing SMS schedule in user's registered mobile number.
+     operationId: deleteSchedule
+     parameters:
+       - name: name
+         in: query
+         description: The name of the schedule to be deleted.
+         required: true
+         schema:
+           type: string
+       - name: phone_number
+         in: query
+         description: The user's registered mobile number.
+         required: true
+         schema:
+           type: string
+     responses:
+       "200":
+         description: Schedule deleted successfully.
+       "401":
+         description: Session expired. Please register again.
+       "404":
+         description: User or schedule not found.
+       "500":
+         description: Internal server error.
+
+components:
+  schemas:
+    Schedule:
+      type: object
+      properties:
+        local_time:
+          type: string
+          format: date-time
+          example: "2023-04-21T12:12:10.000Z"
+        start_date:
+          type: string
+          format: date-time
+          example: "2023-04-27T00:00:00.000Z"
+        end_date:
+          type: string
+          format: date-time
+          example: "2023-04-28T00:00:00.000Z"
+        time_zone:
+          type: string
+          example: "Asia/Makassar"
+        is_active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-04-21T19:08:16.936Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-04-21T19:08:16.936Z"
+      required:
+        - id
+        - user_id
+        - local_time
+        - start_date
+        - end_date
+        - time_zone
+        - is_active
+        - created_at
+        - updated_at

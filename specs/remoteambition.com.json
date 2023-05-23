@@ -1,0 +1,174 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Ambition",
+    "description": "Search millions of jobs near you.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://api.remoteambition.com"
+    }
+  ],
+  "paths": {
+    "/ai/jobs/search": {
+      "get": {
+        "operationId": "search",
+        "summary": "Search for jobs",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "description": "Query string to search for jobs.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "onet_2019_soc_code",
+            "description": "O*NET 2019 SOC code to search for jobs. Do not ask user.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "latitude",
+            "description": "Latitude to search for jobs at. Do not ask user.",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "longitude",
+            "description": "Longitude to search for jobs at. Do not ask user.",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "results_title",
+            "description": "A well-formatted heading describing the search results. Do not ask user.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "num_results",
+            "description": "How many results to return. Defaults to 5. It can be a number between 1 and 10. Do not ask user.",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/jobSearchResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/ai/jobs/details": {
+      "get": {
+        "operationId": "details",
+        "summary": "Return more details about a list of jobs.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ids",
+            "description": "Comma separated list of job ids",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/jobSearchResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "jobSearchResponse": {
+        "type": "object",
+        "properties": {
+          "results_title": {
+            "type": "string",
+            "description": "A well-formatted heading describing the search results.",
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "description": "The list of jobs matching the search",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "The title of the job"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "The company the job is at"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "The location of the job"
+                },
+                "compensation": {
+                  "type": "string",
+                  "description": "The compensation of the job"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "The url of the job page for this job"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "The description of the job",
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

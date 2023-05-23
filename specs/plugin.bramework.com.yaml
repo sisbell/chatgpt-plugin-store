@@ -1,0 +1,153 @@
+openapi: 3.0.1
+info:
+  title: Bramework Plugin
+  description: Analyze keywords, find related keywords, generate content briefs, perform SEO analysis, checks SEO optimization and extract SEO information.
+  version: 'v1'
+servers:
+  - url: https://plugin.bramework.com
+paths:
+  /keyword-data:
+    post:
+      operationId: keywordData
+      summary: Get keyword data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - keyword
+              properties:
+                keyword:
+                  type: string
+                  description: The keyword to analyze.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    description: The keyword data.
+  /related-keywords:
+    post:
+      operationId: relatedKeywords
+      summary: Get related keywords
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - keyword
+              properties:
+                keyword:
+                  type: string
+                  description: The keyword to find related keywords for.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  related_keywords:
+                    type: array
+                    items:
+                      type: string
+                    description: The related keywords.
+  /content-brief:
+    post:
+      operationId: contentBrief
+      summary: Generate a content brief
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - keyword
+                - url
+              properties:
+                keyword:
+                  type: string
+                  description: The keyword for generating the content brief.
+                url:
+                  type: string
+                  description: The URL of the webpage to analyze.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  brief:
+                    type: object
+                    description: The generated content brief.
+  /seo-analyzer:
+    post:
+      operationId: seoAnalyzer
+      summary: Perform SEO analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - keyword
+                - url
+              properties:
+                keyword:
+                  type: string
+                  description: The keyword for SEO analysis.
+                url:
+                  type: string
+                  description: The URL of the webpage to analyze for SEO.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  analysis:
+                    type: object
+                    description: The SEO analysis results.
+  /seo-extractor:
+    post:
+      operationId: seoExtractor
+      summary: Extract SEO information from a URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  description: The URL of the webpage to extract SEO information from.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  seo_information:
+                    type: object
+                    description: The extracted SEO information.

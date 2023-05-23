@@ -1,0 +1,113 @@
+openapi: 3.0.2
+info:
+  title: Tasty Food and Recipe Plugin API
+  description: A retrieval API for finding food, drink, meal ideas, and recipe details based on natural language queries and metadata
+  version: 1.0.0
+servers:
+  - url: https://api.tasty.co/openai/recipes
+paths:
+  /query:
+    post:
+      summary: Query food and drinks
+      description: Accepts search query objects array (eg. {'queries':[{'query':'search term'}]}), returns relevant recipes. Do not include negative terms (eg. no meat) or a related recipe (eg. side dish for recipe). Break down complex questions into sub-questions. Split queries if ResponseTooLargeError occurs.
+      operationId: food_query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+        "500":
+          description: Server Error
+  /details:
+    post:
+      summary: Recipe details
+      description: Accepts search query objects array each (eg. {'queries':[{'query':'search term'}]}). Array should only contain one query. Query should be the title of a recipe. Returns ingredients and instructions as "text" for the closest matching recipe.  Split queries if ResponseTooLargeError occurs.
+      operationId: recipe_details
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+        "500":
+          description: Server Error
+components:
+  schemas:
+    DocumentChunk:
+      title: DocumentChunk
+      required:
+        - text
+        - metadata
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          description: Summary or full text of recipe.
+          type: string
+        metadata:
+          type: object
+          properties:
+            url:
+              type: string
+    Query:
+      title: Query
+      required:
+        - query
+      type: object
+      properties:
+        query:
+          type: string
+        top_k:
+          type: integer
+          default: 3
+    QueryRequest:
+      title: QueryRequest
+      required:
+        - queries
+      type: object
+      properties:
+        queries:
+          type: array
+          items:
+            $ref: "#/components/schemas/Query"
+    QueryResponse:
+      title: QueryResponse
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/QueryResult"
+    QueryResult:
+      title: QueryResult
+      required:
+        - query
+        - results
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentChunk"

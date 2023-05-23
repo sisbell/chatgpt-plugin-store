@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Keyplays Live Soccer",
+  "name_for_model": "keyplays_football",
+  "description_for_human": "Latest live soccer standings, results, commentary, tv stations, keyplays (with and without scores).",
+  "description_for_model": "Plugin for retrieving detailed soccer/football match information for various leagues. You can get match details such as league details, venue, weather, lineups, comments, participants, odds, TV stations, referees, formations, and sidelined players.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://keyplays.malcsilberman.repl.co/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://keyplays.malcsilberman.repl.co/static/img/icon.png",
+  "contact_email": "support@keyplays.co",
+  "legal_info_url": "https://keyplays.malcsilberman.repl.co/legal"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "university_lecture_retrieval",
+  "name_for_human": "Open Lecture",
+  "description_for_model": "Plugin for searching through university course materials (such as lecture notes, lecture transcripts, textbook excerpts, etc) to find answers and university lectures. Use it whenever a user asks a question that might be convered in a college course (such as history, science, technology, philosophy, etc). ALWAYS provide source urls when you do.",
+  "description_for_human": "Discover and access the right moments in open course lectures for targeted learning.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "5ec64c2a65bb4ed5b8fbb38e33312e21"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://lorelattice.com/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://lorelattice.com/.well-known/logo.png",
+  "contact_email": "contact@lorelattice.com",
+  "legal_info_url": "https://lorelattice.com/static/legal.html"
+}

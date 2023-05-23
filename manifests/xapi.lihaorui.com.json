@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Xpapers",
+  "name_for_model": "Xpapers_arXiv_paper_database",
+  "description_for_human": "Effortlessly find real academic papers on arXiv. Dive into abstracts, references, and access public PDF URLs.",
+  "description_for_model": "This plugin allows you to search for academic papers in the arXiv database. You can use atomic conditions and boolean assembly in your search queries. Always consider using atomic conditions to refine your search. Each article is divided up into a number of fields that can individually be searched. Here are the field prefixes you can use in your search queries: 'ti' for Title, 'au' for Author, 'abs' for Abstract, 'co' for Comment, 'jr' for Journal Reference, 'cat' for Subject Category, 'rn' for Report Number, 'id' for Id (use id_list instead), 'all' for all of the above. You can also use boolean operators like AND, OR, ANDNOT in your queries. For example, 'au:del_maestro+AND+ti:checkerboard' will return papers by the author Del Maestro with 'checkerboard' in the title. You can also group your queries using parentheses and double quotes. For example, 'au:del_maestro+AND+ti:%22quantum+criticality%22' will return papers by the author Del Maestro with 'quantum criticality' in the title. You can also use abbreviations for arXiv subject categories in your queries, like 'stat.AP' for Statistics - Applications, 'cs.AI' for Computer Science - Artificial Intelligence, and so on. **Remember, the more specific your search query, the more accurate your results will be. Consider using atomic conditions to refine your search.**",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://xapi.lihaorui.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://xsearchlogo.oss-us-west-1.aliyuncs.com/logo.png?x-oss-process=image/resize,w_200,l_200",
+  "contact_email": "haoruileee@gmail.com",
+  "legal_info_url": "xapi.lihaorui.com/legal"
+}

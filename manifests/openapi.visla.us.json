@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Visla",
+  "name_for_model": "Visla",
+  "description_for_human": "Create a short video from public stock footage based on your specified topic.",
+  "description_for_model": "The Visla plugin generates a short video from public stock footage. The model must extract the required video topic from the user's input. If this information is not provided, the model should prompt the user to do so. Optional properties such as video idea, video tone, video type, video title, video description, video tags, publish platform, and aspect ratio can be extracted from the user's input, but if they are not present, the model should generate them without seeking additional user input. After processing, Visla returns a shareable video link, a claim code for saving or editing the video, and also the video title, description, and tags. These returned details should be displayed to the user. The user should also be informed that video creation may take a minute.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "ecbd8680103443fa80c3b90f8faca1a9"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://openapi.visla.us/chatgpt-plugin/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://www.visla.us/static/resources/img/logo-206.png",
+  "contact_email": "info@visla.us",
+  "legal_info_url": "https://www.visla.us/privacy"
+}

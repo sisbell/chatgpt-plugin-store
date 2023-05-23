@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "KalendarAI",
+  "name_for_model": "KalendarAI",
+  "description_for_human": "KalendarAI sales agents generate revenue with potential customers from 200+ million companies globally.",
+  "description_for_model": "KalendarAI sales agents generate revenue on autopilot by reaching your potential customers and booking meetings through live chat sessions from 200+ million companies globally.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://kalendar.ai/users/new/onboard/",
+    "scope": "read write",
+    "authorization_url": "https://kalendar.ai/chatgpt/authorize_callback.json",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "add16ebfc7de4dceb407391e082f7d90"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://kalendar.ai/openapi.yaml",
+    "is_user_authenticated": true
+  },
+  "logo_url": "https://kalendar.ai/assets/logo-black-50c5284888eeea1d77f877d9a6736f1bf23533f975fae3939824cf429ad95e34.png",
+  "contact_email": "hello@kriya.ai",
+  "legal_info_url": "https://kalendar.ai/"
+}

@@ -1,0 +1,52 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ABC to Audio API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/convert": {
+      "post": {
+        "summary": "Convert ABC notation to audio",
+        "operationId": "convertABC",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "abc_notation": {
+                    "type": "string",
+                    "description": "The ABC notation to be converted."
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "audio_url": {
+                        "type": "string",
+                        "description": "URL to the generated audio file."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      }
+    }
+  }
+}

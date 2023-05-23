@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "Manorlead",
+  "name_for_human": "Manorlead",
+  "description_for_model": "The Manorlead ChatGPT plugin allows you to search property listings across North America, based on several criteria, and returns an URL containing all relevant listing info, sometimes with active listing statistics.",
+  "description_for_human": "Get a list of listings for rent or sale in cities across Canada and the US based on your search criteria.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "3f201a007e864428bdbebb3dc2e45353"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatgpt.vipmanor.com/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://chatgpt.vipmanor.com/logo.png",
+  "contact_email": "info@manorlead.com",
+  "legal_info_url": "https://www.manorlead.com/privacy"
+}

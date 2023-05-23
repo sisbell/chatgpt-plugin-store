@@ -1,0 +1,105 @@
+openapi: 3.0.0
+info:
+  title: GiftWrap AI API
+  description: APIs for suggesting gifts and managing reminders
+  version: 1.0.0
+  servers:
+    - url: https://api.giftwrap.ai
+paths:
+  /suggest:
+    post:
+      operationId: suggest_gift
+      summary: Get gift suggestions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                occasion:
+                  type: string
+                  example: birthday
+                relationship:
+                  type: string
+                  example: coworker
+                price_min:
+                  type: number
+                  example: 20
+                price_max:
+                  type: number
+                  example: 50
+                social_url:
+                  type: string
+                  format: uri
+                  example: https://www.linkedin.com/in/reidhoffman/
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  example: ["home", "outdoor", "food"]
+      responses:
+        '200':
+          description: A list of gift suggestions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instruction:
+                    type: string
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                        price:
+                          type: number
+                        currency_code:
+                          type: string
+                        explanation:
+                          type: string
+                        url:
+                          type: string
+                          format: uri
+  /checkout:
+    post:
+      summary: Initiate gift checkout
+      operationId: checkout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: string
+                  required: true
+                  example: 1656110883978x161896931105177600
+                occasion:
+                  type: string
+                  example: birthday
+                relationship:
+                  type: string
+                  example: coworker
+                first_name:
+                  type: string
+                  example: John
+                last_name:
+                  type: string
+                  example: Doe
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string

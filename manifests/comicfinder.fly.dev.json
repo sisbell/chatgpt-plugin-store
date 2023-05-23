@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Comic Finder",
+  "name_for_model": "comic_finder",
+  "description_for_human": "A plugin that finds a relevant comic given a description. Currently supports XKCD and SMBC comics.",
+  "description_for_model": "A plugin that finds a relevant comic for XKCD and SMBC (Saturday Morning Breakfast Cereal) comics.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "e194a63b373f4d3eb901869b8386da80"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://comicfinder.fly.dev/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://comicfinder.fly.dev/logo.png",
+  "contact_email": "thatcomicfinder@gmail.com",
+  "legal_info_url": "https://comicfinder.fly.dev/legal.html"
+}

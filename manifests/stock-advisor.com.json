@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "aitickerchat_document_retrieval",
+  "name_for_human": "AITickerChat",
+  "description_for_model": "Plugin for searching through SEC filings as well as Earnings Call Transcripts to find answers to stock market questions and retrieve relevant information. Use it whenever a user asks for stock information that could be found in any SEC document filing or Earnings Call Transcript.",
+  "description_for_human": "Retrieve USA stock insights from SEC filings as well as Earnings Call Transcripts.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "b42e50280fe540d7ada86625553a62f3"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://stock-advisor.com/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://stock-advisor.com/.well-known/logo.png",
+  "contact_email": "scooper@intuitivecloudsolutions.com",
+  "legal_info_url": "https://aitickerchat.com/terms-of-service"
+}

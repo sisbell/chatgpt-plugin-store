@@ -1,0 +1,29 @@
+openapi: 3.1.0
+info:
+  title: I Am Rich
+  summary: A plugin that shows off your status of being rich... in plugins.
+  description: You are rich.
+contact:
+  name: API Support
+  email: chris@cjsymonds.com
+
+version: 1.0.1
+
+paths:
+  /iamrich:
+    get:
+      description: Returns the image for I am rich
+      operationId: get_rich
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRichResponse'
+
+components:
+  schemas:
+    getRichResponse:
+      type: string
+      description: The markdown hotlink for the I am rich image.

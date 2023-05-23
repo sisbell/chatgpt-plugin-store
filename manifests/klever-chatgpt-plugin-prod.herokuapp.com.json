@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Kraftful",
+  "name_for_model": "kraftful",
+  "description_for_human": "Your product development coach. Ask about best practices. Get top gurus’ product thinking.",
+  "description_for_model": "Kraftful plugin is designed to enhance your product development expertise by providing access to best practices from reputable sources. Use this plugin to ask questions, explore industry-standard best practices, and write clear product documentation directly within ChatGPT. Elevate your product development skills and create high-quality, well-documented products with the help of this powerful AI plugin.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://klever-chatgpt-plugin-prod.herokuapp.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://klever-chatgpt-plugin-prod.herokuapp.com/logo.png",
+  "contact_email": "luka@kraftful.com",
+  "legal_info_url": "https://www.kraftful.com/terms-of-service"
+}

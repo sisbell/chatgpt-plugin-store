@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "c6dba56f62434b96885a402e1cb7a0dc"
+    }
+  },
+  "name_for_human": "Cloudflare Radar",
+  "name_for_model": "cloudflare_radar",
+  "description_for_human": "Get real-time insights into Internet traffic patterns and threats as seen by Cloudflare.",
+  "description_for_model": "Plugin for retrieving the data based on Cloudflare Radar's data. Use it whenever a user asks something that might be related to Internet usage, eg. outages, Internet traffic, or Cloudflare Radar's data in particular.",
+  "contact_email": "radar@cloudflare.com",
+  "legal_info_url": "https://www.cloudflare.com/website-terms/",
+  "logo_url": "https://api.radar.cloudflare.com/.well-known/logo.svg",
+  "api": {
+    "type": "openapi",
+    "has_user_authentication": false,
+    "url": "https://api.radar.cloudflare.com/.well-known/openai-schema.json"
+  }
+}

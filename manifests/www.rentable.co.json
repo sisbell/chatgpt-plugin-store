@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Rentable Apartments",
+  "name_for_model": "rentable_apartments",
+  "description_for_human": "Get apartment options in a city of your choice, scoped to your needs and budget.",
+  "description_for_model": "Plugin for searching for an ideal apartment. Given a city and state.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.rentable.co/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://abodo-assets.s3.amazonaws.com/external/rentable-logo-red.png",
+  "contact_email": "gbp-messsaging@rentable.co",
+  "legal_info_url": "https://www.rentable.co/privacy"
+}

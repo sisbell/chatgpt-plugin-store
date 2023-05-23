@@ -1,0 +1,244 @@
+openapi: 3.0.1
+info:
+  title: Turo Search Plugin
+  description: Elevate your Turo experience with our ChatGPT plugin, enabling seamless, natural language search for personalized car rental recommendations, transforming car search into a conversational, intuitive experience.
+  version: "v1"
+servers:
+  - url: https://chatgpt.turo.com
+security:
+  - bearerAuth: []
+paths:
+  /geocode/{location}:
+    get:
+      operationId: geocodeLocation
+      summary: Geocode a location
+      parameters:
+        - name: location
+          in: path
+          description: The location to geocode.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GeocodeLocationResponse"
+  /search:
+    get:
+      operationId: searchTuro
+      summary: Search for cars on Turo
+      parameters:
+        - name: start
+          in: query
+          description: The start date for the car rental in date-time format
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: end
+          in: query
+          description: The end date for the car rental in date-time format
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: lng
+          in: query
+          description: The longitude of the pickup location.
+          required: true
+          schema:
+            type: number
+        - name: lat
+          in: query
+          description: The latitude of the pickup location.
+          required: true
+          schema:
+            type: number
+        - name: minSeats
+          in: query
+          description: The minimum number of seats the vehicle should have. This can only be 4, 5, 6, 7, or 8
+          required: false
+          schema:
+            type: integer
+        - name: is_instant_book
+          in: query
+          description: Whether the car must be available for instant booking.
+          required: false
+          schema:
+            type: boolean
+        - name: is_remote_unlock
+          in: query
+          description: Whether the car must have remote unlock capability.
+          required: false
+          schema:
+            type: boolean
+        - name: is_all_star_host
+          in: query
+          description: Whether the host must have an "All-Star Host" rating.
+          required: false
+          schema:
+            type: boolean
+        - name: transmission
+          in: query
+          description: Transmission of the vehicle either "AUTOMATIC" or "MANUAL"
+          required: false
+          schema:
+            type: string
+        - name: engines
+          in: query
+          description: An array of relevant engines "ELECTRIC" or "HYBRID"
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: sortType
+          in: query
+          description: Method that will be used to sort results either "PRICE","DISTANCE", or "RELEVANCE"
+          required: true
+          schema:
+            type: string
+        - name: sortDirection
+          in: query
+          description: Direction of sortType can either be "ASC" or "DESC"
+          required: true
+          schema:
+            type: string
+        - name: features
+          in: query
+          description: An array of relevant features. Available features are "ANDROID_AUTO", "ALL_WHEEL_DRIVE", "ACCESSIBLE", "APPLE_CARPLAY", "AUX_INPUT", "BACKUP_CAMERA", "BIKE_RACK", "BLIND_SPOT_WARNING", "CHILD_SEAT", "BLUETOOTH", "CONVERTIBLE", "GPS", "KEYLESS_ENTRY", "HEATED_SEATS", "PET_FRIENDLY", "SKI_RACK", "SUNROOF", "SNOW_TIRES", "TOLL_PASS", "USB_CHARGER", "USB_INPUT"
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: makes
+          in: query
+          description: An array of relevant vehicle makes. Available makes are "AM General","Acura","Alfa-Romeo","Aston Martin","Audi","BMW","Bentley","Buick","Cadillac","Can-Am","Chevrolet","Chrysler","Delorean","Dodge","Ferrari","Fiat","Fisker","Ford","Freightliner","GMC","Genesis","Honda","Hummer","Hyundai","Infiniti","Jaguar","Jeep","Karma","Kia","Lamborghini","Land Rover","Lexus","Lincoln","Lotus","Lucid","Maserati","Mazda","Mclaren","Mercedes-Benz","Mercury","Mini","Mitsubishi","Nissan","Oldsmobile","Plymouth","Polaris","Polestar","Pontiac","Porsche","Ram","Rivian","Rolls-Royce","Saab","Saturn","Scion","Smart","Srt","Subaru","Suzuki","Tesla","Toyota","Vanderhall","Volkswagen","Volvo","Zap"
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: types
+          in: query
+          description: An array of relevant types. Available types are "SUV", "CAR", "MINIVAN", "VAN", "TRUCK". Allow any type by default
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TuroSearchResponse"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    GeocodeLocationResponse:
+      type: object
+      properties:
+        latitude:
+          type: number
+          description: The latitude of the geocoded location.
+        longitude:
+          type: number
+          description: The longitude of the geocoded location.
+    Vehicle:
+      type: object
+      properties:
+        avgDailyPrice:
+          type: object
+          properties:
+            amount:
+              type: number
+            currency:
+              type: string
+        completedTrips:
+          type: number
+        hostId:
+          type: string
+        id:
+          type: string
+          description: The id of the car.
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              originalImageUrl:
+                type: string
+        isAllStarHost:
+          type: boolean
+          description: Whether the host has an "All-Star Host" rating.
+        location:
+          type: object
+          properties:
+            city:
+              type: string
+            country:
+              type: string
+            distance:
+              type: object
+              nullable: true
+              properties:
+                unit:
+                  type: string
+                  description: The unit of distance used.
+                value:
+                  type: number
+                  description: The distance to the pickup location
+            homeLocation:
+              type: object
+              properties:
+                lat:
+                  type: number
+                lng:
+                  type: number
+            isDelivery:
+              type: boolean
+            locationId:
+              type: number
+              nullable: true
+            state:
+              type: string
+              nullable: true
+        make:
+          type: string
+          description: The make of the car.
+        model:
+          type: string
+          description: The model of the car.
+        rating:
+          type: number
+          description: The overall rating of the car.
+        type:
+          type: string
+          description: The type of car.
+        url:
+          type: string
+          description: The URL of the vehicle on the platform.
+        year:
+          type: number
+          description: The year of the car.
+
+
+    TuroSearchResponse:
+      type: object
+      properties:
+        searchUrl:
+          type: string
+          description: The search URL based on the user's preferences.
+        vehicles:
+          type: array
+          items:
+            $ref: "#/components/schemas/Vehicle"

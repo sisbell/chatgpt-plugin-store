@@ -1,0 +1,413 @@
+openapi: 3.0.0
+info:
+  title: SEO CORE AI
+  description: Get associated data for analyzing and comparing SEO and content from a web page by website, competition or keyword.
+  version: 1.0.1
+  servers:
+    - url: https://ai.seovendor.co
+paths:
+  /core-analysis:
+    get:  # Change method to GET
+      summary: Analyze SEO or assess content for a given URL and keyword
+      operationId: seogpt-plugin
+      parameters:  # Use query parameters instead of request body
+        - in: query
+          name: url
+          schema:
+            type: string
+          description: The URL to analyze (if it is not blocked by robots.txt).  If the URL is not present, then URL analysis will not be shown.
+          required: false
+        - in: query
+          name: kw
+          schema:
+            type: string
+          description: The keyword to analyze for SERP results. If the keyword is not present, then websites that rank in Google are not shown.
+          required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: Analysis result
+components:
+  schemas:
+    SeoVendorResponse:
+      type: object
+      properties:
+        SiteResponse:
+          type: integer
+          example: 200
+        LoadSpeed:
+          type: integer
+          description: The time it takes to load a site.
+          example: 260.89ms
+        URL:
+          type: object
+          description: URL analysis data
+          properties:
+            URLText:
+              type: string
+              description: The text of the URL
+              example: "https://seovendor.co"
+            URLCount:
+              type: integer
+              description: The character count of the URL
+              example: 20
+            URLBASECount:
+              type: array
+              description: An array of base terms and their counts in the URL
+              items:
+                type: object
+                properties:
+                  Base:
+                    type: string
+                    description: The base term
+                  BaseCount:
+                    type: integer
+                    description: The count of the base term in the URL
+            URLTotalBASECount:
+              type: integer
+              description: The total count of base terms in the URL
+              example: 1
+            NoSSL:
+              type: string
+              description: The status of the non-SSL version of the website (http)
+            NoSSLwww:
+              type: string
+              description: The status of the non-SSL version of the website with 'www' (http)
+            SSL:
+              type: string
+              description: The status of the SSL version of the website (https)
+            SSLwww:
+              type: string
+              description: The status of the SSL version of the website with 'www' (https)
+            SiteAuthority:
+              type: integer
+              description: The site authority score. The score ranges from 0 to 10.
+            PageAuthority:
+              type: integer
+              description: The page authority score,  The score ranges from 0 to 100.
+        keyword:
+          type: array
+          description: An array of keyword analysis data
+          items:
+            type: object
+            properties:
+              KW:
+                type: string
+                description: The keyword
+              Score:
+                type: integer
+                description: The score of the keyword. Higher score is more unique.
+        Title:
+          type: object
+          description: Title analysis data
+          properties:
+            TitleText:
+              type: string
+              description: The text of the title
+              example: "White Label SEO, PPC, and Web Design Reseller Platform - Sign Up for Free"
+            TitleCount:
+              type: integer
+              description: The character count of the title
+              example: 73
+            TitleEMTCount:
+              type: integer
+              description: The count of emphasized terms in the title
+              example: 1
+            TitleWordCount:
+              type: integer
+              description: The word count of the title
+              example: 14
+            P_TitleEMTCount:
+              type: integer
+              format: float
+              description: The percentage of emphasized terms in the title
+              example: 21
+            TitleBASECount:
+              type: array
+              description: An array of base terms and their counts in the title
+              items:
+                type: object
+                properties:
+                  Base:
+                    type: string
+                    description: The base term
+                  BaseCount:
+                    type: integer
+                    description: The count of the base term in the title
+                  P_BaseCount:
+                    type: integer
+                    format: float
+                    description: The percentage of the base term in the title
+            TitleTotalBASECount:
+              type: integer
+              description: The total count of base terms in the title
+              example: 3
+        Meta:
+          type: object
+          description: Meta description analysis data
+          properties:
+            MetaText:
+              type: string
+              description: The text of the meta description
+              example: "White Label services lets you rebrand our SEO/PPC/Marketing services as your own. Newest AI dashboard, AI-driven analytics, and lead generation for marketing agencies."
+            MetaCount:
+              type: integer
+              description: The character count of the meta description
+              example: 167
+            MetaEMTCount:
+              type: integer
+              description: The count of emphasized terms in the meta description
+              example: 0
+            MetaWordCount:
+              type: integer
+              description: The word count of the meta description
+              example: 25
+            P_MetaEMTCount:
+              type: integer
+              format: float
+              description: The percentage of emphasized terms in the meta description
+              example: 0
+            MetaBASECount:
+              type: array
+              description: An array of base terms and their counts in the meta description
+              items:
+                type: object
+                properties:
+                  Base:
+                    type: string
+                    description: The base term
+                  BaseCount:
+                    type: integer
+                    description: The count of the base term in the meta description
+                  P_BaseCount:
+                    type: integer
+                    format: float
+                    description: The percentage of the base term in the meta description
+            MetaTotalBASECount:
+              type: integer
+              description: The total count of base terms in the meta description
+              example: 3
+            Robots:
+              type: string
+              description: Robots meta tag to control search engine crawl 
+              example: "noindex, follow"
+        H1:
+          type: array
+          description: An array of H1 heading analysis data
+          items:
+            type: object
+            properties:
+              H1Text:
+                type: string
+                description: The text of the H1 heading
+                example: "Free White Label SEO, PPC, and Website Reseller Platform"
+              H1Count:
+                type: integer
+                description: The character count of the H1 heading
+                example: 56
+              H1EMTCount:
+                type: integer
+                description: The count of emphasized terms in the H1 heading
+                example: 1
+              H1WordCount:
+                type: integer
+                description: The word count of the H1 heading
+                example: 9
+              P_H1EMTCount:
+                type: integer
+                format: float
+                description: The percentage of emphasized terms in the H1 heading
+                example: 33
+              H1BASECount:
+                type: array
+                description: An array of base terms and their counts in the H1 heading
+                items:
+                  type: object
+                  properties:
+                    Base:
+                      type: string
+                      description: The base term
+                    BaseCount:
+                      type: integer
+                      description: The count of the base term in the H1 heading
+                    P_BaseCount:
+                      type: integer
+                      format: float
+                      description: The percentage of the base term in the H1 heading
+              H1TotalBASECount:
+                type: integer
+                description: The total count of base terms in the H1 heading
+                example: 3
+        H2:
+          type: array
+          description: An array of H2 heading analysis data
+          items:
+            type: object
+            properties:
+              H2Text:
+                type: string
+                description: The text of the H2 heading
+              H2Count:
+                type: integer
+                description: The character count of the H2 heading
+              H2EMTCount:
+                type: integer
+                description: The count of emphasized terms in the H2 heading
+              H2WordCount:
+                type: integer
+                description: The word count of the H2 heading
+              P_H2EMTCount:
+                type: integer
+                format: float
+                description: The percentage of emphasized terms in the H2 heading
+              H2BASECount:
+                type: array
+                description: An array of base terms and their counts in the H2 heading
+                items:
+                  type: object
+                  properties:
+                    Base:
+                      type: string
+                      description: The base term
+                    BaseCount:
+                      type: integer
+                      description: The count of the base term in the H2 heading
+                    P_BaseCount:
+                      type: integer
+                      format: float
+                      description: The percentage of the base term in the H2 heading
+              H2TotalBASECount:
+                type: integer
+                description: The total count of base terms in the H2 heading
+        H3:
+          type: array
+          description: An array of H3 heading analysis data
+          items:
+            type: object
+            properties:
+              H3Text:
+                type: string
+                description: The text of the H3 heading
+              H3Count:
+                type: integer
+                description: The character count of the H3 heading
+              H3EMTCount:
+                type: integer
+                description: The count of emphasized terms in the H3 heading
+              H3WordCount:
+                type: integer
+                description: The word count of the H3 heading
+              P_H3EMTCount:
+                type: integer
+                format: float
+                description: The percentage of emphasized terms in the H3 heading
+              H3BASECount:
+                type: array
+                description: An array of base terms and their counts in the H3 heading
+                items:
+                  type: object
+                  properties:
+                    Base:
+                      type: string
+                      description: The base term
+                    BaseCount:
+                      type: integer
+                      description: The count of the base term in the H3 heading
+                    P_BaseCount:
+                      type: integer
+                      format: float
+                      description: The percentage of the base term in the H3 heading
+              H3TotalBASECount:
+                type: integer
+                description: The total count of base terms in the H3 heading
+        Body:
+          type: object
+          description: An object containing analysis data for the body content
+          properties:
+            BodyCount:
+              type: integer
+              description: The character count of the body content
+            BodyEMTCount:
+              type: integer
+              description: The count of emphasized terms in the body content
+            BodyWordCount:
+              type: integer
+              description: The word count of the body content
+            P_BodyEMTCount:
+              type: integer
+              format: float
+              description: The percentage of emphasized terms in the body content
+            Content:
+              type: array
+              description: An array of content segments in the body
+              items:
+                type: string
+                description: A content segment in the body
+            BodyBASECount:
+              type: array
+              description: An array of base terms and their counts in the body content
+              items:
+                type: object
+                properties:
+                  Base:
+                    type: string
+                    description: The base term
+                  BaseCount:
+                    type: integer
+                    description: The count of the base term in the body content
+                  P_BaseCount:
+                    type: integer
+                    format: float
+                    description: The percentage of the base term in the body content
+            BodyTotalBASECount:
+              type: integer
+              description: The total count of base terms in the body content
+        Notes:
+          type: string
+          description: Notes on the analysis based on the input
+        IndexedInGoogle:
+          type: string
+          description: Search Google and describes if the page is indexed.
+        Sitemap:
+          type: object
+          description: An object containing information about the sitemap
+          properties:
+            Result:
+              type: string
+              description: The result status of the sitemap
+            Info:
+              type: string
+              description: The URL of the sitemap
+        Robots_txt:
+          type: object
+          description: An object containing information about the robots.txt file
+          properties:
+            Result:
+              type: string
+              description: The result status of the robots.txt file
+        TopRankedSites:
+          type: object
+          description: Get a list of top competitor URLs to analyze or get rankings data
+          properties:
+            TopRankedSites:
+              type: array
+              description: An array of top Google ranked sites for the specified keyword
+              items:
+                type: object
+                properties:
+                  link:
+                    type: string
+                    description: The URL of the ranked site
+                  ranking:
+                    type: integer
+                    description: The ranking position of the site
+                  self:
+                    type: integer
+                    description: Indicates whether the site is self-owned (1) or not (0)

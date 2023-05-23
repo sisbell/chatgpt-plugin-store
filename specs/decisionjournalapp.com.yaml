@@ -1,0 +1,394 @@
+openapi: 3.0.2
+info:
+  title: Decision Journal API
+  description: An API for keeping track of and reviewing your decisions.
+  version: 1.0.0
+servers:
+  - url: https://api.decisionjournalapp.com/v1
+paths:
+  /decisions:
+    get:
+      summary: Get Decisions
+      description: Get decisions with a query and optional filters as parameters. Refine results by status or whether or not they are due for review.
+      operationId: get_decisions
+      parameters:
+        - required: false
+          schema:
+            title: Query
+            type: string
+          name: q
+          in: query
+        - required: false
+          schema:
+            title: Status
+            type: string
+          name: status
+          in: query
+        - required: false
+          schema:
+            title: Due for Review
+            type: boolean
+          name: dueForReview
+          in: query
+        - required: false
+          schema:
+            title: Limit
+            type: integer
+            default: 3
+          name: limit
+          in: query
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPBadRequestError"
+    post:
+      summary: Create Decision
+      description: Create decisions with information about the decision (e.g. title, tags, expected outcomes, feelings, etc). Set the status to "published" when the decision has been made. All decisions not yet made should be "draft" status.
+      operationId: create_decision
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DecisionRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPBadRequestError"
+  /decisions/{decisionId}:
+    get:
+      summary: Get a Decision
+      description: Get a specific decision with its id.
+      operationId: get_decision
+      parameters:
+        - required: true
+          schema:
+            title: Decision Id
+            type: string
+          name: decisionId
+          in: path
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPBadRequestError"
+    put:
+      summary: Update Decision
+      description: Update a specific decision with information about the decision. Update the decision's status to "published" when the decision has been made.
+      operationId: update_decision
+      parameters:
+        - required: true
+          schema:
+            title: Decision Id
+            type: string
+          name: decisionId
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DecisionRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPBadRequestError"
+  /decisions/{decisionId}/reviews:
+    post:
+      summary: Create Review
+      description: Create a review for a decision with information about the review (e.g. accuracy score, actual outcome, learnings, etc). Set the status to "published" when the review has been finalized. Otherwise, the status should be "draft".
+      operationId: create_review
+      parameters:
+        - required: true
+          schema:
+            title: Decision Id
+            type: string
+          name: decisionId
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPBadRequestError"        
+    put:
+      summary: Update Review
+      description: Update a review for a decision with information about the review (e.g. accuracy score, actual outcome, learnings, etc). Set the status to "published" when the review has been finalized. Otherwise, the status should be "draft".
+      operationId: update_review
+      parameters:
+        - required: true
+          schema:
+            title: Decision Id
+            type: string
+          name: decisionId
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPBadRequestError"        
+components:
+  schemas:
+    DecisionsResponse:
+      title: DecisionsResponse
+      type: object
+      properties:
+        decisions:
+          title: Decisions
+          type: array
+          items:
+            $ref: "#/components/schemas/DecisionResponse"
+    DecisionResponse:
+      title: DecisionResponse
+      type: object
+      properties:
+        id:
+          title: Decision Id
+          type: string
+        title:
+          title: Title
+          type: string
+        tags:
+          $ref: "#/components/schemas/Tags"
+        status:
+          $ref: "#/components/schemas/Status"
+        initialFeeling:
+          $ref: "#/components/schemas/InitialFeeling"
+        context:
+          title: Context
+          type: string
+        expectedOutcome:
+          title: Expected Outcome
+          type: string
+        outcomeEstimates:
+          title: Outcome Estimates
+          type: array
+          items:
+            $ref: "#/components/schemas/OutcomeEstimate"
+        skillLuckWeight:
+          title: Skill Luck Weight
+          type: number
+          description: "A number between 0 and 1 that represents the weight of skill vs luck in the outcome of the decision. 0 means the outcome was entirely due to skill, 1 means the outcome was entirely due to luck."
+        decisionDate:
+          title: Decision Date
+          type: string
+          format: date-time
+        nextReviewDate:
+          title: Next Review Date
+          type: string
+          format: date-time
+        lastReviewedOn:
+          title: Last Reviewed On
+          type: string
+          format: date-time  
+    ReviewResponse:
+      title: ReviewResponse
+      type: object
+      properties:
+        id:
+          title: Review Id
+          type: string
+        accuracyScore:
+          title: Accuracy Score
+          type: integer
+        actualOutcome:
+          title: Actual Outcome
+          type: string
+        learningsAndReview:
+          title: Learnings and Review
+          type: string
+        status:
+          $ref: "#/components/schemas/Status"
+        reviewDate:
+          title: Review Date
+          type: string
+          format: date-time          
+    HTTPBadRequestError:
+      title: HTTPBadRequestError
+      type: object
+      properties:
+        error:
+          title: Error Message
+          type: string
+    OutcomeEstimate:
+      title: Outcome Estimate
+      type: object
+      properties:
+        text:
+          title: Text
+          type: string
+          description: A description of an outcome estimate.
+        probability:
+          title: Probability
+          type: string
+          description: A probability of an outcome estimate.
+    OutcomeEstimateReview:
+      title: Outcome Estimate Review
+      type: object
+      properties:
+        text:
+          title: Text
+          type: string
+          description: A description of an outcome estimate.
+        probability:
+          title: Probability
+          type: string
+          description: A probability of an outcome estimate.
+        itHappened:
+          title: It Happened
+          type: boolean
+          description: Whether or not the outcome estimate happened.        
+    Tags:
+      title: Tags
+      type: array
+      items:
+        type: string
+      description: Tags for a decision to organize.
+    Status:
+      title: Status
+      type: string
+      enum:
+        - draft
+        - published
+      description: The status of a decision or review.
+    InitialFeeling:
+      title: Initial Feeling
+      enum:
+        - very good
+        - good
+        - neutral
+        - bad
+        - very bad
+      type: string
+      description: An initial feeling about a decision.
+    DecisionRequest:
+      title: DecisionRequest
+      type: object
+      properties:
+        data:
+          title: Decision Data
+          type: object
+          properties:
+            title:
+              title: Title
+              type: string
+            tags:
+              $ref: "#/components/schemas/Tags"
+            status:
+              $ref: "#/components/schemas/Status"
+            initialFeeling:
+              $ref: "#/components/schemas/InitialFeeling"
+            context:
+              title: Context
+              type: string
+            expectedOutcome: 
+              title: Expected Outcome
+              type: string
+            outcomeEstimates:
+              title: Outcome Estimates
+              type: array
+              items:
+                $ref: "#/components/schemas/OutcomeEstimate"
+            skillLuckWeight:
+              title: Skill Luck Weight
+              type: number
+              description: "A number between 0 and 1 that represents the weight of skill vs luck in the outcome of the decision. 0 means the outcome was entirely due to skill, 1 means the outcome was entirely due to luck."
+            monthsToNextReview:
+              title: Months to Next Review
+              type: integer
+    ReviewRequest:
+      title: CreateReviewRequest
+      type: object
+      properties:
+        data:
+          title: Review Data
+          type: object
+          properties:
+            accuracyScore:
+              title: Accuracy Score
+              type: integer
+            actualOutcome:
+              title: Actual Outcome
+              type: string
+            learningsAndReview:
+              title: Learnings and Review
+              type: string
+            status:
+              $ref: "#/components/schemas/Status"
+            monthsToNextReview:
+              title: Months to Next Review
+              type: integer
+              description: The number of months until the next review of the parent decision.
+            outcomeEstimates:
+              title: Outcome Estimates
+              type: array
+              items:
+                $ref: "#/components/schemas/OutcomeEstimateReview"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []                    

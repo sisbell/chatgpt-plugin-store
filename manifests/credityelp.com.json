@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "CreditYelp",
+  "name_for_model": "CreditYelp",
+  "description_for_human": "Access various essential financial calculators for a detailed repayment schedule and payoff term.",
+  "description_for_model": "Access various financial calculators and get accurate figures for personal loans and credit card payoff plans. The outputs contain repayment schedules with detailed numbers and tables. ",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.credityelp.com/openai/services.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://credityelp.com/openai/logo.png",
+  "contact_email": "support@credityelp.com",
+  "legal_info_url": "https://www.credityelp.com/plugin-for-chatgpt.html"
+}

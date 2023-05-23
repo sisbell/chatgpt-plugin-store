@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "giftwrap",
+  "name_for_human": "Giftwrap",
+  "description_for_model": "Plugin for gift recommendations, including but not limited to personal gifts and business gifts. Use it whenever a user asks for gift ideas or gift messages. Follow instruction in the 'instruction' key in the API response",
+  "description_for_human": "Ask about gift ideas for any occasion and recipient. Get it wrapped and delivered, no address needed.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.giftwrap.ai/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://giftwrap.ai/logo.png",
+  "contact_email": "team@giftwrap.com",
+  "legal_info_url": "https://giftwrap.ai/terms"
+}

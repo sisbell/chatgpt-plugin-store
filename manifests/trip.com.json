@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Trip.com",
+  "name_for_model": "Trip",
+  "description_for_human": "Discover the ultimate travel companion - simplify your flight and hotel bookings. Enjoy your effortless trip!",
+  "description_for_model": "Trip.com can let users effortlessly get customized travel product recommendation and itinerary planning including hotels and flights.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.trip.com/ai-resource/trip/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://ak-s.tripcdn.com/modules/ibu/online-home/ee6a046e4f5b73083c94ac36ec3f81e2.ee6a046e4f5b73083c94ac36ec3f81e2.png",
+  "legal_info_url": "https://pages.trip.com/service-guideline/terms-en-xx.html",
+  "contact_email": "zjfan@trip.com"
+}

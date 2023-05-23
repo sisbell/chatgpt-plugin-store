@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  title: Sports News via ndricks Sports API
+  description: Get the latest information about sport teams you care about (NBA, NFL, NHL, and MLB). Just mention a team in chat!
+  version: 'v1'
+servers:
+  - url: https://api.ndricks.com/api/
+paths:
+  sports/team:
+    get:
+      operationId: getTeamInfo
+      summary: Get Team Info
+      description: Returns news about a specific team based on the provided team name (IE Golden State Warriors).
+      parameters:
+        - name: team
+          in: query
+          description: The name of the team to fetch information for.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getStoriesResponse'
+components:
+  schemas:
+    getStoriesResponse:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: The list of stories.

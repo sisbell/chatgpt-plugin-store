@@ -1,0 +1,133 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BlockAtlas",
+    "description": "An app that allows the user to search for the closest matching U.S. Census variables based on a search query.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://blockatlas.com"
+    }
+  ],
+  "paths": {
+    "/api/nearest_vars": {
+      "get": {
+        "operationId": "nearestVars",
+        "summary": "Find a data set, e.g. Median Income.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Should be semantically similar to the target variable. AI Assistants should adjust the user's query to remove location info and re-phrase - 'median income by county in Nebraska' should be queried as 'median income'.",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/api/get_map_and_data": {
+      "get": {
+        "operationId": "getMapAndData",
+        "summary": "Get data for a specific variable or a combination of variables and one or more locations within a region.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "map_title",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Title for the map, e.g. 'Median Income'",
+            "maxLength": 40,
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "variable",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The variable(s) for which data is to be retrieved. Just the key(s), e.g. 'B04006_023E' or a comma separated list of variables like 'B04006_023E,B04006_024E'. Behavior of comma-separated lists is determined by type param.",
+            "maxLength": 512,
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "normalize_by",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The variable to divide by. Use this whenever the user wants to find a percent, a proportion, or a per-capita value. For 'over 85 rate', divide 'People over 85' (B01001_025E) by 'People with age determined' (B01001_001E). The _001E variable within the same group (prefix) as the target variable is usually the best choice.",
+            "maxLength": 12,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string"
+            },
+            "description": "must be 'combine' (add variables together) or 'compare' (show variables side by side). In 'compare' mode, each variable will be normalized separately, if applicable.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "geography_type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "STATE",
+                "COUNTY",
+                "CITY",
+                "ZIP_CODE",
+                "COUNTIES_WITHIN_STATE",
+                "STATES_WITHIN_USA",
+                "USA"
+              ]
+            },
+            "description": "If the user does not specify a location, use 'USA'.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "place",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The place for which data is to be retrieved (e.g. 'Arlington, VA', 'VA', 'United States')",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "How many results to return.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Must be 'asc' or 'desc', defaults to 'desc'",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "years",
+            "schema": {
+              "type": "string"
+            },
+            "description": "e.g. 2019-2021 for change (2021 minus 2019), or 2019,2020,2021 to show side by side. 2021 is most recent - do not request 2022 or 2023. For 'growth rate' query, use 2020-2021 unless asked. Oldest available is 2010.",
+            "required": false
+          }
+        ]
+      }
+    }
+  }
+}

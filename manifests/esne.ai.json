@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Podcast search",
+  "name_for_model": "podcastSearch",
+  "description_for_human": "This tool explores podcasts from PodcastIndex.org, a platform for decentralized audio content discovery.",
+  "description_for_model": "explore podcasts",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://esne.ai/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://esne.ai/logo.png",
+  "contact_email": "info@comicstripblog.com",
+  "legal_info_url": "https://esne.ai/legal"
+}

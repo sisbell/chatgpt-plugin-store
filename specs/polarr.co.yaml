@@ -1,0 +1,74 @@
+openapi: 3.0.2
+info:
+  title: Polarr OpenAI Plugin
+  description: API for Polarr OpenAI
+  version: 0.4.8
+servers:
+    - url: https://api.polarr.co
+paths:
+  /ml/adjustment/assets/gpt-plugin-search:
+    get:
+      tags:
+        - Filters
+      summary: ChatGPT Plugin For Filter Search
+      description: Perform filter search for ChatGPT plugin.
+      operationId: get_gpt_plugin_search_ml_adjustment_assets_gpt_plugin_search_get
+      parameters:
+        - required: true
+          schema:
+            title: ChatGPT Prompt
+            type: string
+          name: prompt
+          in: query
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGPTPluginSearchQueryResponseDTO'
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    FilterSearchMatch:
+      title: FilterSearchMatch
+      required:
+        - url
+      type: object
+      properties:
+        url:
+          title: URL at which the matching filter can be viewed
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        description:
+          title: Description of the matching filter
+          type: string
+      description: DTO model for filter search matches.
+    GetGPTPluginSearchQueryResponseDTO:
+      title: GetGPTPluginSearchQueryResponseDTO
+      required:
+        - matches
+      type: object
+      properties:
+        matches:
+          title: Matches
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterSearchMatch'
+      description: Response body for Polarr ChatGPT Plugin
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'

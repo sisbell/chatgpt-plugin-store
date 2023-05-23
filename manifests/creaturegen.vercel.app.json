@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Creature Generator",
+  "name_for_model": "RandomCreatureGeneration",
+  "description_for_human": "Creates a random creature and an image it for use in role playing games.",
+  "description_for_model": "This application for creating random creatures returns details of the creature as JSON. You can use it to create a random creature with an image of it. An environment needs to be specified from this list: grassland, desert, icy, forest, swamp, underwater, mountain, or underground caves",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://creaturegen.vercel.app/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://creaturegen.vercel.app/logo.png",
+  "contact_email": "contactqueries@realityoverlay.com",
+  "legal_info_url": "https://creaturegen.vercel.app/terms.html"
+}

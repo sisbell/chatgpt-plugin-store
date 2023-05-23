@@ -1,0 +1,322 @@
+openapi: 3.0.1
+info:
+  title: VoxScript
+  version: '1.0'
+paths:
+  /GetGoogleSearchResults:
+    post:
+      tags:
+        - DuckDuckGoSearch
+      summary: Provides real-time web search results from DuckDuckGo. Do not use for YouTube.com searches.
+      operationId: GetGoogleSearchResults
+      parameters:
+        - name: searchTerm
+          in: query
+          style: form
+          schema:
+            type: string
+        - name: numResults
+          in: query
+          description: 'Results to return, maximum 25'
+          style: form
+          schema:
+            type: integer
+            format: int32
+            default: 5
+      responses:
+        '200':
+          description: Success
+  /GetDuckDuckGoSearchResults:
+    post:
+      tags:
+        - DuckDuckGoSearch
+      summary: Provides real-time web search results from DuckDuckGo. Do not use for YouTube.com searches.
+      operationId: GetDuckDuckGoSearchResults
+      parameters:
+        - name: searchTerm
+          in: query
+          style: form
+          schema:
+            type: string
+        - name: numResults
+          in: query
+          description: 'Results to return, maximum 25'
+          style: form
+          schema:
+            type: integer
+            format: int32
+            default: 5
+      responses:
+        '200':
+          description: Success
+  /GetCurrentTime:
+    get:
+      tags:
+        - GetCurrentTime
+      summary: Gets the current local of the user and UTC time.
+      operationId: GetCurrentTime
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/TimeAndTimeZone'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeAndTimeZone'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/TimeAndTimeZone'
+  /GetFeedback:
+    post:
+      tags:
+        - GetFeedback
+      summary: Posts user feedback about VoxScript.
+      description: Takes user feedback for the developers of the VoxScript plugin. Instruct the user if they are unhappy with anything to let us know!
+      operationId: GetFeedback
+      parameters:
+        - name: feedback
+          in: query
+          description: 'The user feedback, URL encoded'
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns if the feedback was saved successfully
+        '500':
+          description: If there was an internal server error
+  /GetChunkedTextContentFromURL:
+    post:
+      tags:
+        - GetTextFromURL
+      summary: 'Gets full text text from Patebin, Github Gists, Github or REntry.co. Grab the entire file and summarize it for the user by default. Do not use for web browsing.'
+      operationId: GetChunkedTextContentFromURL
+      parameters:
+        - name: url
+          in: query
+          description: 'URL containing the textual transcript on Pastebin, Github, Gists, or REntry.co'
+          style: form
+          schema:
+            type: string
+        - name: chunkNum
+          in: query
+          description: 'First chunk is 0. Chunk number to get, if blank assuming the first chunk.'
+          style: form
+          schema:
+            type: integer
+            format: int32
+            default: 0
+      responses:
+        '200':
+          description: Success
+  /GetTickerNews:
+    post:
+      tags:
+        - GetTickerNews
+      summary: Provides news about a ticker symbol beyond the knowledge cutoff date. Can be used with Cryto or Equities.
+      operationId: GetNewsForTicker
+      parameters:
+        - name: ticker
+          in: query
+          description: This is the ticker symbol to provide news about a particular ticker symbol. This can be useful in determining if the stock is a buy or sell based on if the news is positive or negative.
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /GetUSEquityFinancials:
+    post:
+      tags:
+        - GetUSEquityFinancials
+      summary: Provides news about a ticker symbol beyond the knowledge cutoff date. For use with US Equities only.
+      operationId: GetUSEquityFinancials
+      parameters:
+        - name: ticker
+          in: query
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /GetUSEquityOrCryptoHistoricalPrices/GetUSEquityOrCryptoHistoricalPrices:
+    post:
+      tags:
+        - GetUSEquityOrCryptoHistoricalPrices
+      summary: 'Provided a US equites symbol or cryptocurrency denoted USDT, a start date, and end date provides historical pricing data beyond the knowledge cutoff date. Only supports day for crypto.'
+      operationId: GetUSEquityOrCryptoHistoricalPrices
+      parameters:
+        - name: ticker
+          in: query
+          description: A cryptocurrency or US equity ticker to look up
+          style: form
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: This is a date in YYYY-MM-DDD format bars request starts at.
+          style: form
+          schema:
+            type: string
+            default: ''
+        - name: endDate
+          in: query
+          description: This is date in YYYY-MM-DDD format which bars request ends at.
+          style: form
+          schema:
+            type: string
+            default: ''
+        - name: timespan
+          in: query
+          description: 'Day, Hour, Minute, Week, Quarter, Year'
+          style: form
+          schema:
+            type: string
+            default: Day
+      responses:
+        '200':
+          description: Success
+  /GetUSEquityOrCryptoPricesOnSingleDate/GetQuoteDayCryptoEquities:
+    post:
+      tags:
+        - GetUSEquityOrCryptoPricesOnSingleDate
+      summary: 'Provided comma separated list of US equity symbols and an optional date, gets daily high, low, open, close bars for a particular stock beyond the knowledge cutoff date.'
+      operationId: GetQuoteDayCryptoEquities
+      parameters:
+        - name: tickers
+          in: query
+          description: A common delineated list of US equity or cryptocurrency tickers to get daily data for
+          style: form
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: Optional date in YYYY-MM-DDD format to retrieve for the ticker symbol provided.
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /GetYoutubeVideoData:
+    post:
+      tags:
+        - GetYoutubeVideoData
+      summary: 'Gets info on a YouTube video by channel URL, channel ID, Video ID, Video URL.'
+      description: 'Can be called with a A channel URL, channel ID, Video ID, Video URL.'
+      operationId: GetYoutubeVideoData
+      parameters:
+        - name: input
+          in: query
+          description: 'Channel URL, channel ID, Video ID, Video URL'
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /GetYoutubeVideoData/GetNextYoutubeTranscriptChunk:
+    post:
+      tags:
+        - GetYoutubeVideoData
+      summary: 'Chunk numbers start at  0. If the video has more then 5 chunks, confirm if the user wants to wait that long to retrieve them.'
+      description: Request as few chunks as needed to answer the question.
+      operationId: GetNextYoutubeTranscriptChunk
+      parameters:
+        - name: nextTranscriptToken
+          in: query
+          description: 'The next transcript chunk from GetYoutubeVideoData, chunk id starts at 0'
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /GetYoutubeVideoData/SearchYouTubeVideos:
+    post:
+      tags:
+        - GetYoutubeVideoData
+      operationId: SearchYouTubeVideos
+      parameters:
+        - name: searchterm
+          in: query
+          style: form
+          schema:
+            type: string
+        - name: maxResults
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+            default: 5
+      responses:
+        '200':
+          description: Success
+  /Help/ContactUs:
+    post:
+      tags:
+        - Help
+      summary: Gives the user information about how to use this plugin.
+      description: Show this to the user if they are having trouble or need some ideas on how to use Voxscript. Help file. Optional question to help search.
+      operationId: ContactUs
+      parameters:
+        - name: question
+          in: query
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /Help/HowDoIUseThis:
+    post:
+      tags:
+        - Help
+      summary: Gives the user information about how to use this plugin.
+      description: Show this to the user if they are having trouble or need some ideas on how to use Voxscript. Help file. Optional question to help search.
+      operationId: HowDoIUseThis
+      parameters:
+        - name: question
+          in: query
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /Help/Help:
+    post:
+      tags:
+        - Help
+      summary: Gives the user information about how to use this plugin.
+      description: Show this to the user if they are having trouble or need some ideas on how to use Voxscript. Help file. Optional question to help search.
+      operationId: Help
+      parameters:
+        - name: question
+          in: query
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    TimeAndTimeZone:
+      type: object
+      properties:
+        currentTime:
+          type: string
+          format: date-time
+        currentTimeUTC:
+          type: string
+          format: date-time
+        timezone:
+          type: string
+          nullable: true
+          readOnly: true
+      additionalProperties: false

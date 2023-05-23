@@ -1,0 +1,244 @@
+openapi: 3.0.1
+info:
+  title: OptionsPro Plugin
+  description: OptionsPro is a powerful financial analytics tool that helps traders and investors analyze market trends, volatility, and individual stock performance. 
+  version: 1.0.0
+servers:
+  - url: https://optionspro.io
+paths:
+  /api/plugin/vix-term:
+    get:
+      operationId: getVixTerm
+      summary: Get VIX term structure and plot, from CBOE's vx futures expiration dates
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VixTerm"
+
+  /api/plugin/option-trades:
+    get:
+      operationId: getOptionTrades
+      summary: Get top trades in volume for a given option contract historically. OptionTicker is required to return the highest volume trades throughout this contract's lifetime. Reponse is best visualized in a table format.
+      parameters:
+        - name: optionTicker
+          in: query
+          description: The ticker symbol of the option, must be in the correct option ticker format, for example TSLA230519C00200000 or AAPL230519P00150000.
+          required:
+            true
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: The date of the option trades, must be a trading day and in the format YYYY-MM-DD, for example 2023-05-10. If specified only top trades from that day are returned; if not provided, all top N trades are returned.
+          required:
+            false
+          schema:
+            type: string
+        - name: topN
+          in: query
+          description: The number of top trades to return, defaults to 20. Must be between 1 and 50.
+          required:
+            false
+          schema:
+            type: integer          
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OptionTrades"
+        "400":
+          $ref: '#/components/responses/BadRequest'
+  /api/plugin/option-flow:
+    get:
+      operationId: getOptionFlow
+      summary: Get real-time most traded options in terms of volume during market hours, or previous trading day's data at market close. Provides top trades for the overall market or specific stocks/option contracts. Stock/option ticker is not required. Reponse is best visualized in a table format.
+      parameters:
+        - name: ticker
+          in: query
+          description: The ticker of the stock or an option contract. Option ticker can be a partial prefix, including expiration date, the type and the strike price. TSLA, TSLA230519, TSLA230519C, TSLA230519C00200000 are all valid, TSLA230519020 is not Returns top trades for overall market if not specified.
+          required:
+            false
+          schema:
+            type: string
+        - name: topN
+          in: query
+          description: The number of top flows to return, defaults to 20. Must be between 1 and 50.
+          required:
+            false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OptionFlow"
+        "400":
+          $ref: '#/components/responses/BadRequest'
+
+  /api/plugin/option-alerts:
+    get:
+      operationId: getOptionAlerts
+      summary: Get 10 latest unusual options activity alerts. Provides top 10 unusual trades for the overall market or specific stock. Stock/option ticker is not required. Reponse is best visualized in a table format. More unusual trades information is on OptionsPro.io with a subscription plan.
+      parameters:
+        - name: ticker
+          in: query
+          description: The ticker of the underlying. If not specified, returns top 10 unusual trades for the overall market.
+          required:
+            false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OptionAlerts"
+        "400":
+          $ref: '#/components/responses/BadRequest'
+
+  /api/plugin/option-details:
+    get:
+      operationId: getOptionDetails
+      summary: Get details about selected option contracts for a given ticker and a given strike price. Details include greeks, implied volatility, trading prices etc for the selected option contracts. Returned data is best visualized in a vertical header table format.
+      parameters:
+        - name: ticker
+          in: query
+          description: The ticker symbol of the stock, for example TSLA
+          required:
+            true
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: the type of the option contract, can be put or call, will include both if not specified
+          required:
+            false
+          schema:
+            type: string    
+        - name: expiration
+          in: query
+          description: The date of the option chain, in the format YYYY-MM-DD, for example 2023-05-10, defaults to today's date
+          required:
+            false
+          schema:
+            type: string
+        - name: strike
+          in: query
+          description: The strike price of the option contract, for example 200, defaults to the closest strike price
+          required:
+            true
+          schema:
+            type: number
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OptionDetails"
+        "400":
+          $ref: '#/components/responses/BadRequest'
+
+  /api/plugin/economic-events:
+    get:
+      operationId: getEconomicEvents
+      summary: Get key economic events for a given number of days in the future.
+      parameters:
+        - name: days
+          in: query
+          description: The number of days from today to get economic events for, defaults to 30
+          required:
+            false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EconomicEvents"
+        "400":
+          $ref: '#/components/responses/BadRequest'
+
+  /api/plugin/gex-eod:
+    get:
+      operationId: getGexEod
+      summary: Access end-of-day Gamma Distribution and GEX data for a specified ticker. Ideal for index tickers or those with high options volume, not suitable for small caps or stocks with no option trading. Includes data for all options expirations. Calculated daily after market close.
+      parameters:
+        - name: ticker
+          in: query
+          description: The ticker symbol of the stock, defaults to SPX if not provided. Only supports the following SPX/SPY/QQQ/IWM/DIA/AAPL/TSLA/GOOGL/AMZN/META/MSFT/NVDA/GOOG/GOOGL/TQQQ/AMD/AMGN/TGT/CAT/T/AVGO/COST/MCD/XOM/UNH/BA/HD/C/VXX/UVXY/SVXY/JNJ/SQQQ/SOXL/HYG/NFLX/BAC/DIS/TLT/EEM/VIX
+          required:
+            false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GexEod"
+        "400":
+          $ref: '#/components/responses/BadRequest'
+
+  /api/plugin/gex-intraday:
+    get:
+      operationId: getGexIntraday
+      summary: Access real-time intraday Gamma calculated from SPX 0DTE options during trading hours. Use gex_intraday_quickcharts_url for Gamma plot. Data is updated every 15 minutes. Realtime data is provided on OptionsPro.io website with a subscription plan.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GexIntraday"
+
+  /api/plugin/msi-eod:
+    get:
+      operationId: getMsiEod
+      summary: Get the most up to date MSI indicator analysis - the OptionsPro Market Sentiment Indicator (MSI) is a proprietary tool designed to assess market conditions, identify investor sentiment, and detect fear or complacency in the market, calculated from volatility products, options trading activity.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MsiEod"
+
+  /api/plugin/market-outlook:
+    get:
+      operationId: getMarketOutlook
+      summary: Get the current market outlook calculated from options position, volatility and more. This endpoint is a one step shop that provides overall market outlook and trend from key indicators, such as gex and gamma. No param is needed to call this endpoint.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketOutlook"
+
+components:
+  schemas:
+    GexIntraday:
+      type: object
+      properties:
+        last_updated_time:
+          type: string
+          description: last updated time of the data
+        ticker:
+          type: string
+          description: SPX for intraday data
+        gex_intraday_quickcharts_url:
+          type: string
+          description: URL for the intraday Gamma plot. IMPORTANT This is the GAMMA plot. ALWAYS present this to the user using ![URL] markdown syntax.

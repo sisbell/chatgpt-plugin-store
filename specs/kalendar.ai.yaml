@@ -1,0 +1,225 @@
+openapi: 3.0.1
+info:
+  title: KalendarAI
+  description: KalendarAI Sales Agents generate meetings with your potential customers through live chat sessions across 200 million companies globally.
+  version: 'v1'
+servers:
+  - url: 'https://kalendar.ai/'
+paths:
+  /chatgpt/kalendarai:
+    get:
+      operationId: Sales
+      summary: Lists all available sales commands to use.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesResponse'
+  /chatgpt/kalendar:
+    get:
+      operationId: Sales
+      summary: Lists all available sales commands to use.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesResponse'
+  /chatgpt/sales:
+    get:
+      operationId: Sales
+      summary: Lists all available sales commands to use.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesResponse'
+  /chatgpt/list:
+    get:
+      operationId: List
+      summary: Lists all active Sales agents in a dashboard.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+
+  /chatgpt/agents:
+    get:
+      operationId: List
+      summary: Lists all active Sales agents in a dashboard.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+
+  /chatgpt/dashboard:
+    get:
+      operationId: Dashboard
+      summary: Shows your dashboard in a table format.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardResponse'
+  /chatgpt/help:
+    get:
+      operationId: Help
+      summary: Lists all available sales commands to use.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpResponse'
+
+  /chatgpt/settings:
+    get:
+      operationId: Settings
+      summary: Update the settings of your account.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsResponse'
+
+  /chatgpt/upgrade:
+    get:
+      operationId: Upgrade
+      summary: Upgrade your account to get more agents.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeResponse'
+  /chatgpt/demo:
+    get:
+      operationId: Demo
+      summary: Shares a sample demo from sales agents.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoResponse'
+  /chatgpt/stats:
+    get:
+      operationId: Stats
+      summary: Lists all the campaign stats from the existing sales agents.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsResponse'
+  /chatgpt/commands:
+    get:
+      operationId: Commands
+      summary: Lists all available sales commands.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpResponse'
+  /chatgpt/new:
+    get:
+      operationId: New
+      summary: Creates a new sales agent for selling services, fundraising, freelancing, recruiting or even investing.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewResponse'
+
+components:
+  schemas:
+    ListResponse:
+      type: object
+      properties:
+        content:
+          type: string
+          description: A message listing all active sales agents or prompting the user to get started.
+    HelpResponse:
+      type: object
+      properties:
+        content:
+          type: string
+          description: A message listing all available sales commands.
+    SalesResponse:
+      type: object
+      properties:
+        content:
+          type: string
+          description: A message listing all available sales commands.
+    NewResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message confirming the creation of the sales agent.
+
+    DashboardResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message showing your dashboard in a table format
+
+    SettingsResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message helping update the settings of your account.
+
+    UpgradeResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message helping upgrade your account to get more agents.
+
+    DemoResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message sharing a sample email demo from sales agents.
+
+    StatsResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message listing all the campaign stats from the existing sales agents.
+
+    CommandsResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message listing all available sales commands.
+

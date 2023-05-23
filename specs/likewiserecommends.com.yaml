@@ -1,0 +1,503 @@
+openapi: 3.0.2
+info:
+  title: Likewise
+  description: Your media and entertainment companion. Get TV, Movies, Books & Podcast Recommendations.
+  version: 1.0.0
+  servers:
+    - url: https://likewiserecommends.com
+paths:
+  /api/gptplugin/streaming/on:
+      post:
+          operationId: streamingOn
+          summary: Retrieves where a given show or a movie is available for streaming.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/streamingOn"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/get/more/details:
+      post:
+          operationId: getDetails
+          summary: Get more details about an item. Fetch item's Likewise ratings and URL.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/getDetails"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/similar/items:
+      post:
+          operationId: similarItems
+          summary: Retrieves titles similar to a given title.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/similarItems"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/new/to/streaming:
+      post:
+          operationId: newToStreaming
+          summary: Retrieves what is coming new to a streaming service.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/newToStreaming"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/leaving/streaming:
+      post:
+          operationId: leavingStreaming
+          summary: Retrieves what is leaving streaming service soon.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/newToStreaming"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/trending/on/streaming/service:
+      post:
+          operationId: trendingOnStreaming
+          summary: Retrieves what is trending on a given streaming service.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/newToStreaming"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/trending/in/category:
+      post:
+          operationId: trendingInCategory
+          summary: Retrieves what is trending on Likewise.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/trendingInCategory"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/trending/genre/on/streaming/service:
+      post:
+          operationId: trendingGenreOnStreamingService
+          summary: Retrieves what is trending for a given genre on given streaming service.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/trendingGenreOnStreamingService"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/trending/genre/in/books:
+      post:
+          operationId: trendingGenreInBooks
+          summary: Retrieves books trending for given genres
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/trendingGenreInBooks"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/trending/genre/in/podcasts:
+      post:
+          operationId: trendingGenreInPodcasts
+          summary: Retrieves podcasts trending for given genres
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/trendingGenreInPodcasts"
+          responses:
+              "200":
+                  description: OK
+  /api/gptplugin/trending/genre/in/films:
+      post:
+          operationId: trendingGenreInFilms
+          summary: Retrieves movies and shows trending for given genres
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/trendingGenreInFilms"
+          responses:
+              "200":
+                  description: OK
+components:
+  schemas:
+    streamingOn:
+      type: object
+      properties:
+        title:
+          title: Item Title
+          type: string
+          description: title of the tv show or the movie
+          required: true
+        year:
+          title: Release Year
+          type: number
+          description: Four letter release year
+          required: false
+    getDetails:
+      type: object
+      properties:
+        title:
+          title: Item Title
+          type: string
+          description: title of the tv show, movie, book or a podcast
+          required: true
+        title_type:
+          title: Title Category
+          type: string
+          description: Category of the title for which details are fetched
+          required: true
+          enum:
+          - movies
+          - shows
+          - books
+          - podcasts
+    similarItems:
+      type: object
+      properties:
+        titles:
+          title: Item Titles
+          description: titles of the items
+          required: true
+          type: array
+          items:
+            type: string
+        title_type:
+          title: Title Category
+          type: string
+          description: Category of the title for which similar items are fetched
+          required: true
+          enum:
+          - movies
+          - shows
+          - books
+          - podcasts
+    newToStreaming:
+      type: object
+      properties:
+        service:
+          title: Service name
+          type: string
+          description: streaming service name
+          required: true
+          enum:
+          - netflix
+          - prime video
+          - hulu
+          - hbo
+          - disney
+          - paramount
+          - tubi
+          - showtime
+          - apple tv
+          - peacock
+    trendingInCategory:
+      type: object
+      properties:
+        category:
+          title: Title Category
+          type: string
+          description: Category for which trending items are fetched
+          required: true
+          enum:
+          - movies
+          - shows
+          - books
+          - podcasts
+    trendingGenreInBooks:
+      type: object
+      properties:
+        genres:
+          title: Genres Array
+          description: Generes for which trending data is fetched.
+          required: true
+          type: array
+          items:
+            type: string
+          enum:
+          - Fiction
+          - Romance
+          - Juvenile Fiction
+          - Fantasy
+          - Action & Adventure
+          - Contemporary
+          - Comics & Graphic Novels
+          - History
+          - Biography & Autobiography
+          - Thrillers
+          - Mystery & Detective
+          - Suspense
+          - Religion
+          - Young Adult Fiction
+          - Literary
+          - Science Fiction
+          - Social Science
+          - Women
+          - Social Themes
+          - Paranormal
+          - Manga
+          - Self-Help
+          - United States
+          - Business & Economics
+          - Animals
+          - Juvenile Nonfiction
+          - Horror
+          - Fantasy & Magic
+          - Family
+          - Political Science
+          - Friendship
+          - Body
+          - Crime
+          - Mind & Spirit
+          - Military
+          - Personal Memoirs
+          - Psychology
+          - Christian
+          - Women Sleuths
+          - Sports & Recreation
+          - Humorous
+          - Family & Relationships
+          - Classics
+          - Family Life
+          - Personal Growth
+          - Science
+          - Philosophy
+          - Poetry
+          - Superheroes
+    trendingGenreInPodcasts:
+      type: object
+      properties:
+        genres:
+          title: Genres Array
+          description: Generes for which trending data is fetched.
+          required: true
+          type: array
+          items:
+            type: string
+          enum:
+          - Society & Culture
+          - Education
+          - Arts
+          - Comedy
+          - Religion & Spirituality
+          - Health & Fitness
+          - TV & Film
+          - Business
+          - News
+          - Leisure
+          - Sports
+          - Christianity
+          - Self-Improvement
+          - Music
+          - Books
+          - Kids & Family
+          - History
+          - Science
+          - Fiction
+          - True Crime
+          - Personal Journals
+          - Mental Health
+          - Technology
+          - Spirituality
+          - Entrepreneurship
+          - Performing Arts
+          - Relationships
+          - Hobbies
+          - Careers
+          - Games
+          - Alternative Health
+          - Video Games
+          - Politics
+          - Places & Travel
+          - Medicine
+          - Sexuality
+          - Philosophy
+          - TV Reviews
+          - Courses
+          - Drama
+          - After Shows
+          - Visual Arts
+          - Documentary
+          - Comedy Interviews
+          - How To
+          - Investing
+          - Parenting
+          - Film Reviews
+          - Food
+          - Music Commentary
+          - Government
+          - Language Learning
+          - Science Fiction
+          - Entertainment News
+          - Fashion & Beauty
+          - News Commentary
+          - Marketing
+          - Improv
+          - Football
+          - Fitness
+          - Nutrition
+          - Social Sciences
+          - Music Interviews
+          - Natural Sciences
+          - Sports News
+          - Wilderness
+          - Health
+          - Comedy Fiction
+          - Management
+          - Design
+          - Tech News
+          - News & Politics
+          - Business News
+          - Basketball
+          - Sports & Recreation
+          - Music History
+          - Animation & Manga
+          - Daily News
+          - Self-Help
+          - Soccer
+          - Education for Kids
+          - Nature
+          - Non-Profit
+          - Film History
+          - Hockey
+          - Religion
+          - Baseball
+          - Stories for Kids
+          - Home & Garden
+          - Film Interviews
+          - Science & Medicine
+          - Life Sciences
+          - Stand-Up
+          - Professional
+          - Games & Hobbies
+          - Automotive
+          - Judaism
+          - Islam
+          - Wrestling
+          - Pets & Animals
+    trendingGenreInFilms:
+      type: object
+      properties:
+        genres:
+          title: Genres Array
+          description: Generes for which trending data is fetched.
+          required: true
+          type: array
+          items:
+            type: string
+          enum:
+          - Action
+          - Action & Adventure
+          - Adventure
+          - Animation
+          - Anime
+          - Comedy
+          - Crime
+          - Documentary
+          - Drama
+          - Family
+          - Fantasy
+          - History
+          - Horror
+          - Kids
+          - Music
+          - Musical
+          - Mystery
+          - News
+          - Reality
+          - Romance
+          - Sci-Fi & Fantasy
+          - Science Fiction
+          - Soap
+          - TV Movie
+          - Talk
+          - Thriller
+          - War
+          - War & Politics
+          - Western 
+    trendingGenreOnStreamingService:
+        type: object
+        properties:
+          genres:
+            title: Genres Array
+            description: Generes for which trending data is fetched.
+            required: true
+            type: array
+            items:
+              type: string
+            enum:
+            - Action
+            - Action & Adventure
+            - Adventure
+            - Animation
+            - Anime
+            - Comedy
+            - Crime
+            - Documentary
+            - Drama
+            - Family
+            - Fantasy
+            - History
+            - Horror
+            - Kids
+            - Music
+            - Musical
+            - Mystery
+            - News
+            - Reality
+            - Romance
+            - Sci-Fi & Fantasy
+            - Science Fiction
+            - Soap
+            - TV Movie
+            - Talk
+            - Thriller
+            - War
+            - War & Politics
+            - Western
+          service:
+            title: Service name
+            type: string
+            description: streaming service name
+            required: true
+            enum:
+            - netflix
+            - prime video
+            - hulu
+            - hbo
+            - disney
+            - paramount
+            - tubi
+            - showtime
+            - apple tv
+            - peacock

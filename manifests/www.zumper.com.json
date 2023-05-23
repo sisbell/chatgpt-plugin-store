@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Zumper Rental Search",
+  "name_for_model": "zumper_home_rental_search",
+  "description_for_human": "Find a rental home in the US and Canada.",
+  "description_for_model": "A tool that allows the user to search for rental homes (apartments, houses, and condos for rent) in the US and Canada, specifying e.g. city, monthly rent (price), number of bedrooms, number of bathrooms, etc.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "basic",
+    "verification_tokens": {
+      "openai": "2340ac8897314f4e8ba11cddea8a1de7"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.zumper.com/api/x/1/openai/config",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://www.zumper.com/img/favicon.png",
+  "contact_email": "support@zumper.com",
+  "legal_info_url": "https://www.zumper.com/terms-and-conditions"
+}

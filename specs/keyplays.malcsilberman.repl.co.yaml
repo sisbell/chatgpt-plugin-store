@@ -1,0 +1,141 @@
+openapi: 3.0.1
+info:
+  title: Keyplays Football/Soccer Plugin
+  description: A plugin that provides detailed football match information.
+  version: 'v1'
+servers:
+  - url: https://keyplays.malcsilberman.repl.co
+paths:
+  /chat/fetch_game:
+    get:
+      operationId: fetch_game
+      summary: Fetch game data for dates for a team or league, returns participants, tvstations, weather, venue, referees. Can request commentary, lineups, statistics, events, sidelined players, predictions
+      parameters:
+        - name: team_search
+          in: query
+          description: The team name or part of the team name to search for
+          required: false
+          schema:
+            type: string
+        - name: country_league
+          in: query
+          description: The country or league name to search for
+          required: false
+          schema:
+            type: string
+        - name: iso
+          in: query
+          description: The ISO 3166-2 code to filter the results by country
+          required: false
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          description: The start date for the date range to search for games (format YYYY-MM-DD)
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          description: The optional end date for the date range to search for games (format YYYY-MM-DD) uses the start date if not present
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: timezone
+          in: query
+          description: Overrides the timezone if the user provides an optional timezone
+          required: false
+          schema:
+            type: string
+        - name: include
+          in: query
+          description: Additional data to be requested in the response; possible values are trends, timeline, commentary, lineups, statistics, events, sidelined, predictions
+          required: false
+          schema:
+            type: string
+            enum:
+              - trends
+              - timeline
+              - commentary
+              - lineups
+              - statistics
+              - events
+              - sidelined
+              - predictions
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  # Define the response properties here
+  /chat/fetch_standings:
+    get:
+      operationId: fetchStandings
+      summary: Get football standings tables.
+      parameters:
+        - name: league_search
+          in: query
+          description: name of country or league or mix of these two returns a league id
+          required: false
+          schema:
+            type: string
+        - name: timezone
+          in: query
+          description: Overides the timezone if the use provides and optional timezone
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  # Define the response properties here
+  /chat/fetch_tvstations:
+    get:
+      operationId: fetchTvStations
+      summary: Get TV stations broadcasting football matches.
+      parameters:
+        - name: league_search
+          in: query
+          description: Name of country or league or mix of these two returns a league id.
+          required: false
+          schema:
+            type: string
+        - name: iso
+          in: query
+          description: The optional ISO 3166-2 code to filter the results by country.
+          required: false
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: The date for which to retrieve match information (format YYYY-MM-DD). If not provided, todays date will be used.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: timezone
+          in: query
+          description: Overides the timezone if the user provides an optional timezone.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  # Define the response properties here
+

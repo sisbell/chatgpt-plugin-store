@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "OwlJourney",
+  "name_for_model": "OwlJourney",
+  "description_for_human": "Provides lodging and activity suggestions, ensuring an engaging and user-friendly journey.",
+  "description_for_model": "OwlJourney is a travel assistant designed to provide travel recommendations for any user's queries related to lodging and activities, ensuring a friendly and interactive experience for the user.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "8353418a5a2e4d3184cf40e23f014660"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://aiplugin-owljourney.owlting.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://aiplugin-owljourney.owlting.com/logo.svg",
+  "contact_email": "support@owlting.com",
+  "legal_info_url": "https://www.owlting.com/owljourney/user-term?lang=en"
+}

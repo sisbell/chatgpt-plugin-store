@@ -1,0 +1,216 @@
+openapi: 3.0.1
+info:
+  title: OwlJourney Travel API
+  description: API for hotel recommendations, including but not limited to including lodging and activities.
+  version: v1
+servers:
+  - url: https://aiplugin-owljourney.owlting.com
+paths:
+  /lodgingProducts:
+    post:
+      operationId: lodgingProducts
+      summary: Get recommended lodging travel products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LodgingProductsRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LodgingProductsResponse'
+
+components:
+  schemas:
+    LodgingProductsRequest:
+      type: object
+      properties:
+        summary:
+          type: string
+          description: Brief search keyword of the question asked by the user for search.
+          required: true
+        destination:
+          type: string
+          description: The destination can be a city, address, airport, or a landmark.
+          required: true
+        checkin:
+          type: string
+          format: date
+          description: Checkin date in YYYY-MM-DD format. If you are unsure of the date, the default is 30 days from the current date. Specify that this field cannot be null.
+          nullable: false
+        checkout:
+          type: string
+          format: date
+          description: Checkout date in YYYY-MM-DD format. If you are unsure of the date, the default is 31 days from the current date. Specify that this field cannot be null.
+          nullable: false  
+        number_of_adults:
+          type: integer
+          description: Total number of adult travelers for accommodations. Specify that this field cannot be null.
+          nullable: false  
+          minimum: 1
+        number_of_children:
+          type: integer
+          description: Total number of child travelers for accommodations. Specify that this field cannot be null.
+          nullable: false  
+          minimum: 0
+        min_rooms:
+          type: integer
+          description: Minimum number of rooms. Specify that this field cannot be null.
+          nullable: false  
+          minimum: 1
+        language:
+          type: string
+          description: User's the question language. ex Chinese (Traditional). Specify that this field cannot be null.
+          nullable: false  
+        maxPrice:
+          type: number
+          format: float
+          minimum: 0
+          description: The maximum price for accommodations. Specify that this field cannot be null.
+          nullable: false  
+        currency:
+          type: string
+          enum:
+            - twd
+            - usd
+            - jpy
+            - eur
+            - thb
+            - cny
+          description: The currency code for the price. Specify that this field cannot be null.
+          nullable: false  
+        amenities:
+          type: array
+          items:
+            type: string
+          description: An array of desired amenities. Specify that this field cannot be null.
+          nullable: false  
+        star_ratings:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 5
+          description: An array of desired star ratings. Specify that this field cannot be null.
+          nullable: false  
+        guest_rating:
+          type: string
+          enum:
+            - WONDERFUL
+            - VERY_GOOD
+            - GOOD
+          description: Desired guest rating. Specify that this field cannot be null.
+          nullable: false  
+        sort_type:
+          type: string
+          enum:
+            - CHEAPEST
+            - DISTANCE
+            - MOST_EXPENSIVE
+          description: Sort order for the results. Specify that this field cannot be null.
+          nullable: false  
+        property_type:
+          type: string
+          enum:
+            - Hotel
+            - Apartment
+            - Hostel
+            - Motel
+            - Resort
+            - Bed and breakfast
+            - Ryokan
+            - Farm stay
+            - Resort village
+            - Villa
+            - Campground
+            - Boat
+            - Guesthouse
+            - Inn
+            - Condo hotel
+            - Vacation home
+            - Lodge
+            - Homestay
+            - Country House
+            - Luxury Tent
+            - Capsule Hotel
+            - Love Hotel
+            - Riad
+            - Chalet
+            - Condo
+            - Cottage
+            - Economy hotel
+            - Gite
+            - Health resort
+            - Others
+            - Business hotel
+            - Quarantine
+          description: Desired property type. Specify that this field cannot be null.
+          nullable: false  
+      required:
+        - summary
+        - destination
+
+    LodgingProductsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hotel'
+        status:
+          type: integer
+          description: The status code of the response.
+        target_language:
+          type: string
+          description: The language of the response.
+
+    Hotel:
+      type: object
+      properties:
+        hotel_uuid:
+          type: string
+          description: The unique identifier of the hotel.
+        hotel_name:
+          type: string
+          description: The name of the hotel.
+        currency:
+          type: string
+          description: The currency code for the price.
+        places_text:
+          type: string
+          description: The location text of the hotel.
+        hotel_type:
+          type: string
+          description: The type of the hotel.
+        distance:
+          type: number
+          format: float
+          description: The distance to the hotel in kilometers.
+        price:
+          type: integer
+          description: The price of the hotel.
+        description:
+          type: string
+          description: The description of the hotel.
+        country_text:
+          type: string
+          description: The country where the hotel is located.
+        city_text:
+          type: string
+          description: The city where the hotel is located.
+        address:
+          type: string
+          description: The address of the hotel.
+        url:
+          type: string
+          format: uri
+          description: The URL for booking the hotel.
+        imageUrl:
+          type: string
+          format: uri
+          description: The URL of the hotel's image.
+

@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "UK Latest News",
+  "name_for_model": "uk_latest_news",
+  "description_for_human": "Get the latest news stories from the UK's top news outlets including BBC News, Sky News, The Independent, and others.",
+  "description_for_model": "Fetches the latest news stories from the UK's top news outlets (/stories) and can return the content of a specific article given its URL (/story?url=<story_url>). ",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "9c1e6da2cb064f0ab65058401b189be9"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gptnews.uk/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gptnews.uk/logo.svg",
+  "contact_email": "help@gptnews.uk",
+  "legal_info_url": "https://gptnews.uk/privacy"
+}

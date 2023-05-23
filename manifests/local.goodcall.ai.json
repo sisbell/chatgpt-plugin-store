@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Local by GoodCall",
+  "name_for_model": "local",
+  "description_for_human": "Discover and support restaurants, shops & services near you. 🍽️ 🛍️ 🔧",
+  "description_for_model": "Discover and support restaurants, shops & services near you. 🍽️ 🛍️ 🔧",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://local.goodcall.ai/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://local.goodcall.ai/logo.png",
+  "contact_email": "support@goodcall.com",
+  "legal_info_url": "https://answers.goodcall.com/hc/en-us/articles/4405110871444-Terms-of-Service"
+}

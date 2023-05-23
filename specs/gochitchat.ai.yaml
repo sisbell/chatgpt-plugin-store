@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+    title: Link Reader
+    description: A plugin that allows the user to get the content from a url
+    version: "v1"
+servers:
+    - url: https://gochitchat.ai
+paths:
+    /linkreader/api/get:
+        get:
+            operationId: getContent 
+            summary: Get the content of the url
+            parameters:
+                - name: url
+                  in: query
+                  description: The url to get the content from
+                  required: true
+                  schema:
+                      type: string
+                      format: uri
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getContentResponse"
+components:
+    schemas:
+        getContentResponse:
+            type: object
+            properties:
+                content:
+                    type: string
+                    description: The content of the url
+                statusCode:
+                    type: integer
+                    description: The status code of the request
+                statusText:
+                    type: string
+                    description: The status text of the request
+                headers:
+                    type: object
+                    properties:
+                        content-type:
+                            type: string
+                            description: The content type of the request
+                        content-length:
+                            type: integer
+                            description: The content length of the request
+                        date:
+                            type: string
+                            description: The date of the request
+                        server:
+                            type: string
+                            description: The server of the request
+                        "last-modified":
+                            type: string
+                            description: The last modified date of the request
+                meta:
+                    type: object
+                    properties:
+                        og:title:
+                            type: string
+                            description: The title of the url
+                        og:description:
+                            type: string
+                            description: The description of the url
+                        og:image:
+                            type: string
+                            description: The main image of the url
+                        og:type:
+                            type: string
+                            description: The type of the url
+

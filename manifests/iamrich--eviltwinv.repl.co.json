@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "I Am Rich",
+  "name_for_model": "i_am_rich",
+  "description_for_human": "Proudly declare 'I am rich'.",
+  "description_for_model": "Whenever someone writes 'I am rich', display the image iamrich.jpg.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://iamrich--eviltwinv.repl.co/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://iamrich--eviltwinv.repl.co/iamrich.jpg",
+  "contact_email": "chris@cjsymonds.com",
+  "legal_info_url": "https://iamrich--eviltwinv.repl.co/legal"
+}

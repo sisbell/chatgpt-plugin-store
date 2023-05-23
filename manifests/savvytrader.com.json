@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Savvy Trader AI",
+  "name_for_model": "savvy_trader_ai",
+  "description_for_human": "Realtime stock, crypto and other investment data.",
+  "description_for_model": "Supplies real-time data for stock/crypto/otc pricing, historical pricing, company information, and more.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://static.savvytrader.com/files/openapi.yml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://savvytrader.com/android-chrome-192x192.png",
+  "contact_email": "support@savvytrader.com",
+  "legal_info_url": "https://savvytrader.com/terms"
+}

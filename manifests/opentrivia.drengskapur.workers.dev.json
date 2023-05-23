@@ -1,0 +1,16 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Open Trivia",
+  "name_for_model": "opentrivia",
+  "description_for_human": "Get trivia questions from various categories and difficulty levels.",
+  "description_for_model": "This plugin provides the ability to fetch trivia questions from various categories and difficulty levels.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "url": "/openapi.json"
+  },
+  "logo_url": "https://raw.githubusercontent.com/drengskapur/open-trivia-database-chat-plugin/main/icon.png",
+  "contact_email": "service@drengskapur.com",
+  "legal_info_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+}

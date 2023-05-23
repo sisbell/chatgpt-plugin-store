@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Link Reader",
+  "name_for_model": "linkReader",
+  "description_for_human": "Reads the content of all kinds of links, like webpage, PDF, PPT, image, Word & other docs.",
+  "description_for_model": "'Link Reader' is an advanced tool that excels in understanding and synthesizing information from various digital resources. This tool is adept at interpreting content from a wide array of link types, including web pages, PDF documents, PowerPoint presentations, images, Word files, and more, thereby significantly broadening the scope of data it can interact with.Operating as a content interpreter, 'Link Reader' navigates to the source material provided via a link, processes the information found there, and relays it for further use. This data can then be utilized to generate more informed, accurate, and contextually relevant responses.The use of this tool can be initiated through certain keywords or phrases. For instance, a user wanting to know the summary of a specific online article might use a phrase like 'summarize the content of this link', followed by the URL. Other keywords that could activate 'Link Reader' might include 'read', 'interpret', 'analyze' or 'understand', along with a link.The benefits of 'Link Reader' are manifold. It provides detailed and accurate responses based on the contents of a webpage or document, translates text from linked resources, summarizes lengthy articles, explains complex concepts found in digital documents, and much more.Whether you're seeking a quick summary of a scientific research paper, need insights from a specific web page, want to analyze the content of a PDF report, or simply want to peruse a PowerPoint presentation without opening it, 'Link Reader' makes these tasks remarkably straightforward.Please note that 'Link Reader' respects all copyright and privacy laws. It does not access or interpret content from password-protected or restricted-access resources unless appropriate permissions are provided.In essence, 'Link Reader' is a revolutionary tool that considerably expands the breadth and depth of digital content comprehension. It facilitates the interpretation and understanding of a vast range of digital content, enhancing the quality of responses and enriching interactions.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gochitchat.ai/linkreader/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gochitchat.ai/linkreader/logo.png",
+  "contact_email": "care@vidline.com",
+  "legal_info_url": "https://gochitchat.ai/policies.html"
+}

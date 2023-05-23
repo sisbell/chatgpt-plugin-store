@@ -1,0 +1,485 @@
+openapi: 3.0.3
+info:
+  title: 'Yabble Auto Survey'
+  description: 'API to help users generate and run marketing surveys. Will generate a survey with a set of questions. Generate marketing personas from demographic information and creates respondents based on personas. Uses respondents to answer questions.'
+  version: 1.0.0
+servers:
+  - url: 'https://yabblezone.net'
+paths:
+  '/chat-plugin-api/surveys/{survey_code}':
+    get:
+      summary: 'Returns survey by survey code'
+      operationId: returnsSurveyBySurveyCode
+      description: ''
+      parameters:
+        - in: path
+          name: survey_code
+          description: ''
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n \"survey_id\": 4,\n \"survey_code\": \"survey_code\": \"EXAM-PLE1\"\n \"questions\": [{\"question_id\": 1, \"question_title\": \"Example survey question?\"}]\n}"
+      tags:
+        - ChatSurveyGenerator
+      security: []
+  /chat-plugin-api/surveys:
+    post:
+      summary: 'Takes in a survey name and returns a list of generated questions for the survey user to use'
+      operationId: createSurveyAndFetchQuestions
+      description: ''
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n \"survey_id\": \"EXAM-PLE1\",\n \"survey_code\": \"survey_code\": \"EXAM-PLE1\",\n \"context\": \"I am a survey context with recent relevant info\",\n \"questions\": [{\"question_id\": 1, \"question_title\": \"Example survey question?\"}]\n}"
+      tags:
+        - ChatSurveyGenerator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                survey_topic:
+                  type: string
+                  description: 'Must not be greater than 220 characters.'
+                  example: 'Favourite chocolate flavour survey'
+                additional_information:
+                  type: string
+                  description: 'optional 255 characters max. Additional information to help generate correct questions for survey_topic'
+                  example: 'Help decide on new product development'
+              required:
+                - survey_topic
+      security: []
+  '/chat-plugin-api/surveys/{survey_id}/demographics':
+    post:
+      summary: "Takes in a set of preferred demographic params to pick the audience to run the survey on\nWill start a background task to generate respondents\nReturns marketing personas that will be used to create personas"
+      operationId: saveDemographicFilterAndRunPersonaGeneration
+      description: "Can be called to change demographic params.\nAt least 1 demographic parameter is required."
+      responses:
+        200:
+          description: success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n \"message\": \"4 of respondents have been created and are ready to answer your survey.\",\n \"personas\": [{\"name\", \"Name of a marketing persona that will represent a group of respondents\",\"interests\": \"Some interests\",\"challenges\": \"Some challenges\"}],\n}"
+      tags:
+        - ChatSurveyGenerator
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                gender:
+                  type: string
+                  description: 'Max 200 characters.'
+                  example: Female
+                age:
+                  type: string
+                  description: 'Max 200 characters.'
+                  example: Millennial
+                location:
+                  type: string
+                  description: 'Max 200 characters.'
+                  example: 'Dalas, Texas, USA'
+                marital_status:
+                  type: string
+                  description: 'Max 200 characters.'
+                  example: Married
+                employment:
+                  type: string
+                  description: 'Max 200 characters.'
+                  example: Unemployed
+                salary:
+                  type: string
+                  description: 'Max 200 characters.'
+                  example: '100000+ USD a year'
+                children:
+                  type: string
+                  description: 'Max 200 characters.'
+                  example: 3+
+                other_demographic_parameters:
+                  type: string
+                  description: 'Max 255 characters.'
+                  example: Unemployed
+      security: []
+      parameters:
+        - in: path
+          name: survey_id
+          description: 'Survey id that was returned from the POST /survey request'
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+  '/chat-plugin-api/surveys/{survey_id}/run':
+    post:
+      summary: 'Runs the selected query and returns list of new responses created'
+      operationId: runTheSurvey
+      description: ''
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: ...
+                properties:
+                  message:
+                    type: string
+                    example: ...
+      tags:
+        - ChatSurveyGenerator
+      security: []
+      parameters:
+        - in: path
+          name: survey_id
+          description: 'Survey id that was returned from the POST /survey request'
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+  '/chat-plugin-api/surveys/{survey_id}/questions':
+    get:
+      summary: 'Use to check questions available for a survey'
+      operationId: getQuestions
+      description: ''
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  - question_id: 123
+                    question_title: 'Question 1 title'
+                    response_processing_status: complete
+                  - question_id: 124
+                    question_title: 'Question 2 title'
+                    response_processing_status: complete
+      tags:
+        - ChatSurveyGenerator
+      security: []
+      parameters:
+        - in: path
+          name: survey_id
+          description: 'Survey id that was returned from the POST /survey request'
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+    post:
+      summary: "Create a new question for a survey that has not been run yet\nOnly 8 questions per survey allowed"
+      operationId: addQuestion
+      description: ''
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  question_id: 1
+                  question_title: 'Example question title?'
+                properties:
+                  question_id:
+                    type: integer
+                    example: 1
+                  question_title:
+                    type: string
+                    example: 'Example question title?'
+      tags:
+        - ChatSurveyGenerator
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question_title:
+                  type: string
+                  description: 'Max 220 characters.'
+                  example: 'Do you like Hawaiian pizza?'
+      security: []
+      parameters:
+        - in: path
+          name: survey_id
+          description: 'Survey id that was returned from the POST /survey request'
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+  '/chat-plugin-api/surveys/{survey_id}/questions/{question_id}':
+    put:
+      summary: 'Updates a question for a survey that has not been run yet'
+      operationId: updateQuestion
+      description: ''
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {}
+                properties: {}
+      tags:
+        - ChatSurveyGenerator
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question_title:
+                  type: string
+                  description: 'Max 220 characters.'
+                  example: 'Do you like Hawaiian pizza?'
+      security: []
+      parameters:
+        - in: path
+          name: survey_id
+          description: 'Survey id that was returned from the POST /survey request'
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: question_id
+          description: 'Id of a question for given survey'
+          example: 14
+          required: true
+          schema:
+            type: integer
+    delete:
+      summary: 'Removes question from a survey that has not been run yet'
+      operationId: removeQuestion
+      description: ''
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {}
+                properties: {}
+      tags:
+        - ChatSurveyGenerator
+      security: []
+      parameters:
+        - in: path
+          name: survey_id
+          description: 'Survey id that was returned from the POST /survey request'
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: question_id
+          description: 'Id of a question for given survey'
+          example: 14
+          required: true
+          schema:
+            type: integer
+  '/chat-plugin-api/surveys/{survey_id}/respondents':
+    get:
+      summary: 'Returns a list of created respondents (imaginary people) to be surveyed'
+      operationId: getRespondents
+      description: ''
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  - age: 20
+                    gender: Male
+                    location: text
+                    marital_status: Married
+                    employment: unemployed
+                    salary: 0
+                    children: 0
+                    chat_plugin_persona_id: 0
+                    chat_plugin_survey_id: 0
+      tags:
+        - ChatSurveyGenerator
+      security: []
+      parameters:
+        - in: path
+          name: survey_id
+          description: 'Survey id that was returned from the POST /survey request'
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+  '/chat-plugin-api/surveys/{survey_id}/responses':
+    get:
+      summary: 'Returns a paginated list of responses (200 per page) that were generated along with question and respondent ids.'
+      operationId: getResultingResponsesFromSurveyRun
+      description: 'Paginate on this endpoint to fetch full data from query. pass in query param for next page. Get responses from data. Get next page url from next_page_url'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    - respondent_id: 321
+                      answer: 'Best product ever. Would use it again!'
+                      question_id: 1
+                    - respondent_id: 322
+                      answer: Amazing!
+                      question_id: 2
+                  current_page: 2
+                  links:
+                    - url: 'https://yabblezone.net/chat-plugin-api/surveys/41/responses?page=1'
+                      label: '1'
+                      active: false
+                    - url: 'https://yabblezone.net/chat-plugin-api/surveys/41/responses?page=2'
+                      label: '2'
+                      active: true
+                  last_page: 2
+                  total: 202
+                  per_page: 200
+                properties:
+                  data:
+                    type: array
+                    example:
+                      - respondent_id: 321
+                        answer: 'Best product ever. Would use it again!'
+                        question_id: 1
+                      - respondent_id: 322
+                        answer: Amazing!
+                        question_id: 2
+                    items:
+                      type: object
+                      properties:
+                        respondent_id:
+                          type: integer
+                          example: 321
+                        answer:
+                          type: string
+                          example: 'Best product ever. Would use it again!'
+                        question_id:
+                          type: integer
+                          example: 1
+                  current_page:
+                    type: integer
+                    example: 2
+                  links:
+                    type: array
+                    example:
+                      - url: 'https://yabblezone.net/chat-plugin-api/surveys/41/responses?page=1'
+                        label: '1'
+                        active: false
+                      - url: 'https://yabblezone.net/chat-plugin-api/surveys/41/responses?page=2'
+                        label: '2'
+                        active: true
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          example: 'https://yabblezone.net/chat-plugin-api/surveys/41/responses?page=1'
+                        label:
+                          type: string
+                          example: '1'
+                        active:
+                          type: boolean
+                          example: false
+                  last_page:
+                    type: integer
+                    example: 2
+                  total:
+                    type: integer
+                    example: 202
+                  per_page:
+                    type: integer
+                    example: 200
+      tags:
+        - ChatSurveyGenerator
+      security: []
+      parameters:
+        - in: path
+          name: survey_id
+          description: 'Survey id that was returned from the POST /survey request'
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page
+          description: 'Page of data to fetch Default: 1'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Page of data to fetch Default: 1'
+            example: 20
+  '/chat-plugin-api/surveys/{survey_id}/personas':
+    get:
+      summary: 'Returns a list of created respondents (imaginary people) to be surveyed'
+      operationId: returnsAListOfCreatedRespondentsimaginaryPeopleToBeSurveyed
+      description: ''
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  - name: 'Innovative Ian'
+                    interests: 'Tech gadgets, audio quality, convenience'
+                    challenges: 'Finding the latest and greatest technology to showcase to friends and keeping up with trends while sticking to a budget.'
+                  - name: 'Quality-Oriented Quinn'
+                    interests: 'High-quality audio, noise cancellation, design'
+                    challenges: 'Spending money on high-quality products while staying within a budget and ensuring the product is worth the cost.'
+                  - name: 'Busy Bee Ben'
+                    interests: 'Multitasking, phone calls, convenience'
+                    challenges: 'Finding time in a busy schedule to charge devices and ensuring audio quality is not sacrificed for convenience.'
+      tags:
+        - ChatSurveyGenerator
+      security: []
+      parameters:
+        - in: path
+          name: survey_id
+          description: 'Survey id that was returned from the POST /survey request'
+          example: OOOO-OOOO
+          required: true
+          schema:
+            type: string
+tags:
+  - name: ChatSurveyGenerator
+    description: ''

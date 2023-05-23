@@ -1,0 +1,247 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SEO",
+    "description": "A digital SEO assistant that can help with SEO content, keywords, audits and more.",
+    "version": "1.0.5"
+  },
+  "servers": [
+    {
+      "url": "https://smyth.seo.app"
+    }
+  ],
+  "paths": {
+    "/writeOptimizedForSEO": {
+      "post": {
+        "summary": "This endpoint will return SEO insights such as topics, entities, emotions, and length for article writing and re-writing based on a user topic in the form of a primary SEO keyword. The large language model should then use those insights to write or re-write the article",
+        "operationId": "writeOptimizedForSEO",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keyphrase": {
+                    "type": "string",
+                    "description": "The keyphrase to optimize for.",
+                    "example": "Best places for a summer holiday"
+                  },
+                  "lang": {
+                    "type": "string",
+                    "description": "The 2-character ISO 639-2 language format.",
+                    "example": "fr"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "The alpha-2 ISO country code.",
+                    "example": "fr"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "The location canonical name. accepted format =",
+                    "example": "Paris, France"
+                  },
+                  "_context": {
+                    "type": "string",
+                    "description": "The User request summarized in 100 words max and in English language: if the user question is less than 100 words, use it as a context, otherwise summarize the user input in less than 100 words. if you can't guess the context just copy the first 100 words from the user prompt.",
+                    "example": "The user asked to rewrite an article with SEO optimizations"
+                  }
+                },
+                "required": [
+                  "keyphrase",
+                  "_context"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {}
+          }
+        }
+      }
+    },
+    "/writeNewForSEOFromURL": {
+      "post": {
+        "summary": "Write a new article from up to 3 URL sources, this endpoint will provide SEO insights such as topics, emotions, facts, SEO rules. The large language model should then use those insights to write a new article.",
+        "operationId": "writeNewForSEOFromURL",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keyphrase": {
+                    "type": "string",
+                    "description": "The keyphrase to optimize for.",
+                    "example": "Best places for a summer holiday"
+                  },
+                  "lang": {
+                    "type": "string",
+                    "description": "The 2-character ISO 639-2 language format.",
+                    "example": "fr"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "The 2-character ISO 639-2 language format.",
+                    "example": "fr"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "The location canonical name. accepted format =",
+                    "example": "Paris, France"
+                  },
+                  "url1": {
+                    "type": "string",
+                    "description": "The first source url",
+                    "example": "https://example.com/category/post-1"
+                  },
+                  "url2": {
+                    "type": "string",
+                    "description": "The second source url",
+                    "example": "https://example.com/category/post-2"
+                  },
+                  "url3": {
+                    "type": "string",
+                    "description": "The third source url",
+                    "example": "https://example.com/category/post-3"
+                  },
+                  "_context": {
+                    "type": "string",
+                    "description": "a summary of the the user request in less than 50 words",
+                    "example": "The user asked to rewrite the following article http://example.com/category/post"
+                  }
+                },
+                "required": [
+                  "url1",
+                  "_context"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {}
+          }
+        }
+      }
+    },
+    "/rewriteForSEOFromURL": {
+      "post": {
+        "summary": "Rewrite an existing article to optimize it for SEO based on a single URL provided by user. This endpoint will return SEO insights such as topics, entities and emotions along with the article for the large language model to rewrite.",
+        "operationId": "rewriteForSEOFromURL",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keyphrase": {
+                    "type": "string",
+                    "description": "The keyphrase to optimize for.",
+                    "example": "Best places for a summer holiday"
+                  },
+                  "lang": {
+                    "type": "string",
+                    "description": "The 2-character ISO 639-2 language format.",
+                    "example": "fr"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "The alpha-2 ISO country code.",
+                    "example": "fr"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "The location canonical name. accepted format =",
+                    "example": "Paris, France"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "The url to be used as a source article",
+                    "example": "https://example.com/category/post"
+                  },
+                  "_context": {
+                    "type": "string",
+                    "description": "a summary of the the user request in less than 50 words",
+                    "example": "The user asked to rewrite the following article http://example.com/category/post"
+                  }
+                },
+                "required": [
+                  "url",
+                  "_context"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {}
+          }
+        }
+      }
+    },
+    "/proto/aboutSEOapp": {
+      "post": {
+        "summary": "Use this endpoint to provide the user general information or help about SEO.app plugin",
+        "operationId": "aboutSEOapp",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/proto/featureRequest": {
+      "post": {
+        "summary": "Use this endpoint to let the user share feedback about the plugin or send a feature request",
+        "operationId": "featureRequest",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+openapi: 3.0.1
+info:
+  title: Comic Finder
+  description: A plugin which allows users to find an appropriate comic. Currently supports XKCD or SMBC (Saturday Morning Breakfast Cereal) comics
+  version: 'v1'
+servers:
+  - url: https://comicfinder.fly.dev
+paths:
+  /findcomic:
+    get:
+      operationId: findcomic
+      summary: Find an appropriate comic
+      parameters:
+      - in: query
+        name: request
+        schema:
+          type: string
+        required: true
+        description: User description of the comic to find
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/findComicResponse"
+components:
+  schemas:
+    findComicResponse:
+      type: object
+      properties:
+        smbc:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                description: URL of smbc comic
+              alt_text:
+                type: string
+                description: alt text string of sbmc comic
+              ocr_transcript:
+                type: string
+                description: OCR transcript of smbc comic. Likely to contain errors.
+              summary:
+                type: string
+                description: summary description of smbc comic
+        xkcd:
+          type: array
+          items:
+            type: object
+            properties:
+              month:
+                type: string
+                description: Ordinal number (1-12) representing month XKCD comic was released
+              num:
+                type: integer
+                description: Comic number
+              link:
+                type: string
+                description: link to comic
+              year:
+                type: string
+                description: year XKCD comic released
+              news:
+                type: string
+                description: news
+              safe_title:
+                type: string
+                description: Safe title
+              transcript:
+                type: string
+                description: Transcription of XKCD comic
+              alt:
+                type: string
+                description: Alt text for XKCD comic
+              img:
+                type: string
+                description: URL to image of XKCD comic
+              url:
+                type: string
+                description: URL to XKCD comic
+              title:
+                type: string
+                description: Title of XKCD comic
+              day:
+                type: string
+                description: Ordinal number (1-31) representing the day XKCD comic was released

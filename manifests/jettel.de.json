@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Video Insights",
+  "name_for_model": "video_insights",
+  "description_for_human": "Interact with online video platforms like Youtube or Daily Motion.",
+  "description_for_model": "Plugin for getting the transcript, metadata and other information of various video providers like Youtube or Daily Motion",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://jettel.de/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://jettel.de/logo.png",
+  "contact_email": "alexanderjettel@gmail.com",
+  "legal_info_url": "https://www.jettel.de/legal.txt"
+}

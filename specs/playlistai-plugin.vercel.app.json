@@ -1,0 +1,81 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PlaylistAI",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/playlist": {
+      "get": {
+        "summary": "Create a spotify music playlist",
+        "operationId": "checkGET",
+        "parameters": [
+          {
+            "name": "songNames",
+            "in": "query",
+            "required": true,
+            "description": "Comma separated list of song and artist names in this format: <song name> - <artist name>",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "required": true,
+            "description": "A suggested title for the playlist",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The new playlist url",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "playlistUrl": {
+                      "type": "string",
+                      "description": "The url of the playlist"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The user exceeded the number of playlists that they can create for free.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stripeUrl": {
+                      "type": "string",
+                      "description": "The url to go to to purchase unlimited playlists"
+                    },
+                    "supportEmail": {
+                      "type": "string",
+                      "description": "The support email that the user can contact for help or questions"
+                    },
+                    "helpUrl": {
+                      "type": "string",
+                      "description": "The url that the user can visit for help with their subscription or any issues."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A message that should be read to the user"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

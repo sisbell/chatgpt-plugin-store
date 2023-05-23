@@ -1,0 +1,695 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Statis Fund Finance",
+  "name_for_model": "statisfinapp",
+  "description_for_human": "Financial data tool for analyzing equities. You can get price quotes, analyze moving averages, RSI, and more.",
+  "description_for_model": "Financial data tool for retrieving financial data from Yahoo Finance. It can fetch historical data, calculate moving averages, compute Relative Strength Index (RSI), get trading volume, calculate volatility, compute price changes, and generate Bollinger Bands for a given stock ticker. Parameters such as start date, end date, and interval can be adjusted for each operation. The ticker symbol is required for all operations.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://statisfinapp.herokuapp.com/openapi.yaml",
+    "is_user_authenticated": false,
+    "endpoints": [
+      {
+        "name": "get_data",
+        "route": "/data/<ticker>",
+        "description": "Fetches historical data for a given stock ticker symbol.",
+        "parameters": [
+          {
+            "name": "ticker",
+            "type": "string",
+            "required": true,
+            "description": "The stock ticker symbol.",
+            "example": "AAPL"
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "required": false,
+            "description": "The start date for the data retrieval.",
+            "example": "2022-01-01"
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "required": false,
+            "description": "The end date for the data retrieval.",
+            "example": "2022-12-31"
+          },
+          {
+            "name": "interval",
+            "type": "string",
+            "required": false,
+            "description": "The interval for the data retrieval.",
+            "example": "1d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "The date of the data point."
+                    },
+                    "open": {
+                      "type": "number",
+                      "description": "The opening price of the stock on the given date."
+                    },
+                    "high": {
+                      "type": "number",
+                      "description": "The highest price of the stock on the given date."
+                    },
+                    "low": {
+                      "type": "number",
+                      "description": "The lowest price of the stock on the given date."
+                    },
+                    "close": {
+                      "type": "number",
+                      "description": "The closing price of the stock on the given date."
+                    },
+                    "volume": {
+                      "type": "integer",
+                      "description": "The trading volume of the stock on the given date."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "get_moving_average",
+        "route": "/moving_average/<ticker>",
+        "description": "Calculates the moving average for a given stock ticker symbol over a specified number of days.",
+        "parameters": [
+          {
+            "name": "ticker",
+            "type": "string",
+            "required": true,
+            "description": "The stock ticker symbol.",
+            "example": "AAPL"
+          },
+          {
+            "name": "days",
+            "type": "integer",
+            "required": false,
+            "description": "The number of days over which to calculate the moving average.",
+            "example": 50
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "required": false,
+            "description": "The start date for the data retrieval.",
+            "example": "2022-01-01"
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "required": false,
+            "description": "The end date for the data retrieval.",
+            "example": "2022-12-31"
+          },
+          {
+            "name": "interval",
+            "type": "string",
+            "required": false,
+            "description": "The interval for the data retrieval.",
+            "example": "1d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "The date of the data point."
+                    },
+                    "moving_average": {
+                      "type": "number",
+                      "description": "The moving average of the stock on the given date."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "get_rsi",
+        "route": "/rsi/<ticker>",
+        "description": "Calculates the Relative Strength Index (RSI) for a given stock ticker symbol over a specified period.",
+        "parameters": [
+          {
+            "name": "ticker",
+            "type": "string",
+            "required": true,
+            "description": "The stock ticker symbol.",
+            "example": "AAPL"
+          },
+          {
+            "name": "period",
+            "type": "integer",
+            "required": false,
+            "description": "The period over which to calculate the RSI.",
+            "example": 14
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "required": false,
+            "description": "The start date for the data retrieval.",
+            "example": "2022-01-01"
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "required": false,
+            "description": "The end date for the data retrieval.",
+            "example": "2022-12-31"
+          },
+          {
+            "name": "interval",
+            "type": "string",
+            "required": false,
+            "description": "The interval for the data retrieval.",
+            "example": "1d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "The date of the data point."
+                    },
+                    "rsi": {
+                      "type": "number",
+                      "description": "The RSI of the stock on the given date."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "get_volume",
+        "route": "/volume/<ticker>",
+        "description": "Retrieves the trading volume for a given stock ticker symbol.",
+        "parameters": [
+          {
+            "name": "ticker",
+            "type": "string",
+            "required": true,
+            "description": "The stock ticker symbol.",
+            "example": "AAPL"
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "required": false,
+            "description": "The start date for the data retrieval.",
+            "example": "2022-01-01"
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "required": false,
+            "description": "The end date for the data retrieval.",
+            "example": "2022-12-31"
+          },
+          {
+            "name": "interval",
+            "type": "string",
+            "required": false,
+            "description": "The interval for the data retrieval.",
+            "example": "1d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "The date of the data point."
+                    },
+                    "volume": {
+                      "type": "number",
+                      "description": "The trading volume of the stock on the given date."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "get_volatility",
+        "route": "/volatility/<ticker>",
+        "description": "Calculates the volatility for a given stock ticker symbol.",
+        "parameters": [
+          {
+            "name": "ticker",
+            "type": "string",
+            "required": true,
+            "description": "The stock ticker symbol.",
+            "example": "AAPL"
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "required": false,
+            "description": "The start date for the data retrieval.",
+            "example": "2022-01-01"
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "required": false,
+            "description": "The end date for the data retrieval.",
+            "example": "2022-12-31"
+          },
+          {
+            "name": "interval",
+            "type": "string",
+            "required": false,
+            "description": "The interval for the data retrieval.",
+            "example": "1d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "The date of the data point."
+                    },
+                    "volatility": {
+                      "type": "number",
+                      "description": "The volatility of the stock on the given date."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "get_price_change",
+        "route": "/price_change/<ticker>",
+        "description": "Calculates the price change for a given stock ticker symbol over a specified period.",
+        "parameters": [
+          {
+            "name": "ticker",
+            "type": "string",
+            "required": true,
+            "description": "The stock ticker symbol.",
+            "example": "AAPL"
+          },
+          {
+            "name": "period",
+            "type": "integer",
+            "required": false,
+            "description": "The period over which to calculate the price change.",
+            "example": 7
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "required": false,
+            "description": "The start date for the data retrieval.",
+            "example": "2022-01-01"
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "required": false,
+            "description": "The end date for the data retrieval.",
+            "example": "2022-12-31"
+          },
+          {
+            "name": "interval",
+            "type": "string",
+            "required": false,
+            "description": "The interval for the data retrieval.",
+            "example": "1d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "The date of the data point."
+                    },
+                    "price_change": {
+                      "type": "number",
+                      "description": "The price change of the stock on the given date."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "get_bollinger_bands",
+        "route": "/bollinger_bands/<ticker>",
+        "description": "Generates the Bollinger Bands for a given stock ticker symbol over a specified window.",
+        "parameters": [
+          {
+            "name": "ticker",
+            "type": "string",
+            "required": true,
+            "description": "The stock ticker symbol.",
+            "example": "AAPL"
+          },
+          {
+            "name": "window",
+            "type": "integer",
+            "required": false,
+            "description": "The window over which to calculate the Bollinger Bands.",
+            "example": 20
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "required": false,
+            "description": "The start date for the data retrieval.",
+            "example": "2022-01-01"
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "required": false,
+            "description": "The end date for the data retrieval.",
+            "example": "2022-12-31"
+          },
+          {
+            "name": "interval",
+            "type": "string",
+            "required": false,
+            "description": "The interval for the data retrieval.",
+            "example": "1d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "The date of the data point."
+                    },
+                    "upper_band": {
+                      "type": "number",
+                      "description": "The upper Bollinger Band value on the given date."
+                    },
+                    "middle_band": {
+                      "type": "number",
+                      "description": "The middle Bollinger Band (simple moving average) value on the given date."
+                    },
+                    "lower_band": {
+                      "type": "number",
+                      "description": "The lower Bollinger Band value on the given date."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "logo_url": "https://statisfinapp.herokuapp.com/logo.png",
+  "contact_email": "shawn@statisfund.com",
+  "legal_info_url": "http://www.statisfund.com/legal"
+}

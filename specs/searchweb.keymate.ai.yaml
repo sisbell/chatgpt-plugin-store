@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: Keymate Web Search API
+  description: A Flask app that uses the Google Custom Search API to search the web.
+  version: 1.0.0
+
+servers:
+  - url: https://searchweb.keymate.ai
+paths:
+  /search:
+    get:
+      operationId: searchGet
+      summary: Search Google and fetch HTML content
+      description: |
+        Searches internet using the provided query that is recreated by ChatGPT and returns the search results, along with the inner content of the first link. The first five search results include a summary of the HTML content, while the first three have the entire HTML content returned in the response.
+      parameters:
+        - name: q
+          in: query
+          description: Search query
+          required: true
+          schema:
+            type: string
+          example: python
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          description: The title of the search result
+                        link:
+                          type: string
+                          format: uri
+                          description: The URL of the search result
+                        summary:
+                          type: string
+                          description: A summary of the HTML content of the search result (available for the first five results)
+                        full_content:
+                          type: string
+                          description: The entire HTML content of the search result (available for the first three results)
+                example:
+                  results:
+                    - title: Welcome to Python.org
+                      link: https://www.python.org/
+                      summary: The official home of the Python Programming Language...
+                      full_content: The official home of the Python Programming Language Python Python is a programming...
+                    - title: Python (programming language) - Wikipedia
+                      link: https://en.wikipedia.org/wiki/Python_(programming_language)
+                      summary: Python is an interpreted, high-level, general-purpose programming language...
+                      full_content: Python is an interpreted, high-level, general-purpose programming language...
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                example:
+                  error: No query provided
+        'default':
+          description: Error fetching search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                example:
+                  error: Error fetching search results

@@ -1,0 +1,19 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ScholarAI",
+  "name_for_model": "scholarai",
+  "description_for_human": "Unlock the power of scientific research with peer-reviewed papers from PubMed, Arxiv, Springer, and more.",
+  "description_for_model": "Access open access scientific literature from peer-reviewed journals. The abstract endpoint finds relevant papers based on 2 to 6 keywords. After getting abstracts, ALWAYS prompt the user offering to go into more detail. Use the fulltext endpoint to retrieve the entire paper's text and access specific details using the provided pdf_url, if available. ALWAYS hyperlink the pdf_url from the responses if available. Offer to retrieve chunks of fulltext incrementally only upon request.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://scholar-ai.net/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://scholar-ai.net/logo.png",
+  "contact_email": "lakshb429@gmail.com",
+  "legal_info_url": "https://scholar-ai.net/legal.txt",
+  "HttpAuthorizationType": "basic"
+}

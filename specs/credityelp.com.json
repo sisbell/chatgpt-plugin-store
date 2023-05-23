@@ -1,0 +1,327 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "v0",
+    "title": "Open AI CreditYelp Calulator Api"
+  },
+  "servers": [
+    {
+      "url": "https://www.credityelp.com/openai/calulator"
+    }
+  ],
+  "tags": [
+    {
+      "name": "open-ai-calulator-endpoint",
+      "description": "Open AI Calulator Endpoint. Query for repayment information."
+    }
+  ],
+  "paths": {
+    "/personalloans": {
+      "get": {
+        "tags": [
+          "open-ai-calulator-endpoint"
+        ],
+        "summary": "Calculate and illustrate the repayment schedule for the personal loans. The output is including the interest rate, monthly payment, and loan term. Return a reasonable example when user only input loan amount or balance. The Missing values will be generated automatically on the example.",
+        "operationId": "personalloansGET",
+        "parameters": [
+          {
+            "name": "money",
+            "in": "query",
+            "description": "The total amount of the userâs existing loan and the amount userâs plan to borrow.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rate",
+            "in": "query",
+            "description": "loan interest rate",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "description": "The total number of periods that the user needs to repay the loan. Month as the unit.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "creditscore",
+            "in": "query",
+            "description": "User's credit score.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Calculation Result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalloansResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "one or more services are unavailable"
+          },
+          "400": {
+            "description": "the requested scope does not meet the requirements"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/creditcardloans": {
+      "get": {
+        "tags": [
+          "open-ai-calulator-endpoint"
+        ],
+        "summary": "Calculate and illustrate the necessary figures and repayment plan to pay off the credit card balance. Return a reasonable example when user only input loan amount or balance. The Missing values will be generated automatically on the example.",
+        "operationId": "creditCardloansGET",
+        "parameters": [
+          {
+            "name": "balance",
+            "in": "query",
+            "description": "the total outstanding amount owed, including purchases, fees, and interest charges, that a cardholder must repay.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rate",
+            "in": "query",
+            "description": "The interest rate that the credit card issuer charges the user on the outstanding balance.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "monthly_payment",
+            "in": "query",
+            "description": "The fixed amount that needs to be repaid by the user each month during a given repayment period until the balance is paid off.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "description": "The total number of periods that the user wishes to payoff the outstanding credit card balance. Month as the unit.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Calculate Credit Card loan repayment Result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditCardloansResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "one or more services are unavailable"
+          },
+          "400": {
+            "description": "the requested scope does not meet the requirements"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PayInfoResult": {
+        "type": "object",
+        "properties": {
+          "monthly_payment": {
+            "type": "double",
+            "description": "Monthly Payment"
+          },
+          "loan_amount": {
+            "type": "double",
+            "description": "Loan Amount"
+          },
+          "total_interest_paid": {
+            "type": "double",
+            "description": "Total interest paid"
+          },
+          "total_amount_paid": {
+            "type": "double",
+            "description": "Total amount paid"
+          }
+        },
+        "description": "monthly repayment information",
+        "title": "Repayment Amount"
+      },
+      "CreditCardPayInfoResult": {
+        "type": "object",
+        "properties": {
+          "monthly_payment": {
+            "type": "double",
+            "description": "Monthly Payment"
+          },
+          "credit_card_balance": {
+            "type": "double",
+            "description": "Credit Card Balance"
+          },
+          "interest_rate": {
+            "type": "double",
+            "description": "Interest Rate"
+          },
+          "months_to_payoff": {
+            "type": "integer",
+            "description": "Months To Payoff"
+          },
+          "total_interest_paid": {
+            "type": "double",
+            "description": "Total interest paid"
+          },
+          "total_amount_paid": {
+            "type": "double",
+            "description": "Total amount paid"
+          }
+        },
+        "description": "monthly repayment information",
+        "title": "Repayment Amount"
+      },
+      "MonthPaymentInfo": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "integer",
+            "description": "specific month number of the amortization schedule"
+          },
+          "beginning_balance": {
+            "type": "double",
+            "description": "#the starting balance amount of the armotization schedule for each payment period#"
+          },
+          "interest": {
+            "type": "double",
+            "description": "#the interest amount paid for each period on the amortization schedule#"
+          },
+          "principle": {
+            "type": "double",
+            "description": "#the priciple amount paid for each period on the amortization schedule#"
+          },
+          "ending_balance": {
+            "type": "double",
+            "description": "#the ending balance amount of the armotization schedule for each payment period#"
+          }
+        },
+        "title": "monthlypaymentinfo",
+        "description": "the detailed information about the monthly payment"
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "theme": {
+            "type": "string",
+            "description": "The result of this repayment calculation."
+          },
+          "paymentinfo": {
+            "type": "object",
+            "description": "repayment information",
+            "items": {
+              "$ref": "#/components/schemas/PayInfoResult"
+            }
+          },
+          "monthpaymentinfolist": {
+            "type": "string",
+            "description": "detailed amortization schedule table. Return up to 30 items."
+          }
+        },
+        "title": "Calculation Result"
+      },
+      "CreditsCoreRate": {
+        "type": "object",
+        "properties": {
+          "creditscore": {
+            "type": "string",
+            "description": "range of the credit score."
+          },
+          "creditscore_rate": {
+            "type": "string",
+            "description": "interest rate under specific credit score range"
+          }
+        },
+        "title": "rateandscore",
+        "description": "the connection between interest rate and credit score"
+      },
+      "PersonalloansResponse": {
+        "type": "object",
+        "properties": {
+          "Describe": {
+            "type": "string",
+            "description": "The main content of the answer"
+          },
+          "paymentresultlist": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Result"
+            }
+          },
+          "Summarize": {
+            "type": "string",
+            "description": "summary of answers"
+          },
+          "url": {
+            "type": "string",
+            "description": "Calculate your personal loan payments accurately and quickly with the personal loan calculator."
+          }
+        },
+        "description": "repayment information",
+        "title": "PersonalloansResponse"
+      },
+      "CreditCardloansResponse": {
+        "type": "object",
+        "properties": {
+          "describe": {
+            "type": "string",
+            "description": "The main content of the answer"
+          },
+          "creditcardloansresult": {
+            "type": "object",
+            "items": {
+              "$ref": "#/components/schemas/CreditCardPayInfoResult"
+            }
+          },
+          "Summarize": {
+            "type": "string",
+            "description": "summary of answers"
+          },
+          "recommend": {
+            "type": "string",
+            "description": "recommend of answers"
+          },
+          "url": {
+            "type": "string",
+            "description": "Accurately and quickly calculate your credit card loan payments with the Credit Card Loan Calculator."
+          }
+        },
+        "description": "repayment information",
+        "title": "CreditCardloansResponse"
+      }
+    }
+  }
+}

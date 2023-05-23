@@ -1,0 +1,23 @@
+{
+  "schema_version": "v1",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "4a487bd3cba64bd584dd089bbc820c70"
+    }
+  },
+  "name_for_human": "Website Performance",
+  "name_for_model": "website_performance_insights",
+  "description_for_human": "Measure key metrics about your website - performance, accessibility, best practices, SEO, PWA.",
+  "description_for_model": "Measures website and returns key metrics about a site's accessibility, best practices, performance, PWA information, and SEO, from a performance standpoint. This API is powered by Google's Lighthouse project. You can get a Lighthouse report with main metrics for any given URL. You must prefix URLs with https:// if missing. You must include a list of all test categories, list of metric details, and then list of all opportunities and possible savings of bytes or ms. Include all metrics in your response. Suggest improvements on measured metrics. Include the URL being tested and a full report URL in your response.",
+  "contact_email": "hello@eidam.dev",
+  "legal_info_url": "https://eidam.dev/legal",
+  "logo_url": "https://tabler-icons.io/static/tabler-icons/icons/brand-speedtest.svg",
+  "is_dev": false,
+  "api": {
+    "type": "openapi",
+    "has_user_authentication": false,
+    "url": "https://website-performance-plugin.eidam.dev/openapi.json"
+  }
+}

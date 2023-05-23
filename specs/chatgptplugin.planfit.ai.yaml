@@ -1,0 +1,103 @@
+openapi: 3.0.1
+
+info:
+  title: Planfit
+  description: Plugin for recommending workout routine. It also gives you a guide with video for each exercise.
+  version: "v1"
+servers:
+  - url: https://chatgptplugin.planfit.ai/
+paths:
+  /get-workout-routine/:
+    post:
+      operationId: getWorkoutRoutine
+      summary: Get today's workout routine.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/recommendWorkoutRoutineRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getWorkoutRoutineResponse"
+components:
+  schemas:
+    recommendWorkoutRoutineRequest:
+      type: object
+      properties:
+        gender:
+          type: string
+          description: User's Gender. M or F or O. M is Male, F is Female, O is Other.
+          required: true
+        fitness_level:
+          type: integer
+          description: User's level of fitness. 1 to 5, 1 is Intoductory, 2 is Beginner, 3 is Intermediate, 4 is Advanced, 5 is Expert.
+          required: true
+        body_weight:
+          type: number
+          description: User's Body weight. If user don't want to tell, it has to be null. If user enter it as pound, it should be converted to kg.
+          required: false
+        parts:
+          type: array
+          items:
+            type: string
+          description: Muscle parts that are trained today. They should be in the list. (leg, back, chest, shoulder, core, biceps, triceps, forearm, cardio)
+          required: true
+        location:
+          type: string
+          description: The location where user work out, gym or home. If home is selected, the workout routine will be body weight exercise.
+          required: true
+        user_language_code:
+          type: string
+          description: User's language code that should be reconized from user's prompts.
+          required: false
+    getWorkoutRoutineResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/getWorkoutRoutineResponseItem"
+    getWorkoutRoutineResponseItem:
+      type: object
+      properties:
+        training_model_id:
+          type: integer
+        name:
+          type: string
+          description: The name of this exercise.
+        weight:
+          type: number
+          nullable: true
+          description: weight in kg. It should be shown to user.
+        weight_lbs:
+          type: number
+          nullable: true
+          description: weight in lbs(pound). It should be shown to user.
+        reps:
+          type: number
+          nullable: true
+        minutes:
+          type: number
+          nullable: true
+        type:
+          type: string
+          description: Type of exercise. ex. normal, body_weight, time, etc.
+        set_count:
+          type: integer
+        alternatives:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Alternative training name.
+              guide_url:
+                type: string
+                description: The guide web page url of training. It should be provided as hyperlink.
+          description: Alternative training name list.
+        guide_url:
+          type: string
+          description: The guide web page url of training. It should be provided as hyperlink.

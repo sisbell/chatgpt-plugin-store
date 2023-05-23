@@ -1,0 +1,2834 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://gpt-service-api.hellopublic.com",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/api/historic/bar": {
+      "get": {
+        "operationId": "getHistoricBar",
+        "summary": "Get historic stock data for a specific date in the past. Format endDateTime variable according to 'm/d/YYYY hh:mm aaa', example '4/4/2023 10:00 am'. If time is not specified, default it to 4:00 pm.",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "description": "The ticker of a stock, ex TSLA for Tesla",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDateTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricBarResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments": {
+      "get": {
+        "operationId": "getInstrumentList",
+        "summary": "Get realtime detailed asset info like: fundamentals, earnings reports, calls and outlooks, analyst ratings and commentary, financials, revenue, margin, sales, etc",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentListInstrumentDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments/details/fundamental": {
+      "get": {
+        "operationId": "getInstrumentListDetailsFundamental",
+        "summary": "Market cap, pe ratio, ebitda, dividend yield, and other key asset fundamentals",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentDetailsFundamentalDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments/earnings": {
+      "get": {
+        "operationId": "getInstrumentListEarnings",
+        "summary": "Earnings transcripts for all stocks for the last 3 years, including all speakers. Returns excerpts from earnings calls. Ask a query in natural language including the symbol and quarter.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "A question in naural language. Include the sybmol and quarter you are referencing in the natural language query.",
+            "schema": {
+              "title": "Query",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentListEarningsQueryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments/earnings-estimates": {
+      "get": {
+        "operationId": "getInstrumentListEarningsEstimates",
+        "summary": "Numeric info on last 4 quarters of earnings estimates and actuals, inclduing the current quarter estimate",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentDetailsEarningDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments/details/company-profile": {
+      "get": {
+        "operationId": "getInstrumentListDetailsCompanyProfile",
+        "summary": "Company information including name, location, executives, comapny logo etc.",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentDetailsCompanyProfileDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments/details/etf-fundamental": {
+      "get": {
+        "operationId": "getInstrumentListDetailsEtfFundamental",
+        "summary": "Fundamental info for ETFs - type, trailing returns, expense ratio, prospectus link for more info",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentDetailsEtfFundamentalDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments/details/financials": {
+      "get": {
+        "operationId": "getInstrumentListDetailsFinancials",
+        "summary": "Latest quarterly finanicals: Income statement, Balance sheet, and Cash flows (ex revenue, profit, margins, etc.)",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentDetailsFinancialsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments/hypercharts": {
+      "get": {
+        "operationId": "getInstrumentListHypercharts",
+        "summary": "Historical quarterly financials for the company - Income statement, balance sheet, cash flows as well as other company-specific metrics.",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentListHyperchartsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments/analysis": {
+      "get": {
+        "operationId": "getInstrumentListAnalysis",
+        "description": "Helpful for questions like 'Should I buy...' 'Should I invest in...' 'What are the opinions on...'",
+        "summary": "Arguments for and against investing in the asset: Analyst ratings, recommendations, commentary and reports. (eg should I buy ...) ",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentListAnalysisDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/instruments/advanced-crypto-data": {
+      "get": {
+        "operationId": "getInstrumentListAdvancedCryptoData",
+        "summary": "Crypto fundamentals - volume, transactions, active addresses etc.",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentListAdvancedCryptoData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quotes": {
+      "get": {
+        "operationId": "getQuotes",
+        "summary": "Realtime stock, etf, crypto price quotes, including bid, ask, close, open, price changes. For crypto, format symbols with -CRYPTO suffix in lieu of -USD. For example, bitcoin is BTC-CRYPTO",
+        "parameters": [
+          {
+            "name": "symbols",
+            "description": "ticker or symbol for each asset/instrument. for stocks keep symbol as is; for crypto, format symbols with -CRYPTO suffix in lieu of USD. For example, bitcoin is BTC-CRYPTO",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteListDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/moving-stock": {
+      "get": {
+        "summary": "Quick summary on why the asset is moving today (eg Why is TSLA moving)",
+        "description": "Why is it moving stock post for a given symbol",
+        "operationId": "getMovingStockPost",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMovingStockPostResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stock-news": {
+      "get": {
+        "summary": "Current news articles about the asset",
+        "description": "The symbol path variable can be either a stock or crypto symbol (e.g. AAPL or BTC-CRYPTO).",
+        "operationId": "getStockNews",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetStockNewsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/top-movers": {
+      "get": {
+        "summary": "List of assets with highest gain/loss (movement) in the market today",
+        "operationId": "getTopMovers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TopMoversDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/asset-query/top-gainers": {
+      "get": {
+        "summary": "Top gainers by percent change in the market today",
+        "operationId": "assetQueryTopGainers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypedAssetCollectionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/asset-query/top-losers": {
+      "get": {
+        "summary": "Top losers by percent change in the market today",
+        "operationId": "assetQueryTopLosers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypedAssetCollectionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/asset-query/highest-1-day-volume": {
+      "get": {
+        "summary": "Assets with the highest trading volume today",
+        "operationId": "assetQueryHighest1DayVolume",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypedAssetCollectionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/asset-query/largest-daily-volume-deviation": {
+      "get": {
+        "summary": "Assets with the most unusual trading volume today (ie highest deviation from average volume)",
+        "operationId": "assetQueryLargestDailyVolumeDeviation",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypedAssetCollectionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/asset-query/max-52-weeks-price-usd": {
+      "get": {
+        "summary": "Assets at their 52-week high",
+        "operationId": "assetQueryMax52WeeksPriceUsd",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypedAssetCollectionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/asset-query/min-52-weeks-price-usd": {
+      "get": {
+        "summary": "Assets at their 52-week low",
+        "operationId": "assetQueryMin52WeeksPriceUsd",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypedAssetCollectionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HistoricBarResponse": {
+        "required": [],
+        "type": "object",
+        "properties": {
+          "historicPriceData": {
+            "type": "object",
+            "properties": {
+              "startDate": {
+                "type": "string"
+              },
+              "startTime": {
+                "type": "string"
+              },
+              "endDate": {
+                "type": "string"
+              },
+              "endTime": {
+                "type": "string"
+              },
+              "utcOffset": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "open": {
+                "type": "number"
+              },
+              "high": {
+                "type": "number"
+              },
+              "low": {
+                "type": "number"
+              },
+              "close": {
+                "type": "number"
+              },
+              "volume": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          "securityDetails": {
+            "type": "object",
+            "properties": {
+              "symbol": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "market": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "QuoteDto": {
+        "required": [
+          "ask",
+          "bid",
+          "gainPercentage",
+          "gainValue",
+          "high",
+          "last",
+          "lastUpdated",
+          "low",
+          "open",
+          "previousClose",
+          "symbol",
+          "volume"
+        ],
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "lastUpdated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "previousClose": {
+            "type": "number",
+            "format": "double"
+          },
+          "high": {
+            "type": "number",
+            "format": "double"
+          },
+          "low": {
+            "type": "number",
+            "format": "double"
+          },
+          "volume": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "last": {
+            "type": "number",
+            "format": "double"
+          },
+          "open": {
+            "type": "number",
+            "format": "double"
+          },
+          "gainPercentage": {
+            "type": "number",
+            "format": "double"
+          },
+          "gainValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "ask": {
+            "type": "number",
+            "description": "",
+            "format": "double"
+          },
+          "bid": {
+            "type": "number",
+            "description": "",
+            "format": "double"
+          }
+        },
+        "description": "Realtime stock quotes and market data from Xignite"
+      },
+      "QuoteListDto": {
+        "type": "object",
+        "properties": {
+          "quotes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuoteDto"
+            }
+          },
+          "cryptoQuotes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuoteWithGain"
+            }
+          },
+          "altQuotes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuoteWithGain"
+            }
+          }
+        }
+      },
+      "QuoteWithGain": {
+        "type": "object",
+        "properties": {
+          "last": {
+            "type": "string"
+          },
+          "gainPercentage": {
+            "type": "string"
+          },
+          "gainValue": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "ask": {
+            "type": "string"
+          },
+          "askSize": {
+            "type": "string"
+          },
+          "bid": {
+            "type": "string"
+          },
+          "bidSize": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "InstrumentDto": {
+        "required": [
+          "name",
+          "symbol"
+        ],
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Symbol of the instrument"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the instrument"
+          }
+        }
+      },
+      "Chart": {
+        "required": [
+          "chartType",
+          "keyType",
+          "series",
+          "title",
+          "valueType"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "chartType": {
+            "type": "string",
+            "description": "Chart type",
+            "enum": [
+              "VERTICAL_BARS",
+              "STACKED_VERTICAL_BARS",
+              "AREA"
+            ]
+          },
+          "keyType": {
+            "type": "string",
+            "description": "Key type shown on X-axis",
+            "enum": [
+              "DATE",
+              "STRING"
+            ]
+          },
+          "valueType": {
+            "type": "string",
+            "description": "Value type shown on Y-axis",
+            "enum": [
+              "NUMBER",
+              "MONEY",
+              "PERCENT",
+              "PLACEHOLDER"
+            ]
+          },
+          "valueMultiplier": {
+            "type": "integer",
+            "description": "Used for multiplying of value on Y-axis when valueType is NUMBER, default value 1",
+            "format": "int64"
+          },
+          "valueFormat": {
+            "type": "string",
+            "description": "Used for formatting of value on Y-axis"
+          },
+          "isoCurrency": {
+            "type": "string",
+            "description": "ISO Currency, present when valueType is MONEY"
+          },
+          "currencySymbol": {
+            "type": "string",
+            "description": "Currency symbol ($, €, CAD, etc), present when valueType is MONEY"
+          },
+          "series": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Series"
+            }
+          },
+          "overlayChart": {
+            "$ref": "#/components/schemas/Chart"
+          }
+        },
+        "description": "Addresses by holdings chart"
+      },
+      "CompanyProfileDetail": {
+        "required": [
+          "brands"
+        ],
+        "type": "object",
+        "properties": {
+          "publicLinks": {
+            "$ref": "#/components/schemas/PublicLinks"
+          },
+          "location": {
+            "type": "string",
+            "description": "The address where a company resides"
+          },
+          "companyName": {
+            "type": "string",
+            "description": "The name of a company displayed on a stock page"
+          },
+          "companyDescription": {
+            "type": "string",
+            "description": "The long company description of a company displayed on a stock page"
+          },
+          "executives": {
+            "$ref": "#/components/schemas/ExecutivesDto"
+          }
+        },
+        "description": "The company profile details containing info such as twitter, location and external link."
+      },
+      "DataPoint": {
+        "required": [
+          "key",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Key for X-axis"
+          },
+          "value": {
+            "type": "number",
+            "description": "Value for Y-axis",
+            "format": "double"
+          }
+        }
+      },
+      "EarningDateDto": {
+        "required": [
+          "date",
+          "quarter",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Day of the payout",
+            "format": "date"
+          },
+          "title": {
+            "type": "string",
+            "description": "Represent the period for which the payout will be carried out for"
+          },
+          "quarter": {
+            "type": "string",
+            "description": "Reported quarter",
+            "enum": [
+              "Q1",
+              "Q2",
+              "Q3",
+              "Q4"
+            ]
+          }
+        },
+        "description": "Dates of dividends pay out"
+      },
+      "EarningEstimatesDto": {
+        "required": [
+          "fiscalQuarter",
+          "fiscalYear",
+          "period"
+        ],
+        "type": "object",
+        "properties": {
+          "actual": {
+            "type": "number",
+            "description": "Represents the actual earnings for a quarter. Could be null if the earnings report of te instrument is not published",
+            "format": "double"
+          },
+          "estimate": {
+            "type": "number",
+            "description": "Consensus-rating of estimate earnings. Could be null due to missing estimates.",
+            "format": "double"
+          },
+          "period": {
+            "type": "string",
+            "description": "Period represented as year and quarter"
+          },
+          "fiscalQuarter": {
+            "type": "string",
+            "description": "Fiscal quarter",
+            "enum": [
+              "Q1",
+              "Q2",
+              "Q3",
+              "Q4"
+            ]
+          },
+          "fiscalYear": {
+            "type": "integer",
+            "description": "Fiscal year",
+            "format": "int32"
+          },
+          "lastUpdated": {
+            "type": "string",
+            "description": "Last updated date",
+            "format": "date-time"
+          },
+          "eventDate": {
+            "type": "string",
+            "description": "Date of the earnings calls event",
+            "format": "date-time"
+          }
+        },
+        "description": "Consensus-level earnings estimate and actual earnings for the last 4 quarters inclusive the current one"
+      },
+      "EsgRisk": {
+        "required": [
+          "environmentRiskScore",
+          "esgRiskCategory",
+          "esgRiskScore",
+          "governanceRiskScore",
+          "socialRiskScore"
+        ],
+        "type": "object",
+        "properties": {
+          "esgRiskScore": {
+            "type": "number",
+            "description": "ESG risk score, max value: 100 (sum of environment, social and governance risk score)",
+            "format": "double"
+          },
+          "esgRiskCategory": {
+            "type": "string",
+            "description": "ESG risk category, values: 0-10 is Negligible, 10-20 is Low, 20-30 is Medium, 30-40 is High and 40-100 is Severe"
+          },
+          "environmentRiskScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "socialRiskScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "governanceRiskScore": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "description": "Contains ESG risk scores (ESG risk score, ESG risk category and environment, governance, social risk score)"
+      },
+      "EtfHoldingDto": {
+        "required": [
+          "name",
+          "symbol",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "EtfHoldings": {
+        "required": [
+          "holdings",
+          "totalHoldings"
+        ],
+        "type": "object",
+        "properties": {
+          "totalHoldings": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "holdings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EtfHoldingDto"
+            }
+          }
+        },
+        "description": "Contains ETF holdings"
+      },
+      "ExecutivesDto": {
+        "required": [
+          "stock"
+        ],
+        "type": "object",
+        "properties": {
+          "stock": {
+            "type": "string",
+            "description": "The stock symbol of company"
+          },
+          "executives": {
+            "type": "array",
+            "description": "A person or group having administrative or managerial authority in an organization, real users or manually created",
+            "items": {
+              "$ref": "#/components/schemas/Stakeholder"
+            }
+          }
+        },
+        "description": "A person or group having administrative or managerial authority in an organization, real users or artificially created"
+      },
+      "FinancialMapping": {
+        "required": [
+          "key",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Financial identifier",
+            "enum": [
+              "REVENUE",
+              "COST_OF_REVENUE",
+              "GROSS_PROFIT",
+              "OPERATING_EXPENSES",
+              "SELLING_GENERAL_ADMINISTRATIVE_EXPENSES",
+              "OPERATING_EXPENSES_OTHER",
+              "OPERATING_INCOME",
+              "EBITDA",
+              "DEPRECIATION_AND_AMORTIZATION",
+              "NET_INCOME",
+              "EPS",
+              "TOTAL_ASSETS",
+              "CURRENT_ASSETS",
+              "CASH_AND_EQUIVALENTS",
+              "RECEIVABLES",
+              "INVENTORY",
+              "CURRENT_ASSETS_OTHER",
+              "NON_CURRENT_ASSETS",
+              "NET_PPE",
+              "INTANGIBLES",
+              "NON_CURRENT_ASSETS_OTHER",
+              "TOTAL_LIABILITIES",
+              "CURRENT_LIABILITIES",
+              "SHORT_TERM_DEBT",
+              "INCOME_TAX_PAYABLE",
+              "CURRENT_LIABILITIES_OTHER",
+              "NON_CURRENT_LIABILITIES",
+              "LONG_TERM_DEBT",
+              "NON_CURRENT_LIABILITIES_OTHER",
+              "TOTAL_EQUITY",
+              "STOCKHOLDERS_EQUITY",
+              "MINORITY_INTEREST",
+              "TOTAL_LIABILITIES_AND_EQUITY",
+              "TOTAL_DEBT",
+              "NET_DEBT",
+              "BOOK_VALUE_PER_SHARE",
+              "NET_INCOME_CASH_FLOW",
+              "CASH_FROM_OPERATIONS",
+              "FUNDS_FROM_OPERATIONS",
+              "CHANGE_IN_WORKING_CAPITAL",
+              "CASH_FROM_INVESTING",
+              "CAPITAL_EXPENDITURE",
+              "PURCHASE_SALE_OF_INVESTMENTS",
+              "PURCHASE_SALE_OF_BUSINESS",
+              "CASH_FROM_INVESTING_OTHER_SOURCES",
+              "CASH_FROM_FINANCING",
+              "CHANGE_IN_STOCK",
+              "CHANGE_IN_DEBT",
+              "CASH_DIVIDENDS_PAID",
+              "CASH_FROM_FINANCING_OTHER_SOURCES",
+              "CASH_FROM_OTHER_SOURCES",
+              "NET_CHANGE_IN_CASH",
+              "FREE_CASH_FLOW"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Financial display name"
+          }
+        },
+        "description": "Mapping of financials and financial labels"
+      },
+      "FinancialQuarterReport": {
+        "required": [
+          "financialMapping",
+          "lastUpdated",
+          "periodKey",
+          "values"
+        ],
+        "type": "object",
+        "properties": {
+          "periodKey": {
+            "type": "string",
+            "description": "Period, that the financials values belong to. For annual financials it is a year (e.g. 2022), for quarterly financials it is a quarter with a year (e.g. Q3 2022)"
+          },
+          "values": {
+            "type": "array",
+            "description": "Financials values",
+            "items": {
+              "$ref": "#/components/schemas/FinancialValue"
+            }
+          },
+          "financialMapping": {
+            "type": "array",
+            "description": "Mapping of financials and financial labels",
+            "items": {
+              "$ref": "#/components/schemas/FinancialMapping"
+            }
+          },
+          "lastUpdated": {
+            "type": "string",
+            "description": "Last updated date for financials",
+            "format": "date-time"
+          }
+        },
+        "description": "Fundamental financials"
+      },
+      "FinancialValue": {
+        "required": [
+          "financialKey",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "financialKey": {
+            "type": "string",
+            "description": "Financial identifier, used in chart mapping",
+            "enum": [
+              "REVENUE",
+              "COST_OF_REVENUE",
+              "GROSS_PROFIT",
+              "OPERATING_EXPENSES",
+              "SELLING_GENERAL_ADMINISTRATIVE_EXPENSES",
+              "OPERATING_EXPENSES_OTHER",
+              "OPERATING_INCOME",
+              "EBITDA",
+              "DEPRECIATION_AND_AMORTIZATION",
+              "NET_INCOME",
+              "EPS",
+              "TOTAL_ASSETS",
+              "CURRENT_ASSETS",
+              "CASH_AND_EQUIVALENTS",
+              "RECEIVABLES",
+              "INVENTORY",
+              "CURRENT_ASSETS_OTHER",
+              "NON_CURRENT_ASSETS",
+              "NET_PPE",
+              "INTANGIBLES",
+              "NON_CURRENT_ASSETS_OTHER",
+              "TOTAL_LIABILITIES",
+              "CURRENT_LIABILITIES",
+              "SHORT_TERM_DEBT",
+              "INCOME_TAX_PAYABLE",
+              "CURRENT_LIABILITIES_OTHER",
+              "NON_CURRENT_LIABILITIES",
+              "LONG_TERM_DEBT",
+              "NON_CURRENT_LIABILITIES_OTHER",
+              "TOTAL_EQUITY",
+              "STOCKHOLDERS_EQUITY",
+              "MINORITY_INTEREST",
+              "TOTAL_LIABILITIES_AND_EQUITY",
+              "TOTAL_DEBT",
+              "NET_DEBT",
+              "BOOK_VALUE_PER_SHARE",
+              "NET_INCOME_CASH_FLOW",
+              "CASH_FROM_OPERATIONS",
+              "FUNDS_FROM_OPERATIONS",
+              "CHANGE_IN_WORKING_CAPITAL",
+              "CASH_FROM_INVESTING",
+              "CAPITAL_EXPENDITURE",
+              "PURCHASE_SALE_OF_INVESTMENTS",
+              "PURCHASE_SALE_OF_BUSINESS",
+              "CASH_FROM_INVESTING_OTHER_SOURCES",
+              "CASH_FROM_FINANCING",
+              "CHANGE_IN_STOCK",
+              "CHANGE_IN_DEBT",
+              "CASH_DIVIDENDS_PAID",
+              "CASH_FROM_FINANCING_OTHER_SOURCES",
+              "CASH_FROM_OTHER_SOURCES",
+              "NET_CHANGE_IN_CASH",
+              "FREE_CASH_FLOW"
+            ]
+          },
+          "value": {
+            "type": "number",
+            "description": "Financial value",
+            "format": "double"
+          },
+          "changePercentage": {
+            "type": "number",
+            "description": "Financial Y/Y change (in %)",
+            "format": "double"
+          },
+          "valueToRevenueRatio": {
+            "type": "number",
+            "description": "Financial value divided by revenue",
+            "format": "double"
+          }
+        },
+        "description": "Financials values"
+      },
+      "InstrumentListInstrumentDto": {
+        "required": [
+          "instruments"
+        ],
+        "type": "object",
+        "properties": {
+          "instruments": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentDto"
+            }
+          }
+        }
+      },
+      "InstrumentDetailsFundamentalDto": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentDetailsFundamentalItem"
+            }
+          }
+        }
+      },
+      "InstrumentDetailsFundamentalItem": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "fundamental": {
+            "$ref": "#/components/schemas/InstrumentFundamentalDto"
+          }
+        }
+      },
+      "InstrumentListEarningsQueryDto": {
+        "required": [
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "InstrumentDetailsEarningDto": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentDetailsEarningItem"
+            }
+          }
+        }
+      },
+      "InstrumentDetailsEarningItem": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "earningEstimates": {
+            "type": "array",
+            "description": "Consensus-level earnings estimate and actual earnings for the last 4 quarters inclusive the current one",
+            "items": {
+              "$ref": "#/components/schemas/EarningEstimatesDto"
+            }
+          },
+          "earningDates": {
+            "type": "array",
+            "description": "Dates of dividends pay out",
+            "items": {
+              "$ref": "#/components/schemas/EarningDateDto"
+            }
+          }
+        }
+      },
+      "InstrumentDetailsCompanyProfileDto": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentDetailsCompanyProfileItem"
+            }
+          }
+        }
+      },
+      "InstrumentDetailsCompanyProfileItem": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "companyProfileDetail": {
+            "$ref": "#/components/schemas/CompanyProfileDetail"
+          }
+        }
+      },
+      "InstrumentDetailsEtfFundamentalDto": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentDetailsEtfFundamentalItem"
+            }
+          }
+        }
+      },
+      "InstrumentDetailsEtfFundamentalItem": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "etfFundamental": {
+            "$ref": "#/components/schemas/SharedEtfFundamental"
+          }
+        }
+      },
+      "InstrumentDetailsFinancialsDto": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentDetailsFinancialsItem"
+            }
+          }
+        }
+      },
+      "InstrumentDetailsFinancialsItem": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "financials": {
+            "$ref": "#/components/schemas/FinancialQuarterReport"
+          }
+        }
+      },
+      "InstrumentListHyperchartsItem": {
+        "required": [
+          "symbol",
+          "charts"
+        ],
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "charts": {
+            "type": "array",
+            "description": "Contains Hypercharts",
+            "items": {
+              "$ref": "#/components/schemas/Chart"
+            }
+          },
+          "chartsLastUpdated": {
+            "type": "string",
+            "description": "Last updated date for charts from Hypercharts",
+            "format": "date-time"
+          }
+        }
+      },
+      "InstrumentListHyperchartsDto": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentListHyperchartsItem"
+            }
+          }
+        }
+      },
+      "InstrumentListAnalysisItem": {
+        "required": [
+          "symbol",
+          "buySellRatio"
+        ],
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "analyst": {
+            "required": [
+              "symbol",
+              "bearsSay",
+              "bullsSay",
+              "reportLastUpdated"
+            ],
+            "type": "object",
+            "properties": {
+              "bearsSay": {
+                "type": "array",
+                "description": "List of opinions, what bears say about this stock",
+                "items": {
+                  "type": "string",
+                  "description": "List of opinions, what bears say about this stock"
+                }
+              },
+              "bullsSay": {
+                "type": "array",
+                "description": "List of opinions, what bulls say about this stock",
+                "items": {
+                  "type": "string",
+                  "description": "List of opinions, what bulls say about this stock"
+                }
+              },
+              "reportLastUpdated": {
+                "type": "string",
+                "description": "Last updated date for reports inside research, bullsSay, bearsSay",
+                "format": "date-time"
+              },
+              "research": {
+                "$ref": "#/components/schemas/Research"
+              },
+              "price": {
+                "$ref": "#/components/schemas/Price"
+              },
+              "esgRisk": {
+                "$ref": "#/components/schemas/EsgRisk"
+              },
+              "revenue": {
+                "$ref": "#/components/schemas/Revenue"
+              },
+              "etfHoldings": {
+                "$ref": "#/components/schemas/EtfHoldings"
+              },
+              "etfHoldingsLastUpdated": {
+                "type": "string",
+                "description": "Last updated date for ETF holdings",
+                "format": "date-time"
+              }
+            }
+          },
+          "buySellRatio": {
+            "required": [
+              "symbol",
+              "buy",
+              "lastUpdated",
+              "sell"
+            ],
+            "type": "object",
+            "properties": {
+              "buy": {
+                "type": "number",
+                "format": "double"
+              },
+              "sell": {
+                "type": "number",
+                "format": "double"
+              },
+              "lastUpdated": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "description": "The number of sold and bought shares for last 7 days by public members"
+          },
+          "recommendation": {
+            "required": [
+              "buyRatings",
+              "holdRatings",
+              "sellRatings",
+              "strongBuyRatings",
+              "strongSellRatings",
+              "totalRatings"
+            ],
+            "type": "object",
+            "properties": {
+              "currentConsensusRating": {
+                "type": "number",
+                "description": "Rating is calculated based on a 5 start rating average from number of sell, buy, hold, underweight and overweight recommendations",
+                "format": "double"
+              },
+              "recommendationTargetPrice": {
+                "type": "number",
+                "description": "Target price",
+                "format": "double"
+              },
+              "totalRatings": {
+                "type": "integer",
+                "description": "Total number of recommendations",
+                "format": "int32"
+              },
+              "strongSellRatings": {
+                "type": "integer",
+                "description": "Number of strong sell recommendations",
+                "format": "int32"
+              },
+              "sellRatings": {
+                "type": "integer",
+                "description": "Number of sell recommendations",
+                "format": "int32"
+              },
+              "holdRatings": {
+                "type": "integer",
+                "description": "Number of hold recommendations",
+                "format": "int32"
+              },
+              "buyRatings": {
+                "type": "integer",
+                "description": "Number of buy recommendations",
+                "format": "int32"
+              },
+              "strongBuyRatings": {
+                "type": "integer",
+                "description": "Number of strong buy recommendations",
+                "format": "int32"
+              },
+              "lastUpdated": {
+                "type": "string",
+                "description": "Last updated date for recommendations",
+                "format": "date-time"
+              }
+            },
+            "description": "Recommendations over the past 100 days calculated to consensus rating as average for a 5 start rating and a target price"
+          }
+        }
+      },
+      "InstrumentListAnalysisDto": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentListAnalysisItem"
+            }
+          }
+        }
+      },
+      "AdvancedCryptoDataDto": {
+        "required": [
+          "symbol",
+          "intoTheBlockGraph"
+        ],
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string"
+          },
+          "intoTheBlockGraph": {
+            "$ref": "#/components/schemas/IntoTheBlockGraphDto"
+          }
+        }
+      },
+      "InstrumentListAdvancedCryptoData": {
+        "required": [
+          "advancedCryptoData"
+        ],
+        "type": "object",
+        "properties": {
+          "advancedCryptoData": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdvancedCryptoDataDto"
+            }
+          }
+        }
+      },
+      "InstrumentFundamentalDto": {
+        "required": [
+          "instrumentClass"
+        ],
+        "type": "object",
+        "properties": {
+          "marketCapitalization": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "instrumentClass": {
+            "type": "string",
+            "enum": [
+              "STOCK",
+              "EXCHANGE_TRADED_FUND",
+              "STRUCTURED_PRODUCT",
+              "BOND",
+              "DEPOSITORY_RECEIPT",
+              "DERIVATIVE",
+              "FUND",
+              "UNKNOWN",
+              "CRYPTO",
+              "CASH"
+            ]
+          },
+          "averageDailyVolumeLast3Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "highPriceLast52Weeks": {
+            "type": "number",
+            "format": "double"
+          },
+          "lowPriceLast52Weeks": {
+            "type": "number",
+            "format": "double"
+          },
+          "companyName": {
+            "type": "string"
+          },
+          "longBusinessDescription": {
+            "type": "string"
+          },
+          "dividendRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "salesOrRevenue": {
+            "type": "number",
+            "format": "double"
+          },
+          "oneYearAnnualRevenueGrowthRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "threeYearAnnualRevenueGrowthRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "fiveYearAnnualRevenueGrowthRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "earningsGrowth": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalDebt": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAssets": {
+            "type": "number",
+            "format": "double"
+          },
+          "floatAsPercentOfSharesOutstanding": {
+            "type": "number",
+            "format": "double"
+          },
+          "dividendYield": {
+            "type": "number",
+            "format": "double"
+          },
+          "betaTwelveMonth": {
+            "type": "number",
+            "format": "double"
+          },
+          "salesOrRevenueTtm": {
+            "type": "number",
+            "format": "double"
+          },
+          "ebitdaTtm": {
+            "type": "number",
+            "format": "double"
+          },
+          "debtToEquityRatioQuarterly": {
+            "type": "number",
+            "format": "double"
+          },
+          "peratio": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "description": "Fundamental data for a instrument mapped from Xignite"
+      },
+      "IntoTheBlockGraphDto": {
+        "type": "object",
+        "properties": {
+          "dailyActiveAddresses": {
+            "$ref": "#/components/schemas/Chart"
+          },
+          "dailyActiveAddressesLastUpdated": {
+            "type": "string",
+            "description": "Last updated date for daily addresses chart",
+            "format": "date-time"
+          },
+          "transactions": {
+            "$ref": "#/components/schemas/Chart"
+          },
+          "transactionsLastUpdated": {
+            "type": "string",
+            "description": "Last updated date for number of transactions chart",
+            "format": "date-time"
+          },
+          "volume": {
+            "$ref": "#/components/schemas/Chart"
+          },
+          "volumeLastUpdated": {
+            "type": "string",
+            "description": "Last updated date for transactions volume chart",
+            "format": "date-time"
+          },
+          "addressesOfHoldings": {
+            "$ref": "#/components/schemas/Chart"
+          },
+          "addressesOfHoldingsLastUpdated": {
+            "type": "string",
+            "description": "Last updated date for addresses by holdings chart",
+            "format": "date-time"
+          }
+        },
+        "description": "Graphs for into the block crypto data"
+      },
+      "Price": {
+        "required": [
+          "fairValue",
+          "fairValueCurrency",
+          "fairValueLastUpdated"
+        ],
+        "type": "object",
+        "properties": {
+          "fairValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "fairValueCurrency": {
+            "type": "string"
+          },
+          "fairValueLastUpdated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Contains fair value of the stock"
+      },
+      "PublicLinks": {
+        "type": "object",
+        "properties": {
+          "linkToTwitter": {
+            "type": "string",
+            "description": "The link to the Twitter feed of the company"
+          },
+          "linkToPortal": {
+            "type": "string",
+            "description": "The link to the company portal (external link)"
+          },
+          "linkToCompanyLogo": {
+            "type": "string",
+            "description": "The link to the company logo image"
+          }
+        },
+        "description": "Set of company links to access the company’s page"
+      },
+      "Report": {
+        "required": [
+          "content",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "description": "List of analyst reports, e.g. business strategy & outlook, economic moat"
+      },
+      "Research": {
+        "required": [
+          "reports"
+        ],
+        "type": "object",
+        "properties": {
+          "reports": {
+            "type": "array",
+            "description": "List of analyst reports, e.g. business strategy & outlook, economic moat",
+            "items": {
+              "$ref": "#/components/schemas/Report"
+            }
+          }
+        },
+        "description": "Contains list of reports and url to actual report pdf"
+      },
+      "Revenue": {
+        "required": [
+          "growth",
+          "latestQuarter",
+          "latestQuarterRevenue",
+          "latestYearRevenue",
+          "multiple"
+        ],
+        "type": "object",
+        "properties": {
+          "multiple": {
+            "type": "number",
+            "description": "Revenue multiple calculated: (marketCap + debt - cash) / revenue",
+            "format": "double"
+          },
+          "growth": {
+            "type": "number",
+            "description": "One year revenue growth rate",
+            "format": "double"
+          },
+          "latestYearRevenue": {
+            "type": "number",
+            "description": "Revenue from latest year",
+            "format": "double"
+          },
+          "latestQuarterRevenue": {
+            "type": "number",
+            "description": "Revenue from latest quarter",
+            "format": "double"
+          },
+          "latestQuarter": {
+            "type": "string",
+            "description": "Latest quarter: Q1, Q2, Q3 or Q4, for which latestQuarterRevenue holds",
+            "enum": [
+              "Q1",
+              "Q2",
+              "Q3",
+              "Q4"
+            ]
+          }
+        },
+        "description": "Contains revenue data (revenue multiple, growth, latest year revenue, latest quarter revenue)."
+      },
+      "Series": {
+        "required": [
+          "dataPoints",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "dataPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataPoint"
+            }
+          }
+        }
+      },
+      "SharedEtfFundamental": {
+        "type": "object",
+        "properties": {
+          "etfType": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "netExpenseRatio": {
+            "type": "number",
+            "format": "double"
+          },
+          "inceptionDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "assetsUnderManagement": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "returnYTD": {
+            "type": "number",
+            "format": "double"
+          },
+          "return1Month": {
+            "type": "number",
+            "format": "double"
+          },
+          "return3Month": {
+            "type": "number",
+            "format": "double"
+          },
+          "return1Year": {
+            "type": "number",
+            "format": "double"
+          },
+          "return5Year": {
+            "type": "number",
+            "format": "double"
+          },
+          "return10Year": {
+            "type": "number",
+            "format": "double"
+          },
+          "secYieldPercentage": {
+            "type": "number",
+            "format": "double"
+          },
+          "prospectusLink": {
+            "type": "string"
+          }
+        },
+        "description": "ETF fundamental"
+      },
+      "Stakeholder": {
+        "required": [
+          "displayName"
+        ],
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "If stakeholder is a real user, userName is present if exists"
+          },
+          "verified": {
+            "type": "boolean",
+            "description": "Indicator if the user is verified, added by Backend"
+          },
+          "profilePictureUrl": {
+            "type": "string",
+            "description": "Profile picture of a user"
+          },
+          "publicId": {
+            "type": "string",
+            "description": "If stakeholder is a real user, publicId is present"
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Display name of a user"
+          },
+          "role": {
+            "type": "string",
+            "description": "The Role of a user in the presented company."
+          },
+          "uniqueId": {
+            "type": "string",
+            "description": "UniqueId of a stakeholder used in the IR portal, nullable field."
+          }
+        },
+        "description": "A person or group having administrative or managerial authority in an organization, real users or manually created"
+      },
+      "GetMovingStockPostResponse": {
+        "required": [],
+        "type": "object",
+        "properties": {
+          "movingStock": {
+            "$ref": "#/components/schemas/MovingStockPostDto"
+          }
+        }
+      },
+      "MovingStockPostDto": {
+        "required": [
+          "algorithmId",
+          "blockedByPosterFlag",
+          "feedPostCreated",
+          "payload",
+          "postId",
+          "postSource",
+          "postType",
+          "published",
+          "signature",
+          "timestamp"
+        ],
+        "type": "object",
+        "properties": {
+          "postId": {
+            "type": "string"
+          },
+          "carouselId": {
+            "type": "string",
+            "description": "For any carousel, this ID can be used to look it up directly."
+          },
+          "postType": {
+            "type": "string",
+            "enum": [
+              "MOVING_STOCK"
+            ]
+          },
+          "payload": {
+            "$ref": "#/components/schemas/MovingStockPayload"
+          },
+          "postSeo": {
+            "$ref": "#/components/schemas/PostSeoDto"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "socialInteractions": {
+            "$ref": "#/components/schemas/SocialInteractions"
+          },
+          "published": {
+            "type": "boolean"
+          },
+          "bookmarkCategory": {
+            "type": "string",
+            "description": "Optional bookmark category of a post, if null post was not bookmarked by a user"
+          },
+          "postSource": {
+            "type": "string",
+            "description": "Which calculation method this post comes from",
+            "enum": [
+              "LEGACY",
+              "PROMOTED_POSTS",
+              "PREDEFINED_POSTS",
+              "GLOBAL_TRENDING_POSTS",
+              "GLOBAL_TRENDING_POSTS_CRYPTO",
+              "CIRCLE_TRENDING_POSTS",
+              "INSIGHTS",
+              "TOWN_HALL_POSTS",
+              "PUBLIC_EVENTS",
+              "ALL_WITH_AT_LEAST_5",
+              "ALL_WITH_AT_LEAST_10",
+              "ALL_WITH_AT_LEAST_20"
+            ]
+          },
+          "algorithmId": {
+            "type": "string",
+            "description": "The algorithm that was used to find this specific post (used for logging which posts the user find interesting)"
+          },
+          "reactingFollowedUser": {
+            "type": "string",
+            "description": "The publicId for a single user that reacted to this post (if we were able to look this up)"
+          },
+          "numberOfReactingFollowedUsers": {
+            "type": "integer",
+            "description": "The number of users, followed by this user, who reacted to this post (if we were able to look this up)",
+            "format": "int32"
+          },
+          "commentingFollowedUser": {
+            "type": "string",
+            "description": "The publicId for a single user that commented on this post (if we were able to look this up)"
+          },
+          "numberOfCommentingFollowedUsers": {
+            "type": "integer",
+            "description": "The number of users, followed by this user, who commented on this post (if we were able to look this up)",
+            "format": "int32"
+          },
+          "viewCount": {
+            "type": "integer",
+            "description": "The number of times this post was served into feeds",
+            "format": "int64"
+          },
+          "blockedByPosterFlag": {
+            "type": "string",
+            "description": "Flag to identify if the poster blocked a moderator",
+            "enum": [
+              "NOT_BLOCKED_BY_POSTER",
+              "BLOCKED_BY_POSTER"
+            ]
+          },
+          "feedPostCreated": {
+            "type": "boolean"
+          },
+          "signature": {
+            "type": "string"
+          }
+        },
+        "description": "PostDto indicating if shares of a stock are moving higher or lower today"
+      },
+      "PostSeoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Post SEO id"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Post slug"
+          }
+        },
+        "description": "Available when a post has post SEO metadata"
+      },
+      "MovingStockPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "title": {
+            "type": "string"
+          },
+          "stock": {
+            "type": "string"
+          },
+          "stockName": {
+            "type": "string"
+          },
+          "movingDirectionAtPost": {
+            "type": "string",
+            "enum": [
+              "UP",
+              "DOWN",
+              "UNKNOWN"
+            ]
+          }
+        }
+      },
+      "SocialInteractions": {
+        "required": [
+          "allReactions",
+          "caption",
+          "commentCount",
+          "highlightedComments",
+          "otherReactorCount",
+          "youReacted"
+        ],
+        "type": "object",
+        "properties": {
+          "caption": {
+            "type": "array",
+            "description": "This can be an empty list",
+            "items": {
+              "$ref": "#/components/schemas/ContentChunkDto"
+            }
+          },
+          "allReactions": {
+            "$ref": "#/components/schemas/ReactionsDto"
+          },
+          "youReacted": {
+            "type": "boolean"
+          },
+          "otherReactorCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commentCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "highlightedComments": {
+            "type": "array",
+            "description": "This can be an empty list",
+            "items": {
+              "$ref": "#/components/schemas/CommentDto"
+            }
+          }
+        },
+        "description": "available when the user can react and comment on the post"
+      },
+      "ReactionsDto": {
+        "required": [
+          "cry",
+          "eyes",
+          "flame",
+          "heart",
+          "laugh",
+          "money"
+        ],
+        "type": "object",
+        "properties": {
+          "heart": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64"
+          },
+          "laugh": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64"
+          },
+          "money": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64"
+          },
+          "cry": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64"
+          },
+          "flame": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64"
+          },
+          "eyes": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Reactions to be added on the post. Either reactions or comment must be provided."
+      },
+      "ContentChunkDto": {
+        "required": [
+          "type",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The content type for this chunk",
+            "enum": [
+              "TEXT",
+              "USER_TAG",
+              "STOCK_TAG",
+              "VIDEO",
+              "IMAGE",
+              "STOCK_COMPARE",
+              "HTML",
+              "TAG",
+              "GIPHY"
+            ]
+          },
+          "value": {
+            "maxLength": 10000,
+            "minLength": 1,
+            "type": "string",
+            "description": "The data matching the type"
+          },
+          "payload": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ImageContentChunkPayload"
+              },
+              {
+                "$ref": "#/components/schemas/VideoContentChunkPayload"
+              }
+            ]
+          }
+        },
+        "description": "Storage for a single chunk of content"
+      },
+      "ImageContentChunkPayload": {
+        "required": [
+          "type",
+          "height",
+          "width"
+        ],
+        "type": "object",
+        "description": "Content Chunk payload for images.",
+        "properties": {
+          "caption": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "thumbnailUrl": {
+            "type": "string"
+          },
+          "width": {
+            "maximum": 7680,
+            "minimum": 10,
+            "type": "integer",
+            "description": "Size in pixels",
+            "format": "int32"
+          },
+          "height": {
+            "maximum": 7680,
+            "minimum": 10,
+            "type": "integer",
+            "description": "Size in pixels",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PROCESSING",
+              "SUCCESS",
+              "ERROR"
+            ]
+          }
+        }
+      },
+      "VideoContentChunkPayload": {
+        "required": [
+          "type",
+          "durationInSeconds",
+          "height",
+          "width"
+        ],
+        "type": "object",
+        "description": "Content Chunk payload for streaming video.",
+        "properties": {
+          "caption": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "thumbnailUrl": {
+            "type": "string"
+          },
+          "width": {
+            "maximum": 7680,
+            "minimum": 10,
+            "type": "integer",
+            "description": "Size in pixels",
+            "format": "int32"
+          },
+          "height": {
+            "maximum": 7680,
+            "minimum": 10,
+            "type": "integer",
+            "description": "Size in pixels",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PROCESSING",
+              "SUCCESS",
+              "ERROR"
+            ]
+          },
+          "durationInSeconds": {
+            "maximum": 600,
+            "minimum": 1,
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "CommentDto": {
+        "required": [
+          "blockedByPosterFlag",
+          "commentId",
+          "commenterPublicId",
+          "content",
+          "hidden",
+          "replyCount",
+          "timestamp"
+        ],
+        "type": "object",
+        "properties": {
+          "commentId": {
+            "type": "string"
+          },
+          "commenterPublicId": {
+            "type": "string"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentChunkDto"
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "hidden": {
+            "type": "boolean"
+          },
+          "replyCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "blockedByPosterFlag": {
+            "type": "string",
+            "enum": [
+              "NOT_BLOCKED_BY_POSTER",
+              "BLOCKED_BY_POSTER"
+            ]
+          }
+        },
+        "description": "This can be an empty list"
+      },
+      "GetStockNewsResponse": {
+        "required": [
+          "results"
+        ],
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NewsPostDto"
+            }
+          }
+        }
+      },
+      "NewsPostDto": {
+        "required": [
+          "algorithmId",
+          "blockedByPosterFlag",
+          "feedPostCreated",
+          "payload",
+          "postId",
+          "postSource",
+          "postType",
+          "promotionFlags",
+          "published",
+          "signature",
+          "timestamp"
+        ],
+        "type": "object",
+        "properties": {
+          "postId": {
+            "type": "string"
+          },
+          "carouselId": {
+            "type": "string",
+            "description": "For any carousel, this ID can be used to look it up directly."
+          },
+          "postType": {
+            "type": "string",
+            "enum": [
+              "NEWS"
+            ]
+          },
+          "payload": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/NewsArticlePayload"
+              },
+              {
+                "$ref": "#/components/schemas/NewsPayload"
+              }
+            ]
+          },
+          "postSeo": {
+            "$ref": "#/components/schemas/PostSeoDto"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "socialInteractions": {
+            "$ref": "#/components/schemas/SocialInteractions"
+          },
+          "published": {
+            "type": "boolean"
+          },
+          "bookmarkCategory": {
+            "type": "string",
+            "description": "Optional bookmark category of a post, if null post was not bookmarked by a user"
+          },
+          "postSource": {
+            "type": "string",
+            "description": "Which calculation method this post comes from",
+            "enum": [
+              "LEGACY",
+              "PROMOTED_POSTS",
+              "PREDEFINED_POSTS",
+              "GLOBAL_TRENDING_POSTS",
+              "GLOBAL_TRENDING_POSTS_CRYPTO",
+              "CIRCLE_TRENDING_POSTS",
+              "INSIGHTS",
+              "TOWN_HALL_POSTS",
+              "PUBLIC_EVENTS",
+              "ALL_WITH_AT_LEAST_5",
+              "ALL_WITH_AT_LEAST_10",
+              "ALL_WITH_AT_LEAST_20"
+            ]
+          },
+          "algorithmId": {
+            "type": "string",
+            "description": "The algorithm that was used to find this specific post (used for logging which posts the user find interesting)"
+          },
+          "reactingFollowedUser": {
+            "type": "string",
+            "description": "The publicId for a single user that reacted to this post (if we were able to look this up)"
+          },
+          "numberOfReactingFollowedUsers": {
+            "type": "integer",
+            "description": "The number of users, followed by this user, who reacted to this post (if we were able to look this up)",
+            "format": "int32"
+          },
+          "commentingFollowedUser": {
+            "type": "string",
+            "description": "The publicId for a single user that commented on this post (if we were able to look this up)"
+          },
+          "numberOfCommentingFollowedUsers": {
+            "type": "integer",
+            "description": "The number of users, followed by this user, who commented on this post (if we were able to look this up)",
+            "format": "int32"
+          },
+          "viewCount": {
+            "type": "integer",
+            "description": "The number of times this post was served into feeds",
+            "format": "int64"
+          },
+          "promotionFlags": {
+            "type": "array",
+            "description": "Promotion flags that have been activated for this post",
+            "items": {
+              "$ref": "#/components/schemas/PromotionFlagDto"
+            }
+          },
+          "blockedByPosterFlag": {
+            "type": "string",
+            "description": "Flag to identify if the poster blocked a moderator",
+            "enum": [
+              "NOT_BLOCKED_BY_POSTER",
+              "BLOCKED_BY_POSTER"
+            ]
+          },
+          "feedPostCreated": {
+            "type": "boolean",
+            "description": "Specifies whether the news post is persisted in the system or not. If false, the post needs to be created before reacting or commenting on it."
+          },
+          "signature": {
+            "type": "string",
+            "description": "A signature for the NewsPayload to be validated if the news post is to be saved later on."
+          }
+        }
+      },
+      "NewsArticlePayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "newsUrl": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "timeStamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sentiment": {
+            "type": "string"
+          },
+          "newsType": {
+            "type": "string",
+            "enum": [
+              "Article",
+              "Video"
+            ]
+          },
+          "symbols": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "premiumExclusive": {
+            "type": "boolean"
+          },
+          "audience": {
+            "type": "string",
+            "enum": [
+              "ALL_MEMBERS",
+              "PREMIUM_SUBSCRIBERS"
+            ]
+          }
+        }
+      },
+      "NewsPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "newsUrl": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "timeStamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sentiment": {
+            "type": "string"
+          },
+          "newsType": {
+            "type": "string",
+            "enum": [
+              "Article",
+              "Video"
+            ]
+          },
+          "symbols": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PromotionFlagDto": {
+        "required": [
+          "flag"
+        ],
+        "type": "object",
+        "properties": {
+          "flag": {
+            "type": "string",
+            "description": "The type of flag on the DTO",
+            "enum": [
+              "PINNED",
+              "MESSAGE_FROM_PUBLIC",
+              "SERVICE_ANNOUNCEMENT",
+              "FEATURED"
+            ]
+          },
+          "from": {
+            "type": "string",
+            "description": "The point in time when this is activated (which was instantly, is it wasn't specified)",
+            "format": "date-time"
+          },
+          "until": {
+            "type": "string",
+            "description": "The point in time when this expires (or 2070, if it wasn't specified)",
+            "format": "date-time"
+          }
+        },
+        "description": "A promotion that is currently active for a specific post"
+      },
+      "TopMoversDto": {
+        "required": [
+          "movers",
+          "topGainers",
+          "topLosers"
+        ],
+        "type": "object",
+        "properties": {
+          "movers": {
+            "type": "array",
+            "description": "TopMovers subset of top gainers and top losers sorted decs. by absolute value of percentChangeFromPreviousClose",
+            "items": {
+              "$ref": "#/components/schemas/TopMoverDto"
+            }
+          },
+          "topGainers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopMoverDto"
+            }
+          },
+          "topLosers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopMoverDto"
+            }
+          }
+        }
+      },
+      "TopMoverDto": {
+        "required": [
+          "changeFromPreviousClose",
+          "lastPrice",
+          "name",
+          "percentChangeFromPreviousClose",
+          "symbol"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "lastPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "changeFromPreviousClose": {
+            "type": "number",
+            "format": "double"
+          },
+          "percentChangeFromPreviousClose": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "TypedAssetCollectionResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "dataUrl": {
+            "type": "string"
+          },
+          "instruments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentDto"
+            }
+          }
+        }
+      }
+    }
+  }
+}

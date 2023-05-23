@@ -1,0 +1,454 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Magnetis API",
+    "version": "1.0.0",
+    "description": "Get updated information on Magnetis portfolios including investment returns and allocations. You can also ask general questions about wealth management and Magnetis."
+  },
+  "servers": [
+    {
+      "url": "https://mag-gpt-nextjs.vercel.app/api"
+    }
+  ],
+  "paths": {
+    "/faq": {
+      "post": {
+        "description": "Provide context for frequentyly asked question about Magnetis or any of its products such as TECB11. The API will return the most relevant answer to the user's question. In Portuguese only.",
+        "summary": "FAQ",
+        "operationId": "getFAQAnswer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "The user's question or prompt. Must be in Portuguese, please translate if needed."
+                  }
+                },
+                "required": [
+                  "prompt"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "answer": {
+                      "type": "string",
+                      "description": "The relevant information to answer the user's question."
+                    },
+                    "link": {
+                      "type": "string",
+                      "description": "External link for user to find additional information. Always include in the response."
+                    }
+                  },
+                  "required": [
+                    "answer"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Error fetching the closest answer to question.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolios/allocations": {
+      "get": {
+        "description": "Provides the current portfolio allocation for all Magnetis portfolios. Present the results in table format whenever possible.",
+        "summary": "Portfolio Allocation Data",
+        "operationId": "getPortfolioAllocations",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "allocations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "segment": {
+                            "type": "string",
+                            "description": "The client segment, typically either Infinty or Advisor/Digital."
+                          },
+                          "riskLevel": {
+                            "type": "string",
+                            "description": "The risk level for the portfolio."
+                          },
+                          "referenceDate": {
+                            "type": "string",
+                            "format": "date",
+                            "description": "The reference date of the allocation."
+                          },
+                          "allocation": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "assetClass": {
+                                  "type": "string",
+                                  "description": "The asset class of the allocation."
+                                },
+                                "weight": {
+                                  "type": "number",
+                                  "description": "The percentage of the portfolio allocated to the asset class."
+                                }
+                              },
+                              "required": [
+                                "assetClass",
+                                "weight"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "link": {
+                      "type": "string",
+                      "description": "External link for user to find additional information. Please include in the response."
+                    }
+                  },
+                  "required": [
+                    "allocations",
+                    "link"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Error fetching portfolio returns",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication token not provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Invalid authentication token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolios/returns": {
+      "get": {
+        "description": "Returns for Magnetis portfolios and benchmarks on standard period like every year, YTD, last 12/24/36 months. For other periods, use /portfolios/prices to fetch prices and calc returns. Display in table format.",
+        "summary": "Portfolio returns data",
+        "operationId": "getPortfolioReturns",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "returns": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "category": {
+                            "type": "string",
+                            "description": "The category for the asset, typically either Portfolio, Fund or Benchmark."
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name used to identify the asset. For portfolios, the name is usually the Segment + Risk Level (ex: Infinity 1)."
+                          },
+                          "segment": {
+                            "type": "string",
+                            "description": "The client segment for the portfolio, typically either Infinty or Advisor/Digital. Not applicable for Funds or Benchmarks."
+                          },
+                          "riskLevel": {
+                            "type": "string",
+                            "description": "The risk level of the portfolio. Not applicable for Funds or Benchmarks."
+                          },
+                          "referenceDate": {
+                            "type": "string",
+                            "format": "date",
+                            "description": "The reference date of the returns data."
+                          },
+                          "returns": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "period": {
+                                  "type": "string",
+                                  "description": "The period for the return."
+                                },
+                                "percentageChange": {
+                                  "type": "number",
+                                  "description": "The percentage change of the portfolio during the period."
+                                }
+                              },
+                              "required": [
+                                "period",
+                                "percentageChange"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "link": {
+                      "type": "string",
+                      "description": "External link for user to find additional information. Please include in the response."
+                    }
+                  },
+                  "required": [
+                    "returns",
+                    "link"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Error fetching portfolio returns",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication token not provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Invalid authentication token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolios/prices": {
+      "post": {
+        "description": "Prices for portfolios. Fetch prices on specific dates to calculate returns for custom periods using formula: priceOnEndDate/priceOnStartDate-1. Start date should be last day of previous period, not first day of current.",
+        "summary": "Portfolio historical price data",
+        "operationId": "getPortfoliosPrices",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Start date for period. The format is ISO 8601: yyyy-mm-dd. If date not found, API will use closest date. If no start date is provided, API will return prices for the first earliest in dataset."
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "End date for period. The format is ISO 8601: yyyy-mm-dd. If date not found, API will use closest date. If no end date is provided, API will return prices for the most recent date in dataset."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "riskLevel": {
+                        "type": "string",
+                        "description": "The risk level of the portfolio."
+                      },
+                      "segment": {
+                        "type": "string",
+                        "description": "The client segment, typically either Infinty or Advisor."
+                      },
+                      "historicalData": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "date": {
+                              "type": "string",
+                              "format": "date",
+                              "description": "The date for the historical data point. The provided format is ISO 8601: yyyy-mm-dd."
+                            },
+                            "price": {
+                              "type": "number",
+                              "description": "The price of the portfolio on the close of the specified date. Use the price to calculate returns for custom periods."
+                            }
+                          },
+                          "required": [
+                            "date",
+                            "price"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Error fetching prices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication token not provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Invalid authentication token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed - The request method is not supported for this endpoint",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "QuickRecall",
+  "name_for_model": "quickrecall",
+  "description_for_human": "Create flashcards and review them with spaced repeition.",
+  "description_for_model": "Utilize the spaced repetition method to create and review flashcards.\n\nGuidance:\n\n- **Upon a user's request for the next card to review, present ONLY the front of the card. DO NOT reveal the answer immediately. This is crucial for effective recall practice.**\n- After the user attempts to recall the information, then and only then, reveal the back of the card.\n- Subsequently, ask the user to rate their recall on a scale of 0 to 3. Record this grade using the /api/recordCardPractice endpoint.\n- When asked to create flashcards, ensure to use the /api/createCard endpoint.\n- When a user requests to export or browse flashcards, inform them that these features are currently under development.\n\nFlashcard Creation Guidance:\n\n- Adhere to the minimum information principle. Aim to make flashcards as simple and concise as possible.\n- Avoid creating flashcards with large sets of information. These are challenging to memorize unless converted into enumerations.\n- Refrain from using enumerations. These are also difficult to remember.\n- Optimize wording. Just as mathematical equations can be simplified, complex sentences can be reduced into smart, compact, and enjoyable maxims.\n- Use context cues to simplify wording. Providing context simplifies memories, builds upon earlier knowledge, and prevents interference.\n- Include sources. Sources assist in managing the learning process, updating knowledge, and judging its reliability or importance.\n- Use date stamping for volatile knowledge that changes over time.\n- Each flashcard's front and back should contain a single simple sentence, unless a different format makes more sense or the user requests otherwise.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://auth.quickrecall.cards/oauth2/authorize",
+    "scope": "oai11/global",
+    "authorization_url": "https://auth.quickrecall.cards/oauth2/token",
+    "authorization_content_type": "application/x-www-form-urlencoded",
+    "verification_tokens": {
+      "openai": "c18cab8c860c4b6ab7e97f3218304e00"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://quickrecall.cards/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://quickrecall.cards/logo.png",
+  "contact_email": "lesaun@gmail.com",
+  "legal_info_url": "https://quickrecall.cards/legal"
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "ndricks_sports_api",
+  "name_for_human": "ndricks Sports",
+  "description_for_model": "Call this API to retrieve information about most US professional teams, and provide ChatGPT with latest news about that team from ESPN, and CBS Sports",
+  "description_for_human": "Get information about pro teams (NHL, NBA, NFL, MLB) teams by calling the ndricks Software Sports API.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.ndricks.com/.well-known/openapi.yaml"
+  },
+  "logo_url": "https://api.ndricks.com/logo.jpg",
+  "contact_email": "benjamin@ndricks.com",
+  "legal_info_url": "https://ndricks.com/privacy",
+  "type": "plugin",
+  "version": "1.0.0",
+  "author": "Benjamin Hendricks",
+  "tags": [
+    "basketball",
+    "nba",
+    "hockey",
+    "nhl",
+    "football",
+    "nfl",
+    "baseball",
+    "mlb",
+    "sports",
+    "data"
+  ]
+}

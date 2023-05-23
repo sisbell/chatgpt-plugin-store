@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Public",
+  "name_for_model": "Public",
+  "description_for_human": "Get real-time and historical market data, including asset prices, news, research, and comprehensive financial analysis.",
+  "description_for_model": "Realtime & historical financial markets data: company, coin, & stock prices; financial data, research, analysis, & news.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gpt-service-api.hellopublic.com/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://universal.hellopublic.com/gpt/public-icon.png",
+  "contact_email": "gpt@public.com",
+  "legal_info_url": "https://public.com"
+}

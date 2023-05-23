@@ -1,0 +1,304 @@
+openapi: 3.0.1
+info:
+  title: Hauling Buddies
+  description: Locate dependable animal transporters using recommendations, reviews, and regulatory compliance search features.
+  version: 'v1'
+servers:
+  - url: https://haulingbuddies.com/api/v1
+paths:
+  /search/by_name:
+    get:
+      operationId: searchTransporterByName
+      summary: Search for animal transporters by name
+      parameters:
+        - name: name
+          in: query
+          description: The name to search for animal transporters
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchTransporterByNameResponse'
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    phone:
+                      type: string
+                    website:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip_code:
+                      type: string
+                    country:
+                      type: string
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                    equine:
+                      type: boolean
+                    livestock:
+                      type: boolean
+                    small_animal:
+                      type: boolean
+                    bio_as_text:
+                      type: string
+                    phone_formatted:
+                      type: string
+                    has_department_of_transportation_number:
+                      type: boolean
+                    has_usda_certificate:
+                      type: boolean
+  /search/by_address:
+    get:
+      operationId: searchTransportersByAddress
+      summary: Search for animal transporters near a specific address
+      parameters:
+        - name: address
+          in: query
+          description: The address to search for animal transporters
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchTransportersByAddressResponse'
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    phone:
+                      type: string
+                    website:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip_code:
+                      type: string
+                    country:
+                      type: string
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                    equine:
+                      type: boolean
+                    livestock:
+                      type: boolean
+                    small_animal:
+                      type: boolean
+                    bio_as_text:
+                      type: string
+                    phone_formatted:
+                      type: string
+                    has_department_of_transportation_number:
+                      type: boolean
+                    has_usda_certificate:
+                      type: boolean
+  /search/by_address_and_transport_types:
+    get:
+      operationId: searchTransportersByAddressAndTransportTypes
+      summary: Get a list of verified companies and their contact information for a specific animal type and address
+      parameters:
+        - name: type
+          in: query
+          description: The animal type to filter companies by
+          required: true
+          schema:
+            type: string
+        - name: address
+          in: query
+          description: The address to search for companies near
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchTransportersByAddressAndTransportTypesResponse'
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    phone:
+                      type: string
+                    website:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip_code:
+                      type: string
+                    country:
+                      type: string
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                    equine:
+                      type: boolean
+                    livestock:
+                      type: boolean
+                    small_animal:
+                      type: boolean
+                    bio_as_text:
+                      type: string
+                    phone_formatted:
+                      type: string
+                    has_department_of_transportation_number:
+                      type: boolean
+                    has_usda_certificate:
+                      type: boolean
+  /search/by_usda_name_or_aphis_number:
+    get:
+      operationId: searchUSDACertificatesByNameOrAPHISNumber
+      summary: Search the USDA certificates database by Name or APHIS number
+      parameters:
+        - name: name_or_aphis_number
+          in: query
+          description: The Name or APHIS number to search for the USDA certificate
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchUSDACertificatesByNameOrAPHISNumberResponse'
+                type: array
+                items:
+                  type: object
+                  properties:
+                    account_name:
+                      type: string
+                    aphis_number:
+                      type: string
+                    aphis_number:
+                      type: string
+                    mailing_city:
+                      type: string
+                    state_abbreviation:
+                      type: string
+                    expiration_date:
+                      type: string
+                    certificate_type:
+                      type: string
+  /search/by_fmsca_dot_number:
+    get:
+      operationId: searchFMCSAbyDOTNumber
+      summary: Search the FMCSA database by DOT Number
+      parameters:
+        - name: number
+          in: query
+          description: The DOT number to search the FMCSA database
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchFMCSAbyDOTNumberResponse'
+                type: array
+                items:
+                  type: object
+                  properties:
+                    allowed_to_operate:
+                      type: string
+                    dot_number:
+                      type: string
+                    legal_name:
+                      type: string
+                    physical_address:
+                      type: string
+                    operation_classification:
+                      type: string
+                    census_type:
+                      type: string
+                    status_code:
+                      type: string
+                    safety_rating:
+                      type: string
+                    safety_rating_date:
+                      type: string
+                    total_drivers:
+                      type: string
+                    total_power_units:
+                      type: string
+                    snapshot_date:
+                      type: string
+  /search/by_fmsca_name:
+    get:
+      operationId: searchFMCSAbyName
+      summary: Search the FMCSA database by company name
+      parameters:
+        - name: name
+          in: query
+          description: The company name to search the FMCSA database
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchFMCSAbyNameResponse'
+                type: array
+                items:
+                  type: object
+                  properties:
+                    allowed_to_operate:
+                      type: string
+                    dot_number:
+                      type: string
+                    legal_name:
+                      type: string
+                    physical_address:
+                      type: string
+                    operation_classification:
+                      type: string
+                    census_type:
+                      type: string
+                    status_code:
+                      type: string
+                    safety_rating:
+                      type: string
+                    safety_rating_date:
+                      type: string
+                    total_drivers:
+                      type: string
+                    total_power_units:
+                      type: string
+                    snapshot_date:
+                      type: string

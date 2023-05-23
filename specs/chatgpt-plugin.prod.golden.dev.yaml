@@ -1,0 +1,374 @@
+openapi: 3.0.2
+info:
+  title: FastAPI
+  version: 0.1.0
+servers:
+  - url: https://chatgpt-plugin.prod.golden.dev
+paths:
+  /api/semantic_disambiguate:
+    post:
+      summary: First step - Find the subject and id of a sentence. Name (required) should be specific, context (required) should be the full sentence provided. Always pass in n_results:3 when calling. Optional constraints can be 6:company or 36:person.
+      operationId: semantic_disambiguate_api_semantic_disambiguate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SemanticDisambiguateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SemanticDisambiguateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /web2/opensearch_entity_triples/{golden_slug}:
+    get:
+      summary: Second and final step - Find all entity details by passing id or pk into golden_slug. Return result after this call. Include a link to the entity from golden_website_link. If no relevant data is found user can request data from get_missing_data_url. Information is current to listed date.
+      operationId: opensearch_list_entity_triples_web2_opensearch_entity_triples__golden_slug__get
+      parameters:
+        - required: true
+          schema:
+            title: Golden Slug
+            type: string
+          name: golden_slug
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Web2EntityModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /web2/disambiguate_triples:
+    post:
+      summary: Only use if the first step fails! - Find the id of an entity. Pass in predicate="name" and object equal to the entity in question.
+      operationId: typesense_disambiguate_triples_web2_disambiguate_triples_post
+      parameters:
+        - required: false
+          schema:
+            title: Show Diff
+            type: boolean
+            default: true
+          name: show_diff
+          in: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Web2DisambiguateTriplesModel'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: >-
+                  Response Typesense Disambiguate Triples Web2 Disambiguate
+                  Triples Post
+                type: array
+                items:
+                  $ref: '#/components/schemas/Web2EntityDisambiguationModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/gpt/query_filters/{prompt}:
+    get:
+      summary: Find groups of entities (people and companies). Examples- 'nanotech companies', 'CEOs in Austin'. Use query_results to table of name and description. Do not show any URLs in results. After all results have been listed refer user to learn more at query_result_link (required once).
+      operationId: query_filters_api_v1_gpt_query_filters__prompt__get
+      parameters:
+        - description: A natural language text string
+          in: path
+          name: prompt
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  permalink:
+                    type: string
+                  query:
+                    type: string
+                type: object
+          description: Successful operation
+        default:
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                type: object
+          description: Unexpected error
+  /data-request/{golden_slug}:
+    get:
+      summary: Optional third step - Allows the user to make a data request on an entity if no results were found. Takes in a golden slug (required), for example 'SpaceX-99V', and provides back a URL that the user can visit to request additional data on that entity.
+      operationId: data_request__golden_slug__get
+      parameters:
+        - description: A natural language text string identifier
+          in: path
+          name: golden_slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  permalink:
+                    type: string
+                  query:
+                    type: string
+                type: object
+          description: Successful operation
+        default:
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                type: object
+          description: Unexpected error
+components:
+  schemas:
+    EntityResult:
+      title: EntityResult
+      required:
+        - name
+        - id
+        - description
+        - thumbnail
+        - score
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        id:
+          title: Id
+          type: integer
+        description:
+          title: Description
+          type: string
+        thumbnail:
+          title: Thumbnail
+          type: string
+        score:
+          title: Score
+          type: number
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    SemanticDisambiguateRequest:
+      title: SemanticDisambiguateRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        context:
+          title: Context
+          type: string
+          default: ''
+        constraints:
+          title: Constraints
+          type: array
+          items:
+            type: integer
+          default: []
+        n_results:
+          title: N Results
+          type: integer
+          default: 3
+          maximum: 5
+        allow_null_is_a:
+          title: Allow Null Is A
+          type: boolean
+          default: false
+    SemanticDisambiguateResponse:
+      title: SemanticDisambiguateResponse
+      required:
+        - ranked_results
+      type: object
+      properties:
+        ranked_results:
+          title: Ranked Results
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityResult'
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    VectorRequest:
+      title: VectorRequest
+      required:
+        - sentences
+      type: object
+      properties:
+        sentences:
+          title: Sentences
+          type: array
+          items:
+            type: string
+    VectorResponse:
+      title: VectorResponse
+      required:
+        - vectors
+      type: object
+      properties:
+        vectors:
+          title: Vectors
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+    Web2EntityModel:
+      title: Web2EntityModel
+      required:
+        - id
+        - date_created
+        - triples
+        - pk
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+          description: entity slug, as displayed in golden.com
+        name:
+          title: Name
+          type: string
+          description: entity name, as registered in web3
+        date_created:
+          title: Date Created
+          type: string
+          description: entity submission date onto the protocol
+          format: date-time
+        reputation:
+          title: Reputation
+          type: number
+          description: >-
+            Reputation score of the given entity. Entities with more effort and
+            contributions will have a higher number.
+          default: 0
+        triples:
+          title: Triples
+          type: array
+          items:
+            $ref: '#/components/schemas/Web2TripleModel'
+        pk:
+          title: Pk
+          type: integer
+          description: Actual int PK for web2 entity
+    Web2DisambiguateTriplesModel:
+      title: Web2DisambiguateTriplesModel
+      required:
+        - triples
+      type: object
+      properties:
+        triples:
+          title: Triples
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseTripleModel'
+          description: List of triples used to disambiguate entitities in the datasource
+        predicate_weights:
+          title: Predicate Weights
+          type: object
+          additionalProperties:
+            type: number
+          description: Weights to be used when calculating the overall distance score for any given candidate.
+          default: { }
+        use_web3_predicates:
+          title: Use Web3 Predicates
+          type: boolean
+          description: Use web3 predicates for input and output
+          default: false
+    Web2EntityDisambiguationModel:
+      title: Web2EntityDisambiguationModel
+      required:
+        - id
+        - date_created
+        - distance
+        - reputation
+        - pk
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+          description: entity slug on the web2 database
+        name:
+          title: Name
+          type: string
+          description: entity name on the web2 database
+        date_created:
+          title: Date Created
+          type: string
+          description: entity creation date on the web2 database
+          format: date-time
+        distance:
+          title: Distance
+          type: number
+          description: Similarity distance between triple payload and entity. 0 is a perfect match, while 1 would be the contrary
+        reputation:
+          title: Reputation
+          type: number
+          description: Reputation score of the given entity. Entities with more effort and contributions will have a higher number.
+        diff:
+          title: Diff
+          allOf:
+            - $ref: '#/components/schemas/EntityComparatorModel'
+          description: Comparison between existing triples and submitted triples for the given entity
+        pk:
+          title: Pk
+          type: integer
+          description: entity PK on the web2 database

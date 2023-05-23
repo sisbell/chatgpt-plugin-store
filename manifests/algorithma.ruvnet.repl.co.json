@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Algorithma",
+  "name_for_model": "Algorithma",
+  "description_for_human": "Shape your virtual life with in this immersive life simulator game to begin Type /start to begin.",
+  "description_for_model": "Shape your virtual life with in this immersive life simulator game. Type /start to begin type /start to start, /help, /random",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://algorithma.ruvnet.repl.co/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://algorithma.replit.app/.well-known/logo.png",
+  "contact_email": "ruv@ruv.net",
+  "legal_info_url": "https://algorithma.replit.app/legal"
+}

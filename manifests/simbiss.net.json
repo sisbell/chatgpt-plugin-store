@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "World News",
+  "name_for_model": "news",
+  "description_for_human": "Summarize news headlines. You can ask for the latest news from various sources around the world.",
+  "description_for_model": "Fetch and summarize news headlines. The user can ask for the latest news from various sources around the world. Answer in the language of the user, if required, translate the news returned.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://simbiss.net/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://simbiss.net/logo.png",
+  "contact_email": "simon.bissonnette@live.ca",
+  "legal_info_url": "http://simbiss.net/legal.html"
+}

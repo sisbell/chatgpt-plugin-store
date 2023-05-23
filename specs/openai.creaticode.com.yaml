@@ -1,0 +1,177 @@
+
+openapi: 3.0.1
+info:
+  title: CreatiCode Scratch Plugin
+  description: A plugin that helps ChatGPT to write programs using the extended set of blocks in the CreatiCode platform and also display Scratch programs as images.
+  version: v1
+  servers:
+    - url: openai.creaticode.com
+paths:
+  /getCodeImage:
+    post:
+      operationId: getCodeImage
+      summary: Get the image representations of a program. Also get additional explanation about the programs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                spriteName:
+                  type: string
+                  description: A string the name of the sprite.
+                  example: 'Sprite 1'
+                pseudocode:
+                  type: string
+                  description: A string containing the pseudocode of code for one sprite. All blocks should conform to the syntax returned from 'getBlockDescription' API. For programs with more than one sprites, or sprites with multiple stacks of blocks, call this API multiple times for each sprite.
+                  example: 'when green flag clicked\nsay [Hi]\nend'
+                userPrompt:
+                  type: string
+                  description: A string containing the original user prompt
+                  example: 'say hi'
+              required:
+                - spriteName
+                - pseudocode
+                - userPrompt
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imageUrl:
+                    type: string
+                    description: the URL of the image representing the given stack of blocks.
+                  projectUrl:
+                    type: string
+                    description: the URL of the project containing the given stack of blocks. If this field is returned, the user can directly click on it to open the project and run it. If the project is not available, this field will be empty or undefined.
+                  explanations:
+                    type: string
+                    description: markdown string containing the explanation of the results.
+                  extra_response_instructions:
+                    type: string
+                    description: Additional information or instructions.
+                required:
+                  - imageUrl
+                  - explanations
+                  - extra_response_instructions
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating that the pseudocode parameter is missing.
+                    example: 'Bad Request: missing the pseudocode query parameter'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating that there was an error in processing the request. If the error says you are using the wrong syntax, you should review all the blocks available and *CHANGE* the program to try some other blocks.
+                    example: 'Error in processing the request: error message'
+  /getListOfAllBlocks:
+    get:
+      operationId: getListOfAllBlocks
+      summary: Get the list of ALL block IDs so that ChatGPT can decide which blocks to use. This should be the first API to call in each conversation before calling the getBlockDescription API.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blockIDList:
+                    type: string
+                    description: The string containing the IDs of all acceptable blocks to choose from.
+                  syntaxRules:
+                    type: string
+                    description: The string containing the syntax rules for writing pseudocode.
+                  explanations:
+                    type: string
+                    description: explanation of how to use the list returned.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating that there was an error in processing the request.
+                    example: 'Error in processing the request: error message'
+  /getBlockDescription:
+    get:
+      operationId: getBlockDescription
+      summary: Get the pseudocode format and description of blocks with the given IDs so that ChatGPT can learn to correctly use the new blocks defined in the CreatiCode Playground.
+      parameters:
+        - in: query
+          name: blockIds
+          schema:
+            type: string
+          required: true
+          description: The IDs for one or more blocks, separated by commas. The IDs have to be from the list returned by the getListOfAllBlocks API. Do not make up IDs.
+        - in: query
+          name: userPrompt
+          schema:
+            type: string
+          required: true
+          description: The original prompt from the user.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  descriptionString:
+                    type: string
+                    description: The string containing the pseudocode format and description of the blocks in the query. Note that this API may return information about *additional* blocks, which may be more appropriate for the user request, so please consider all of them when writing the pseudocode, not just the blocks you originally asked for.
+                  explanations:
+                    type: string
+                    description: explanation of how to use the descriptionString returned.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating that the pseudocode parameter is missing.
+                    example: 'Bad Request: missing the blockIds query parameter'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating that there was an error in processing the request.
+                    example: 'Error in processing the request: error message'

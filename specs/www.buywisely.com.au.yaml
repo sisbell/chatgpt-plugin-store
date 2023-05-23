@@ -1,0 +1,92 @@
+openapi: 3.0.1
+info:
+  title: Open AI BuyWisely Product Search API
+  description: Open AI Product Search Endpoint. Query for products.
+  version: 'v1'
+servers:
+  - url: https://buywisely.com.au/api
+paths:
+  /openai/v0/products:
+    get:
+      operationId: getProductsFromOpenAI
+      summary: Get products from Open AI
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+          description: The keyword to search for, it can include info like product name, description, specs or event prices.
+          required: true
+      responses:
+        '200':
+          description: A list of products that match the keyword.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductSearchResponse'
+        '400':
+          description: The request is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No products found matching the keyword.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Product:
+      type: object
+      description: "A product object containing information about a specific product."
+      properties:
+        id:
+          type: string
+          description: "The product's unique ID."
+        image:
+          type: string
+          description: "The URL to the product's image."
+        rating:
+          type: number
+          description: "The product's average rating 0-5."
+        reviews_cnt:
+          type: integer
+          description: "The total number of reviews for the product."
+        slug:
+          type: string
+          description: "The product's unique slug, used for URL generation."
+        url:
+          type: string
+          description: "The URL to the product's detail page."
+        title:
+          type: string
+          description: "The product's title."
+        lowest_price:
+          type: number
+          description: "The lowest price of the product."
+        highest_price:
+          type: number
+          description: "The highest price of the product."
+        offer_amount:
+          type: number
+          description: "The total number of offers for the product."
+        price_off:
+          type: number
+          description: "The discount amount on the product price."
+        offers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Offer'
+          description: "An array of the latest offers for the product."
+    Offer:
+      type: object
+      description: "An offer object containing information about a specific offer for a product."
+      properties:
+        base_price:
+          type: number
+          description: "The base price of the offer."
+        seller:
+          type: string
+          description: "The seller providing the offer."

@@ -1,0 +1,72 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ai Tool Hunt",
+    "version": "v1.0"
+  },
+  "servers": [
+    {
+      "url": "https://www.aitoolhunt.com"
+    }
+  ],
+  "paths": {
+    "/api/search/": {
+      "get": {
+        "operationId": "searchQuery",
+        "summary": "Search API",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "category": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      },
+                      "use_case": {
+                        "type": "string"
+                      },
+                      "pricing": {
+                        "price": "string",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "name": "Example Name",
+                      "category": "Example Category",
+                      "url": "https://www.aitoolhunt.com?via=aitoolhunt",
+                      "use_case": "Example Use Case"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

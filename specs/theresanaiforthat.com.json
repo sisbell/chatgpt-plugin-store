@@ -1,0 +1,68 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "There's An AI For That",
+    "version": "v1.0"
+  },
+  "servers": [
+    {
+      "url": "https://theresanaiforthat.com"
+    }
+  ],
+  "paths": {
+    "/api/search/": {
+      "get": {
+        "operationId": "searchQuery",
+        "summary": "Search API",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "task": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      },
+                      "use_case": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "name": "Example Name",
+                      "task": "Example Task",
+                      "url": "https://theresanaiforthat.com/ai/example/?ref=search&term=example&from=chatgpt",
+                      "use_case": "Example Use Case"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
