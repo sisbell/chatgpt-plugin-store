@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Boolio ChatGPT plugin
-  version: 2023.5.2
+  version: 2023.5.3
 paths:
   /api/stock/summary:
     get:
@@ -30,11 +30,14 @@ paths:
           type: string
         examples:
           Apple:
-            summary: 'region: US'
+            summary: 'Ticker of Apple. (region: US)'
             value: AAPL
           Samsung Electronics:
-            summary: 'region: KR'
+            summary: 'Ticker of Samsung Electronics. (region: KR)'
             value: '005930'
+          Reliance Industries Limited:
+            summary: 'Ticker of Reliance Industries Limited. (region: IN)'
+            value: 500325
       responses:
         '200':
           description: ''
@@ -45,6 +48,18 @@ paths:
         '400':
           description: 'Invalid value for: query parameter region, Invalid value for:
             query parameter symbol'
+          content:
+            text/plain:
+              schema:
+                type: string
+        '404':
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: ''
           content:
             text/plain:
               schema:

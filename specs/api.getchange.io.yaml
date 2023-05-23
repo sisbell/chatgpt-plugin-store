@@ -24,11 +24,11 @@ paths:
             type: string
           description: Used to filter nonprofits based on their EIN. For example, ?ein=123456789 will return the nonprofit with EIN "123456789".
         - in: query
-          name: name
+          name: search
           required: false
           schema:
             type: string
-          description: Used to filter nonprofits based on their name. For example, ?name=one%20tree%20planted will return nonprofits that contain "one tree planted" in their name.
+          description: Used to filter nonprofits based on a search. Can be a name or a search term. For example, ?search=one%20tree%20planted will return nonprofits that contain "one tree planted" in their name or mission. Similarly ?search=ocean%20conservation will return nonprofits that contain "ocean conservation" in their name or mission.
         - in: query
           name: category
           required: false
@@ -36,12 +36,6 @@ paths:
             type: string
             enum: [Current Issues, Arts and Culture, Education, Environment and Climate, Animals, Healthcare, Human Services, International Relief, Religion, Female Empowerment, Gun Violence Prevention and Victim Support, Disaster Preparedness and Relief Services, Voting Rights and Election Laws, Black-Founded Nonprofits, LGBTQIA+, Mental Health Awareness, Immigration and Refugees, Racial Justice and Civil Rights, Public Benefit]
           description: Used to filter nonprofits based on their category. For example, ?category=education will return nonprofits that are categorized as "Education".
-        # - in: query
-        #   name: city
-        #   required: false
-        #   schema:
-        #     type: string
-        #   description: Used to filter nonprofits based on their city. For example, ?city=San%20Francisco will return nonprofits that are located in San Francisco.
         - in: query
           name: state
           required: false
@@ -130,6 +124,9 @@ components:
         ein:
           type: string
           description: EIN of the nonprofit.
+        donate_link:
+          type: string
+          description: Link to a donation page for the nonprofit.
 
     nonprofitDetailed:
       type: object
@@ -184,6 +181,9 @@ components:
             youtube:
               type: string
               description: Youtube of the nonprofit.
+        donate_link:
+          type: string
+          description: Link to a donation page for the nonprofit.
 
     getNonprofitResponse:
       type: object

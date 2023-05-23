@@ -118,7 +118,6 @@ components:
       required:
         - prompt
         - assetId
-        - etfSortOrder
         - etfSortType
       properties:
         prompt:

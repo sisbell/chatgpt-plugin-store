@@ -164,6 +164,26 @@ paths:
             enum:
               - "US"
               - "CA"
+        - name: sort_by
+          in: query
+          description: The parameter to sort by
+          required: false
+          schema:
+            type: string
+            enum:
+              - "expected_sharpe"
+              - "ai_sentiment_score"
+              - "expected_return"
+              - "market_cap"
+        - name: sort_order
+          in: query
+          description: The order to sort by (descending meaning highest to lowest, ascending meaning lowest value first)
+          required: false
+          schema:
+            type: string
+            enum:
+              - "descending"
+              - "ascending"
       responses:
         "200":
           description: OK
