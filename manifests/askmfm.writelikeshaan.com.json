@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Ask MFM",
+  "name_for_model": "ask_my_first_million_podcast_chatbot",
+  "description_for_human": "Ask the hosts of the My First Million questions about business, tech, entrepreneurship, and life.",
+  "description_for_model": "Use the Ask MFM plugin to facilitate interactive and insightful discussions around business, entrepreneurship, technology, and life, based on the My First Million podcast. Upon receiving a question, the plugin get relevant info from podcast where the hosts have touched upon the topic of interest. These snippets are extracted from a diverse range of podcast episodes, each associated with the respective episode title, and a link to the complete podcast. As often as possible, the plugin responds with relevant quotes from the podcast. The plugin guarantees the authenticity of the information by pulling from verified sources only. It calls the relevant-info endpoint, from which it recieves a list of dicts, with each dict containing a snippet, what episode that snippet is from, and a link to that podcast episode. It will return links that should be displayed to the user for direct access to the episodes for further exploration. The plugin is optimized for efficiency and accuracy, ensuring a rich user experience.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://askmfm.writelikeshaan.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://askmfm.writelikeshaan.com/logo.png",
+  "contact_email": "aliaadil2002@gmail.com",
+  "legal_info_url": "https://askmfm.writelikeshaan.com/legal"
+}

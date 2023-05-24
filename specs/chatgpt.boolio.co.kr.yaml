@@ -4,40 +4,16 @@ info:
   version: 2023.5.3
 paths:
   /api/stock/summary:
-    get:
+    post:
       summary: Summarize stock info
       description: Summarize stock info of the given country and ticker
-      operationId: getApiStockSummary
-      parameters:
-      - name: region
-        in: query
-        description: An ISO-3166-1 alpha-2 code of the country
+      operationId: postApiStockSummary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StockSummaryRequest'
         required: true
-        schema:
-          type: string
-        examples:
-          Example0:
-            value: US
-          Example1:
-            value: KR
-          Example2:
-            value: JP
-      - name: symbol
-        in: query
-        description: The identifier of the stock in the corresponding region
-        required: true
-        schema:
-          type: string
-        examples:
-          Apple:
-            summary: 'Ticker of Apple. (region: US)'
-            value: AAPL
-          Samsung Electronics:
-            summary: 'Ticker of Samsung Electronics. (region: KR)'
-            value: '005930'
-          Reliance Industries Limited:
-            summary: 'Ticker of Reliance Industries Limited. (region: IN)'
-            value: 500325
       responses:
         '200':
           description: ''
@@ -46,8 +22,7 @@ paths:
               schema:
                 type: string
         '400':
-          description: 'Invalid value for: query parameter region, Invalid value for:
-            query parameter symbol'
+          description: 'Invalid value for: body'
           content:
             text/plain:
               schema:
@@ -64,3 +39,23 @@ paths:
             text/plain:
               schema:
                 type: string
+components:
+  schemas:
+    StockSummaryRequest:
+      required:
+      - prompt
+      - region
+      - symbol
+      type: object
+      properties:
+        prompt:
+          type: string
+          description: The original chat prompt from the user
+        region:
+          type: string
+          description: An ISO-3166-1 alpha-2 code of the country
+          example: JP
+        symbol:
+          type: string
+          description: The identifier of the stock in the corresponding region
+          example: AAPL

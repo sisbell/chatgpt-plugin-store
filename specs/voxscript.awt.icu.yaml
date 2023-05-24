@@ -7,7 +7,7 @@ paths:
     post:
       tags:
         - DuckDuckGoSearch
-      summary: Provides real-time web search results from DuckDuckGo. Do not use for YouTube.com searches.
+      summary: Provides real-time web search results from DuckDuckGo. Do not use for YouTube.com searching or anything that sounds like it could be a video or media search!
       operationId: GetGoogleSearchResults
       parameters:
         - name: searchTerm
@@ -22,7 +22,7 @@ paths:
           schema:
             type: integer
             format: int32
-            default: 5
+            default: 12
       responses:
         '200':
           description: Success
@@ -30,7 +30,7 @@ paths:
     post:
       tags:
         - DuckDuckGoSearch
-      summary: Provides real-time web search results from DuckDuckGo. Do not use for YouTube.com searches.
+      summary: Provides real-time web search results from DuckDuckGo. Do not use for YouTube.com searching or anything that sounds like it could be a video or media search!
       operationId: GetDuckDuckGoSearchResults
       parameters:
         - name: searchTerm
@@ -45,7 +45,7 @@ paths:
           schema:
             type: integer
             format: int32
-            default: 5
+            default: 12
       responses:
         '200':
           description: Success
@@ -87,12 +87,12 @@ paths:
           description: Returns if the feedback was saved successfully
         '500':
           description: If there was an internal server error
-  /GetChunkedTextContentFromURL:
+  /GetChunkedPastebinContentFromURL:
     post:
       tags:
         - GetTextFromURL
-      summary: 'Gets full text text from Patebin, Github Gists, Github or REntry.co. Grab the entire file and summarize it for the user by default. Do not use for web browsing.'
-      operationId: GetChunkedTextContentFromURL
+      summary: 'Gets full text text from only Patebin, Github Gists, Github or REntry.co. Grab the entire file and summarize it for the user by default. Do not use for web browsing or media searches.'
+      operationId: GetChunkedPastebinContentFromURL
       parameters:
         - name: url
           in: query
@@ -115,12 +115,12 @@ paths:
     post:
       tags:
         - GetTickerNews
-      summary: Provides news about a ticker symbol beyond the knowledge cutoff date. Can be used with Cryto or Equities.
+      summary: Provides news about a ticker crypto or equity beyond the knowledge cutoff date. Can be used with Cryto or Equities.
       operationId: GetNewsForTicker
       parameters:
         - name: ticker
           in: query
-          description: This is the ticker symbol to provide news about a particular ticker symbol. This can be useful in determining if the stock is a buy or sell based on if the news is positive or negative.
+          description: This is the crypto or equity symbol to provide news about a particular ticker symbol. This can be useful in determining if the stock is a buy or sell based on if the news is positive or negative.
           style: form
           schema:
             type: string
@@ -198,6 +198,34 @@ paths:
           style: form
           schema:
             type: string
+      responses:
+        '200':
+          description: Success
+  /GetWebsiteContent:
+    post:
+      tags:
+        - GetWebsiteContentService
+      summary: Provides real time website content past September 2021 past the knowledge cutoff date. Do not use for YouTube or Pastebin/text requests  .
+      operationId: GetWebsiteContent
+      parameters:
+        - name: websiteURL
+          in: query
+          description: URL of the website to retrieve
+          style: form
+          schema:
+            type: string
+        - name: chunkNum
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: getLinks
+          in: query
+          style: form
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success

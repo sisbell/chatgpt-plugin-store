@@ -102,7 +102,7 @@ paths:
   /chat/fetch_tvstations:
     get:
       operationId: fetchTvStations
-      summary: Get TV stations broadcasting football matches.
+      summary: Get TV stations broadcasting football matches, specify a leaque or country of the league, or blank for all leagues.
       parameters:
         - name: league_search
           in: query
@@ -131,11 +131,45 @@ paths:
             type: string
       responses:
         "200":
-          description: OK
+          description: Returns league name, date, games, teams playing, team positions, tv stations for your country.
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   # Define the response properties here
-
+  /chat/leagues_today:
+    get:
+      operationId: fetchLeaguesToday
+      summary: Fetches worldwide leagues and games being played today or provide a date, return leagues and games.
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            format: date
+          description: Date for which to fetch leagues and games
+        - in: query
+          name: iso
+          schema:
+            type: string
+          description: ISO 3166-2 country code
+        - in: header
+          name: openai-subdivision-1-iso-code
+          schema:
+            type: string
+          required: false
+          description: OpenAI subdivision ISO code
+        - in: query
+          name: timezone
+          schema:
+            type: string
+          description: Timezone
+      responses:
+        "200":
+          description: Returns league name, games, teams playing, starting date/time, result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:

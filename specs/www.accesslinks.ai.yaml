@@ -18,6 +18,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: chat_context
+          in: query
+          description: Chat context for parsing the URL
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Successful Response

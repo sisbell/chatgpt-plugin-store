@@ -65,12 +65,12 @@
           },
           {
             "in": "query",
-            "name": "type",
+            "name": "aggregation_mode",
             "schema": {
               "type": "string"
             },
-            "description": "must be 'combine' (add variables together) or 'compare' (show variables side by side). In 'compare' mode, each variable will be normalized separately, if applicable.",
-            "required": true
+            "description": "must be 'combine' (add variables together) or 'compare' (show variables side by side). Required if more than one variable requested.",
+            "required": false
           },
           {
             "in": "query",

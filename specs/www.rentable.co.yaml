@@ -142,7 +142,7 @@ paths:
       summary: |
         Get information about average rent prices in the area for a given city and state.
         Contains information for 0 Bedrooms (Studio) to 4 Bedroom units. Data provided by
-        rentable.co and is accurate as of: 2023-05-23.
+        rentable.co and is accurate as of: 2023-05-24.
       parameters:
         - in: query
           name: city

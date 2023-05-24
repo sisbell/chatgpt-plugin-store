@@ -12,7 +12,7 @@ paths:
       operationId: searchGet
       summary: Search Google and fetch HTML content
       description: |
-        Searches internet using the provided query that is recreated by ChatGPT and returns the search results, along with the inner content of the first link. The first five search results include a summary of the HTML content, while the first three have the entire HTML content returned in the response.
+        Searches internet using the provided query that is recreated by ChatGPT and returns the search results. It returns the first five link's summary, the first three links' entire HTML content. Use alternative keywords in query if ResponseTooLargeError occurs.
       parameters:
         - name: q
           in: query

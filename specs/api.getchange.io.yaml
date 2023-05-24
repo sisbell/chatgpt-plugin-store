@@ -47,7 +47,7 @@ paths:
           required: false
           schema:
             type: string
-          description: Used to filter nonprofits based on their zip code. For example, ?zip_code=94103 will return nonprofits that are located in the near the 94103 zip code.
+          description: Used to filter nonprofits based on their zip code. If a user searches for nonprofits in a specific city, ALWAYS convert the city to its zip code and use as a parameter. For example, searching for nonprofits in San Francisco should look like ?zip_code=94103.
         - in: query
           name: limit
           required: false
@@ -124,9 +124,15 @@ components:
         ein:
           type: string
           description: EIN of the nonprofit.
-        donate_link:
+        city:
           type: string
-          description: Link to a donation page for the nonprofit.
+          description: City of the nonprofit.
+        state:
+          type: string
+          description: State of the nonprofit.
+        learn_more_and_donate_here:
+          type: string
+          description: Link to a webpage where users can learn more and donate to the nonprofit.
 
     nonprofitDetailed:
       type: object
@@ -181,9 +187,9 @@ components:
             youtube:
               type: string
               description: Youtube of the nonprofit.
-        donate_link:
+        learn_more_and_donate_here:
           type: string
-          description: Link to a donation page for the nonprofit.
+          description: Link to a webpage where users can learn more and donate to the nonprofit.
 
     getNonprofitResponse:
       type: object
