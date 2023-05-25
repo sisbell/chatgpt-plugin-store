@@ -4,7 +4,7 @@ info:
   description: Allows users to load and query YouTube videos. Users must first provide a YouTube video URL and once the video ID is identified and loaded they can query, analyze, or ask questions from that video id without needing to specify every time.
   version: "v1"
 servers:
-  - url: https://chatwithvideo-production.up.railway.app
+  - url: https://chatwithvideo.sdan.io
 paths:
   /video/load:
     post:

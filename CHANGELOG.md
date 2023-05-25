@@ -1,4 +1,10 @@
 # Plugin Store Listing Changelog
+## 2023-05-25
+### Newly Listed
+* [weather--vicentescode.repl.co](manifests/weather--vicentescode.repl.co.json)
+* [www.klarna.com](manifests/www.klarna.com.json)
+### Delisted
+* [searchweb.keymate.ai](manifests/searchweb.keymate.ai.json)
 ## 2023-05-24
 ### Newly Listed
 * [askmfm.writelikeshaan.com](manifests/askmfm.writelikeshaan.com.json)

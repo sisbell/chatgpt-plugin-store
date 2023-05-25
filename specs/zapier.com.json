@@ -492,7 +492,7 @@
       "SessionAuth": {
         "type": "apiKey",
         "in": "cookie",
-        "name": "sessionid"
+        "name": "nlasession"
       },
       "AccessPointApiKeyHeader": {
         "type": "apiKey",

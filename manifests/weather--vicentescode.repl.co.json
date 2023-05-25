@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Weather",
+  "name_for_model": "Weather",
+  "description_for_human": "Provides weather forecast based on location. Includes temperature, precipitation, cloud cover, wind and much more.",
+  "description_for_model": "Provides weather forecast based on location. Includes temperature, precipitation, cloud cover, wind and much more.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://weather--vicentescode.repl.co/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://weather--vicentescode.repl.co/logo.png",
+  "contact_email": "support@promptapps.ai",
+  "legal_info_url": "https://promptapps.ai/weatherplugin/legal.html"
+}

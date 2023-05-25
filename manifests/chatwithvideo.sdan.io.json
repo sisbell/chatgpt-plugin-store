@@ -9,10 +9,10 @@
   },
   "api": {
     "type": "openapi",
-    "url": "https://chatwithvideo-production.up.railway.app/openapi.yaml",
+    "url": "https://chatwithvideo.sdan.io/openapi.yaml",
     "is_user_authenticated": false
   },
-  "logo_url": "https://chatwithvideo-production.up.railway.app/logo.png",
+  "logo_url": "https://chatwithvideo.sdan.io/logo.png",
   "contact_email": "support@chatwithvideo@sdan.io",
-  "legal_info_url": "https://chatwithvideo-production.up.railway.app/legal"
+  "legal_info_url": "https://chatwithvideo.sdan.io/legal"
 }

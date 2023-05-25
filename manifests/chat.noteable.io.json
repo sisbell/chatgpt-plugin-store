@@ -13,13 +13,13 @@
   "auth": {
     "type": "oauth",
     "client_url": "https://chat.noteable.io/origami/authorize",
-    "scope": "offline_access",
-    "authorization_url": "https://auth.noteable.io/oauth/token",
+    "scope": "offline_access openid email profile",
+    "authorization_url": "https://chat.noteable.io/origami/token",
     "authorization_content_type": "application/json",
     "verification_tokens": {
-      "openai": "2d3548a81d7347a58ee510e896d3e70e"
+      "openai": "979faa560248484983572b644009389e"
     }
   },
   "description_for_human": "Create notebooks in Python, SQL, and Markdown to explore data, visualize, and share notebooks with everyone.",
-  "description_for_model": "On https://app.noteable.io, create and run Python notebooks with code, markdown, and SQL cells.\n\nUsers may pass links with this structure:\n\n- Notebook URL: https://app.noteable.io/f/<file_id>/<decorative_file_name>\n- Notebook URL with CellID: https://app.noteable.io/f/<file_id>/<decorative_file_name>?cellID=<cell_id>\n- Project URL: https://app.noteable.io/p/<project_id>/<decorative_project_name>\n\n`project_id`, `file_id`, and `cell_id` are all UUIDs.\n\nProjects contain both notebooks and data files that the user has uploaded.\n\nCell outputs are returned in the get_cell response as results. Image URLs are embeddable in Markdown as a time limited URL.\n\nFrom the Noteable UI the user can also configure:\n\n* RBAC permissions\n* Environment variables. Values are hidden from responses and will appear as Xs in any outputs.\n* Data Connections (BigQuery, Athena, CockroachDB, PostgreSQL, MySQL, Redshift, Snowflake, SQLite, more)\n\nThe assistant has access to environment variables via `os.environ` and data connections via SQL.\n\nLinks that are not supported from this plugin:\n\n- Space URL: https://app.noteable.io/s/<space_id>/<decorative_space_name>"
+  "description_for_model": "On https://app.noteable.io, create and run Python notebooks with code, markdown, and SQL cells.\n\n# Semantics\n\n- Notebook URL, CellID optional: https://app.noteable.io/f/<file_id>/<decorative_file_name>?cellID=<cell_id>\n- Project URL: https://app.noteable.io/p/<project_id>/<decorative_project_name>\n- Space URL: https://app.noteable.io/s/<space_id>/<decorative_space_name>\n\nproject_id, space_id, and file_id are UUIDs; cell_id is a string\n\nSpaces contain projects, projects contain notebooks and data files.\n\n# Runtime\n\nFiles should be staged in the `/tmp` directory.\n\nIPython supports top level async-await. To display images from disk in the assistant response, use `IPython.display.Image` with `embed=True`.\n\n# Noteable UI\n\nDirect the user to the Noteable UI to configure RBAC permissions, Environment Variables/Secrets, and Data Sources."
 }

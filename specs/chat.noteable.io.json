@@ -3,16 +3,133 @@
   "info": {
     "title": "Origamist",
     "description": "ChatGPT Plugin server for creating computational notebooks (in Python!), allowing you to execute code, explore data, and visualize results.",
-    "version": "0.21.1"
+    "version": "0.22.0"
   },
   "servers": [
     {
       "url": "https://chat.noteable.io",
-      "description": "production Origamist Server"
+      "description": "Origamist server on https://chat.noteable.io"
     }
   ],
   "paths": {
-    "/api/origami/f": {
+    "/api/origami/p/default": {
+      "get": {
+        "summary": "Get Default Project",
+        "description": "Get the user's configured default project.",
+        "operationId": "get_default_project",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "Set Default Project",
+        "description": "Configure the user's default project (by UUID) for new notebooks.",
+        "operationId": "set_default_project",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "New Default Project Id",
+              "type": "string",
+              "format": "uuid"
+            },
+            "name": "new_default_project_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Conversation Id",
+              "type": "string"
+            },
+            "name": "openai_conversation_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Ephemeral User Id",
+              "type": "string"
+            },
+            "name": "openai_ephemeral_user_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Subdivision1 Iso Code",
+              "type": "string"
+            },
+            "name": "openai_subdivision1_iso_code",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Set Default Project",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete Default Project",
+        "description": "Clear the user's default project.",
+        "operationId": "clear_default_project",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Clear Default Project",
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/origami/f/": {
       "post": {
         "summary": "Create Notebook",
         "description": "Creates a new notebook. If no project ID is provided, the user's default project will be used.",
@@ -160,91 +277,7 @@
         ]
       }
     },
-    "/api/origami/f/{file_id}/cell": {
-      "post": {
-        "summary": "Create Cell",
-        "description": "Create a code or markdown cell.",
-        "operationId": "create_cell",
-        "parameters": [
-          {
-            "required": true,
-            "schema": {
-              "title": "File Id",
-              "type": "string",
-              "format": "uuid"
-            },
-            "name": "file_id",
-            "in": "path"
-          },
-          {
-            "required": false,
-            "schema": {
-              "title": "Openai Conversation Id",
-              "type": "string"
-            },
-            "name": "openai_conversation_id",
-            "in": "query"
-          },
-          {
-            "required": false,
-            "schema": {
-              "title": "Openai Ephemeral User Id",
-              "type": "string"
-            },
-            "name": "openai_ephemeral_user_id",
-            "in": "query"
-          },
-          {
-            "required": false,
-            "schema": {
-              "title": "Openai Subdivision1 Iso Code",
-              "type": "string"
-            },
-            "name": "openai_subdivision1_iso_code",
-            "in": "query"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCellRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "Response Create Cell",
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      }
-    },
-    "/api/origami/f/{file_id}/cell/{cell_id}": {
+    "/api/origami/f/{file_id}/c/{cell_id}": {
       "get": {
         "summary": "Get Cell",
         "description": "Return Cell model details",
@@ -493,7 +526,91 @@
         ]
       }
     },
-    "/api/origami/f/{file_id}/cell/{cell_id}/run": {
+    "/api/origami/f/{file_id}/c": {
+      "post": {
+        "summary": "Create Cell",
+        "description": "Create a code or markdown cell.",
+        "operationId": "create_cell",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "File Id",
+              "type": "string",
+              "format": "uuid"
+            },
+            "name": "file_id",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Conversation Id",
+              "type": "string"
+            },
+            "name": "openai_conversation_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Ephemeral User Id",
+              "type": "string"
+            },
+            "name": "openai_ephemeral_user_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Subdivision1 Iso Code",
+              "type": "string"
+            },
+            "name": "openai_subdivision1_iso_code",
+            "in": "query"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCellRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Create Cell",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/origami/f/{file_id}/c/{cell_id}/run": {
       "post": {
         "summary": "Run Cell",
         "description": "Run a Cell within a Notebook by ID.",
@@ -571,123 +688,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      }
-    },
-    "/api/origami/p/default": {
-      "get": {
-        "summary": "Get Default Project",
-        "description": "Get the user's configured default project.",
-        "operationId": "get_default_project",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      },
-      "put": {
-        "summary": "Set Default Project",
-        "description": "Configure the user's default project (by UUID) for new notebooks.",
-        "operationId": "set_default_project",
-        "parameters": [
-          {
-            "required": true,
-            "schema": {
-              "title": "New Default Project Id",
-              "type": "string",
-              "format": "uuid"
-            },
-            "name": "new_default_project_id",
-            "in": "query"
-          },
-          {
-            "required": false,
-            "schema": {
-              "title": "Openai Conversation Id",
-              "type": "string"
-            },
-            "name": "openai_conversation_id",
-            "in": "query"
-          },
-          {
-            "required": false,
-            "schema": {
-              "title": "Openai Ephemeral User Id",
-              "type": "string"
-            },
-            "name": "openai_ephemeral_user_id",
-            "in": "query"
-          },
-          {
-            "required": false,
-            "schema": {
-              "title": "Openai Subdivision1 Iso Code",
-              "type": "string"
-            },
-            "name": "openai_subdivision1_iso_code",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "Response Set Default Project",
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      },
-      "delete": {
-        "summary": "Delete Default Project",
-        "description": "Clear the user's default project.",
-        "operationId": "clear_default_project",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "Response Clear Default Project",
-                  "type": "object"
                 }
               }
             }
@@ -807,6 +807,12 @@
             "title": "Notebook Name",
             "type": "string",
             "description": "The name of the notebook to create. Must end with .ipynb file extension."
+          },
+          "start_kernel": {
+            "title": "Start Kernel",
+            "type": "boolean",
+            "description": "Whether to start the kernel after creating the notebook.",
+            "default": true
           }
         }
       },

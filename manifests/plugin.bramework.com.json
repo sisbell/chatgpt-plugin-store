@@ -1,9 +1,9 @@
 {
-  "schema_version": "v2",
+  "schema_version": "v1",
   "name_for_human": "Bramework",
   "name_for_model": "bramework",
-  "description_for_human": "Find keywords, generate content briefs, perform SEO analysis, and extract SEO information.",
-  "description_for_model": "A comprehensive SEO and content analysis tool. Its robust keyword analysis feature provides in-depth data on search volume, difficulty, and search engine ranking for target keywords and related terms. This helps users gain valuable insights to optimize content and improve search ranking. The tool generates tailored content briefs based on a keyword and URL, guiding users to create optimized content that aligns with their goals. It also assesses whether existing content is optimized for a target keyword, evaluating elements like page titles, headings, content density, and more. An SEO extractor retrieves important on-page SEO information from any URL, supplying a snapshot of how well optimized the page is. Ideal for businesses and content creators, this versatile tool offers a complete set of SEO analysis and optimization features to enhance online visibility and boost traffic. With powerful yet intuitive features, it's an essential resource for anyone serious about search engine optimization.",
+  "description_for_human": "Boost SEO with keyword insights on search volume, ranking difficulty, and SERP analysis.",
+  "description_for_model": "Boost your SEO strategy with our intelligent tool, a solution that provides in-depth keyword insights, focusing on search volume, ranking difficulty, and search engine results page (SERP) analysis. By leveraging advanced algorithms, it thoroughly examines your chosen keyword to reveal its competitive landscape in the digital marketplace. This allows you to understand whether it's worth investing your content creation resources into a specific keyword.",
   "auth": {
     "type": "none"
   },
