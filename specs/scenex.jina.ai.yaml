@@ -1,0 +1,58 @@
+openapi: 3.0.1
+info:
+  title: SceneXplain
+  description: A Plugin that takes an image url as input and return the description of that image. In the response to the user you display the image in markdown.
+  version: 'v1'
+servers:
+  - url: https://scenex.jina.ai/chatgpt
+paths:
+  /:
+    post:
+      operationId: explainImage
+      summary: Explain image with SceneXplain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/explainImageRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/explainImageResponse'
+
+components:
+  schemas:
+    explainImageResponse:
+      type: object
+      properties:
+        image:
+          type: string
+          description: URL of the image. You must show it to the user.
+        explanation:
+          type: string
+          description: Explanation of the image.
+    explainImageRequest:
+      type: object
+      required:
+      - image
+      properties:
+        image:
+          type: string
+          description: Image URL or base64 encoded image.
+          required: true
+        languages:
+          type: array
+          items:
+            type: string
+          description: Specify the language(s) of the description output.
+          required: false
+        features:
+          type: array
+          items:
+            type: string
+          description: Additional features to be enabled for the image explanation.
+          required: false

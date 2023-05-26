@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "Bramework",
   "name_for_model": "bramework",
-  "description_for_human": "Boost SEO with keyword insights on search volume, ranking difficulty, and SERP analysis.",
-  "description_for_model": "Boost your SEO strategy with our intelligent tool, a solution that provides in-depth keyword insights, focusing on search volume, ranking difficulty, and search engine results page (SERP) analysis. By leveraging advanced algorithms, it thoroughly examines your chosen keyword to reveal its competitive landscape in the digital marketplace. This allows you to understand whether it's worth investing your content creation resources into a specific keyword.",
+  "description_for_human": "Boost SEO with in-depth analysis, including keyword insights on volume, ranking, and SERP.",
+  "description_for_model": "Boost your SEO strategy with our intelligent tool that performs comprehensive SEO analysis. This solution provides in-depth keyword insights, focusing on search volume, ranking difficulty, and search engine results page (SERP) analysis. By leveraging advanced algorithms, it not only examines your chosen keyword but also performs a thorough SEO analysis of your content, revealing its competitive landscape in the digital marketplace. This allows you to understand whether it's worth investing your content creation resources into a specific keyword.",
   "auth": {
     "type": "none"
   },

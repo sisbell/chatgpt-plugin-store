@@ -1,0 +1,127 @@
+openapi: 3.0.2
+info:
+  title: LawyerPR 1.0.0
+  description: Search your ideal lawyer, in Japan.
+  version: 1.0.0
+  servers:
+    - url: https://lawyerpr.herokuapp.com
+paths:
+  /query:
+    post:
+      summary: Query
+      description: When answering legal questions or asked for a referral to a lawyer, POST query. In order to find the best lawyer.
+      operationId: query_query_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Query"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+components:
+  schemas:
+    DocumentChunkMetadata:
+      title: DocumentChunkMetadata
+      type: object
+      properties:
+        document_id:
+          title: Document Id
+          type: string
+    DocumentChunkWithScore:
+      title: DocumentChunkWithScore
+      required:
+        - text
+        - metadata
+        - score
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        text:
+          title: Text
+          type: string
+        metadata:
+          $ref: "#/components/schemas/DocumentChunkMetadata"
+        embedding:
+          title: Embedding
+          type: array
+          items:
+            type: number
+        score:
+          title: Score
+          type: number
+    DocumentMetadataFilter:
+      title: DocumentMetadataFilter
+      type: object
+      properties:
+        gender:
+          title: Gender
+          type: string
+        region:
+          title: region
+          type: string
+        location:
+          title: Location
+          type: string
+        language:
+          title: Language
+          type: string
+    Query:
+      title: Query
+      required:
+        - query
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        filter:
+          $ref: "#/components/schemas/DocumentMetadataFilter"
+        top_k:
+          title: Top K
+          type: integer
+          default: 10
+    QueryRequest:
+      title: QueryRequest
+      required:
+        - queries
+      type: object
+      properties:
+        queries:
+          title: Queries
+          type: array
+          items:
+            $ref: "#/components/schemas/Query"
+    QueryResponse:
+      title: QueryResponse
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: "#/components/schemas/QueryResult"
+    QueryResult:
+      title: QueryResult
+      required:
+        - query
+        - results
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentChunkWithScore"

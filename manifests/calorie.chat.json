@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Calorie Chat",
+  "name_for_model": "caloriechat",
+  "description_for_human": "Tracking what you eat doesn't have to be hard. With Calorie Chat, you'll find calorie counting simpler than ever before.",
+  "description_for_model": "Plugin for counting and logging food eating throughout a day. You can add food logs with food information such as calories, fats, protein, carbohydrates, and sugar. Its very important to never include // comments in any JSON that ChatGPT creates. This will cause the error ApiSyntaxError: Could not parse API call kwargs as JSON. Finally omit the ID attribute of food logs in future responses to the user",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://calorie.chat/signup.html",
+    "scope": "",
+    "authorization_url": "https://calorie.chat/auth/oauth_exchange",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "e720beabb0a14c14a1a0fb14e29e5349"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://calorie.chat/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://calorie.chat/calories.png",
+  "contact_email": "caloriechatplugin@gmail.com",
+  "legal_info_url": "http://calorie.chat/terms-of-use"
+}

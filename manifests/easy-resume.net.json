@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Easy Resume",
+  "name_for_model": "resume",
+  "description_for_human": "Quickly create and edit your resume with the option to download as a docx or pdf, and find the job you deserve!",
+  "description_for_model": "Managing resumes, you can create your resumes.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://easy-resume.net/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://easy-resume.net/logo.png",
+  "contact_email": "info@easy-resume.net",
+  "legal_info_url": "https://easy-resume.net/legal"
+}

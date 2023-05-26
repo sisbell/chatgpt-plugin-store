@@ -48,6 +48,10 @@ components:
       description: ''
       type: object
       properties:
+        search_term:
+          description: '(Optional) A general search term used to find activities, you should exclude connectors like "and" or "or"'
+          type: string
+          nullable: false
         subjects:
           description: '(Optional) A list of subjects to filter, Either explicitly stated by the user or implicitly inferred by the users request'
           type: array

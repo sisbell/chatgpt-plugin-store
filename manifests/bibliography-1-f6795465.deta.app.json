@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Bibliography Crossref",
+  "name_for_model": "bibliography_crossref",
+  "description_for_human": "Search publications and generate bibtex bibliographies using Crossref and Zotero.",
+  "description_for_model": "A plugin to suggest multiple research prompts and generate the top 3 bibtex bibliographies for each in Markdown tabular output. Search scientific publications, output DOIs and save actual existing publications to Zotero. Fail silently and generate valid bibtex from API responses. Guide user to integrate into Zotero collection with API key.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://bibliography-1-f6795465.deta.app/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://bibliography-1-f6795465.deta.app/static/logo.jpg",
+  "contact_email": "bibliography_generator@proton.me",
+  "legal_info_url": "https://bibliography-1-f6795465.deta.app/static/legal.html"
+}

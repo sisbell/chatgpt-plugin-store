@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Web Requests",
+  "name_for_model": "web_requests",
+  "description_for_human": "Goodbye Knowledge Cutoff, Hello World! This is your AI assistant's web browser. Just enter a URL. Google, Wiki, GitHub.",
+  "description_for_model": "A gateway for fetching content from URL's for real-time up-to-date world information. Googling news, researching topics, querying http endpooints, scraping html -- anytime a user needs access to content accessible via HTTP, AI assistants should strive to parse the data returned, regardless of what raw format it is in.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin.wegpt.ai/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://plugin.wegpt.ai/static/logo.png",
+  "contact_email": "josh@josholin.com",
+  "legal_info_url": "https://plugin.wegpt.ai/legal"
+}

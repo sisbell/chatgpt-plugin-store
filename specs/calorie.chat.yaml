@@ -1,0 +1,187 @@
+openapi: 3.0.1
+info:
+  title: Calorie Chat
+  description: A plugin that allows users to easily estimate and log the calories and nutritional information from the food they consume.
+  version: 1.0.0
+servers:
+  - url: https://calorie.chat
+paths:
+  /add_food_logs:
+    post:
+      summary: Add food logs
+      operationId: addFoodLogs
+      description: Add a list of food logs with food name, description, calorie count, and attributes like protein, carbohydrates, and fats. Seperate food items when appropriate.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                  description: The date for which the food logs should be added (default is current date with format yyyy-mm-dd).
+                  required: false
+                foodItems:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      foodName:
+                        type: string
+                        description: Name of the food
+                      foodDescription:
+                        type: string
+                        description: Description of the food
+                      calorieCount:
+                        type: number
+                        format: float
+                        description: Calorie count of the food
+                      protein:
+                        type: number
+                        format: float
+                        description: Protein content in grams (estimated if not provided)
+                      carbohydrates:
+                        type: number
+                        format: float
+                        description: Carbohydrates content in grams (estimated if not provided)
+                      sugar:
+                        type: number
+                        format: float
+                        description: Sugar content in grams (estimated if not provided)
+                      fats:
+                        type: number
+                        format: float
+                        description: Fats content in grams (estimated if not provided)
+                  minItems: 1
+      responses:
+        "200":
+          description: Success message and Markdown table with updated food logs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  updatedFoodLogs:
+                    type: string
+        "400":
+          description: Missing required parameters
+          content:
+            text/plain:
+              schema:
+                type: string
+  /read_food_logs:
+    get:
+      operationId: readFoodLogs
+      summary: Read food logs
+      description: Retrieve markdown table for all entered food logs for a given date.
+      parameters:
+        - name: date
+          in: query
+          description: The date to retrieve the food logs for. (default is current date)
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Food logs retrieved successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        "500":
+          description: Server error
+          content:
+            text/plain:
+              schema:
+                type: string
+  /remove_food_log/{id}:
+    delete:
+      operationId: removeFoodLog
+      summary: Remove a food log
+      description: Remove a food log with the specified ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the food log to remove. Must be deduced by conversation context
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Success message and Markdown table with updated food logs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  updatedFoodLogs:
+                    type: string
+        "400":
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string
+        "404":
+          description: Food log not found
+          content:
+            text/plain:
+              schema:
+                type: string
+  /update_food_log:
+    put:
+      operationId: updateFoodLog
+      summary: Update a food log
+      description: Update the specified Nutrient Name of a food log with the given ID.
+      parameters:
+        - name: id
+          in: query
+          description: ID of the food log to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: nutrientName
+          in: query
+          description: Nutrient Name to update (calories, fats, protein, or carbs or sugar)
+          required: true
+          schema:
+            type: string
+        - name: value
+          in: query
+          description: New value for the attribute
+          required: true
+          schema:
+            type: number
+            format: float
+      responses:
+        "200":
+          description: Success message and Markdown table with updated food logs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  updatedFoodLogs:
+                    type: string
+        "400":
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string
+        "404":
+          description: Food log not found or invalid nutrient name.
+          content:
+            text/plain:
+              schema:
+                type: string

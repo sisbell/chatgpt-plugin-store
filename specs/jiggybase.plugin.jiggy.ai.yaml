@@ -1,0 +1,282 @@
+'openapi': '3.0.2'
+'info':
+  'title': 'JiggyBase Retrieval API'
+  'description': 'A retrieval API for querying and filtering documents based on natural
+    language queries and metadata'
+  'version': '1.0.1'
+'servers':
+- 'url': https://jiggybase.plugin.jiggy.ai/plugin
+'paths':
+  '/collections':
+    'post':
+      'summary': 'Collections'
+      'description': 'Returns a list of collections available to the user. Use this
+        first to get the collection names and descriptions prior to using the /query
+        endpoint.  Do not try to guess the collection_name; only use a collection_name
+        returned from here.'
+      'operationId': 'collections_collections_post'
+      'responses':
+        '200':
+          'description': 'Successful Response'
+          'content':
+            'application/json':
+              'schema':
+                '$ref': '#/components/schemas/CollectionResponse'
+      'security':
+      - 'HTTPBearer': []
+  '/query':
+    'post':
+      'summary': 'Query'
+      'description': 'Accepts list of queries with optional metadata filter. Specify
+        a collection name (from get /collections) to search the specific user collection
+        that is best for the query. Break down complex questions into sub-questions.'
+      'operationId': 'query_query_post'
+      'requestBody':
+        'content':
+          'application/json':
+            'schema':
+              '$ref': '#/components/schemas/QueryRequest'
+        'required': true
+      'responses':
+        '200':
+          'description': 'Successful Response'
+          'content':
+            'application/json':
+              'schema':
+                '$ref': '#/components/schemas/QueryResponse'
+        '422':
+          'description': 'Validation Error'
+          'content':
+            'application/json':
+              'schema':
+                '$ref': '#/components/schemas/HTTPValidationError'
+      'security':
+      - 'HTTPBearer': []
+'components':
+  'schemas':
+    'Collection':
+      'title': 'Collection'
+      'required':
+      - 'name'
+      - 'display_name'
+      'type': 'object'
+      'properties':
+        'name':
+          'title': 'Name'
+          'type': 'string'
+          'description': 'The name of the collection for use in the API.'
+        'display_name':
+          'title': 'Display Name'
+          'type': 'string'
+          'description': 'The user-friendly name of the collection for presenting
+            to the user.'
+        'description':
+          'title': 'Description'
+          'type': 'string'
+          'description': 'The description of the collection. Use this to help determine
+            which collection to search.'
+    'CollectionResponse':
+      'title': 'CollectionResponse'
+      'required':
+      - 'collections'
+      'type': 'object'
+      'properties':
+        'collections':
+          'title': 'Collections'
+          'type': 'array'
+          'items':
+            '$ref': '#/components/schemas/Collection'
+    'DocumentChunkMetadata':
+      'title': 'DocumentChunkMetadata'
+      'type': 'object'
+      'properties':
+        'source':
+          '$ref': '#/components/schemas/Source'
+        'source_id':
+          'title': 'Source Id'
+          'type': 'string'
+        'url':
+          'title': 'Url'
+          'type': 'string'
+        'created_at':
+          'title': 'Created At'
+          'type': 'string'
+        'author':
+          'title': 'Author'
+          'anyOf':
+          - 'type': 'string'
+          - 'type': 'array'
+            'items':
+              'type': 'string'
+        'title':
+          'title': 'Title'
+          'type': 'string'
+        'description':
+          'title': 'Description'
+          'type': 'string'
+        'document_id':
+          'title': 'Document Id'
+          'type': 'string'
+    'DocumentChunkWithScore':
+      'title': 'DocumentChunkWithScore'
+      'required':
+      - 'text'
+      - 'metadata'
+      - 'score'
+      'type': 'object'
+      'properties':
+        'id':
+          'title': 'Id'
+          'type': 'string'
+        'text':
+          'title': 'Text'
+          'type': 'string'
+        'metadata':
+          '$ref': '#/components/schemas/DocumentChunkMetadata'
+        'embedding':
+          'title': 'Embedding'
+          'type': 'array'
+          'items':
+            'type': 'number'
+        'token_count':
+          'title': 'Token Count'
+          'type': 'integer'
+        'reference_url':
+          'title': 'Reference Url'
+          'type': 'string'
+        'score':
+          'title': 'Score'
+          'type': 'number'
+    'DocumentMetadataFilter':
+      'title': 'DocumentMetadataFilter'
+      'type': 'object'
+      'properties':
+        'document_id':
+          'title': 'Document Id'
+          'type': 'string'
+        'source':
+          '$ref': '#/components/schemas/Source'
+        'source_id':
+          'title': 'Source Id'
+          'type': 'string'
+        'author':
+          'title': 'Author'
+          'type': 'string'
+        'start_date':
+          'title': 'Start Date'
+          'type': 'string'
+        'end_date':
+          'title': 'End Date'
+          'type': 'string'
+        'title':
+          'title': 'Title'
+          'type': 'string'
+    'HTTPValidationError':
+      'title': 'HTTPValidationError'
+      'type': 'object'
+      'properties':
+        'detail':
+          'title': 'Detail'
+          'type': 'array'
+          'items':
+            '$ref': '#/components/schemas/ValidationError'
+    'Query':
+      'title': 'Query'
+      'required':
+      - 'query'
+      'type': 'object'
+      'properties':
+        'query':
+          'title': 'Query'
+          'minLength': 1
+          'type': 'string'
+          'description': 'The search string to use to semantically match the user
+            content'
+        'collection_name':
+          'title': 'Collection Name'
+          'type': 'string'
+          'description': 'The name of the specific user collection to search. Only
+            optional if the user has a single collection.'
+        'top_k':
+          'title': 'Top K'
+          'type': 'integer'
+          'description': 'The maxmimum number of matching items to return.'
+          'default': 12
+        'filter':
+          '$ref': '#/components/schemas/DocumentMetadataFilter'
+    'QueryRequest':
+      'title': 'QueryRequest'
+      'required':
+      - 'queries'
+      'type': 'object'
+      'properties':
+        'queries':
+          'title': 'Queries'
+          'type': 'array'
+          'items':
+            '$ref': '#/components/schemas/Query'
+    'QueryResponse':
+      'title': 'QueryResponse'
+      'required':
+      - 'results'
+      'type': 'object'
+      'properties':
+        'results':
+          'title': 'Results'
+          'type': 'array'
+          'items':
+            '$ref': '#/components/schemas/QueryResult'
+    'QueryResult':
+      'title': 'QueryResult'
+      'required':
+      - 'collection_name'
+      - 'query'
+      - 'results'
+      'type': 'object'
+      'properties':
+        'collection_name':
+          'title': 'Collection Name'
+          'type': 'string'
+          'description': 'The name of the collection used to search.'
+        'query':
+          'title': 'Query'
+          'type': 'string'
+        'results':
+          'title': 'Results'
+          'type': 'array'
+          'items':
+            '$ref': '#/components/schemas/DocumentChunkWithScore'
+    'Source':
+      'title': 'Source'
+      'enum':
+      - 'email'
+      - 'file'
+      - 'chat'
+      - 'web'
+      'type': 'string'
+      'description': 'An enumeration.'
+    'ValidationError':
+      'title': 'ValidationError'
+      'required':
+      - 'loc'
+      - 'msg'
+      - 'type'
+      'type': 'object'
+      'properties':
+        'loc':
+          'title': 'Location'
+          'type': 'array'
+          'items':
+            'anyOf':
+            - 'type': 'string'
+            - 'type': 'integer'
+        'msg':
+          'title': 'Message'
+          'type': 'string'
+        'type':
+          'title': 'Error Type'
+          'type': 'string'
+  'securitySchemes':
+    'HTTPBearer':
+      'type': 'http'
+      'scheme': 'bearer'

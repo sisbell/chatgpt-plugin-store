@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: Decision Journal API
   description: An API for keeping track of and reviewing your decisions.
-  version: 1.0.0
+  version: 1.0.3
 servers:
   - url: https://api.decisionjournalapp.com/v1
 paths:
@@ -214,8 +214,6 @@ components:
           $ref: "#/components/schemas/Tags"
         status:
           $ref: "#/components/schemas/Status"
-        initialFeeling:
-          $ref: "#/components/schemas/InitialFeeling"
         context:
           title: Context
           type: string
@@ -261,10 +259,19 @@ components:
           type: string
         status:
           $ref: "#/components/schemas/Status"
+        outcomeEstimates:
+          title: Outcome Estimates
+          type: array
+          items:
+            $ref: "#/components/schemas/OutcomeEstimateReview"          
+        skillLuckWeight:
+          title: Skill Luck Weight
+          type: number
+          description: "A number between 0 and 1 that represents the weight of skill vs luck in the outcome of the decision. 0 means the outcome was entirely due to skill, 1 means the outcome was entirely due to luck."          
         reviewDate:
           title: Review Date
           type: string
-          format: date-time          
+          format: date-time        
     HTTPBadRequestError:
       title: HTTPBadRequestError
       type: object
@@ -313,16 +320,6 @@ components:
         - draft
         - published
       description: The status of a decision or review.
-    InitialFeeling:
-      title: Initial Feeling
-      enum:
-        - very good
-        - good
-        - neutral
-        - bad
-        - very bad
-      type: string
-      description: An initial feeling about a decision.
     DecisionRequest:
       title: DecisionRequest
       type: object
@@ -338,8 +335,6 @@ components:
               $ref: "#/components/schemas/Tags"
             status:
               $ref: "#/components/schemas/Status"
-            initialFeeling:
-              $ref: "#/components/schemas/InitialFeeling"
             context:
               title: Context
               type: string
@@ -377,6 +372,10 @@ components:
               type: string
             status:
               $ref: "#/components/schemas/Status"
+            skillLuckWeight:
+              title: Skill Luck Weight
+              type: number
+              description: "A number between 0 and 1 that represents the weight of skill vs luck in the outcome of the decision. 0 means the outcome was entirely due to skill, 1 means the outcome was entirely due to luck."
             monthsToNextReview:
               title: Months to Next Review
               type: integer

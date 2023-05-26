@@ -1,0 +1,84 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "AppyPieAIAppBuilder",
+  "name_for_human": "Appy Pie App Builder",
+  "description_for_model": "No-code AI App Generator",
+  "description_for_human": "AI-powered Text-to-App Generator turns your app idea into Android and iOS apps- just provide text input.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.appypie.com/.well-known/openapi.yaml",
+    "has_user_authentication": false,
+    "info": {
+      "title": "AI App Generator",
+      "description": "No-code Text to App Generator",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/v1": {
+        "get": {
+          "summary": "Turn text into a mobile app without any coding",
+          "description": "This AI-powered API processes the given text input and intelligently generates a bespoke native Android and iOS mobile app, specifically tailored to meet the user's requirements.",
+          "parameters": [
+            {
+              "name": "text",
+              "in": "query",
+              "description": "Provide a brief description of your desired app in a sentence or so, and the AI will effortlessly generate the app for you.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Response:",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "App name"
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "App title"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "App description"
+                      },
+                      "image_url": {
+                        "type": "string",
+                        "description": "App image URL"
+                      },
+                      "link_url": {
+                        "type": "string",
+                        "description": "App link URL"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "metadata": {
+    "name": "Appy Pie App Builder",
+    "logo": "https://www.appypie.com/.well-known/logo.png",
+    "version": "1.0.0"
+  },
+  "logo_url": "https://www.appypie.com/.well-known/logo.png",
+  "contact_email": "support@appypie.com",
+  "legal_info_url": "https://www.appypie.com/terms-of-use",
+  "verification_tokens": {
+    "openai": "28d5bf0160c74a2aa015a70667224aa0"
+  }
+}

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Bramework Plugin
-  description: Boost SEO with keyword insights on search volume, ranking difficulty, and SERP analysis.
+  description: Boost SEO with in-depth analysis, including keyword insights on volume, ranking, and SERP.
   version: 'v1'
 servers:
   - url: https://plugin.bramework.com
@@ -62,3 +62,34 @@ paths:
                     items:
                       type: string
                     description: The related keywords.
+  /seo-analyzer:
+    post:
+      operationId: seoAnalyzer
+      summary: Perform SEO analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - keyword
+                - url
+              properties:
+                keyword:
+                  type: string
+                  description: The keyword for SEO analysis.
+                url:
+                  type: string
+                  description: The URL of the webpage to analyze for SEO.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  analysis:
+                    type: object
+                    description: The SEO analysis results.

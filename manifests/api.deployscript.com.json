@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "DeployScript",
+  "name_for_model": "deployscript",
+  "description_for_human": "DeployScript effortlessly launches web apps, handling the tech for you. Watch your ideas come to life!",
+  "description_for_model": "DeployScript is a tool that leverages ChatGPT's capabilities to generate HTML, CSS, and JavaScript code for web apps.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://auth.deployscript.com",
+    "scope": "app:create,app:read,app:create_file,app:read_file",
+    "authorization_url": "https://auth.deployscript.com/api/authorize",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "d468f77a2ca04a20a4ae36d8beeb2b21"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.deployscript.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://api.deployscript.com/logo.png",
+  "contact_email": "legal@deployscript.com",
+  "legal_info_url": "http://deployscript.com/legal"
+}

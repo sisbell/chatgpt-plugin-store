@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "JiggyBase_retrieval",
+  "name_for_human": "JiggyBase",
+  "description_for_model": "Tool for searching through the user's collections of documents (such as files, web pages, emails, data, etc) to find answers to questions and retrieve relevant information. Use it whenever a user asks something that might be found in their personal or work information. Use the /collections endpoint once before calling /query to get the list of collection names available for a user. Use only the information provided by the query response to answer the user. Provide references to document titles and collection names to help the user understand the source for the info in your responses. Do not provide facts that are not supported by information in the user documents.",
+  "description_for_human": "Use the knowledge in your JiggyBase document collections to help produce factual, up-to-date chat responses.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://jiggybase.plugin.jiggy.ai/authorize",
+    "authorization_url": "https://jiggybase.plugin.jiggy.ai/oauth/token",
+    "scope": "",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "d66137b98d484abda4aeb4a798f2684e"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://jiggybase.plugin.jiggy.ai/.well-known/openapi.yaml",
+    "has_user_authentication": true
+  },
+  "logo_url": "https://jiggybase.plugin.jiggy.ai/.well-known/logo.png",
+  "contact_email": "jiggybase@jiggy.ai",
+  "legal_info_url": "https://jiggy.ai/legal"
+}

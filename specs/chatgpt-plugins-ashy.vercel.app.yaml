@@ -1,0 +1,222 @@
+openapi: 3.0.1
+info:
+  title: Text to SQL API
+  description: A text to SQL API that converts natural language queries into SQL queries using GPT-3.5
+  version: 'v1'
+servers:
+  - url: https://chatgpt-plugins-ashy.vercel.app/
+paths:
+  /ping:
+    get:
+      operationId: getPing
+      summary: Get the ping from me
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPingResponse'
+
+  /generate-sql:
+    post:
+      operationId: generateSQL
+      summary: Generate an SQL query based on the input text, table names, and columns
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateSQLRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateSQLResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+
+  /get-azure-tables:
+    get:
+      operationId: getAzureTables
+      summary: Get a list of tables from the connected Azure SQL database
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAzureTablesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+
+  /get-azure-tables-with-columns:
+    get:
+      operationId: getAzureTablesWithColumns
+      summary: Get a list of tables with their columns from the connected Azure SQL database
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAzureTablesWithColumnsResponse'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /test-connection:
+    post:
+      operationId: testConnection
+      summary: Test the connection to the Azure SQL database with user credentials, server name, and ai2sql_token, and return the table names and their columns associated with the ai2sql_token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestConnectionRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestConnectionResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: "Server, user, password, or ai2sql_token not provided. Please contact support@ai2sql.io for assistance."
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: "Error while testing connection"
+                  details:
+                    type: string
+                    example: "An error occurred while testing the connection to the Azure SQL database. Please check your connection details or visit ai2sql.io and ensure that the Azure SQL server is accessible. For further assistance, contact support@ai2sql.io."
+
+components:
+  schemas:
+    GenerateSQLRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The natural language query
+        table_names:
+          type: array
+          items:
+            type: string
+          description: The table names
+        columns:
+          type: array
+          items:
+            type: string
+          description: The columns
+      required:
+        - text
+        - table_names
+        - columns
+    GenerateSQLResponse:
+      type: object
+      properties:
+        response:
+          type: string
+          description: The generated SQL query
+    BadRequestResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: The error message
+    getPingResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: The response message
+    GetAzureTablesResponse:
+      type: object
+      properties:
+        tables:
+          type: array
+          items:
+            type: string
+          description: The list of table names
+    GetAzureTablesWithColumnsResponse:
+      type: object
+      properties:
+        tables_with_columns:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+            description: The list of column names for each table
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: The error message
+        details:
+          type: string
+          description: The error details
+    TestConnectionRequest:
+      type: object
+      properties:
+        server:
+          type: string
+          description: The Azure SQL server
+        database:
+          type: string
+          description: The Azure SQL database
+        user:
+          type: string
+          description: The Azure SQL user
+        password:
+          type: string
+          description: The Azure SQL password
+        ai2sql_token:
+          type: string
+          description: The user's ai2sql_token
+      required:
+        - server
+        - database
+        - user
+        - password
+        - ai2sql_token
+    TestConnectionResponse:
+      type: object
+      properties:
+        tables_with_columns:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+            description: The list of column names for each table

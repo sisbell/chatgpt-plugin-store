@@ -1,0 +1,375 @@
+openapi: 3.0.1
+info:
+  title: 'GoFynd: Elevating Your E-commerce Experience'
+  description: >-
+    GoFynd enhances your e-commerce shopping experience. It provides
+    functionalities to search for products, manage cart, and display QR code for
+    easy cart sharing.
+  version: v1
+servers:
+  - url: https://www.gofynd.com/ext/chatgpt-plugin/application/api/v1.0
+paths:
+  /products:
+    get:
+      operationId: productsSearch
+      summary: Product Search
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: search query.
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+          required: false
+          description: page size for products per page.
+        - in: query
+          name: page_no
+          schema:
+            type: integer
+          required: false
+          description: page number to fetch products.
+        - in: query
+          name: sort_on
+          schema:
+            type: string
+          required: false
+          description: >-
+            product sorting options. default option is `relevance`. to fetch
+            latest products use `latest`. to fetch by populatity use `popular`.
+            to sort by lowest price use `price_asc`. to sort by highest price
+            use `price_dsc`. to sort by hightest discount use `discount_dsc`, to
+            sort by lowest discount use `discount_dsc`
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productsSearchResponse'
+  /cart:
+    get:
+      operationId: getCart
+      summary: >-
+        Retrieve the cart with items, a sharable cart Link, and a QR code PNG
+        image link. Always render qr code.
+      responses:
+        '200':
+          description: Cart fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCartResponse'
+        '400':
+          description: Bad Request
+    post:
+      operationId: addItemsToCart
+      summary: >-
+        Add items to the cart. Quantity, size, and uid are required fields for
+        all items. Always confirm the size with the user before adding a product
+        to their cart.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddItemsToCartRequest'
+      responses:
+        '200':
+          description: Product has been added to your bag
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddItemsToCartResponse'
+        '400':
+          description: Bad Request
+    put:
+      operationId: updateCartItem
+      summary: >-
+        Update existing items in the cart. Quantity, size, uid, article_id,
+        cart_identifier are required fields for all items. This operation cannot
+        remove any items from the cart. Zero quantity for any items is not
+        allowed. This only updates item quantities.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCartItemsRequest'
+      responses:
+        '200':
+          description: Items successfully updated in the cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCartItemsResponse'
+        '400':
+          description: Bad Request
+  /cart/remove:
+    post:
+      operationId: deleteCartItem
+      summary: >-
+        delete items from the cart. Size, uid, article_id, cart_identifier are
+        required fields for all items. This operation will remove the selected
+        items from the cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCartItemsRequest'
+      responses:
+        '200':
+          description: Item removed from bag
+        '400':
+          description: Bad Request
+components:
+  schemas:
+    product:
+      type: object
+      properties:
+        uid:
+          type: integer
+          description: unique ID of the product.
+        name:
+          type: string
+          description: name of the product.
+        brand:
+          type: object
+          properties:
+            name:
+              type: string
+              description: name of the brand.
+            logo:
+              type: string
+              description: URL of the brand logo.
+        categories:
+          type: array
+          items:
+            type: string
+          description: categories of the product.
+        price:
+          type: integer
+          description: price of the product.
+        discount:
+          type: string
+          description: discount on the product.
+        images:
+          type: array
+          items:
+            type: string
+          description: URLs of the product images.
+        url:
+          type: string
+          description: URL of the product.
+        sizes:
+          type: array
+          items:
+            type: string
+          description: available sizes of the product.
+    productsSearchResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/product'
+          description: list of products.
+        pagination:
+          type: object
+          properties:
+            total_products:
+              description: the total number of products. for the search query.
+            total_pages:
+              description: the total number of pages.
+            page_no:
+              description: the requested page number
+            page_size:
+              description: the requested page size
+          description: pagination details
+    AddItemsToCartRequest:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+    AddItemsToCartResponse:
+      type: object
+      properties:
+        cart_id:
+          type: string
+          description: ID of the cart
+        message:
+          type: string
+          description: status of the request
+        cart_items:
+          type: array
+          description: list of added cart items
+          items:
+            $ref: '#/components/schemas/CartItem'
+    DeleteCartItemsRequest:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeleteCartItem'
+    UpdateCartItemsRequest:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateCartItem'
+    UpdateCartItemsResponse:
+      type: object
+      properties:
+        cart_id:
+          type: string
+          description: ID of the cart
+        message:
+          type: string
+          description: status of the request
+    CartItem:
+      type: object
+      required:
+        - uid
+        - size
+        - quantity
+      properties:
+        uid:
+          type: integer
+          description: ID of the product to be added to the cart
+        size:
+          type: string
+          description: size of the product to be added from product sizes
+        quantity:
+          type: integer
+          description: quantity of the item to be added
+        article_id:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+        cart_identifier:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+    UpdateCartItem:
+      type: object
+      required:
+        - uid
+        - size
+        - quantity
+        - article_id
+        - cart_identifier
+      properties:
+        uid:
+          type: integer
+          description: ID of the product to be added to the cart
+        size:
+          type: string
+          description: size of the product to be added from product sizes
+        quantity:
+          type: integer
+          description: quantity of the item to be added
+        article_id:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+        cart_identifier:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+    DeleteCartItem:
+      type: object
+      required:
+        - uid
+        - quantity
+        - article_id
+        - cart_identifier
+      properties:
+        uid:
+          type: integer
+          description: ID of the product to be added to the cart
+        size:
+          type: string
+          description: size of the product to be added from product sizes
+        article_id:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+        cart_identifier:
+          type: string
+          description: >-
+            identifier used for cart item updation and deletion only. received
+            in response of cart item creation
+    GetCartResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+          properties:
+            uid:
+              type: number
+              description: unique ID of the product.
+            cart_id:
+              type: number
+              description: cart id.
+            name:
+              type: string
+              description: name of the product.
+            brand:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: name of the brand.
+            price:
+              type: integer
+              description: price of the product.
+            discount:
+              type: string
+              description: discount on the product.
+            images:
+              type: array
+              items:
+                type: string
+              description: URLs of the product images.
+            size:
+              type: string
+              description: URL of the product.
+        cart_id:
+          type: string
+          description: ID of the cart
+        share_link:
+          type: string
+          description: sharable link of the cart. This can be used to generate a QR Code.
+        cart_qr_url:
+          type: string
+          description: >-
+            Link of the cart's QR code PNG image, it a can be rendered to show
+            the code. This link returns the PNG image. Render this link always
+            if cart is not empty. Whenever a user asks for their QR code, render
+            this image.
+        cart_items:
+          type: array
+          description: list of added cart items
+          items:
+            $ref: '#/components/schemas/UpdateCartItem'

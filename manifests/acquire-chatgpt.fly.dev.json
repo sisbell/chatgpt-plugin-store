@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Acquire.com",
+  "name_for_model": "acquire",
+  "description_for_human": "Everything you need to buy and sell startups.",
+  "description_for_model": "Search from hundreds of startups for sale.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://acquire-chatgpt.fly.dev/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://acquire.com/assets/img/acquiredotcom-logo.b16269.svg",
+  "contact_email": "support@acquire.com",
+  "legal_info_url": "https://acquire.com/legal/"
+}

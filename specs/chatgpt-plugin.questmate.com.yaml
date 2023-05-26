@@ -1,0 +1,36 @@
+openapi: 3.0.1
+info:
+  title: Questmate Forms Plugin
+  description: A plugin that allows the user to create reusable Quests (forms, workflows and recipies) using ChatGPT. Quests also can have custom components to provide access to other apps and IoT devices. They can also have automated items that run on completion, like a component that sends the submission of a Quest to an Airtable or Google Sheet. Quests can be publicly shared via a url, or directly assigned to others. They can also have approvals setps, as well as due dates and alarms set.
+  version: "v1"
+servers:
+  - url: https://chatgpt-plugin.questmate.com/api
+paths:
+  /createQuestFromPrompt:
+    post:
+      operationId: createQuestFromPrompt
+      summary: Create a Quest from the user provided prompt.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createQuestFromPromptResponse"
+components:
+  schemas:
+    createQuestFromPromptResponse:
+      type: object
+      properties:
+        questUrl:
+          type: string
+          description: The preview url for the generated Quest.

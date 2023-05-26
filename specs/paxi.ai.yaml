@@ -1,0 +1,40 @@
+openapi: 3.0.1
+info:
+  title: Paxi AI
+  description: This plugin provides assistance to humans in searching, discovering, and introducing AI tools. It suggests the use of various AI tools to complete tasks and guides users on how to use them. This plugin helps humans to make the most of AI tools to accomplish their goals.
+  version: 'v1'
+servers:
+  - url: https://api.paxi.ai
+paths:
+  /paxi/tools/search:
+    get:
+      operationId: searchTools
+      summary: Help users solve any questions related to AI, including finding, how to use, and how to achieve their objectives, tasks, and goals.
+      parameters:
+      - in: query
+        name: q
+        schema:
+            type: string
+        required: true
+        description: User's requirement.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchToolsResponse'
+
+components:
+  schemas:
+    searchToolsResponse:
+      type: object
+      properties:
+        tools:
+          type: array
+          items:
+            name: string
+            sub_title: string
+            short_description: string
+            url_with_ref: string
+          description: The list of tools.

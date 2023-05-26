@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "SEO Assistant",
+  "name_for_model": "seo_assistant",
+  "description_for_human": "The SEO Assistant can generate search engine keyword information in order to aid the creation of content.",
+  "description_for_model": "The SEO Assistant can generate search engine keyword information in order to aid the creation of content.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://webfx.ai/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://webfx.ai/.well-known/logo.png",
+  "contact_email": "dan@webfx.com",
+  "legal_info_url": "https://www.webfx.com/tools/seo-assistant-terms-conditions/"
+}

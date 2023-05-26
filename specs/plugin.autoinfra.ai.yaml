@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: AutoInfra Plugin1
+  description: A plugin that allows the user to talk to their servers and run commands on them.
+  version: 'v1'
+servers:
+  - url: https://plugin.autoinfra.ai
+paths:
+  /run_command/{command}:
+    get:
+      operationId: runCommand
+      summary: Run command in shell
+      parameters:
+      - in: path
+        name: command
+        schema:
+            type: string
+        required: true
+        description: The linux command to run.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getrunResponse'
+        "500":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getrunResponse'
+
+  /get_available_commands/:
+    get:
+      operationId: getAvailableCommands
+      summary: Get available non default commands
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAvailableCommandsResponse'
+
+  /install_cmd/{package}:
+    get:
+      operationId: installCommand
+      summary: Install Ubuntu package using sudo
+      parameters:
+      - in: path
+        name: package
+        schema:
+            type: string
+        required: true
+        description: The linux command that installs a package
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/installCommandResponse'
+
+  /set_public_ip/{public_ip}:
+    post:
+      summary: Set user's public IP address
+      description: This endpoint allows the user to set their public IP address by writing it to a file in the server.
+      operationId: setPublicIP
+      parameters:
+      - in: path
+        name: public_ip
+        schema:
+            type: string
+        required: true
+        description: The ip address to set as the user's public ip address.
+      responses:
+        "200":
+          description: Public IP address set successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getrunResponse'
+        "500":
+          description: Failed to set public IP address.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getrunResponse'
+
+components:
+  schemas:
+    getrunResponse:
+      type: object
+      properties:
+        commands:
+          type: array
+          items:
+            type: string
+          description: The output of the linux command ran
+    getAvailableCommandsResponse:
+      type: object
+      properties:
+        commands:
+          type: array
+          items:
+            type: string
+          description: The list of available non default commands.
+    installCommandResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A message indicating whether the package was successfully installed.

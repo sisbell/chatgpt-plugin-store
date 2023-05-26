@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  title: DeployScript
+  description: An API to deploy HTML, CSS, JavaScript, and JSON files to an AWS S3 Bucket for creating web applications.
+  version: 'v1'
+servers:
+  - url: https://api.deployscript.com
+paths:
+  /app:
+    post:
+      summary: Create a new app resource
+      description: |
+        This endpoint creates a new app resource with a unique identifier.
+      tags:
+        - App
+      operationId: createApp
+      responses:
+        '200':
+          description: The app resource was successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "App resource created successfully"
+                  appId:
+                    type: string
+                    example: "uuid"
+  /app/{id}/file:
+    post:
+      summary: Upload a file to the app resource
+      description: |
+        This endpoint uploads an HTML, CSS, JavaScript, or JSON file to the specified app resource.
+      tags:
+        - App
+      operationId: uploadFile
+      parameters:
+        - name: id
+          in: path
+          description: The unique identifier of the app resource.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fileType:
+                  type: string
+                  description: The file type (html, css, js, or json).
+                  example: "html"
+                fileName:
+                  type: string
+                  description: The name of the file.
+                  example: "index.html"
+                content:
+                  type: string
+                  description: The content of the file.
+                  example: "<!DOCTYPE html><html><head><title>My App</title></head><body><h1>Welcome to My App!</h1></body></html>"
+      responses:
+        '200':
+          description: The file was successfully uploaded to the app resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File uploaded successfully"
+                  url:
+                    type: string
+                    format: uri
+                    example: "https://web.deployscript.com/uuid/index.html"
+        '400':
+          description: The provided file type is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unsupported file type. Only html, css, js, and json files are supported."
+        '500':
+          description: An internal server error occurred, or there was an error uploading the file to the app resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+                  error:
+                    type: string
+    put:
+      summary: Update a file within the app resource
+      description: |
+        This endpoint updates an existing HTML, CSS, JavaScript, or JSON file in the specified app resource.
+      tags:
+        - App
+      operationId: updateFile
+      parameters:
+        - name: id
+          in: path
+          description: The unique identifier of the app resource.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fileType:
+                  type: string
+                  description: The type of file to be updated (html, css, js, or json).
+                  example: "html"
+                fileName:
+                  type: string
+                  description: The name of the file.
+                  example: "index.html"
+                content:
+                  type: string
+                  description: The updated content of the file.
+                  example: "<!DOCTYPE html><html><head><title>My Updated App</title></head><body><h1>Welcome to My Updated App!</h1></body></html>"
+      responses:
+        '200':
+          description: The file was successfully updated in the app resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File updated successfully"
+                  url:
+                    type: string
+                    format: uri
+                    example: "https://web.deployscript.com/uuid/index.html"
+        '400':
+          description: The provided file type is not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unsupported file type. Only html, css, js, and json files are supported."
+        '500':
+          description: An internal server error occurred, or there was an error updating the file within the app resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+                  error:
+                    type: string

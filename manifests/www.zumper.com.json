@@ -1,8 +1,8 @@
 {
   "schema_version": "v1",
-  "name_for_human": "Zumper Rental Search",
+  "name_for_human": "Zumper Rentals",
   "name_for_model": "zumper_home_rental_search",
-  "description_for_human": "Find a rental home in the US and Canada.",
+  "description_for_human": "Meet Zumper, your key to effortless apartment and house rentals in the US and Canada!",
   "description_for_model": "A tool that allows the user to search for rental homes (apartments, houses, and condos for rent) in the US and Canada, specifying e.g. city, monthly rent (price), number of bedrooms, number of bathrooms, etc.",
   "auth": {
     "type": "service_http",

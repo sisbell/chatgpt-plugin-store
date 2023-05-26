@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "LawyerPR_PreliminaryReview",
+  "name_for_human": "LawyerPR",
+  "description_for_model": "Search for a suitable attorney in Japan based on the user's desired region, language. The user's query should be translated into Japanese by the AI for the search. Use this tool not only when asked about lawyers, but also when seeking legal advice.",
+  "description_for_human": "Matching your ideal lawyer, in Japan. Let's Start with a Preliminary Review.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://lawyerpr.herokuapp.com/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://lawyerpr.herokuapp.com/.well-known/logo.png",
+  "contact_email": "info@lawyerpr.xyz",
+  "legal_info_url": "https://lawyerpr.herokuapp.com/.well-known/legal_info.md"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Paxi AI",
+  "name_for_model": "paxiai",
+  "description_for_human": "Let AI tools speed up your tasks! Make it easy to find the right tool for the task.",
+  "description_for_model": "This plugin provides assistance to humans in searching, discovering, and introducing AI tools. It suggests the use of various AI tools to complete tasks and guides users on how to use them. This plugin helps humans to make the most of AI tools to accomplish their goals.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://paxi.ai/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://assets.paxi.ai/sg/assets/logo.png",
+  "contact_email": "admin@paxi.ai",
+  "legal_info_url": "https://paxi.ai/terms"
+}

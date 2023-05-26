@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "SceneXplain",
+  "name_for_model": "SceneXplain",
+  "description_for_human": "SceneXplain lets you attach images to your prompt. Explore image storytelling beyond pixels.",
+  "description_for_model": "SceneXplain is an interface for interpreting images. By providing an image URL or a base64 encoded image, you enable an examination of the image, generating a detailed explanation of its content.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "569143dd202d4bfa8acf029a09896680"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://scenex.jina.ai/openai.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://scenex.jina.ai/icons/icon-128x128.png",
+  "contact_email": "scenex@jina.ai",
+  "legal_info_url": "https://jina.ai/legal/"
+}

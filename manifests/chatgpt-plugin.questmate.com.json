@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Questmate Forms",
+  "name_for_model": "questmate",
+  "description_for_human": "Create forms, checklists and workflows (we call 'em Quests!) that you can assign, schedule or make public.",
+  "description_for_model": "Allow users to create reusable Quests (forms, workflows, checklists and recipies). Quests also can have custom components to provide access to other apps and IoT devices. They can also have automated items that run on completion, like a component that sends the submission of a Quest to an Airtable or Google Sheet. Quests can be publicly shared via a url, or directly assigned to others. They can also have approvals setps, as well as due dates and alarms set.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatgpt-plugin.questmate.com/api/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://questmate-static-public.s3.us-east-1.amazonaws.com/questmate-app-logo-512-openai.png",
+  "contact_email": "hello@questmate.com",
+  "legal_info_url": "http://www.questmate.com/terms"
+}

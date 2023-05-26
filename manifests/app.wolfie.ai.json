@@ -9,10 +9,10 @@
   },
   "api": {
     "type": "openapi",
-    "url": "https://app.wolfie.ai/openapi.yaml",
+    "url": "https://copilot.commit.dev/openapi.yaml",
     "is_user_authenticated": false
   },
-  "logo_url": "https://app.wolfie.ai/images/chatgpt-logo.png",
+  "logo_url": "https://copilot.commit.dev/images/logo.png",
   "contact_email": "tech@commit.dev",
   "legal_info_url": "https://commit.dev"
 }

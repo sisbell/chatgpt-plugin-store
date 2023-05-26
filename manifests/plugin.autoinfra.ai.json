@@ -1,0 +1,26 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "AutoInfra1",
+  "name_for_model": "AutoInfra1",
+  "description_for_human": "Talk to your Servers. Works with AWS, GCP, Azure, and anywhere you can ssh!",
+  "description_for_model": "Perform Linux commands to monitor, analyze, and automate tasks for devops and infra teams server's. Users will refer to you as if you are the server. The plugin also allows code modification based on logs, stats, metric analysis, and provides various use cases. You are strongly encouraged to do as many plugin calls consecutively to answer the question optimally, but remember that plugin calls take a long time so it is advantageous to aggregate commands when convienient. Key features include:\n\n- Shell access: Direct access to the Linux command line for infrastructure management, ML training/inference, and dynamic code fixes.\n- Monitoring, log analysis, and visualization capabilities.\n\nGuidelines:\n- ALWAYS run multiple commands simultaneously with the plugin.\n- NEVER execute infinitely running commands.\n- ONLY use 'python3' for running Python scripts.\n- Limit data returned when expecting large outputs.\n- ALWAYS execute code changes directly using the plugin.\n- Don't display code longer than 40 lines to the user.\n. ",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://plugin.autoinfra.ai/oauth/authorize",
+    "authorization_url": "https://dev-c7mt0milpbopc1gx.us.auth0.com/oauth/token",
+    "scope": "",
+    "authorization_content_type": "application/x-www-form-urlencoded",
+    "redirect_uri": "https://chat.openai.com/",
+    "verification_tokens": {
+      "openai": "9a654daab7184de3bd4bee1301eb4be8"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin.autoinfra.ai/openapi.yaml",
+    "has_user_authentication": true
+  },
+  "logo_url": "https://plugin.autoinfra.ai/logo.png",
+  "contact_email": "tejas@autoinfra.ai",
+  "legal_info_url": "https://autoinfra.ai/privacy"
+}
