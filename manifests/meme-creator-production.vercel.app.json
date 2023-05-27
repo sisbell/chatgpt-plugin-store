@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Meme Creator",
+  "name_for_model": "memecreator",
+  "description_for_human": "Use Meme Creator to create memes on demand using the power of AI!",
+  "description_for_model": "Create memes on demand! This allows a user to ask for a meme on any desired topic. It can intelligently create funny and compelling memes with as little or as much detail as you provide. It can also refine any created meme or even create more than one meme at once. It can also create memes based on specific captions or text you specify. There are currently over 100 of the most popular meme templates that can be used in the creation of memes. Over time, the plan is to dramatically increase the number of available meme templates. It is most helpful to consider as many memes as possible when asked for a specific topic but no specific meme template is requested since it creates less of a predictable experience for a user and allows for the most suitable meme and text caption for the provided request. Meme Creator can also be used in conjunction with web search or known information, for example create a meme based on the weather today in a given location. Meme Creator is able to create memes based on your own provided 'temperature' for example make a really snarky meme about penguins or make a serious meme about the climate.  Meme Creator also works more generally where you can describe a meme or an image and request a list of creative and suitable text captions for the meme if the user is going to make the meme on their own for example. The expectation is the experience will be helpful and savvy to meme creation. Offering additional ideas or tips along the way is appreciated. The goal is to make Meme creation easy, fun and useful for any given user. The general format of a meme is a meme template and caption text in 1 or 2 locations. From Imgflip: This allows you to create customized memes using a variety of popular templates from Imgflip. You can specify the text for the meme, choose from a list of the top Imgflip meme templates. The memes created are publicly accessible via a URL provided in the response. It can be used to add a fun and creative twist to your conversations.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "85ef8a2464974e2d94c5b0f5727c2f2d"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://meme-creator-production.vercel.app/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://meme-creator-production.vercel.app/.well-known/logo.png",
+  "contact_email": "support@memecreator.app",
+  "legal_info_url": "https://meme-creator-production.vercel.app/legal"
+}

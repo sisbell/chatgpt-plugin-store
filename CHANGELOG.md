@@ -1,6 +1,15 @@
 # Plugin Store Listing Changelog
+## 2023-05-27
+### Newly Listed
+* [api.substackiq.com](manifests/api.substackiq.com.json)
+* [chatgpt-plugin.outschool.com](manifests/chatgpt-plugin.outschool.com.json)
+* [chatwithpdf.sdan.io](manifests/chatwithpdf.sdan.io.json)
+* [chatwithwebsite.sdan.io](manifests/chatwithwebsite.sdan.io.json)
+* [crypto-news.replit.app](manifests/crypto-news.replit.app.json)
+* [meme-creator-production.vercel.app](manifests/meme-creator-production.vercel.app.json)
+* [webhooks.ai.rpt.dev](manifests/webhooks.ai.rpt.dev.json)
 ## 2023-05-26
-### Newly Listedgi
+### Newly Listed
 * [941p7w-5003.csb.app](manifests/941p7w-5003.csb.app.json)
 * [acquire-chatgpt.fly.dev](manifests/acquire-chatgpt.fly.dev.json)
 * [agones.gr](manifests/agones.gr.json)

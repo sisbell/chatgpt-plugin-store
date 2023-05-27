@@ -1,0 +1,169 @@
+openapi: 3.1.0
+info:
+  version: 0.0.1
+  title: Webhooks API
+  description: An API list, create, edit, or delete Webhooks.
+
+paths:
+  /webhooks:
+    get:
+      operationId: getWebhooks
+      description:
+        Returns a list of webhooks, always format them into a table, and remember to include the ID for any subsequent operations.
+        As the first column of the table, use incrementing numbers, starting from 1.
+      responses:
+        '200':
+          description: a list of webhooks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Webhook'
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
+
+    post:
+      operationId: createWebhook
+      description: Create a new webhook. You must always include name and script fields.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Webhook'
+      responses:
+        '200':
+          description: successfully created webhook
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
+
+  /webhooks/{webhookId}:
+    get:
+      operationId: getWebhook
+      description: Returns a webhook by id
+      # parameters:
+      #   - $ref: '#/components/parameters/WebhookId'
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: a webhook data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
+
+    put:
+      operationId: updateWebhook
+      description: Update a webhook. You must always include name and script fields.
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Webhook'
+
+      responses:
+        '200':
+          description: successfully updated webhook
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
+
+    delete:
+      operationId: deleteWebhook
+      description: Delete a webhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: successfully deleted webhook
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
+
+  /webhooks/{webhookId}/script:
+    get:
+      operationId: getWebhookScript
+      description: Returns a webhook script code by id
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: returns a webhook script code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
+
+components:
+  schemas:
+    Webhook:
+      type: object
+      required:
+        - script
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          description: The name of the webhook, if no name is provided, use random pet name, consisting of max 4 words
+        url:
+          type: string
+          description: The URL of the webhook, always use markdown to format it as a link.
+        script:
+          type: string
+          description: "
+            The format of script must be in ES Modules syntax, with fetch handler.
+            Script must not import any external modules, it is not supported yet.
+            For example, a hello world worker would like like:
+            export default {
+            fetch: async (request) => {
+            return new Response('Hello world!')
+            }
+            };
+            "
+
+  parameters:
+    WebhookId:
+      name: webhookId
+      in: path
+      required: true
+      schema:
+        type: string
+
+  responses:
+    ErrorResponse:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string

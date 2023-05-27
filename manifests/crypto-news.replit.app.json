@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Crypto Market News",
+  "name_for_model": "cryptoPriceAndNews",
+  "description_for_human": "It's your go-to solution for real-time cryptocurrency price updates, market insights, and the latest news.",
+  "description_for_model": "Plugin for get Crypto Coin's news and price; e.g. bitcoin ethereum.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://crypto-news.replit.app/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://crypto-news.replit.app/logo.png",
+  "contact_email": "zhongxin123456@gmail.com",
+  "legal_info_url": "https://nextjstwox.vercel.app"
+}

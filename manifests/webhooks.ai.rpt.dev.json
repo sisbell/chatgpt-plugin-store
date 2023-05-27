@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "HTTP Webhooks",
+  "name_for_model": "webhooks",
+  "description_for_human": "Allows you to write, deploy, and manage HTTP Webhooks in JavaScript, right from the chat.",
+  "description_for_model": "Assist the user to write and deploy HTTP webhooks. The user can create, edit, list, and delete webhooks. Each webhook has a name, a script, and an unique URL. The script is a JavaScript function that is executed when the webhook URL is triggered.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "95b1732a550f4248ac1be9422473cf12"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://webhooks.ai.rpt.dev/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://dash.repeat.dev/logo.jpg",
+  "contact_email": "hello@repeat.dev",
+  "legal_info_url": "https://webhooks.ai.rpt.dev/legal"
+}

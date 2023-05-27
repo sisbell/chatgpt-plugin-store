@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Meme Creator API
+  description: Create memes based on popular templates with custom text or search for memes.
+  version: 1.0.0
+servers:
+  - url: 'https://meme-creator-production.vercel.app' # Base URL of the server
+paths:
+  /api/proxy/creatememe: # Endpoint path for creating memes
+    post:
+      summary: Create a meme
+      operationId: creatememe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                template:
+                  type: string
+                  description: The name of the meme template to use.
+                top_text:
+                  type: string
+                  description: The text to display at the top of the meme.
+                bottom_text:
+                  type: string
+                  description: The text to display at the bottom of the meme.
+      responses:
+        '200':
+          description: Meme created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meme_url:
+                    type: string
+                    description: The URL of the created meme image.
+        '400':
+          description: Bad request, invalid input.
+ #  /api/proxy/searchmeme: # Endpoint path for searching memes
+#    post:
+#      summary: Search for memes
+#      operationId: searchMemes
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              type: object
+#              properties:
+#                query:
+#                  type: string
+#                  description: The search query.
+#      responses:
+#        '200':
+#          description: Search results returned.
+#          content:
+#            application/json:
+#              schema:
+#                type: array
+#                items:
+#                  type: object
+#                  properties:
+#                    url:
+#                      type: string
+#                      description: The URL of the meme image.
+#                    width:
+#                      type: integer
+#                      description: The width of the meme image.
+#                    height:
+#                      type: integer
+#                      description: The height of the meme image.
+#                    name:
+#                      type: string
+#                      description: The name of the meme.
+#        '400':
+#          description: Bad request, invalid input.

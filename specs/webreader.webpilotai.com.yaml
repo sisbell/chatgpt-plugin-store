@@ -1,0 +1,87 @@
+openapi: 3.0.1
+info:
+  title: web_pilot
+  description: This plugin allows users to input a URL, retrieves the web page content, and returns a comprehensible summary of it.
+  version: 'v1'
+servers:
+  - url: https://webreader.webpilotai.com
+paths:
+  /api/visit-web:
+    post:
+      operationId: visitWebPage
+      summary: visit web page
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebPageRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebPageResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebPageError'
+components:
+  schemas:
+    visitWebPageResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of this web page
+        content:
+          type: string
+          description: The content of the web page's url to be summarized
+        meta:
+          type: object
+          description: The Html meta info of the web page
+        links:
+          type: array
+          description: Some links in the web page
+          items:
+            type: string
+        todo:
+          type: array
+          description: what to do with the content
+          items:
+            type: string
+        tips:
+          type: array
+          description: Tips placed at the end of the answer
+          items:
+            type: string
+        rules:
+          description: Adherence is required when outputting content.
+          items:
+            type: string
+
+    visitWebPageRequest:
+      type: object
+      properties:
+        link:
+          type: string
+          description: The web page's url to visit and retrieve content from.
+        user_has_request:
+          type: boolean
+          description: Whether user has any requests.
+
+    visitWebPageError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: error code
+        message:
+          type: string
+          description: error message
+        detail:
+          type: string
+          description: error detail

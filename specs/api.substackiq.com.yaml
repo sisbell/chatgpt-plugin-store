@@ -1,0 +1,256 @@
+openapi: 3.0.0
+info:
+  title: Substack IQ
+  description: Substack IQ is a service that allows you to search through Substack newsletters.
+  version: 'v1'
+servers:
+  - url: https://api.substackiq.com
+paths:
+  /feed/link:
+    post:
+      summary: Substack Feed Processing
+      description: Accepts a Substack link, validates it, verifies that a feed exists, fetches the feed, parses and cleans up the feed, then stores the feed as objects.
+      operationId: submitLink
+      security:
+        - BearerAuth: ['app:read']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                link:
+                  type: string
+                  example: "example.substack.com"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Feed processed"
+                  feedId:
+                    type: string
+                    example: "123e4567-e89b-12d3-a456-426614174000"
+        400:
+          description: Invalid link
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        500:
+          description: Internal server error
+  /feed/{id}/summarize:
+    get:
+      summary: Substack Feed Summary
+      description: Returns a list of metadata of the feed content based on the feed ID.
+      operationId: summarizeSubstack
+      security:
+        - BearerAuth: ['app:read']
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the feed to summarize.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    metadata:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        publicationDate:
+                          type: string
+                        creator:
+                          type: string
+                        link:
+                          type: string
+        400:
+          description: Invalid link
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        404:
+          description: Feed not found
+        500:
+          description: Internal server error
+  /query:
+    post:
+      summary: Query Endpoint
+      description: Accepts a text query and a feed ID, vectorizes the query, and queries the Pinecone database to return relevant results.
+      operationId: submitQuery
+      security:
+        - BearerAuth: ['app:read']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  example: "OpenAI GPT-3"
+                feedId:
+                  type: string
+                  example: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    content:
+                      type: string
+                    score:
+                      type: number
+        400:
+          description: Invalid request
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        500:
+          description: Internal server error
+  /article:
+    get:
+      summary: Get Article
+      description: Returns a specific article from a feed given its link.
+      operationId: getArticle
+      security:
+        - BearerAuth: ['app:read']
+      parameters:
+        - name: link
+          in: query
+          description: The link of the article.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  feedId:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  publicationDate:
+                    type: string
+                  creator:
+                    type: string
+                  link:
+                    type: string
+                  content:
+                    type: string
+        400:
+          description: Invalid link
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        404:
+          description: Article or Feed not found
+        500:
+          description: Internal server error        
+  /search:
+    get:
+      summary: Search Feeds
+      description: Accepts a search query and returns matching feed results.
+      operationId: searchFeed
+      security:
+        - BearerAuth: ['app:write']
+      parameters:
+        - name: query
+          in: query
+          description: The text to search for in feeds.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    feedLink:
+                      type: string
+                    vectors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          metadata:
+                            type: object
+                            properties:
+                              title:
+                                type: string
+                              description:
+                                type: string
+                              publicationDate:
+                                type: string
+                              creator:
+                                type: string
+                              link:
+                                type: string
+                          content:
+                            type: string
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        500:
+          description: Internal server error
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Invalid access token"

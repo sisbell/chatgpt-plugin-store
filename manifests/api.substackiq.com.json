@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Substack IQ",
+  "name_for_model": "Substack_IQ",
+  "description_for_human": "Search, analyze, & summarize Substack newsletters, retrieve articles, and discover new Substacks!",
+  "description_for_model": "Search, analyze, & summarize Substack newsletters, retrieve articles, and discover new Substacks!",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://auth.substackiq.com",
+    "scope": "app:read,app:write",
+    "authorization_url": "https://auth.substackiq.com/api/authorize",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "483d4c5edf0b4e22986d776fbea70554"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.substackiq.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://api.substackiq.com/logo.png",
+  "contact_email": "legal@substackiq.com",
+  "legal_info_url": "http://substackiq.com/legal"
+}

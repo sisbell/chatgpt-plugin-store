@@ -32,6 +32,12 @@ paths:
           in: query
         - required: false
           schema:
+            title: Page
+            type: string
+          name: page
+          in: query          
+        - required: false
+          schema:
             title: Limit
             type: integer
             default: 3

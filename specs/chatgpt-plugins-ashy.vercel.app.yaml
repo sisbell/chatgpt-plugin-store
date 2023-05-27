@@ -45,7 +45,7 @@ paths:
   /get-azure-tables:
     get:
       operationId: getAzureTables
-      summary: Get a list of tables from the connected Azure SQL database
+      summary: Get a list of tables from the connected  SQL database
       responses:
         "200":
           description: OK
@@ -63,7 +63,7 @@ paths:
   /get-azure-tables-with-columns:
     get:
       operationId: getAzureTablesWithColumns
-      summary: Get a list of tables with their columns from the connected Azure SQL database
+      summary: Get a list of tables with their columns from the connected SQL database
       responses:
         "200":
           description: OK
@@ -81,7 +81,7 @@ paths:
   /test-connection:
     post:
       operationId: testConnection
-      summary: Test the connection to the Azure SQL database with user credentials, server name, and ai2sql_token, and return the table names and their columns associated with the ai2sql_token
+      summary: Test the connection to the  SQL database with user credentials, server name, and ai2sql_token, and return the table names and their columns associated with the ai2sql_token
       requestBody:
         required: true
         content:
@@ -117,7 +117,7 @@ paths:
                     example: "Error while testing connection"
                   details:
                     type: string
-                    example: "An error occurred while testing the connection to the Azure SQL database. Please check your connection details or visit ai2sql.io and ensure that the Azure SQL server is accessible. For further assistance, contact support@ai2sql.io."
+                    example: "An error occurred while testing the connection to the SQL database. Please check your connection details or visit ai2sql.io and ensure that the  SQL server is accessible. For further assistance, contact support@ai2sql.io."
 
 components:
   schemas:
@@ -191,16 +191,16 @@ components:
       properties:
         server:
           type: string
-          description: The Azure SQL server
+          description: The  SQL server
         database:
           type: string
-          description: The Azure SQL database
+          description: The  SQL database
         user:
           type: string
-          description: The Azure SQL user
+          description: The  SQL user
         password:
           type: string
-          description: The Azure SQL password
+          description: The  SQL password
         ai2sql_token:
           type: string
           description: The user's ai2sql_token

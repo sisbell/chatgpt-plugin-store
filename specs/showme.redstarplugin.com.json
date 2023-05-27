@@ -9,19 +9,85 @@
       "get": {
         "operationId": "get_MermaidRoute",
         "tags": [
-          "Diagram",
-          "Mermaid"
+          "Diagram"
         ],
         "summary": "Taking in a mermaid graph diagram, renders it and returns a link to the rendered image.",
         "parameters": [
           {
-            "required": true,
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Mermaid to render (legacy parameter name, use diagram instead)"
+            },
+            "name": "mermaid",
+            "in": "query"
+          },
+          {
+            "required": false,
             "schema": {
               "type": "string",
               "description": "Diagram to render",
               "example": "graph TB\\n  U[\\\"User\\\"] -- \\\"File Operations\\\" --> FO[\\\"File Operations\\\"]\\n  U -- \\\"Code Editor\\\" --> CE[\\\"Code Editor\\\"]\\n  FO -- \\\"Manipulation of Files\\\" --> FS[\\\"FileSystem\\\"]\\n  FS -- \\\"Write/Read\\\" --> D[\\\"Disk\\\"]\\n  FS -- \\\"Compress/Decompress\\\" --> ZL[\\\"ZipLib\\\"]\\n  FS -- \\\"Read\\\" --> IP[\\\"INIParser\\\"]\\n  CE -- \\\"Create/Display/Edit\\\" --> WV[\\\"Webview\\\"]\\n  CE -- \\\"Language/Code Analysis\\\" --> VCA[\\\"VSCodeAPI\\\"]\\n  VCA -- \\\"Talks to\\\" --> VE[\\\"ValidationEngine\\\"]\\n  WV -- \\\"Render UI\\\" --> HC[\\\"HTMLCSS\\\"]\\n  VE -- \\\"Decorate Errors\\\" --> ED[\\\"ErrorDecoration\\\"]\\n  VE -- \\\"Analyze Document\\\" --> TD[\\\"TextDocument\\\"]\\n"
             },
-            "name": "mermaid",
+            "name": "diagram",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Language of the diagram",
+              "default": "mermaid",
+              "enum": [
+                "blockdiag",
+                "bpmn",
+                "bytefield",
+                "seqdiag",
+                "actdiag",
+                "nwdiag",
+                "packetdiag",
+                "rackdiag",
+                "c4-with-plantuml",
+                "d2",
+                "dbml",
+                "ditaa",
+                "erd",
+                "excalidraw",
+                "graphviz",
+                "mermaid",
+                "nomnoml",
+                "pikchr",
+                "plantuml",
+                "structurizr",
+                "svgbob",
+                "umlet",
+                "vega",
+                "vega-lite",
+                "wavedrom",
+                "wireviz"
+              ]
+            },
+            "name": "diagramLanguage",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Type of the diagram",
+              "example": "graph"
+            },
+            "name": "diagramType",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Topic of the diagram",
+              "example": "Software"
+            },
+            "name": "topic",
             "in": "query"
           }
         ],
@@ -56,7 +122,6 @@
                           }
                         },
                         "required": [
-                          "editDiagramOnline",
                           "contributeToOpenSourceProject"
                         ]
                       }
