@@ -1,4 +1,6 @@
 # Plugin Store Listing Changelog
+## 2023-05-28
+No Updates
 ## 2023-05-27
 ### Newly Listed
 * [api.substackiq.com](manifests/api.substackiq.com.json)

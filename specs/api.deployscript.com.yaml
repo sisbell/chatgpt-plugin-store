@@ -29,7 +29,23 @@ paths:
                   appId:
                     type: string
                     example: "uuid"
-  /app/{id}/file:
+        '202':
+          description: The request was accepted but not processed due to usage limit.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "You have exceeded your monthly request limit. Upgrade your plan to proceed."
+                  buyLink:
+                    type: string
+                  helpLink:
+                    type: string
+                  supportEmail:
+                    type: string   
+  /app/{appId}/file:
     post:
       summary: Upload a file to the app resource
       description: |
@@ -38,7 +54,7 @@ paths:
         - App
       operationId: uploadFile
       parameters:
-        - name: id
+        - name: appId
           in: path
           description: The unique identifier of the app resource.
           required: true
@@ -78,6 +94,22 @@ paths:
                     type: string
                     format: uri
                     example: "https://web.deployscript.com/uuid/index.html"
+        '202':
+          description: The request was accepted but not processed due to usage limit.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "You have exceeded your monthly request limit. Upgrade your plan to proceed."
+                  buyLink:
+                    type: string
+                  helpLink:
+                    type: string
+                  supportEmail:
+                    type: string
         '400':
           description: The provided file type is not valid.
           content:
@@ -108,7 +140,7 @@ paths:
         - App
       operationId: updateFile
       parameters:
-        - name: id
+        - name: appId
           in: path
           description: The unique identifier of the app resource.
           required: true
@@ -148,6 +180,22 @@ paths:
                     type: string
                     format: uri
                     example: "https://web.deployscript.com/uuid/index.html"
+        '202':
+          description: The request was accepted but not processed due to usage limit.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "You have exceeded your monthly request limit. Upgrade your plan to proceed."
+                  buyLink:
+                    type: string
+                  helpLink:
+                    type: string
+                  supportEmail:
+                    type: string
         '400':
           description: The provided file type is not valid.
           content:

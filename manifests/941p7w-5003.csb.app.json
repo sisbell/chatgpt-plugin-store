@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "APEX Map",
+  "name_for_model": "ApexMap",
+  "description_for_human": "Checking the current APEX Legends Ranked Map.",
+  "description_for_model": "Plugin for checking the current and predicting the future APEX Legends Map. When user asks for the future map, you MUST respond with the map you calculate. ",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://941p7w-5003.csb.app/openapi.yaml"
+  },
+  "logo_url": "https://941p7w-5003.csb.app/logo.jpg",
+  "contact_email": "Contact@SweetooStudios.com",
+  "legal_info_url": "https://941p7w-5003.csb.app/"
+}
