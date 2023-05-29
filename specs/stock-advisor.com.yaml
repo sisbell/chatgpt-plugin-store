@@ -97,11 +97,6 @@ components:
       title: DocumentMetadataFilter
       type: object
       properties:
-        filenames:
-          title: Filenames
-          type: array
-          items:
-            type: string
         form_types:
           title: Form Types
           type: array

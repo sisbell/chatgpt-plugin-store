@@ -1,0 +1,31 @@
+openapi: 3.0.2
+info:
+  title: CarYardBard
+  description: AI-Powered Car Sales Ad Generator for Australian Car Dealers.
+  version: 'v1'
+servers:
+  - url: https://api.caryardbard.com/v1/
+paths:
+  /query:
+    post:
+      operationId: postPlateState
+      summary: PlateState
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                plate:
+                  type: string
+                  example: "ABC1234"
+                state:
+                  type: string
+                  enum: [ACT, NSW, NT, QLD, SA, TAS, VIC, WA]
+                  example: "ACT"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}

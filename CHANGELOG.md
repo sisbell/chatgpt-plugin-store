@@ -1,4 +1,11 @@
 # Plugin Store Listing Changelog
+## 2023-05-29
+### Newly Listed
+* [api.caryardbard.com](manifests/api.caryardbard.com.json)
+* [gitsearch.sdan.io](manifests/gitsearch.sdan.io.json)
+* [nextpaperplugin--mengzhao1.repl.co](manifests/nextpaperplugin--mengzhao1.repl.co.json)
+* [nftflooralerts.com](manifests/nftflooralerts.com.json)
+* [surfreport.orrenprunckun.com](manifests/surfreport.orrenprunckun.com.json)
 ## 2023-05-28
 No Updates
 ## 2023-05-27

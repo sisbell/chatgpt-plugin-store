@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "NFTs",
+  "name_for_model": "NFTs",
+  "description_for_human": "Get the important details of any NFT collection and ask for insights based on that data!",
+  "description_for_model": "Get the important details of any NFT collection and ask for insights based on that data!",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://nftflooralerts.com/ai-plugin/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://nftflooralerts.com/ai-plugin/nft-token.png",
+  "contact_email": "hello@orrenprunckun.com",
+  "legal_info_url": "https://nftflooralerts.com/ai-plugin/terms.php"
+}

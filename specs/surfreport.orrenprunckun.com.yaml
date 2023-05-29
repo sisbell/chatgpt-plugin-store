@@ -1,0 +1,149 @@
+openapi: 3.0.1
+info:
+  title: Aus Surf Report
+  description: Get today's surf report for any break throughout Australia!
+  version: 'v1'
+servers:
+  - url: https://surfreport.orrenprunckun.com/
+paths:
+  /:
+    get:
+      operationId: getLocation    
+      summary: Get surf report by location
+      description: Get today's surf report for a specific location.
+      parameters:
+        - name: South Australia
+          in: query
+          description: South Australia
+          required: true
+          schema:
+            type: string
+            enum:
+              - 'South Central Coast'
+              - 'Central Coast'
+              - 'South Mid Coast'
+              - 'Mid Coast'
+              - 'Metro Waters'
+              - 'Spencer Gulf Coast'
+              - 'Lower West Coast'
+              - 'Upper West Coast'
+              - 'Far West Coast'
+        - name: Victoria
+          in: query
+          description: Victoria
+          required: true
+          schema:
+            type: string
+            enum:
+              - 'East Gippsland Coast'
+              - 'Central Gippsland Coast'
+              - 'Central Coast'
+              - 'West Coast'
+        - name: New South Wales
+          in: query
+          description: New South Wales
+          required: true
+          schema:
+            type: string
+            enum:
+              - 'Eden Coast'
+              - 'Batemans Coast'
+              - 'Illawarra Coast'
+              - 'Sydney Coast'
+              - 'Hunter Coast'
+              - 'Macquarie Coast'
+              - 'Coffs Coast'
+              - 'Northern Rivers'
+        - name: Queensland
+          in: query
+          description: Queensland
+          required: true
+          schema:
+            type: string
+            enum:
+              - 'South East Gulf Of Carpentaria'
+              - 'North East Gulf Of Carpentaria'
+              - 'Torres Strait Coastal Waters'
+              - 'Peninsula Coast'
+              - 'Cooktown Coast'
+              - 'Cairns Coast'
+              - 'Townsville Coast'
+              - 'Mackay Coast'
+              - 'Capricornia Coast'
+              - 'Fraser Island Coast'
+              - 'Sunshine Coast'
+              - 'Gold Coast'      
+        - name: Northern Territory
+          in: query
+          description: Northern Territory
+          required: true
+          schema:
+            type: string
+            enum:
+              - 'South East Gulf Of Carpentaria'
+              - 'Roper Groote Coast'
+              - 'Gove Peninsula Coast'
+              - 'Arafura Coast'
+              - 'North Tiwi Coast'
+              - 'Van Diemen Gulf'
+              - 'Beagle Bonaparte Gulf'
+              - 'North Kimberley Coast'      
+        - name: Western Australia
+          in: query
+          description: Western Australia
+          required: true
+          schema:
+            type: string
+            enum:
+              - 'Eucla Coast'
+              - 'Esperance Coast'
+              - 'Albany Coast'
+              - 'Leeuwin Coast'
+              - 'Bunbury Geographe Coast'
+              - 'Perth Coast'
+              - 'Perth Local Waters'
+              - 'Lancelin Coast'
+              - 'Geraldton Coast'
+              - 'Gascoyne Coast'
+              - 'Ningaloo Coast'
+              - 'Pilbara West Coast'
+              - 'Pilbara East Coast'
+              - 'West Kimberley Coast'
+              - 'North Kimberley Coast'
+        - name: Tasmania
+          in: query
+          description: Tasmania
+          required: true
+          schema:
+            type: string
+            enum:
+              - 'Far Northwest Coast'
+              - 'Central North Coast'
+              - 'East Of Flinders Island'
+              - 'Banks Strait And Franklin'
+              - 'Upper East Coast'
+              - 'Lower East Coast'
+              - 'South East Coast'
+              - 'South West Coast'
+              - 'Central West Coast'      
+    post:
+      operationId: SendResponse    
+      summary: Send surf report request with custom header
+      description: Send a surf report request to the server with a custom HTTP header based on the user input location.
+      parameters:
+        - name: location
+          in: query
+          description: Location for which to send the surf report request.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

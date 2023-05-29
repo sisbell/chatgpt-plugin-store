@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Aus Surf Report",
+  "name_for_model": "AusSurfReport",
+  "description_for_human": "Get today's surf report for any break throughout Australia!",
+  "description_for_model": "Get today's surf report for any break throughout Australia!",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://surfreport.orrenprunckun.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://surfreport.orrenprunckun.com/surf-report.png",
+  "contact_email": "hello@orrenprunckun.com",
+  "legal_info_url": "https://surfreport.orrenprunckun.com/terms.php"
+}

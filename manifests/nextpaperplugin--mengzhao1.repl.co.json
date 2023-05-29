@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "NextPaper.ai",
+  "name_for_model": "nextpaper",
+  "description_for_human": "Fetch the latest research papers on a specific topic from PubMed. More to come.",
+  "description_for_model": "Fetching the latest research papers on a specific topic from PubMed. The user can ask for the latest paper on a particular topic and the model will return the paper details.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://nextpaperplugin--mengzhao1.repl.co/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://nextpaperplugin--mengzhao1.repl.co/logo.png",
+  "contact_email": "nonhelix@gmail.com",
+  "legal_info_url": "http://www.nextpaper.com/legal"
+}

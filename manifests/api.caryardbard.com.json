@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "CarYardBard",
+  "name_for_model": "CarYardBard",
+  "description_for_human": "AI-Powered Car Sales Ad Generator for Australian Car Dealers.",
+  "description_for_model": "Using your AI capabilities, create a compelling and engaging car sales advertisement for an Australian car dealership.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://app.caryardbard.com/login",
+    "scope": "chatgpt_plugin",
+    "authorization_url": "https://app.caryardbard.com/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "de2f554820cd4aa588f404d63ac6d285"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.caryardbard.com/openai.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://app.caryardbard.com/assets/images/cyb-square.png",
+  "contact_email": "hello@caryardbard.com",
+  "legal_info_url": "https://caryardbard.com/terms/"
+}

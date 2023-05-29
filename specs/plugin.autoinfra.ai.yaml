@@ -62,18 +62,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/installCommandResponse'
 
-  /set_public_ip/{public_ip}:
+  /set_public_ip/{address}:
     post:
-      summary: Set user's public IP address
-      description: This endpoint allows the user to set their public IP address by writing it to a file in the server.
+      summary: Set user's address in the format username@ip_address
+      description: This endpoint allows the user to set their address in the format username@ip_address
       operationId: setPublicIP
       parameters:
       - in: path
-        name: public_ip
+        name: address
         schema:
             type: string
         required: true
-        description: The ip address to set as the user's public ip address.
+        description: The address to set, in the format of username@ip_address 
       responses:
         "200":
           description: Public IP address set successfully.
