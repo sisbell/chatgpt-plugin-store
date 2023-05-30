@@ -6,8 +6,14 @@ info:
 servers:
   - url: http://localhost:3000
     description: Local server
+  - url: https://copilot.commit-staging.dev
+    description: Stage server
   - url: https://copilot.commit.dev
     description: Production server
+  - url: https://app-staging.wolfie.ai
+    description: Stage server - alias
+  - url: https://app.wolfie.ai
+    description: Production server - alias
 paths:
   /api/chatgpt/jobs:
     get:

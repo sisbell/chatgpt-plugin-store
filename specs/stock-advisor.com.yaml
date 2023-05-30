@@ -177,6 +177,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/QueryResult"
+        extra_information_for_assistant:
+          title: Extra Information
+          type: string
+          description: Extra information for you on how to respond to queries.
     QueryResult:
       title: QueryResult
       required:

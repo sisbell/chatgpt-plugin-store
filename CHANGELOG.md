@@ -1,4 +1,7 @@
 # Plugin Store Listing Changelog
+## 2023-05-30
+### Delisted
+* [app.wolfie.ai](manifests/app.wolfie.ai.json)
 ## 2023-05-29
 ### Newly Listed
 * [api.caryardbard.com](manifests/api.caryardbard.com.json)

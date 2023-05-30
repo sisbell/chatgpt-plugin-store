@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: OptionsPro Plugin
-  description: OptionsPro is a powerful financial analytics tool that helps traders and investors analyze market trends, volatility, and individual stock performance. 
+  description: OptionsPro is a powerful financial analytics tool that helps traders and investors analyze market trends, volatility, and individual stock performance. More data can be accessed on the https://optionspro.io/ website through a subscription plan.
   version: 1.0.0
 servers:
   - url: https://optionspro.io
@@ -21,7 +21,7 @@ paths:
   /api/plugin/option-trades:
     get:
       operationId: getOptionTrades
-      summary: Get top trades in volume for a given option contract historically. OptionTicker is required to return the highest volume trades throughout this contract's lifetime. Reponse is best visualized in a table format.
+      summary: Retrieve the highest volume trades for a specific option contract throughout its lifetime, including both historical and current data. OptionTicker is a required parameter to obtain the top trades in volume for the given option contract. Response is best visualized in a table format.
       parameters:
         - name: optionTicker
           in: query
@@ -39,7 +39,7 @@ paths:
             type: string
         - name: topN
           in: query
-          description: The number of top trades to return, defaults to 20. Must be between 1 and 50.
+          description: The number of top trades to return, defaults to 20. Must be between 1 and 50 for the Plugin API usage. More data can be accessed on the https://optionspro.io/ website through a subscription plan.
           required:
             false
           schema:
@@ -67,7 +67,7 @@ paths:
             type: string
         - name: topN
           in: query
-          description: The number of top flows to return, defaults to 20. Must be between 1 and 50.
+          description: The number of top flows to return, defaults to 20. Must be between 1 and 50. More data can be accessed on the https://optionspro.io/ website through a subscription plan.
           required:
             false
           schema:
