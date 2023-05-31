@@ -1,0 +1,53 @@
+openapi: 3.0.1
+info:
+  title: Bookworm
+  description: A plugin that allows the user to search for Books on Amazon
+  version: 'v1'
+servers:
+  - url: https://bookworm.gngn.at
+  - url: https://buecherwurm.gngn.at
+paths:
+  /books:
+    post:
+      operationId: searchBooks
+      summary: Searches for books
+      x-exegesis-controller: booksController
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/searchBooksRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    searchBooksRequest:
+      type: object
+      properties:
+        booktitles:
+          type: array
+          description: Concrete book titles, not genres like "fantasy". Must be in the user's input language which is not necessarily english.
+          items:
+            type: string
+    searchBooksResponse:
+      type: object
+      properties:
+        Books:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              price:
+                type: string
+              buyUrl:
+                type: string
+              imageUrl:
+                type: string
+          description: The found Books

@@ -1,0 +1,262 @@
+openapi: 3.0.0
+info:
+  title: Job Search & Detail API
+  version: 1.0.0
+servers:
+  - url: https://gptjobsearch.uk/api/v1
+paths:
+  /search:
+    get:
+      operationId: searchJobs
+      summary: Search jobs
+      description: Retrieves a list of jobs based on the provided search parameters.
+      parameters:
+        - name: keywords
+          in: query
+          description: The keywords to use for the search.
+          required: true
+          schema:
+            type: string
+        - name: locationName
+          in: query
+          description: The location name to use for the search.
+          schema:
+            type: string
+        - name: distanceFromLocation
+          in: query
+          description: The distance from the location name in miles.
+          schema:
+            type: integer
+        - name: permanent
+          in: query
+          description: Permanent jobs filter.
+          schema:
+            type: boolean
+        - name: contract
+          in: query
+          description: Contract jobs filter.
+          schema:
+            type: boolean
+        - name: temp
+          in: query
+          description: Temporary jobs filter.
+          schema:
+            type: boolean
+        - name: partTime
+          in: query
+          description: Part time jobs filter.
+          schema:
+            type: boolean
+        - name: fullTime
+          in: query
+          description: Full time jobs filter.
+          schema:
+            type: boolean
+        - name: minimumSalary
+          in: query
+          description: The minimum salary filter.
+          schema:
+            type: integer
+        - name: maximumSalary
+          in: query
+          description: The maximum salary filter.
+          schema:
+            type: integer
+        - name: postedByRecruitmentAgency
+          in: query
+          description: Jobs posted by a recruitment agency filter.
+          schema:
+            type: boolean
+        - name: postedByDirectEmployer
+          in: query
+          description: Jobs posted by a direct employer filter.
+          schema:
+            type: boolean
+        - name: graduate
+          in: query
+          description: Graduate jobs filter.
+          schema:
+            type: boolean
+        - name: resultsToTake
+          in: query
+          description: The maximum number of results to return.
+          schema:
+            type: integer
+        - name: resultsToSkip
+          in: query
+          description: The number of results to skip.
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful operation. Returns the list of jobs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    jobId:
+                      type: integer
+                      description: Job ID
+                    employerName:
+                      type: string
+                      description: Employer name
+                    jobTitle:
+                      type: string
+                      description: Job title
+                    locationName:
+                      type: string
+                      description: Job location name
+                    minimumSalary:
+                      type: number
+                      description: Minimum salary
+                    maximumSalary:
+                      type: number
+                      description: Maximum salary
+                    jobDescription:
+                      type: string
+                      description: Job description
+                    jobLink:
+                      type: string
+                      description: The URL of the job post
+        "400":
+          description: Missing required parameter keywords.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+        "401":
+          description: Unauthorized. Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+        "404":
+          description: No jobs found matching the criteria.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+        "500":
+          description: An error occurred while fetching jobs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+
+  /details:
+    get:
+      operationId: getJobDetails
+      summary: Get job details
+      description: Retrieve the details of a specific job by its ID.
+      parameters:
+        - name: jobId
+          in: query
+          description: The ID of the job.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful operation. Returns the details of the job.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  employerId:
+                    type: integer
+                    description: Employer ID
+                  employerName:
+                    type: string
+                    description: Employer name
+                  jobTitle:
+                    type: string
+                    description: Job title
+                  description:
+                    type: string
+                    description: Job description
+                  locationName:
+                    type: string
+                    description: Job location name
+                  minimumSalary:
+                    type: number
+                    description: Minimum salary
+                  maximumSalary:
+                    type: number
+                    description: Maximum salary
+                  yearlyMinimumSalary:
+                    type: number
+                    description: Yearly minimum salary
+                  yearlyMaximumSalary:
+                    type: number
+                    description: Yearly maximum salary
+                  currency:
+                    type: string
+                    description: Salary currency
+                  salaryType:
+                    type: string
+                    description: Salary type (per hour, per day, per week, per month, per annum)
+                  contractType:
+                    type: string
+                    description: Contract type (permanent, contract, temporary)
+                  jobType:
+                    type: string
+                    description: Job type (Full Time/Part Time)
+                  expirationDate:
+                    type: string
+                    description: Job expiration date
+                  externalUrl:
+                    type: string
+                    description: External URL for jobs with the application on an external site
+                  url:
+                    type: string
+                    description: URL to job on the job website
+        "400":
+          description: Missing required parameter jobId.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+        "401":
+          description: Unauthorized. Invalid or missing token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+        "500":
+          description: An error occurred while fetching job details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.

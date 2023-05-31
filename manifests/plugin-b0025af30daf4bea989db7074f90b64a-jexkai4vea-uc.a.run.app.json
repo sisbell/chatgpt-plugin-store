@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "WordCloud",
+  "name_for_model": "WordCloud",
+  "description_for_human": "Create word cloud images from text.",
+  "description_for_model": "Submit a text string and it will return a URL to a wordcloud image of the text.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin-b0025af30daf4bea989db7074f90b64a-jexkai4vea-uc.a.run.app/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://plugin-b0025af30daf4bea989db7074f90b64a-jexkai4vea-uc.a.run.app/logo.png",
+  "contact_email": "support@promptapps.ai",
+  "legal_info_url": "https://plugin-b0025af30daf4bea989db7074f90b64a-jexkai4vea-uc.a.run.app/legal.html"
+}

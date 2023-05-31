@@ -1,0 +1,18 @@
+{
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://chatgpt-plugin.brandfetch.io/openapi.yaml"
+  },
+  "auth": {
+    "type": "none"
+  },
+  "contact_email": "support@brandfetch.com",
+  "description_for_human": "Retrieve company and brand data including logos, colors, fonts, and other brand information.",
+  "description_for_model": "Retrieve company and brand data including logos, colors, fonts, and other brand information.",
+  "legal_info_url": "https://brandfetch.com/terms",
+  "logo_url": "https://asset.brandfetch.io/idL0iThUh6/idls3LaPPQ.png",
+  "name_for_human": "Brandfetch",
+  "name_for_model": "brandfetch",
+  "schema_version": "v1"
+}

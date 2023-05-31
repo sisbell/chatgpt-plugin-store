@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "JetBook.Click",
+  "name_for_model": "JetBookClick",
+  "description_for_human": "Your ultimate travel companion: search/book flights at best prices, get info about your destination. Multilang support.",
+  "description_for_model": "Your ultimate travel companion: search for and book flights at the best prices, and receive assistance regarding your destination. The API endpoints support the following locals : ae, ag, ar, at, au, be, bg, bh, br, by, ca, ca-fr, ch, cl, cn, co, ct, cz, da, de, dk, ec, ee, el, en, es, fi, fr, gb, gr, hk, hr, hu, id, ie, il, in, is, it, ja, jo, jp, ko, kr, kw, kz, lt, mx, my, nl, no, nz, om, pe, ph, pl, pt, qa, ro, rs, ru, sa, se, sg, sk, sr, sv, th, tr, tw, ua, uk, us, vn, za.\n",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://jetbook.click/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://jetbook.click/logo.webp",
+  "contact_email": "contact@ping.consulting",
+  "legal_info_url": "https://jetbook.click/legal"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "AI Agents",
+  "name_for_model": "aiAgents",
+  "description_for_human": "Unleashing the power of multiple AIs: One goal, limitless productivity.",
+  "description_for_model": "Collaborate with another AI Agent to perform the goal more efficient.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://ai-agents-plugin.vercel.app/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://ai-agents-plugin.vercel.app/imgs/logo.png",
+  "contact_email": "support@aiagentslab.com",
+  "legal_info_url": "https://www.aiagentslab.com/legal"
+}

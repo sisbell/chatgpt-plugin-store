@@ -1,0 +1,326 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "upskillr",
+        "description": "A plugin to assist users in creating educational curricula on a given topic.",
+        "version": "0.1.1"
+    },
+    "paths": {
+        "/table_of_content_creation_single_level": {
+            "post": {
+                "summary": "API to create single-level table of contents",
+                "operationId": "api_table_of_content_creation_single_level_table_of_content_creation_single_level_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/table_of_contentInput"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "description": "The input data for creating a single-level table of contents."
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+        "/table_of_content_creation_multi_level": {
+            "post": {
+                "summary": "API to create multi-level table of contents",
+                "operationId": "api_table_of_content_creation_multi_level_table_of_content_creation_multi_level_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/table_of_contentInput"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "description": "The input data for creating a multi-level table of contents."
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+
+         "/token_balance": {
+            "get": {
+                "summary": "Api to check the token balance for the user",
+                "operationId": "api_check_outstanding_balance_token_balance_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+          "/get_payment_link": {
+            "get": {
+                "summary": "Api to get Payment Link",
+                "operationId": "api_get_payment_link_get_payment_link_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+    
+        "/activity_matrix_result": {
+            "post": {
+                "summary":  "API to create an activity matrix",
+                "operationId": "api_activity_matrix_result_activity_matrix_result_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ActivityMatrixInput"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "description": "The input data for creating an activity matrix."
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        },
+        "/curriculum_builder": {
+            "post": {
+                "summary": "Api to build the curriculum",
+                "operationId": "api_curriculum_builder_curriculum_builder_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CurriculumInput"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "description": "The input data for creating curriculum."
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ActivityMatrixInput": {
+                "title": "ActivityMatrixInput",
+                "required": [
+                    "content"
+                ],
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "title": "Content",
+                        "type": "string",
+                        "description": "Single Topic Name."
+                    }
+                }
+            },
+            "CurriculumInput": {
+                "title": "CurriculumInput",
+                "required": [
+                    "content",
+                    "structure_type"
+                ],
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "title": "Content",
+                        "type": "string",
+                        "description": "the topic name to generate curriculum."
+                    },
+                    "structure_type": {
+                        "title": "Structure Type",
+                        "type": "string",
+                        "description": "The structure type for the curriculum (e.g., single or multi)."
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            },
+            "table_of_contentInput": {
+                "title": "table_of_contentInput",
+                "required": [
+                    "content"
+                ],
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "title": "Content",
+                        "type": "string",
+                        "description": "Single Topic Name."
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "HTTPBearer": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

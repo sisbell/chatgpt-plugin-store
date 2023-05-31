@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: AutoInfra Plugin1
+  title: AutoInfra Plugin
   description: A plugin that allows the user to talk to their servers and run commands on them.
   version: 'v1'
 servers:
@@ -64,8 +64,8 @@ paths:
 
   /set_public_ip/{address}:
     post:
-      summary: Set user's address in the format username@ip_address
-      description: This endpoint allows the user to set their address in the format username@ip_address
+      summary: Set the user's address in the format username@ip_address, and their port if they specify it
+      description: This endpoint allows the user to set their address in the format username@ip_address as well as their port
       operationId: setPublicIP
       parameters:
       - in: path
@@ -74,6 +74,13 @@ paths:
             type: string
         required: true
         description: The address to set, in the format of username@ip_address 
+      - in: query
+        name: port
+        schema:
+          type: integer
+          default: 22
+        required: false
+        description: The port number to set, defaults to 22 if not provided
       responses:
         "200":
           description: Public IP address set successfully.

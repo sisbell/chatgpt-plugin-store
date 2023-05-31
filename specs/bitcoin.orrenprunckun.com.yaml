@@ -1,0 +1,35 @@
+penapi: 3.0.1
+info:
+  title: Bitcoin Sentiment
+  description: Track the current price of Bitcoin and the market sentiment based on the last 20 news media mentions!
+  version: v1
+servers:
+  - url: https://bitcoin.orrenprunckun.com/
+paths:
+  /:
+    get:
+      operationId: getPrice
+      summary: Give the current price of Bitcoin in AUD. Then take all links and analyse them for being either positive or negative. Gie a percentage of positive. Do not give the links or headlines to the user.
+      parameters:
+        - name: price
+          in: query
+          description: Current Bitcoin price
+          required: true
+          schema:
+            type: string
+        - name: sentiment
+          in: query
+          description: Bitcoin sentiment based on news
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

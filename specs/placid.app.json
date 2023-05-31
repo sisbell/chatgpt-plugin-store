@@ -1,0 +1,332 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Placid Natural Language API",
+    "version": "1.0.0",
+    "description": "# Placid Natural Language API Documentation\n\n## Introduction\n\nPlacid is a creative automation toolkit that helps you automate and scale the production of marketing visuals. Using flexible APIs, SDKs and nocode integrations, you can create workflows to generate images, PDFs or videos from templates with dynamic elements. Our drag & drop editor can be used to create custom designs that fit any use case and brand – from social media visuals to automated certificate PDFs.\n\n## API Overview\n\nThe Placid Natural Language API can be used to generate visuals from natural language prompts – just like talking to a designer who creates a new version of a creative for you. For example, you could ask for `a course certificate PDF for John Doe, dated 2023/12/10`, or `an Instagram feed image with the quote \"Peace of mind is experienced only after making peace with your mind\"` to generate them from a Placid template.\n\n### API Usage\n\nThe Placid Natural Language API adheres to the OpenAPI specifications. Ensure to set the `Content-Type` header to `application/json` when making requests. Currently, the API does not require any authentication.\n\n### Dynamic Template Layers\n\nTemplates in Placid are composed of various layers, each with dynamic properties that can be set via the API. All properties are optional. If a property is not set via the API, the default value of the template will be used instead.\n\n#### `picture` Layer Type\n\nProperties: `image` and `video`\n\nFor image and PDF generation, the `image` property can be filled with a direct URL to an image.\n\nFor video generation, the `image` property can be filled with an array of direct URLs to images which will result in a slideshow of these images in that layer. Alternatively, the `video` property of a layer can be filled with a (single) direct URL to a mp4 file.\n\nThe `image` and `video` properties are mutually exclusive.\n\n#### `text` Layer Type\n\nProperty: `text`\n\nFor image and PDF generation, the `text` property can be filled with a text string.\nFor video generation, the `text` property could also be filled with an array of strings, so the texts will switch through during the video.\n\n### API Endpoints\n\n#### `get_templates`\n\nThis endpoint returns a list of templates encapsulated within a \"data\" array, along with pagination options within the meta object. Typically, a user will request the creation of an image, PDF, or video using a specific template, identified by its title or UUID. Fuzzy matching can be used to find a template title that matches a user's request, such as `create a quote image with the quote \"example quote\"`. No explicit permission is required to use a template.\n\n#### `create_image`\n\nThis endpoint is used to generate an image using the Placid plugin. The request body should be structured as follows:\n\n```json\n{\n    \"template_uuid\": \"<template_uuid>\",\n    \"layer_modifications\": [\n        {\n            \"layer_name\": \"<layer_name>\",\n            \"property_name\": \"<property_name>\",\n            \"property_value\": \"<property_value>\"\n        }\n    ]\n}\n```\n\nWhere:\n- `<template_uuid>` is the unique identifier for the template you want to use.\n- `<layer_name>` is the name of the layer you want to modify.\n- `<property_name>` is the name of the property you want to change. For example, \"text\", or \"image\".\n- `<property_value>` is the new value you want to set for the property. For example, \"This is a quote\"\n\nReplace `<template_uuid>`, `<layer_name>`, `<property_name>`, and `<property_value>` with your actual values.\n\n#### `create_pdf`\n\nThis endpoint is used to generate a PDF using the Placid plugin. The request body should be structured as follows:\n\n```json\n{\n    \"template_uuid\": \"<template_uuid>\",\n    \"layer_modifications\": [\n        {\n            \"layer_name\": \"<layer_name>\",\n            \"property_name\": \"<property_name>\",\n            \"property_value\": \"<property_value>\"\n        }\n    ]\n}\n```\n\nWhere:\n- `<template_uuid>` is the unique identifier for the template you want to use.\n- `<layer_name>` is the name of the layer you want to modify.\n- `<property_name>` is the name of the property you want to change. For example, \"text\" or \"image\".\n- `<property_value>` is the new value you want to set for the property. For example, \"This is a quote\".\n\nReplace `<template_uuid>`, `<layer_name>`, `<property_name>`, and `<property_value>` with your actual values.\n\nWhen displaying a generated PDF in your UI, use the preview URL with a link to the download URL of the response.\n\n#### `create_video`\n\nThis endpoint is used to generate a video using the Placid plugin. The request body should be structured as follows:\n\n```json\n{\n    \"template_uuid\": \"<template_uuid>\",\n    \"layer_modifications\": [\n        {\n            \"layer_name\": \"<layer_name>\",\n            \"property_name\": \"<property_name>\",\n            \"property_value\": \"<property_value>\"\n        }\n    ]\n}\n```\n\nWhere:\n- `<template_uuid>` is the unique identifier for the template you want to use.\n- `<layer_name>` is the name of the layer you want to modify.\n- `<property_name>` is the name of the property you want to change. For example, \"text\" or \"video\".\n- `<property_value>` is the new value you want to set for the property. For example, \"This is a quote\"\n\nReplace `<template_uuid>`, `<layer_name>`, `<property_name>`, and `<property_value>` with your actual values.\n\n#### `get_video`\nThis endpoint is used to fetch a video after using `create_video`. It can be used to poll if the status is finished, indicating that the video has finished processing and is ready to download.\n"
+  },
+  "servers": [
+    {
+      "url": "https://api.placid.app"
+    }
+  ],
+  "paths": {
+    "/api/openai/templates": {
+      "get": {
+        "operationId": "get_templates",
+        "summary": "List all available templates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListOfTemplatesSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "List all templates this user has in his project"
+      }
+    },
+    "/api/openai/images": {
+      "post": {
+        "operationId": "create_image",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateImageLayerPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": []
+          }
+        },
+        "description": "Fill an existing template's text and picture layers with content and create an image; refetch `api/openai/templates` if you cant find the template"
+      }
+    },
+    "/api/openai/pdfs": {
+      "post": {
+        "operationId": "create_pdf",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePdfLayerPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": []
+          }
+        },
+        "description": "Fill an existing template's text and picture layers with content and create a pdf; refetch `api/openai/templates` if you cant find the template"
+      }
+    },
+    "/api/openai/videos": {
+      "post": {
+        "operationId": "create_video",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVideoLayerPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": []
+          }
+        },
+        "description": "Fill an existing template's text and picture layers with content and create a video; refetch `api/openai/templates` if you cant find the template"
+      }
+    },
+    "/api/openai/videos/{id}": {
+      "get": {
+        "operationId": "get_video",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the video"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": []
+          },
+          "404": {
+            "description": "Video not found"
+          }
+        },
+        "summary": "Get a single video"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ListOfTemplatesSchema": {
+        "title": "ListOfTemplatesSchema",
+        "description": "This is a Template. A template has layers that can be filled via text and/or image urls. So you can f.ex. exchange images inside of it or switch out texts",
+        "properties": {
+          "data": {
+            "title": "Templates",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TemplateSchema"
+            }
+          }
+        }
+      },
+      "TemplateSchema": {
+        "title": "TemplateSchema",
+        "description": "This is a Template. A template has layers that can be filled via text and/or image urls. So you can f.ex. exchange images inside of it or switch out texts",
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "title": "UUID",
+            "description": "The Template UUID is being used to identify it and its unique across all templates",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "description": "The title is a user entered title.",
+            "type": "string"
+          },
+          "layers": {
+            "title": "Layers",
+            "description": "These are the dynamic layers that can be changed.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TemplateLayerSchema"
+            }
+          }
+        },
+        "required": [
+          "uuid",
+          "title",
+          "layers"
+        ]
+      },
+      "TemplateLayerSchema": {
+        "title": "TemplateLayerSchema",
+        "description": "This is a TemplateLayer",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string",
+            "enum": [
+              "picture",
+              "text"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ]
+      },
+      "CreateImageLayerPayload": {
+        "title": "CreateImageLayerPayload",
+        "description": "The payload to define the content of layers",
+        "type": "object",
+        "properties": {
+          "template_uuid": {
+            "type": "string",
+            "description": "The UUID of the template"
+          },
+          "layer_modifications": {
+            "title": "Layer modifications",
+            "description": "This array holds a list of template layer modifications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "layer_name": {
+                  "title": "Layer Name",
+                  "type": "string",
+                  "description": "The name of the layer"
+                },
+                "property_name": {
+                  "title": "Property Name",
+                  "type": "string",
+                  "description": "These are the different properties currently supported by this model.",
+                  "enum": [
+                    "image",
+                    "video",
+                    "text"
+                  ]
+                },
+                "property_value": {
+                  "title": "Property Value",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "layer_name",
+                "property_name",
+                "property_value"
+              ]
+            }
+          }
+        }
+      },
+      "CreatePdfLayerPayload": {
+        "title": "CreatePdfLayerPayload",
+        "description": "The payload to define the content of layers",
+        "type": "object",
+        "properties": {
+          "template_uuid": {
+            "type": "string",
+            "description": "The UUID of the template"
+          },
+          "layer_modifications": {
+            "title": "Layer modifications",
+            "description": "This array holds a list of template layer modifications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "layer_name": {
+                  "title": "Layer Name",
+                  "type": "string",
+                  "description": "The name of the layer"
+                },
+                "property_name": {
+                  "title": "Property Name",
+                  "type": "string",
+                  "description": "These are the different properties currently supported by this model.",
+                  "enum": [
+                    "image",
+                    "video",
+                    "text"
+                  ]
+                },
+                "property_value": {
+                  "title": "Property Value",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "layer_name",
+                "property_name",
+                "property_value"
+              ]
+            }
+          }
+        }
+      },
+      "CreateVideoLayerPayload": {
+        "title": "CreateVideoLayerPayload",
+        "description": "The payload to define the content of layers",
+        "type": "object",
+        "properties": {
+          "template_uuid": {
+            "type": "string",
+            "description": "The UUID of the template"
+          },
+          "layer_modifications": {
+            "title": "Layer modifications",
+            "description": "This array holds a list of template layer modifications",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "layer_name": {
+                  "title": "Layer Name",
+                  "type": "string",
+                  "description": "The name of the layer"
+                },
+                "property_name": {
+                  "title": "Property Name",
+                  "type": "string",
+                  "description": "These are the different properties currently supported by this model.",
+                  "enum": [
+                    "image",
+                    "video",
+                    "text"
+                  ]
+                },
+                "property_value": {
+                  "title": "Property Value",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "layer_name",
+                "property_name",
+                "property_value"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

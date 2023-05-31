@@ -101,6 +101,10 @@
                     "page_context": {
                       "type": "string",
                       "description": "The context of the current page (chunk) in relation to the total number of pages (chunks) of response data for a given job. For example, '2/7' means this is the 2nd chunk out of a total of 7 chunks. Important to remember the relationship between page_size and page when thinking about page context. For example, if you set page_size to 10000 and page to 2, you will receive the second 10000 characters of the content. If you set page_size to 5000 and page to 3, you will receive the third 5000 characters of the content, which would be content inside of the 2nd page of 10000 characters. Keeping page_size consisten through paginating a given job will ensure that the page_context is consistent."
+                    },
+                    "notice": {
+                      "type": "string",
+                      "description": "This notice is a system message meant to convey some additional, potentially important context that may help instruct and inform subsequent actions, and should be observed and considered."
                     }
                   }
                 }

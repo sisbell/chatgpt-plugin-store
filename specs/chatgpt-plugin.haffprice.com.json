@@ -1,0 +1,347 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "HaffPrice Action API",
+    "version": "1.0.3",
+    "description": "API for HaffPrice, performs actions on behalf of the user."
+  },
+  "servers": [
+    {
+      "url": "https://chatgpt-plugin.haffprice.com/"
+    }
+  ],
+  "paths": {
+    "/actions/PolicyInfo": {
+      "post": {
+        "operationId": "PolicyInfo",
+        "summary": "The policies for including service, logistic, refund etc.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "policy": {
+                      "description": "The policy content.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "topic": {
+                    "description": "The topic of the policy, should be as detailed as possible.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/actions/ProductInfo": {
+      "post": {
+        "operationId": "ProductInfo",
+        "summary": "The product basic information, including title, price, available skus, size table etc.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "informations": {
+                      "description": "Product informations",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "include_attributes": {
+                    "description": "Set non-empty value to include all the attributes of the available product variants",
+                    "type": "string"
+                  },
+                  "include_category": {
+                    "description": "Set non-empty value to include product category",
+                    "type": "string"
+                  },
+                  "include_detail_html": {
+                    "description": "Set non-empty value to include product detail content in HTML",
+                    "type": "string"
+                  },
+                  "include_image": {
+                    "description": "Set non-empty value to include product image",
+                    "type": "string"
+                  },
+                  "include_price": {
+                    "description": "Set non-empty value to include product price",
+                    "type": "string"
+                  },
+                  "include_size_table": {
+                    "description": "Set non-empty value to include size table of the product",
+                    "type": "string"
+                  },
+                  "include_specification": {
+                    "description": "Set non-empty value to include all the specifications of the product, like materials, oceasions",
+                    "type": "string"
+                  },
+                  "include_title": {
+                    "description": "Set non-empty value to include product title",
+                    "type": "string"
+                  },
+                  "include_url": {
+                    "description": "Set non-empty value to include URL of product detail landing page",
+                    "type": "string"
+                  },
+                  "region": {
+                    "description": "Retrieve item info in specified region. Format as country ISO 2-letter code. Default US",
+                    "type": "string"
+                  },
+                  "spu_id": {
+                    "description": "Product ID",
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/actions/Recommend": {
+      "post": {
+        "operationId": "Recommend",
+        "summary": "Get recommendations of products satisfying the input query.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "description": "List of items recommended.",
+                      "type": "array",
+                      "items": {
+                        "description": "Product informations",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "limit": {
+                    "description": "Number of products to return. Default 10.",
+                    "type": "integer"
+                  },
+                  "query": {
+                    "description": "English query to search for products.",
+                    "type": "string"
+                  },
+                  "region": {
+                    "description": "2-letter Region code to search for products. Default US.",
+                    "type": "string"
+                  },
+                  "skip_ids": {
+                    "description": "List of product IDs to exclude from the return results.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/actions/RecommendByImage": {
+      "post": {
+        "operationId": "RecommendByImage",
+        "summary": "Get recommendations of products similar to given image.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "description": "List of items recommended.",
+                      "type": "array",
+                      "items": {
+                        "description": "Product informations",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image_url": {
+                    "description": "An image URL to search for products. The url must be accessible in the Internet.",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "description": "Number of products to return. Default 10.",
+                    "type": "integer"
+                  },
+                  "region": {
+                    "description": "2-letter Region code to search for products. Default US.",
+                    "type": "string"
+                  },
+                  "skip_ids": {
+                    "description": "List of product IDs to exclude from the return results.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/actions/Similar": {
+      "post": {
+        "operationId": "Similar",
+        "summary": "Get similar products related to the given product.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "description": "List of items recommended.",
+                      "type": "array",
+                      "items": {
+                        "description": "Product informations",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "limit": {
+                    "description": "Number of products to return. Default 10.",
+                    "type": "integer"
+                  },
+                  "region": {
+                    "description": "2-letter Region code to search for products. Default US.",
+                    "type": "string"
+                  },
+                  "skip_ids": {
+                    "description": "List of product IDs to exclude from the return results.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "spu_id": {
+                    "description": "Product ID",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "SessionAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "sessionid"
+      },
+      "AccessPointApiKeyHeader": {},
+      "AccessPointApiKeyQuery": {},
+      "AccessPointOAuth": {
+        "flows": {
+          "authorizationCode": {
+            "scopes": {}
+          }
+        }
+      }
+    },
+    "schemas": {}
+  }
+}

@@ -12,7 +12,7 @@
     "url": "https://algorithma.ruvnet.repl.co/openapi.json",
     "is_user_authenticated": false
   },
-  "logo_url": "https://algorithma.replit.app/.well-known/logo.png",
+  "logo_url": "https://algorithma.ruvnet.repl.co/.well-known/logo.png",
   "contact_email": "ruv@ruv.net",
   "legal_info_url": "https://algorithma.replit.app/legal"
 }

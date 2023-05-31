@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Substack IQ
-  description: Substack IQ is a service that allows you to search through Substack newsletters.
+  description: Explore Substack! Provide a link, chat with articles, find new authors, search all of Substack, and more.
   version: 'v1'
 servers:
   - url: https://api.substackiq.com

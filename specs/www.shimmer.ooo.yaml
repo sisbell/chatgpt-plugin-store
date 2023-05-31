@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Shimmer
+  title: Nutrition Coach
   description: >-
     An API that allows users to tell Shimmer what food they ate and then receive
     nutrition information with a url to a detailed breakdown of the food they

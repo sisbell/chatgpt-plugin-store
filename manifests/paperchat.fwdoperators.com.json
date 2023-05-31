@@ -1,0 +1,19 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "paperchat",
+  "name_for_human": "PaperChat",
+  "description_for_model": "Plugin for searching through the arXiv publications to find answers to questions and retrieve relevant information. Use it whenever a user asks something that might be found in arXiv publications. Include source of the file you get information from. Answer questions as concisely and accurately as possible. Think step-by-step to show how you got to your answer.",
+  "description_for_human": "Search and ask through arXiv publications.",
+  "auth": {
+    "type": "none",
+    "authorization_type": "bearer"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://paperchat.fwdoperators.com/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://paperchat.fwdoperators.com/.well-known/logo.png",
+  "contact_email": "hello@fwdoperators.com",
+  "legal_info_url": "https://paperchat.fwdoperators.com/.well-knonw/legal-info"
+}

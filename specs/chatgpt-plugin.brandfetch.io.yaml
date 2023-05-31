@@ -1,0 +1,223 @@
+openapi: 3.0.1
+info:
+  title: Brandfetch API
+  description: |-
+    Brandfetch API for retrieving brand information.
+  version: 2.0.0
+  termsOfService: https://brandfetch.com/terms
+  contact:
+    url: https://brandfetch.com/developers
+servers:
+  - url: https://chatgpt-plugin.brandfetch.io/api
+paths:
+  /brands/{brandDomain}:
+    get:
+      operationId: getBrandByDomainInPathParameter
+      summary: Retrieve a brand
+      description: |
+        Fetch brand information by domain or ID
+      parameters:
+        - name: brandDomain
+          in: path
+          required: true
+          description: Domain or ID of the brand
+          schema:
+            type: string
+      responses:
+        200:
+          description: Brand data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+              examples:
+                brandfetch.com:
+                  value: >-
+                    {"name":"Brandfetch","domain":"brandfetch.com","claimed":true,"description":"All
+                    brands. In one
+                    place","links":[{"name":"twitter","url":"https://twitter.com/brandfetch"},{"name":"linkedin","url":"https://linkedin.com/company/brandfetch"}],"logos":[{"type":"logo","theme":"light","formats":[{"src":"https://asset.brandfetch.io/idL0iThUh6/id9WE9j86h.svg","background":"transparent","format":"svg","size":15555}]},{"type":"logo","theme":"dark","formats":[{"src":"https://asset.brandfetch.io/idL0iThUh6/idWbsK1VCy.png","background":"transparent","format":"png","height":215,"width":800,"size":33937},{"src":"https://asset.brandfetch.io/idL0iThUh6/idtCMfbWO0.svg","background":"transparent","format":"svg","height":null,"width":null,"size":15567}]},{"type":"symbol","theme":"light","formats":[{"src":"https://asset.brandfetch.io/idL0iThUh6/idXGq6SIu2.svg","background":"transparent","format":"svg","size":2215}]},{"type":"symbol","theme":"dark","formats":[{"src":"https://asset.brandfetch.io/idL0iThUh6/iddCQ52AR5.svg","background":"transparent","format":"svg","size":2215}]},{"type":"icon","theme":"dark","formats":[{"src":"https://asset.brandfetch.io/idL0iThUh6/idls3LaPPQ.png","background":null,"format":"png","height":400,"width":400,"size":2565}]}],"colors":[{"hex":"#0084ff","type":"accent","brightness":113},{"hex":"#00193E","type":"brand","brightness":22},{"hex":"#F03063","type":"brand","brightness":93},{"hex":"#7B0095","type":"brand","brightness":37},{"hex":"#76CC4B","type":"brand","brightness":176},{"hex":"#FFDA00","type":"brand","brightness":210},{"hex":"#000000","type":"dark","brightness":0},{"hex":"#ffffff","type":"light","brightness":255}],"fonts":[{"name":"Poppins","type":"title","origin":"google","originId":"Poppins","weights":[]},{"name":"Inter","type":"body","origin":"google","originId":"Inter","weights":[]}],"images":[{"type":"banner","formats":[{"src":"https://asset.brandfetch.io/idL0iThUh6/idUuia5imo.png","background":"transparent","format":"png","height":500,"width":1500,"size":5539}]}]}
+        400:
+          description: Invalid domain or ID supplied
+        404:
+          description: The brand does not exist or the domain can't be resolved.
+  /search/brands/{nameQuery}:
+    get:
+      operationId: searchForBrandsMatchingNameQuery
+      summary: Search for brands matching a given name.
+      description: |
+        Search for brands matching a given name.
+      parameters:
+        - name: nameQuery
+          in: path
+          required: true
+          description: The brand search name query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Brand search result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandSearchResult'
+        400:
+          description: Invalid search query
+components:
+  schemas:
+    BrandSearchResult:
+      description: Brand search result
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Brand'
+        total:
+          type: integer
+      required:
+        - results
+        - total
+    Brand:
+      description: Object representing a brand
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageAsset'
+        fonts:
+          type: array
+          items:
+            $ref: '#/components/schemas/FontAsset'
+        domain:
+          type: string
+        claimed:
+          type: boolean
+        name:
+          type: string
+        description:
+          type: string
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              url:
+                type: string
+            required:
+              - name
+              - url
+        logos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageAsset'
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColorAsset'
+      required:
+        - name
+        - domain
+        - claimed
+        - description
+        - links
+        - logos
+        - colors
+        - fonts
+        - images
+    ColorAsset:
+      description: Brand color asset
+      type: object
+      properties:
+        brightness:
+          type: integer
+        hex:
+          type: string
+        type:
+          type: string
+          enum:
+            - accent
+            - brand
+            - customizable
+            - dark
+            - light
+            - vibrant
+      required:
+        - brightness
+        - hex
+        - type
+    FontAsset:
+      description: Brand font asset
+      type: object
+      properties:
+        originId:
+          type: string
+        origin:
+          type: string
+          enum:
+            - adobe
+            - custom
+            - google
+            - system
+        name:
+          type: string
+        type:
+          type: string
+        weights:
+          type: array
+          items:
+            type: number
+        items:
+          type: string
+    ImageAsset:
+      description: Brand image asset
+      type: object
+      properties:
+        formats:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageFormat'
+        theme:
+          type: string
+          enum:
+            - light
+            - dark
+        type:
+          type: string
+          enum:
+            - logo
+            - icon
+            - symbol
+            - banner
+      required:
+        - formats
+        - theme
+        - type
+    ImageFormat:
+      description: Brand image asset image format
+      type: object
+      properties:
+        size:
+          type: integer
+        src:
+          type: string
+        background:
+          type: string
+          enum:
+            - transparent
+        format:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+      required:
+        - size
+        - src
+        - background
+        - format
+externalDocs:
+  description: Documentation
+  url: https://docs.brandfetch.com/

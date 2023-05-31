@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ChampDex",
+  "name_for_model": "champdex",
+  "description_for_human": "Discover up-to-date facts about all League of Legends champions!",
+  "description_for_model": "ChampDex allows users to query for comprehensive and current information on all champions in League of Legends.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://champdex.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://champdex.com/img/logo.png",
+  "contact_email": "support@dreampunk.ai",
+  "legal_info_url": "https://champdex.com/legal"
+}

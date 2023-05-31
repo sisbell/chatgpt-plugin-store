@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Upskillr",
+  "name_for_model": "upskillr",
+  "description_for_model": "Plugin to build the curriculum. The main operation is creating curriculum for the user given topic. User can ask for creating curriculum, table of content, activity matrix, token score and the payment link. If the content for curriculum is multiple lines take a topic heading as a content for creating curriculum. Take content as a single topic. For any error show the error with resolving link. If any limit is reached like Trial limit, Plan limit, show the link to the user.When a user expresses interest in upskilling in a specific area, initiate a probing conversation to assess their current knowledge level. Use this information to craft a comprehensive, step-by-step guide that is tailored to their individual learning needs, which can facilitate effective upskilling in the chosen topic.Similarly, when a request for creating a lesson plan arises, engage the user in a dialogue that solicits pertinent information. Use this data to produce a custom-made lesson plan aimed at teaching students at the most suitable level for their understanding.",
+  "description_for_human": "Custom curriculum, lesson plans, and upskilling support on any topic by Upskillr. Powered by Shorthills Tech.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://cbplugin.upskillr.ai/authenticate",
+    "scope": "",
+    "authorization_url": "https://cbplugin.upskillr.ai/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "bbec16b1d94248fbb589ec678e7b8cc1"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://cbplugin.upskillr.ai/.well-known/openapi.yml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://cbplugin.upskillr.ai/.well-known/logo.svg",
+  "legal_info_url": "https://www.upskillr.ai/terms-of-service/",
+  "contact_email": "contact@upskillr.ai"
+}

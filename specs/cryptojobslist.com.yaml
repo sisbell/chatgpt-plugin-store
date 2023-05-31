@@ -1,0 +1,172 @@
+openapi: 3.0.1
+info:
+  title: Crypto Jobs List
+  description: Find jobs and talent profiles in Crypto, Blockchain and Web3 industries.
+  version: 'v1'
+servers:
+  - url: https://api.cryptojobslist.com
+paths:
+  /openai/find-jobs?tags={tags}&location={location}:
+    get:
+      operationId: getJobs
+      summary: Get the list of web3/crypto related jobs
+      parameters:
+        - name: tags
+          in: path
+          schema:
+            type: string
+          description: A category/keyword that fits the description for the job
+          required: true
+        - name: location
+          in: path
+          schema:
+            type: string
+          description: Location where the job is located
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getJobsResponse'
+        '404':
+          description: No jobs were found based on the parameters provided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description:
+                      The server error response message about jobs not being found.
+  /openai/find-talents?q={q}&location={location}:
+    get:
+      operationId: getTalents
+      summary: Get potential web3/crypto talents
+      parameters:
+        - name: q
+          in: path
+          schema:
+            type: string
+          description: A category/keyword that fits the description of the talent
+          required: true
+        - name: location
+          in: path
+          schema:
+            type: string
+          description: Location where the talent is located
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTalentsResponse'
+        '404':
+          description: No talents were found based on the parameters provided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description:
+                      The server error response message about talents not being found.
+components:
+  schemas:
+    getJobsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: The list of jobs.
+          items:
+            $ref: '#/components/schemas/Job'
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the job
+        seoSlug:
+          type: string
+          description:
+            The slug used by the job for generating links. Example would be
+            https://cryptojobslist.com/jobs/${job.seoSlug}
+        jobTitle:
+          type: string
+          description: Job title
+        jobDescription:
+          type: string
+          description: Job description
+        jobLocation:
+          type: string
+          description: Job location
+        salary:
+          type: object
+          properties:
+            currency:
+              type: string
+              description: The currency of the salary
+            unitText:
+              type: string
+              description:
+                one of MONTH, HOUR, or YEAR. It identifies whether the provided salary
+                value is monthly, hourly, or yearly respectively
+            minValue:
+              type: string
+              description: The salary minimum value
+            maxValue:
+              type: string
+              description: The salary maximum value
+        tags:
+          type: array
+          items:
+            type: string
+            description: Category/tag associated with the job
+          description: List of tags/category associated with the job
+        companyName:
+          type: string
+          description: The company name of the job
+    getTalentsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: The list of talents
+          items:
+            $ref: '#/components/schemas/Talent'
+    Talent:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Talent ID
+        location:
+          type: string
+          description: Talent location
+        headline:
+          type: string
+          description: Talent headline or short description
+        specialities:
+          type: string
+          description: Talent specialities/skills. Comma delimited
+        jobExpectations:
+          type: string
+          description: Talent short summary about his/her skill and job expectations
+        salaryExpectations:
+          type: string
+          description: Talent salary expectations
+        slug:
+          type: string
+          description: Talent url slug.
+        username:
+          type: string
+          description: Talent username
+        url:
+          type: string
+          description: Talent profile URL

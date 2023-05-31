@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Man of Many",
+  "name_for_model": "Man_of_Many",
+  "description_for_human": "Discover the latest in products, culture and style from Man of Many. Ask for the latest news and headlines.",
+  "description_for_model": "Discover the latest in products, culture and style from Man of Many. Ask for the latest news and headlines. Can be used for gift ideas if you search for example for 'gift for men', for fashion, suit stores and trends, haircuts, technology like laptops and smartphones, cars, watches, drinks, and more.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://manofmany.worldnews.direct/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://manofmany.worldnews.direct/logo.jpeg",
+  "contact_email": "contact@manofmany.com",
+  "legal_info_url": "http://manofmany.worldnews.direct/legal.html"
+}

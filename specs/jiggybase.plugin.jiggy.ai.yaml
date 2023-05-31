@@ -195,8 +195,8 @@
         'collection_name':
           'title': 'Collection Name'
           'type': 'string'
-          'description': 'The name of the specific user collection to search. Only
-            optional if the user has a single collection.'
+          'description': 'The name of the specific user collection to search. Optional
+            iff the user has a single collection.'
         'top_k':
           'title': 'Top K'
           'type': 'integer'
@@ -237,7 +237,6 @@
         'collection_name':
           'title': 'Collection Name'
           'type': 'string'
-          'description': 'The name of the collection used to search.'
         'query':
           'title': 'Query'
           'type': 'string'

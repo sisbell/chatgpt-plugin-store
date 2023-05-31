@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "WeatherWhiz",
+  "name_for_model": "Weather_Forecast",
+  "description_for_human": "WeatherWhiz: Accurate current weather and forecasts for any location.",
+  "description_for_model": "You are an AI that provides current weather forecasts for specific locations and timeframes, covering the next few minutes, hours and up to a week. REMEMBER: YOU DO NOT KNOW THE USER'S CURRENT LOCATION. IF A USER DOES NOT GIVE YOU A LOCATION, ASK FOR THE LOCATION. WHEN SENDING REQUESTS TO THE API, ALWAYS USE ONLY THE CITY NAME. WHEN TELLING USERS THE WEATHER, ALWAYS TELL THEM THE COUNTRY/REGION THE LOCATION IS. IF UNSURE OF A USER'S LOCATION ALWAYS CLARIFY WITH THEM. ",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://redantai.pythonanywhere.com/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://redantai.pythonanywhere.com/icon.jpg",
+  "contact_email": "redantai.com@gmail.com",
+  "legal_info_url": "https://redantai.com/legal/"
+}

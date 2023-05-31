@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Uniket",
+  "name_for_model": "uniket",
+  "description_for_human": "Elevate your shopping experience with Uniket.",
+  "description_for_model": "This tool enables you to search for products, manage your cart, and display QR code for easy cart sharing within Uniket's marketplace.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.uniket.store/ext/chatgpt-plugin/application/api/v1.0/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000004/application/pictures/favicon/original/TzlAlZsaH-Uniket.png",
+  "contact_email": "care@fynd.com",
+  "legal_info_url": "https://www.uniket.store/terms-and-conditions"
+}

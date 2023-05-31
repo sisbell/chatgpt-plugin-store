@@ -1,0 +1,164 @@
+openapi: 3.0.1
+info:
+  title: WP Interact
+  version: 1.0.0
+servers:
+  - url: https://www.wpinteract.com
+paths:
+  /posts:
+    get:
+      operationId: getPosts
+      parameters:
+        - name: domain
+          in: query
+          description: The domain to filter blog posts by. This could be a main domain or a subdomain.
+          example: 'domain-name.com or subdomain.domain.com'
+          required: true
+          schema:
+            type: string
+        - name: slug
+          in: query
+          description: The slug (the last part of the URL) of a specific post to fetch.
+          example: 'my-awesome-post' 
+          required: false
+          schema:
+            type: string
+        - name: per_page
+          in: query
+          description: The number of blog posts to return per page. Display 10 posts by default or 1 post if a slug is provided.
+          required: true
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: page
+          in: query
+          description: The page number to retrieve. 
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: excerpt
+          in: query
+          description: Whether to get the excerpt of a post only after the plugin returns a message indicating the post content is too long.
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Successful retrieval of blog posts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BlogPost'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Failed to fetch posts
+  /search:
+    get:
+      operationId: searchPosts
+      parameters:
+        - name: domain
+          in: query
+          description: The domain to filter search results by. This could be a main domain or a subdomain.
+          example: 'domain-name.com or subdomain.domain.com'
+          required: true
+          schema:
+            type: string
+        - name: search
+          in: query
+          description: The search term to filter search results by. 
+          required: true
+          schema:
+            type: string
+        - name: per_page
+          in: query
+          description: The number of search results to return per page. The default setting is 10 posts, but this can be increased if a larger number of posts is requested.
+          required: true
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: page
+          in: query
+          description: The page number to retrieve.
+          required: true
+          schema:
+            type: integer
+            format: int32
+            default: 1
+      responses:
+        '200':
+          description: Successful retrieval of search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Failed to search posts
+components:
+  schemas:
+    BlogPost:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: object
+          properties:
+            rendered:
+              type: string
+        slug:
+          type: string
+        link:
+          type: string 
+        date:
+          type: string
+          format: date-time
+        content:
+          type: object
+          properties:
+            rendered:
+              type: string
+        excerpt:
+          type: object
+          properties:
+            rendered:
+              type: string                    
+    SearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+        link:
+          type: string
+        title:
+          type: string
+        url:
+          type: string   

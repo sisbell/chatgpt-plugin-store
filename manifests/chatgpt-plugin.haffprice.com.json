@@ -1,0 +1,21 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "HaffPrice",
+  "name_for_model": "HaffPrice",
+  "description_for_human": "Shopping all kinds of products with the lowest price in the market.",
+  "description_for_model": "Access, search and recommend products by both text and image in the haffprice.com.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "6729047b006744cdb7775711d6757db1"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatgpt-plugin.haffprice.com//schema/openai.json"
+  },
+  "logo_url": "https://www.haffprice.com/favicon.png",
+  "contact_email": "service@haffprice.com",
+  "legal_info_url": "https://www.haffprice.com/US/en/doc/legal"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ThemeParkHipster",
+  "name_for_model": "themeparkhipster",
+  "description_for_human": "Find theme park waiting times around the world.",
+  "description_for_model": "Find theme park waiting times around the world.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin.themeparkhipster.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://plugin.themeparkhipster.com/logo.png",
+  "contact_email": "themeparkhipster@gmail.com",
+  "legal_info_url": "https://www.themeparkhipster.com/terms-and-privacy/"
+}

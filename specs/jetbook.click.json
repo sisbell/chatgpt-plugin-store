@@ -1,0 +1,225 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "JetBook.click",
+    "version": "1.0.0",
+    "description": "Your ultimate travel companion: search for and book flights at the best prices, and receive assistance regarding your destination. The API endpoints support the following locals : ae, ag, ar, at, au, be, bg, bh, br, by, ca, ca-fr, ch, cl, cn, co, ct, cz, da, de, dk, ec, ee, el, en, es, fi, fr, gb, gr, hk, hr, hu, id, ie, il, in, is, it, ja, jo, jp, ko, kr, kw, kz, lt, mx, my, nl, no, nz, om, pe, ph, pl, pt, qa, ro, rs, ru, sa, se, sg, sk, sr, sv, th, tr, tw, ua, uk, us, vn, za"
+  },
+  "servers": [
+    {
+      "url": "https://jetbook.click"
+    }
+  ],
+  "paths": {
+    "/flightSearch": {
+      "post": {
+        "summary": "Use this endpoint to search for flights and provide booking options",
+        "operationId": "flightSearch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "from_location": {
+                    "type": "string",
+                    "description": "",
+                    "example": "Paris"
+                  },
+                  "to_location": {
+                    "type": "string",
+                    "description": "",
+                    "example": "Marrakech"
+                  },
+                  "date_from": {
+                    "type": "string",
+                    "description": "Search flights from this date. format DD/MM/YYYY. If the user explicitely specified a departure date, use it for both date_from and date_to",
+                    "example": "02/01/2024"
+                  },
+                  "date_to": {
+                    "type": "string",
+                    "description": "Search flights to this date. format DD/MM/YYYY. If the user does not specify, set a max different of 3 days between date_from and date_to",
+                    "example": "02/01/2024"
+                  },
+                  "return_date_from": {
+                    "type": "string",
+                    "description": "min return date of the whole trip (dd/mm/yyyy), if not specified the flight is considered one way",
+                    "example": "30/01/2024"
+                  },
+                  "return_date_to": {
+                    "type": "string",
+                    "description": "max return date of the whole trip (dd/mm/yyyy), if not specified the flight is considered one way",
+                    "example": "30/01/2024"
+                  },
+                  "adults": {
+                    "type": "integer",
+                    "description": "Number of adults",
+                    "example": "2"
+                  },
+                  "children": {
+                    "type": "integer",
+                    "description": "Number of children",
+                    "example": "1"
+                  },
+                  "infant": {
+                    "type": "integer",
+                    "description": "Number of infants",
+                    "example": "1"
+                  },
+                  "adult_hold_bag": {
+                    "type": "string",
+                    "description": "coma separated Number of adult hold bags, if the number of adults is 2 and the number of adult hold bags is \"1,0\" the first adult will have 1 hold bag and the second adult will have 0 hold bags",
+                    "example": "1,1"
+                  },
+                  "child_hold_bag": {
+                    "type": "integer",
+                    "description": "coma separated Number of children hold bags, if the number of children is 2 and the number of children hold bags is \"1,0\" the first child will have 1 hold bag and the second child will have 0 hold bags",
+                    "example": "1"
+                  },
+                  "stopovers": {
+                    "type": "integer",
+                    "description": "max number of stopovers, prefer non stop flights by default, if now direct flight is found, ask the user if he wants to include stopovers",
+                    "example": "0"
+                  },
+                  "locale": {
+                    "type": "string",
+                    "description": "2 characters locale code of the user, used to display the results in the correct language. do not ask the user for this information, guess it from his request.",
+                    "example": "fr"
+                  },
+                  "max_results": {
+                    "type": "integer",
+                    "description": "Maximum results to show",
+                    "example": "10"
+                  }
+                },
+                "required": [
+                  "from_location",
+                  "to_location",
+                  "date",
+                  "stopovers",
+                  "locale"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countryInfo": {
+      "post": {
+        "summary": "Provides general information about a country. administrative procedures, risk warnings, insurance, and other general information about the departure and arrival countries.",
+        "operationId": "countryInfo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "departure_country": {
+                    "type": "string",
+                    "description": "Departure country, this is used to check if there are any specific administrative for the departure country residents.",
+                    "example": "France"
+                  },
+                  "arrival_country": {
+                    "type": "string",
+                    "description": "Arrival country",
+                    "example": "Morocco"
+                  }
+                },
+                "required": [
+                  "arrival_country"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/d/about": {
+      "post": {
+        "summary": "Provides information about JetBook.click, including contact information and legal information",
+        "operationId": "about",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catchall": {
+      "post": {
+        "summary": "Any request that you think should be handled by JetBook.click but you can't find a valid endpoint for it",
+        "operationId": "catchall",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "the user question in less than 100 words"
+                  }
+                },
+                "required": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

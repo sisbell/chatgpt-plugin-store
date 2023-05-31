@@ -1,0 +1,953 @@
+openapi: 3.0.1
+info:
+  title: Clinical Trial Radar
+  description: >-
+    Discover current info on global clinical trials, organizations, diseases,
+    and biomarkers from public & private studies.
+  version: v1
+servers:
+  - url: 'https://trialradar2.marketflare.repl.co'
+paths:
+  /study_fields:
+    get:
+      operationId: getStudyFields
+      summary: Get clinical trial study fields
+      parameters:
+        - name: expr
+          in: query
+          description: The search expression for the clinical trials. Only use fields defined in StudyField for constructing the search expression. Use keywords to help users find studies in the database. Use NLMs Medical Subject Heading (MeSH)-controlled vocabulary terms where appropriate. Be as specific and precise as possible. Avoid acronyms and abbreviations. Query response includes; Expression (query or search expression), NStudiesAvail (total records available), NStudiesFound (number of studies found that satisfy the search expression), MinRank, MaxRank, Warning, FieldList (requested fields)
+          required: true
+          schema:
+            type: string
+        - name: min_rnk
+          in: query
+          description: Minimum Rank sets the lower limit on the range of study records used to return results. If absent, defaults to 1.
+          required: false
+          schema:
+            type: number
+        - name: max_rnk
+          in: query
+          description: Maximum Rank sets the upper limit on the range of study records used to return results. If absent, defaults to 20.
+          required: false
+          schema:
+            type: number            
+        - name: fields
+          in: query
+          description: The specific fields to include in the response
+          required: false
+          schema:
+            type: string
+        - name: field
+          in: query
+          description: Specifies which field to collect values for in a Field Values query. A complete list of fields is provided by the StudyFields schema. An area must be specified to get FieldTexts; there is no default. Select the study field by setting the field parameter to a field name (e.g., field=Condition).
+          required: false
+          schema:
+            type: string            
+        - name: fmt
+          in: query
+          description: The response format (json). Always use json.
+          required: true
+          schema:
+            type: string
+            enum:
+              - json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudyFieldsResponse'
+        '400':
+          description: Bad Request.
+        '500':
+          description: An exception occurred at the backend.
+        '502':
+          description: An exception occurred at the backend.
+components:
+  schemas:
+    StudyFieldsResponse:
+      type: object
+      properties:
+        total_count:
+          type: integer
+        study_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudyField'
+    AREAOperations:
+      type: object
+      properties:
+        study_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchAreas'
+    StudyField:
+      type: object
+      properties:
+        Acronym:
+          type: string
+          description: An acronym or abbreviation used publicly to identify the clinical study, if any.
+        AgreementOtherDetails:
+          type: string
+        AgreementPISponsorEmployee:
+          type: string
+        AgreementRestrictionType:
+          type: string
+        AgreementRestrictiveAgreement:
+          type: string
+        ArmGroupDescription:
+          type: string
+        ArmGroupInterventionName:
+          type: string
+        ArmGroupLabel:
+          type: string
+        ArmGroupType:
+          type: string
+        AvailIPDComment:
+          type: string
+        AvailIPDId:
+          type: string
+        AvailIPDType:
+          type: string
+        AvailIPDURL:
+          type: string
+        BaselineCategoryTitle:
+          type: string
+        BaselineClassDenomCountGroupId:
+          type: string
+        BaselineClassDenomCountValue:
+          type: number
+        BaselineClassDenomUnits:
+          type: string
+        BaselineClassTitle:
+          type: string
+        BaselineDenomCountGroupId:
+          type: string
+        BaselineDenomCountValue:
+          type: number
+        BaselineDenomUnits:
+          type: string
+        BaselineGroupDescription:
+          type: string
+        BaselineGroupId:
+          type: string
+        BaselineGroupTitle:
+          type: string
+        BaselineMeasureCalculatePct:
+          type: string
+        BaselineMeasureDenomCountGroupId:
+          type: string
+        BaselineMeasureDenomCountValue:
+          type: number
+        BaselineMeasureDenomUnits:
+          type: string
+        BaselineMeasureDenomUnitsSelected:
+          type: string
+        BaselineMeasureDescription:
+          type: string
+        BaselineMeasureDispersionType:
+          type: string
+        BaselineMeasureParamType:
+          type: string
+        BaselineMeasurePopulationDescription:
+          type: string
+        BaselineMeasureTitle:
+          type: string
+        BaselineMeasureUnitOfMeasure:
+          type: string
+        BaselineMeasurementComment:
+          type: string
+        BaselineMeasurementGroupId:
+          type: string
+        BaselineMeasurementLowerLimit:
+          type: string
+        BaselineMeasurementSpread:
+          type: string
+        BaselineMeasurementUpperLimit:
+          type: string
+        BaselineMeasurementValue:
+          type: string
+        BaselinePopulationDescription:
+          type: string
+        BaselineTypeUnitsAnalyzed:
+          type: string
+        BioSpecDescription:
+          type: string
+        BioSpecRetention:
+          type: string
+        BriefSummary:
+          type: string
+        BriefTitle:
+          type: string
+          description: A short title of the clinical study written in language intended for the lay public. The title should include, where possible, information on the participants, condition being evaluated, and intervention(s) studied.
+        CentralContactEMail:
+          type: string
+        CentralContactName:
+          type: string
+        CentralContactPhone:
+          type: string
+        CentralContactPhoneExt:
+          type: string
+        CentralContactRole:
+          type: string
+        CollaboratorClass:
+          type: string
+        CollaboratorName:
+          type: string
+        CompletionDate:
+          type: date
+        CompletionDateType:
+          type: string
+        Condition:
+          type: string
+        ConditionAncestorId:
+          type: string
+        ConditionAncestorTerm:
+          type: string
+        ConditionBrowseBranchAbbrev:
+          type: string
+        ConditionBrowseBranchName:
+          type: string
+        ConditionBrowseLeafAsFound:
+          type: string
+        ConditionBrowseLeafId:
+          type: string
+        ConditionBrowseLeafName:
+          type: string
+        ConditionBrowseLeafRelevance:
+          type: string
+        ConditionMeshId:
+          type: string
+        ConditionMeshTerm:
+          type: string
+        DelayedPosting:
+          type: string
+        DesignAllocation:
+          type: string
+        DesignInterventionModel:
+          type: string
+        DesignInterventionModelDescription:
+          type: string
+        DesignMasking:
+          type: string
+        DesignMaskingDescription:
+          type: string
+        DesignObservationalModel:
+          type: string
+        DesignPrimaryPurpose:
+          type: string
+        DesignTimePerspective:
+          type: string
+        DesignWhoMasked:
+          type: string
+        DetailedDescription:
+          type: string
+          description: Eescription of the protocol, including more technical information (as compared to the Brief Summary)
+        DispFirstPostDate:
+          type: date
+        DispFirstPostDateType:
+          type: string
+        DispFirstSubmitDate:
+          type: date
+        DispFirstSubmitQCDate:
+          type: date
+        EligibilityCriteria:
+          type: string
+        EnrollmentCount:
+          type: number
+        EnrollmentType:
+          type: string
+        EventGroupDeathsNumAffected:
+          type: string
+        EventGroupDeathsNumAtRisk:
+          type: string
+        EventGroupDescription:
+          type: string
+        EventGroupId:
+          type: string
+        EventGroupOtherNumAffected:
+          type: string
+        EventGroupOtherNumAtRisk:
+          type: string
+        EventGroupSeriousNumAffected:
+          type: string
+        EventGroupSeriousNumAtRisk:
+          type: string
+        EventGroupTitle:
+          type: string
+        EventsDescription:
+          type: string
+        EventsFrequencyThreshold:
+          type: number
+        EventsTimeFrame:
+          type: string
+        ExpAccTypeIndividual:
+          type: string
+        ExpAccTypeIntermediate:
+          type: string
+        ExpAccTypeTreatment:
+          type: string
+        ExpandedAccessNCTId:
+          type: string
+        ExpandedAccessStatusForNCTId:
+          type: string
+        FDAAA801Violation:
+          type: string
+        FlowAchievementComment:
+          type: string
+        FlowAchievementGroupId:
+          type: string
+        FlowAchievementNumSubjects:
+          type: number
+        FlowAchievementNumUnits:
+          type: number
+        FlowDropWithdrawComment:
+          type: string
+        FlowDropWithdrawType:
+          type: string
+        FlowGroupDescription:
+          type: string
+        FlowGroupId:
+          type: string
+        FlowGroupTitle:
+          type: string
+        FlowMilestoneComment:
+          type: string
+        FlowMilestoneType:
+          type: string
+        FlowPeriodTitle:
+          type: string
+        FlowPreAssignmentDetails:
+          type: string
+        FlowReasonComment:
+          type: string
+        FlowReasonGroupId:
+          type: string
+        FlowReasonNumSubjects:
+          type: number
+        FlowReasonNumUnits:
+          type: number
+        FlowRecruitmentDetails:
+          type: string
+        FlowTypeUnitsAnalyzed:
+          type: string
+        Gender:
+          type: string
+        GenderBased:
+          type: string
+        GenderDescription:
+          type: string
+        HasExpandedAccess:
+          type: string
+        HealthyVolunteers:
+          type: string
+        IPDSharing:
+          type: string
+        IPDSharingAccessCriteria:
+          type: string
+        IPDSharingDescription:
+          type: string
+        IPDSharingInfoType:
+          type: string
+        IPDSharingTimeFrame:
+          type: string
+        IPDSharingURL:
+          type: string
+        InterventionAncestorId:
+          type: string
+        InterventionAncestorTerm:
+          type: string
+        InterventionArmGroupLabel:
+          type: string
+        InterventionBrowseBranchAbbrev:
+          type: string
+        InterventionBrowseBranchName:
+          type: string
+        InterventionBrowseLeafAsFound:
+          type: string
+        InterventionBrowseLeafId:
+          type: string
+        InterventionBrowseLeafName:
+          type: string
+        InterventionBrowseLeafRelevance:
+          type: string
+        InterventionDescription:
+          type: string
+        InterventionMeshId:
+          type: string
+        InterventionMeshTerm:
+          type: string
+        InterventionName:
+          type: string
+        InterventionOtherName:
+          type: string
+        InterventionType:
+          type: string
+        IsFDARegulatedDevice:
+          type: string
+        IsFDARegulatedDrug:
+          type: string
+        IsPPSD:
+          type: string
+        IsUSExport:
+          type: string
+        IsUnapprovedDevice:
+          type: string
+        Keyword:
+          type: string
+        LargeDocDate:
+          type: date
+        LargeDocFilename:
+          type: string
+        LargeDocHasICF:
+          type: string
+        LargeDocHasProtocol:
+          type: string
+        LargeDocHasSAP:
+          type: string
+        LargeDocLabel:
+          type: string
+        LargeDocTypeAbbrev:
+          type: string
+        LargeDocUploadDate:
+          type: date
+        LastKnownStatus:
+          type: string
+        LastUpdatePostDate:
+          type: date
+        LastUpdatePostDateType:
+          type: string
+        LastUpdateSubmitDate:
+          type: date
+        LeadSponsorClass:
+          type: string
+        LeadSponsorName:
+          type: string
+        LimitationsAndCaveatsDescription:
+          type: string
+        LocationCity:
+          type: string
+        LocationContactEMail:
+          type: string
+        LocationContactName:
+          type: string
+        LocationContactPhone:
+          type: string
+        LocationContactPhoneExt:
+          type: string
+        LocationContactRole:
+          type: string
+        LocationCountry:
+          type: string
+        LocationFacility:
+          type: string
+        LocationState:
+          type: string
+        LocationStatus:
+          type: string
+        LocationZip:
+          type: string
+        MaximumAge:
+          type: number
+        MinimumAge:
+          type: number
+        NCTId:
+          type: string
+        NCTIdAlias:
+          type: string
+        OfficialTitle:
+          type: string
+          definition: The title of the clinical study, corresponding to the title of the protocol.
+        OrgClass:
+          type: string
+        OrgFullName:
+          type: string
+        OrgStudyId:
+          type: string
+        OrgStudyIdDomain:
+          type: string
+        OrgStudyIdLink:
+          type: string
+        OrgStudyIdType:
+          type: string
+        OtherEventAssessmentType:
+          type: string
+        OtherEventNotes:
+          type: string
+        OtherEventOrganSystem:
+          type: string
+        OtherEventSourceVocabulary:
+          type: string
+        OtherEventStatsGroupId:
+          type: string
+        OtherEventStatsNumAffected:
+          type: string
+        OtherEventStatsNumAtRisk:
+          type: string
+        OtherEventStatsNumEvents:
+          type: string
+        OtherEventTerm:
+          type: string
+        OtherOutcomeDescription:
+          type: string
+        OtherOutcomeMeasure:
+          type: string
+        OtherOutcomeTimeFrame:
+          type: string
+        OutcomeAnalysisCILowerLimit:
+          type: string
+        OutcomeAnalysisCILowerLimitComment:
+          type: string
+        OutcomeAnalysisCINumSides:
+          type: string
+        OutcomeAnalysisCIPctValue:
+          type: string
+        OutcomeAnalysisCIUpperLimit:
+          type: string
+        OutcomeAnalysisCIUpperLimitComment:
+          type: string
+        OutcomeAnalysisDispersionType:
+          type: string
+        OutcomeAnalysisDispersionValue:
+          type: string
+        OutcomeAnalysisEstimateComment:
+          type: string
+        OutcomeAnalysisGroupDescription:
+          type: string
+        OutcomeAnalysisGroupId:
+          type: string
+        OutcomeAnalysisNonInferiorityComment:
+          type: string
+        OutcomeAnalysisNonInferiorityType:
+          type: string
+        OutcomeAnalysisOtherAnalysisDescription:
+          type: string
+        OutcomeAnalysisPValue:
+          type: string
+        OutcomeAnalysisPValueComment:
+          type: string
+        OutcomeAnalysisParamType:
+          type: string
+        OutcomeAnalysisParamValue:
+          type: string
+        OutcomeAnalysisStatisticalComment:
+          type: string
+        OutcomeAnalysisStatisticalMethod:
+          type: string
+        OutcomeAnalysisTestedNonInferiority:
+          type: string
+        OutcomeCategoryTitle:
+          type: string
+        OutcomeClassDenomCountGroupId:
+          type: string
+        OutcomeClassDenomCountValue:
+          type: number
+        OutcomeClassDenomUnits:
+          type: string
+        OutcomeClassTitle:
+          type: string
+        OutcomeDenomCountGroupId:
+          type: string
+        OutcomeDenomCountValue:
+          type: number
+        OutcomeDenomUnits:
+          type: string
+        OutcomeGroupDescription:
+          type: string
+        OutcomeGroupId:
+          type: string
+        OutcomeGroupTitle:
+          type: string
+        OutcomeMeasureAnticipatedPostingDate:
+          type: date
+        OutcomeMeasureCalculatePct:
+          type: string
+        OutcomeMeasureDenomUnitsSelected:
+          type: string
+        OutcomeMeasureDescription:
+          type: string
+        OutcomeMeasureDispersionType:
+          type: string
+        OutcomeMeasureParamType:
+          type: string
+        OutcomeMeasurePopulationDescription:
+          type: string
+        OutcomeMeasureReportingStatus:
+          type: string
+        OutcomeMeasureTimeFrame:
+          type: string
+        OutcomeMeasureTitle:
+          type: string
+        OutcomeMeasureType:
+          type: string
+        OutcomeMeasureTypeUnitsAnalyzed:
+          type: string
+        OutcomeMeasureUnitOfMeasure:
+          type: string
+        OutcomeMeasurementComment:
+          type: string
+        OutcomeMeasurementGroupId:
+          type: string
+        OutcomeMeasurementLowerLimit:
+          type: string
+        OutcomeMeasurementSpread:
+          type: string
+        OutcomeMeasurementUpperLimit:
+          type: string
+        OutcomeMeasurementValue:
+          type: string
+        OverallOfficialAffiliation:
+          type: string
+        OverallOfficialName:
+          type: string
+        OverallOfficialRole:
+          type: string
+        OverallStatus:
+          type: string
+        OversightHasDMC:
+          type: string
+        PatientRegistry:
+          type: string
+        Phase:
+          type: string
+        PointOfContactEMail:
+          type: string
+        PointOfContactOrganization:
+          type: string
+        PointOfContactPhone:
+          type: string
+        PointOfContactPhoneExt:
+          type: string
+        PointOfContactTitle:
+          type: string
+        PrimaryCompletionDate:
+          type: date
+        PrimaryCompletionDateType:
+          type: string
+        PrimaryOutcomeDescription:
+          type: string
+        PrimaryOutcomeMeasure:
+          type: string
+        PrimaryOutcomeTimeFrame:
+          type: string
+        ReferenceCitation:
+          type: string
+        ReferencePMID:
+          type: string
+        ReferenceType:
+          type: string
+        RemovedCountry:
+          type: string
+        ResponsiblePartyInvestigatorAffiliation:
+          type: string
+        ResponsiblePartyInvestigatorFullName:
+          type: string
+        ResponsiblePartyInvestigatorTitle:
+          type: string
+        ResponsiblePartyOldNameTitle:
+          type: string
+        ResponsiblePartyOldOrganization:
+          type: string
+        ResponsiblePartyType:
+          type: string
+        ResultsFirstPostDate:
+          type: date
+        ResultsFirstPostDateType:
+          type: string
+        ResultsFirstPostedQCCommentsDate:
+          type: date
+        ResultsFirstPostedQCCommentsDateType:
+          type: string
+        ResultsFirstSubmitDate:
+          type: date
+        ResultsFirstSubmitQCDate:
+          type: date
+        RetractionPMID:
+          type: string
+        RetractionSource:
+          type: string
+        SamplingMethod:
+          type: string
+        SecondaryId:
+          type: string
+        SecondaryIdDomain:
+          type: string
+        SecondaryIdLink:
+          type: string
+        SecondaryIdType:
+          type: string
+        SecondaryOutcomeDescription:
+          type: string
+        SecondaryOutcomeMeasure:
+          type: string
+        SecondaryOutcomeTimeFrame:
+          type: string
+        SeeAlsoLinkLabel:
+          type: string
+        SeeAlsoLinkURL:
+          type: string
+        SeriousEventAssessmentType:
+          type: string
+        SeriousEventNotes:
+          type: string
+        SeriousEventOrganSystem:
+          type: string
+        SeriousEventSourceVocabulary:
+          type: string
+        SeriousEventStatsGroupId:
+          type: string
+        SeriousEventStatsNumAffected:
+          type: string
+        SeriousEventStatsNumAtRisk:
+          type: string
+        SeriousEventStatsNumEvents:
+          type: string
+        SeriousEventTerm:
+          type: string
+        StartDate:
+          type: date
+        StartDateType:
+          type: string
+        StatusVerifiedDate:
+          type: date
+        StdAge:
+          type: string
+        StudyFirstPostDate:
+          type: date
+        StudyFirstPostDateType:
+          type: string
+        StudyFirstSubmitDate:
+          type: date
+        StudyFirstSubmitQCDate:
+          type: date
+        StudyPopulation:
+          type: string
+        StudyType:
+          type: string
+        SubmissionMCPReleaseN:
+          type: number
+        SubmissionReleaseDate:
+          type: date
+        SubmissionResetDate:
+          type: date
+        SubmissionUnreleaseDate:
+          type: date
+        TargetDuration:
+          type: number
+        UnpostedEventDate:
+          type: date
+        UnpostedEventType:
+          type: string
+        UnpostedResponsibleParty:
+          type: string
+        VersionHolder:
+          type: date
+        WhyStopped:
+          type: string
+    SearchAreas:
+      type: object
+      description: >-
+        These are the search areas that can be used with the AREA operation in the search expression.
+        A search area can be a group of related fields or any specific field from the StudyFields.
+        E.g. AREA[BasicSearch]PLK4 will search many fields for trials related to PLK4.
+      properties:
+        BasicSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - NCTId
+              - Acronym
+              - BriefTitle
+              - OfficialTitle
+              - Condition
+              - HealthyVolunteers
+              - InterventionName
+              - InterventionOtherName
+              - InterventionDescription
+              - InterventionType
+              - ArmGroupLabel
+              - ArmGroupDescription
+              - ArmGroupType
+              - PrimaryOutcomeMeasure
+              - PrimaryOutcomeDescription
+              - SecondaryOutcomeMeasure
+              - SecondaryOutcomeDescription
+              - OtherOutcomeMeasure
+              - OtherOutcomeDescription
+              - OutcomeMeasureTitle
+              - OutcomeMeasureDescription
+              - Phase
+              - StdAge
+              - BriefSummary
+              - Keyword
+              - LeadSponsorName
+              - OrgStudyId
+              - SecondaryId
+              - NCTIdAlias
+              - LocationFacility
+              - LocationStatus
+              - LocationState
+              - LocationCountry
+              - LocationCity
+              - BioSpecDescription
+              - ResponsiblePartyInvestigatorFullName
+              - ResponsiblePartyInvestigatorTitle
+              - ResponsiblePartyInvestigatorAffiliation
+              - ResponsiblePartyOldNameTitle
+              - ResponsiblePartyOldOrganization
+              - OverallOfficialAffiliation
+              - OverallOfficialRole
+              - OverallOfficialName
+              - CentralContactName
+              - DesignAllocation
+              - DesignInterventionModel
+              - DesignMasking
+              - DesignWhoMasked
+              - DesignObservationalModel
+              - DesignPrimaryPurpose
+              - DesignTimePerspective
+              - StudyType
+              - ConditionMeshTerm
+              - InterventionMeshTerm
+              - ConditionAncestorTerm
+              - InterventionAncestorTerm
+              - CollaboratorName
+              - LocationContactName
+        ConditionSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - Condition
+              - BriefTitle
+              - OfficialTitle
+              - ConditionMeshTerm
+              - ConditionAncestorTerm
+              - Keyword
+              - NCTId
+        InterventionSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - InterventionName
+              - InterventionType
+              - ArmGroupType
+              - InterventionOtherName
+              - BriefTitle
+              - OfficialTitle
+              - ArmGroupLabel
+              - InterventionMeshTerm
+              - InterventionAncestorTerm
+              - Keyword
+              - InterventionDescription
+              - ArmGroupDescription
+        OutcomeSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - PrimaryOutcomeMeasure
+              - PrimaryOutcomeDescription
+              - SecondaryOutcomeMeasure
+              - SecondaryOutcomeDescription
+              - OtherOutcomeMeasure
+              - OtherOutcomeDescription
+              - OutcomeMeasureTitle
+              - OutcomeMeasureDescription
+              - OutcomeMeasurePopulationDescription
+        TitleSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - Acronym
+              - BriefTitle
+              - OfficialTitle
+        LocationSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - LocationCity
+              - LocationState
+              - LocationCountry
+              - LocationZip
+              - LocationFacility
+        NCTIdSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - NCTId
+              - NCTIdAlias
+        IdSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - NCTId
+              - NCTIdAlias
+              - Acronym
+              - OrgStudyId
+              - SecondaryId
+        SponsorSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - LeadSponsorName
+              - CollaboratorName
+              - OrgFullName
+        FunderTypeSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - LeadSponsorClass
+              - CollaboratorClass
+        ResponsiblePartySearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - ResponsiblePartyInvestigatorFullName
+              - ResponsiblePartyOldNameTitle
+              - ResponsiblePartyInvestigatorAffiliation
+              - ResponsiblePartyOldOrganization
+              - ResponsiblePartyInvestigatorTitle
+        LocationBasicSearch:
+          type: array
+          items:
+            type: string
+            enum:
+              - LocationCountry
+              - LocationState
+              - LocationCity
+              - LocationFacility
+              - LocationStatus
+              - LocationZip
+          LocationCity:
+            type: string
+          LocationContactEMail:
+            type: string
+          LocationContactName:
+            type: string
+          LocationContactPhone:
+            type: string
+          LocationContactPhoneExt:
+            type: string
+          LocationContactRole:
+            type: string
+          LocationCountry:
+            type: string
+          LocationFacility:
+            type: string
+          LocationState:
+            type: string
+          LocationStatus:
+            type: string
+          LocationZip:
+            type: string

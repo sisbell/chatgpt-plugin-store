@@ -1,0 +1,73 @@
+openapi: 3.0.2
+info:
+  title: arXiv publications Plugin
+  description: A plugin to query about information in arXiv publications.
+  version: 0.1.0
+  servers:
+    - url: https://arxivchat-wotoomagva-lm.a.run.app
+      description: Production server
+paths:
+  "/api/v1/ask":
+    post:
+      summary: Query about arXiv publications
+      description: Query about arXiv publications
+      operationId: ask_api_v1_ask_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Query"
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            "$ref": "#/components/schemas/ValidationError"
+    Query:
+      title: Query
+      required:
+      - question
+      type: object
+      properties:
+        question:
+          title: Question
+          type: string
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

@@ -1,0 +1,36 @@
+openapi: 3.0.1
+info:
+  title: CT Criteria Parser
+  description: The Clinical Trial Criteria Parser meticulously extracts and analyzes eligibility criteria from clinical trial records sourced from ClinicalTrials.gov. This application identifies and categorizes key medical terms and patient demographics from the inclusion and exclusion criteria. This aids in providing a clear, concise, and structured overview of the trial's participant requirements, facilitating easier understanding and navigation of clinical trial eligibility. An example input could be "nctid NCT05859269".
+  version: "v1"
+servers:
+  - url: https://ctcp.japaneast.cloudapp.azure.com
+paths:
+  /trial/{trialID}:
+    get:
+      operationId: getTrial
+      summary: Get eligibility criteria from clinical trial
+      parameters:
+        - in: path
+          name: trialID
+          schema:
+            type: string
+          required: true
+          description: NCT ID.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getTrialResponse"
+components:
+  schemas:
+    getTrialResponse:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: The list of criterias.

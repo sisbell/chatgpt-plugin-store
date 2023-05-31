@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Job Search UK",
+  "name_for_model": "job_search_uk",
+  "description_for_human": "Get the latest job posts from the UK's top job boards including Reed, Indeed, and others.",
+  "description_for_model": "Fetches the latest job posts from the UK's top job boards (/search?keywords=<job_title>) and can return the details of a specific job given its ID (/details?jobId=<jobId>). The returned 'jobLink' and 'url' fields should always be displayed to the user.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "84db34d9066d44688a03a550e05e5bd2"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gptjobsearch.uk/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gptjobsearch.uk/logo.svg",
+  "contact_email": "help@gptjobsearch.uk",
+  "legal_info_url": "https://gptjobsearch.uk/privacy"
+}

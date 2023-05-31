@@ -1,5 +1,32 @@
 components:
   schemas:
+    createPathRequest:
+      properties:
+        learning_goals:
+          description: The learning goals of the user
+          type: string
+        resource_style:
+          description: The preferred resource style for the user
+          type: string
+        time_available:
+          description: The time available for the user to learn, hours per day and
+            number of days
+          type: string
+        topic:
+          description: The topic the user wants to learn
+          type: string
+        user_level:
+          description: The level of the user with respect to the topic
+          type: string
+      required:
+      - topic
+      - learning_goals
+      - user_level
+      - time_available
+      - resource_style
+      type: object
+    createPathResponse:
+      type: object
     getLearningResponse:
       type: object
     getPathDetailsResponse:

@@ -1,0 +1,22 @@
+openapi: 3.0.1
+info:
+  title: Aus Petrol Prices
+  description: Ask for the average daily petrol price for any Australian state or capital city region in Australia!
+  version: 'v1'
+servers:
+  - url: https://petrolpricepredictor.com
+paths:
+  /ai-plugin:
+    get:
+      summary: Ask the user what Australian State or Capital City they are in, then based on their answer either tell the the average petrol price for the day for that, as well as the suburb of the lowest recorded price. Warn them that they are on indiciative prices and may be differnt prices at the bowser.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      operationId: getPrices                   

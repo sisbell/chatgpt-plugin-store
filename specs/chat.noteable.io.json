@@ -3,7 +3,7 @@
   "info": {
     "title": "Origamist",
     "description": "ChatGPT Plugin server for creating computational notebooks (in Python!), allowing you to execute code, explore data, and visualize results.",
-    "version": "0.22.0"
+    "version": "0.23.0"
   },
   "servers": [
     {
@@ -17,12 +17,51 @@
         "summary": "Get Default Project",
         "description": "Get the user's configured default project.",
         "operationId": "get_default_project",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Conversation Id",
+              "type": "string"
+            },
+            "name": "openai_conversation_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Ephemeral User Id",
+              "type": "string"
+            },
+            "name": "openai_ephemeral_user_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Subdivision1 Iso Code",
+              "type": "string"
+            },
+            "name": "openai_subdivision1_iso_code",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -109,6 +148,35 @@
         "summary": "Delete Default Project",
         "description": "Clear the user's default project.",
         "operationId": "clear_default_project",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Conversation Id",
+              "type": "string"
+            },
+            "name": "openai_conversation_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Ephemeral User Id",
+              "type": "string"
+            },
+            "name": "openai_ephemeral_user_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Subdivision1 Iso Code",
+              "type": "string"
+            },
+            "name": "openai_subdivision1_iso_code",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -117,6 +185,16 @@
                 "schema": {
                   "title": "Response Clear Default Project",
                   "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -179,6 +257,79 @@
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/origami/f/{file_id}": {
+      "get": {
+        "summary": "Get Notebook",
+        "description": "Get a summary of a notebook, including the name and list of cell ids.",
+        "operationId": "get_notebook",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "File Id",
+              "type": "string",
+              "format": "uuid"
+            },
+            "name": "file_id",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Conversation Id",
+              "type": "string"
+            },
+            "name": "openai_conversation_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Ephemeral User Id",
+              "type": "string"
+            },
+            "name": "openai_ephemeral_user_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Subdivision1 Iso Code",
+              "type": "string"
+            },
+            "name": "openai_subdivision1_iso_code",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotebookSummary"
+                }
               }
             }
           },
@@ -699,6 +850,67 @@
           }
         ]
       }
+    },
+    "/api/origami/u/me": {
+      "get": {
+        "summary": "Get User Info",
+        "description": "Get details of the Plugin user's Noteable account information.\n - useful when debugging permissions issues",
+        "operationId": "get_user_info_api_origami_u_me_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Conversation Id",
+              "type": "string"
+            },
+            "name": "openai_conversation_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Ephemeral User Id",
+              "type": "string"
+            },
+            "name": "openai_ephemeral_user_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Openai Subdivision1 Iso Code",
+              "type": "string"
+            },
+            "name": "openai_subdivision1_iso_code",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -861,6 +1073,52 @@
           }
         }
       },
+      "NotebookSummary": {
+        "title": "NotebookSummary",
+        "required": [
+          "id",
+          "name",
+          "summary_of_cells",
+          "kernel_state",
+          "kernel_state_description",
+          "information"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "summary_of_cells": {
+            "title": "Summary Of Cells",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "kernel_state": {
+            "title": "Kernel State",
+            "type": "string"
+          },
+          "kernel_state_description": {
+            "title": "Kernel State Description",
+            "type": "string"
+          },
+          "information": {
+            "title": "Information",
+            "type": "string"
+          },
+          "assistant_hint": {
+            "title": "Assistant Hint",
+            "type": "string"
+          }
+        }
+      },
       "RunCellResponse": {
         "title": "RunCellResponse",
         "required": [
@@ -892,17 +1150,17 @@
       "Summary": {
         "title": "Summary",
         "required": [
-          "cells",
+          "cell",
           "kernel_state"
         ],
         "type": "object",
         "properties": {
-          "cells": {
-            "title": "Cells",
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
+          "cell": {
+            "title": "Cell",
+            "type": "object"
+          },
+          "cell_state": {
+            "$ref": "#/components/schemas/CellState"
           },
           "kernel_state": {
             "title": "Kernel State",

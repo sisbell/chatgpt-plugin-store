@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "Substack IQ",
   "name_for_model": "Substack_IQ",
-  "description_for_human": "Search, analyze, & summarize Substack newsletters, retrieve articles, and discover new Substacks!",
-  "description_for_model": "Search, analyze, & summarize Substack newsletters, retrieve articles, and discover new Substacks!",
+  "description_for_human": "Explore Substack! Provide a link, chat with articles, find new authors, search all of Substack, & more.",
+  "description_for_model": "Explore Substack! Provide a link, chat with articles, find new authors, search all of Substack, & more.",
   "auth": {
     "type": "oauth",
     "client_url": "https://auth.substackiq.com",

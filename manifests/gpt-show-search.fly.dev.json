@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "What To Watch",
+  "name_for_model": "what_to_watch",
+  "description_for_human": "Search for current shows, get recommendations, and find out where things are streaming.",
+  "description_for_model": "Retrieves current TV show information, recommendations, and streaming information (where to watch).",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gpt-show-search.fly.dev/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gpt-show-search.fly.dev/images/logo.png",
+  "contact_email": "aaron@aaroncruz.com",
+  "legal_info_url": "https://gpt-show-search.fly.dev/legal"
+}

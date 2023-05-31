@@ -173,3 +173,145 @@ paths:
               schema:
                 type: object
                 properties:
+  /chat/playerSearch:
+    get:
+      operationId: fetchPlayerSearch
+      summary: Fetches details for a player using search by providing the player name.
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Name of the player for which to fetch details must be spelled correctly
+        - in: query
+          name: iso
+          schema:
+            type: string
+          description: ISO 3166-2 country code
+        - in: header
+          name: openai-subdivision-1-iso-code
+          schema:
+            type: string
+          required: false
+          description: OpenAI subdivision ISO code
+        - in: query
+          name: timezone
+          schema:
+            type: string
+          description: Timezone
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number for pagination
+      responses:
+        "200":
+          description: Returns player details such as country, city, nationality, transfers, teams, trophies, etc.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  # Define the properties here
+  /chat/teamSquad:
+    get:
+      operationId: fetchTeamSquad
+      summary: Fetches squad, players and coaches details for a particular team.
+      parameters:
+        - in: query
+          name: team_search
+          schema:
+            type: string
+          description: Name of the team for which to fetch squad, players and coaches details
+        - in: query
+          name: iso
+          schema:
+            type: string
+          description: ISO 3166-2 country code
+        - in: header
+          name: openai-subdivision-1-iso-code
+          schema:
+            type: string
+          required: false
+          description: OpenAI subdivision ISO code
+        - in: query
+          name: timezone
+          schema:
+            type: string
+          description: Timezone
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number for pagination
+      responses:
+        "200":
+          description: Returns players and coaches details for a particular team, including country, nationality, detailed position, coaches and coaches country.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  # Define the properties here
+        "400":
+          description: Returns an error message if the team name is not provided.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /chat/fetchUpcomingTeams:
+    get:
+      operationId: fetchUpcomingTeams
+      summary: Fetches upcoming information for a particular team.
+      parameters:
+        - in: query
+          name: team_search
+          schema:
+            type: string
+          description: Name of the team for which to fetch upcoming information
+        - in: query
+          name: iso
+          schema:
+            type: string
+          description: ISO 3166-2 country code
+        - in: header
+          name: openai-subdivision-1-iso-code
+          schema:
+            type: string
+          required: false
+          description: OpenAI subdivision ISO code
+        - in: query
+          name: timezone
+          schema:
+            type: string
+          description: Timezone
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number for pagination
+      responses:
+        "200":
+          description: Returns upcoming information for a particular team, including venue, sidelined players, coaches, referees, league details, scores, start times, player images.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  # Define the properties here
+        "400":
+          description: Returns an error message if the team name is not provided.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    

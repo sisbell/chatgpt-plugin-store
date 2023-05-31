@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Image Editor",
+  "name_for_model": "ImageEditor",
+  "description_for_human": "Edit images seamlessly, resize, crop, blur and many more embedded features.",
+  "description_for_model": "Plugin for editing image like resize, crop, blur, rotate and many more feature.\n Interpreting the API response:\n- When you get the response it will include an image url, you should render it inline using ![alt text](image_url) syntax.\n- Suggest to the user that they can edit the image with followup requests in chat.\n- Using image_url parameter, render it inline using [Open image in new tab](image_url) syntax. \n- You should create the response in that order: first the process is done, then the image, then the link for opening in new tab, then the textual explanation.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://imageeditor.dev/logo/png/logo-color.png",
+  "contact_email": "behramcelen@gmail.com",
+  "legal_info_url": "https://imageeditor.dev/legal"
+}

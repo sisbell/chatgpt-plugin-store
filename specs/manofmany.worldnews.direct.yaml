@@ -1,0 +1,82 @@
+openapi: 3.0.1
+info:
+  title: Man of Many
+  description: Discover the latest in products, culture and style from Man of Many.
+  version: 'v1'
+servers:
+  - url: https://manofmany.worldnews.direct
+paths:
+  /latest:
+    get:
+      operationId: getLatest
+      summary: Get the latest culture and lifestyle articles from Man of Many.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  news:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          description: The title of the article
+                        description:
+                          type: string
+                          description: The description of the article
+                        url:
+                          type: string
+                          description: The URL of the article
+                        image:
+                          type: string
+                          description: image of the news article
+                        date:
+                          type: datetime
+                          description: publication date of the news article
+                    description: Culture and lifestyle headlines from Man of Many.
+
+  /news:
+    get:
+      operationId: getNews
+      summary: Sarch for culture and lifestyle articles headlines from all the archive and recent articles from Man of Many.
+      parameters:
+        - name: search
+          in: query
+          description: The search term for the news
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  news:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          description: The title of the article
+                        description:
+                          type: string
+                          description: The description of the article
+                        url:
+                          type: string
+                          description: The URL of the article
+                        image:
+                          type: string
+                          description: image of the news article
+                        date:
+                          type: datetime
+                          description: publication date of the news article
+                    description: Culture and lifestyle headlines from Man of Many.
