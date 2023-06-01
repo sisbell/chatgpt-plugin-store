@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "SEO",
+  "name_for_model": "SEO",
+  "description_for_human": "Send a URL and keyword and get a On Page SEO analysis & insights!",
+  "description_for_model": "Send a URL and keyword and get a On Page SEO analysis. User provides a URL and keyword and ths gives back robots.txt, response code, load time, tags for: title, meta data, h1-h5, image file names, image alt text, ahref text, ahref outbound links, keyword occurance in both body text and URL for further analysis & insights.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://seo-plugin.orrenprunckun.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://seo-plugin.orrenprunckun.com/icon.png",
+  "contact_email": "hello@orrenprunckun.com",
+  "legal_info_url": "https://seo-plugin.orrenprunckun.com/terms.php"
+}

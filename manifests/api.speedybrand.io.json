@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Speedy Marketing",
+  "name_for_model": "speedy_marketing",
+  "description_for_human": "Marketing tool for your Shopify store, ecommerce website or any business. Write SEO blogs and social media content.",
+  "description_for_model": "Plugin for generating a SEO blog and social media post for a website.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.speedybrand.io/openapi.yaml"
+  },
+  "logo_url": "https://api.speedybrand.io/logo.png",
+  "contact_email": "contact@speedybrand.io",
+  "legal_info_url": "https://speedybrand.io/terms-and-conditions"
+}

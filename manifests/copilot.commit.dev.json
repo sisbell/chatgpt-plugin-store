@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Career Copilot",
+  "name_for_model": "career_copilot",
+  "description_for_human": "A trusted, always on assistant to help software developers find a better job. Built by Commit.dev.",
+  "description_for_model": "A trusted, always on assistant to help software developers find a better job. Built by Commit.dev.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://copilot.commit.dev/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://copilot.commit.dev/images/logo.png",
+  "contact_email": "tech@commit.dev",
+  "legal_info_url": "https://commit.dev"
+}

@@ -1,4 +1,32 @@
 # Plugin Store Listing Changelog
+## 2023-06-01
+### Newly Listed
+* [aiplugin-experiences.owlting.com](manifests/aiplugin-experiences.owlting.com.json)
+* [aishowcase.io](manifests/aishowcase.io.json)
+* [amazon-best.vercel.app](manifests/amazon-best.vercel.app.json)
+* [api.kakaku.com](manifests/api.kakaku.com.json)
+* [api.replypdf.com](manifests/api.replypdf.com.json)
+* [api.speedybrand.io](manifests/api.speedybrand.io.json)
+* [c-resume.copilot.us](manifests/c-resume.copilot.us.json)
+* [chat.jopilot.net](manifests/chat.jopilot.net.json)
+* [copilot.commit.dev](manifests/copilot.commit.dev.json)
+* [crosswordconstructor.com](manifests/crosswordconstructor.com.json)
+* [daigr.am](manifests/daigr.am.json)
+* [dmtoolkit.magejosh.repl.co](manifests/dmtoolkit.magejosh.repl.co.json)
+* [enigmatic-journey-85840.herokuapp.com](manifests/enigmatic-journey-85840.herokuapp.com.json)
+* [got2go.com](manifests/got2go.com.json)
+* [gpt-domain-bot.fly.dev](manifests/gpt-domain-bot.fly.dev.json)
+* [memepluginchatgpt.azurewebsites.net](manifests/memepluginchatgpt.azurewebsites.net.json)
+* [openai-plugin.heygen.com](manifests/openai-plugin.heygen.com.json)
+* [openai-plugin.xweather.com](manifests/openai-plugin.xweather.com.json)
+* [plugins.shownotes.io](manifests/plugins.shownotes.io.json)
+* [seo-plugin.orrenprunckun.com](manifests/seo-plugin.orrenprunckun.com.json)
+* [sic.smlxl.ai](manifests/sic.smlxl.ai.json)
+* [talkfpl.beegreeeen.workers.dev](manifests/talkfpl.beegreeeen.workers.dev.json)
+* [timemachine.cheatshit.com](manifests/timemachine.cheatshit.com.json)
+* [videohighlight.com](manifests/videohighlight.com.json)
+* [whizlist-plugin.chatbot.so](manifests/whizlist-plugin.chatbot.so.json)
+* [www.nani.ooo](manifests/www.nani.ooo.json)
 ## 2023-05-31
 ### Newly Listed
 * [ai-agents-plugin.vercel.app](manifests/ai-agents-plugin.vercel.app.json)

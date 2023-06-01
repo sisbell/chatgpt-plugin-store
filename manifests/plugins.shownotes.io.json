@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "shownotes",
+  "name_for_model": "shownotes",
+  "description_for_human": "Turns long podcasts into quick summaries, finds specific info, highlights key points, and suggests new episodes.",
+  "description_for_model": "Summary Generator: Compresses main ideas from a podcast transcript into a concise summary, giving users a quick understanding of the content.\n\nInformation Extractor: Finds and presents specific information from a podcast transcript according to the user's request, easing the discovery of pertinent topics or discussions.\n\nKey Point Identifier: Evaluates a podcast transcript and formulates a list of key points or highlights, providing a rapid snapshot of the significant content.\n\nRecommendation Mechanism: Communicates with the API to propose podcast episodes based on a user's topical interest, directing users towards appealing content.\n\nSpeaker Segmentation Function: Assuming the API supplies speaker labels, this function can sort and present content by specific speakers, assisting users in following individual inputs in the podcast.\n\nTrend Analysis Component: Fetches and scrutinizes multiple podcast transcripts to spot shared themes or trends, yielding insights into recurring subjects across episodes.\n\nTranscript Explorer: Delivers a general analysis or breakdown of a podcast transcript, enabling users to comprehend the arrangement and progression of the episode's content.\n\n\n3 endpoints are available:\n\n1 AudioController_findTranscript\nThiis endpoint returns transcript from the Shownotes app for the specified show. \n\n2 SearchController_findVideos\nReturns list of 3 candidate YouTube shows related to the specified show from Youtube. The videoid returned by this endpoint can be used in the CaptionController_findTranscript endpoint to get the transcript directly from Youtube.\n\n3 CaptionController_findTranscript\nReturns transcript of YouTube video using the specified videoid. This endpoint can be used if a videoid is specified either by  the user directly or another endpoint needs it. If the full URL of a Youtube link is provided, only send the 11-character videoid to this endpoint.",
+  "auth": {
+    "authorization_content_type": "application/json",
+    "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+    "client_url": "https://caac141bb05029c6c04ceb5ac3b06bf1.auth.portal-pluginlab.ai/oauth/authorize",
+    "scope": "all",
+    "type": "oauth",
+    "verification_tokens": {
+      "openai": "e12389e0580d4f83b3cabf05e30b2f2e"
+    }
+  },
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://plugins.shownotes.io/.well-known/pluginlab/openapi.json"
+  },
+  "logo_url": "https://softr-prod.imgix.net/applications/8beb7545-f844-4dbc-8ed6-f90f7878b331/assets/def0f176-4d46-474b-a917-e52c84145099.png",
+  "contact_email": "cooper@shownotes.io",
+  "legal_info_url": "https://shownotes.io"
+}

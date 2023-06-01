@@ -1,0 +1,43 @@
+openapi: 3.0.1
+info:
+    title: HeyGen
+    description: A plugin that allows the user to create an avatar video using ChatGPT. The user only needs to provide a transcript text to create an avatar video.
+    version: "v1"
+servers:
+    - url: https://openai-plugin.heygen.com
+paths:
+    /simple.video.generate:
+        post:
+            operationId: generateSimpleAvatarVideo
+            summary: Generate a simple avatar video with a piece of transcript text.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/generateSimpleAvatarVideoRequest"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/generateSimpleAvatarVideoResponse"
+
+components:
+    schemas:
+        generateSimpleAvatarVideoRequest:
+            type: object
+            required:
+                - text
+            properties:
+                text:
+                    type: string
+                    description: The text transcript for the speech/voiceover to the avatar video that the user want to generate. Must be in English.
+                    required: true
+        generateSimpleAvatarVideoResponse:
+            type: object
+            properties:
+                link:
+                    type: string
+                    description: The link for the newly generated avatar video. The user can view the video from the link after the avatar video completed generation. Please remind the user they may see a loading circle in the link if the video is still being processed. They will need to manually refresh the link page to check if the video is ready.

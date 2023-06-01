@@ -44,7 +44,81 @@ paths:
                   helpLink:
                     type: string
                   supportEmail:
-                    type: string   
+                    type: string
+  /app/{appId}:
+    get:
+      summary: Retrieve an app resource
+      description: |
+        This endpoint retrieves an app resource with its files and contents.
+      tags:
+        - App
+      operationId: getApp
+      parameters:
+        - name: appId
+          in: path
+          description: The unique identifier of the app resource.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The app resource was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "App found"
+                  app:
+                    type: object
+                    properties:
+                      appId:
+                        type: string
+                        example: "uuid"
+                      user:
+                        type: string
+                        format: uuid
+                        example: "userId"
+                      files:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            fileName:
+                              type: string
+                              example: "index.html"
+                            fileType:
+                              type: string
+                              example: "html"
+                            s3Key:
+                              type: string
+                            content:
+                              type: string
+                              description: The content of the file.
+        '404':
+          description: The app resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "App not found"
+        '500':
+          description: An internal server error occurred, or there was an error retrieving the app resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+                  error:
+                    type: string
   /app/{appId}/file:
     post:
       summary: Upload a file to the app resource

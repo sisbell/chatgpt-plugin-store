@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Puzzle Constructor",
+  "name_for_model": "Puzzle_Constructor",
+  "description_for_human": "A tool for creating crosswords. You can create crosswords from words and hints.",
+  "description_for_model": "A tool for creating crosswords. You can create crosswords by providing words and hints. You can provide an optional grid_size to allow larger crosswords",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://crosswordconstructor.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://crosswordconstructor.com/logo.png",
+  "contact_email": "devin@crosswordconstructor.com",
+  "legal_info_url": "https://crosswordconstructor.com/legal"
+}

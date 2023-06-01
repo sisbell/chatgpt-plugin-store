@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: PDF Exporter
+  description: A ChatGPT plugin API
+  version: 'v1'
+servers:
+  - url: https://api.replypdf.com
+paths:
+  /pdf:
+    post:
+      operationId: createPdf
+      summary: Generate a PDF
+      description: Accepts HTML content in the request body and generates a PDF file, which is uploaded to an S3 bucket. Returns the URL of the uploaded PDF file.
+      security:
+        - BearerAuth: ['pdf:create']
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                html:
+                  type: string
+                  description: HTML content for the PDF file
+              required:
+                - html
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: URL of the uploaded PDF file
+                    example: "https://s3.amazonaws.com/your-bucket-name/your-pdf-file.pdf"
+        400:
+          description: Missing HTML content in request body
+        500:
+          description: An error occurred while generating the PDF
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas: {}

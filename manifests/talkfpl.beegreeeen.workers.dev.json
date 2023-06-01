@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "auth": {
+    "type": "none"
+  },
+  "name_for_human": "TalkFPL",
+  "name_for_model": "talkfpl",
+  "description_for_human": "Talk with AI to help you manage your FPL team. Compare players, transfer options and more.",
+  "description_for_model": "Talk with AI to help you manage your FPL team. Compare players, transfer options and more.",
+  "logo_url": "https://talkfpl.com/assets/football-icon-47e39991defc5f4e66807b288c8dedfde526927a788b9622edf8090a683aaeaa.png",
+  "contact_email": "info@merchant-software.com",
+  "legal_info_url": "http://talkfpl.com/",
+  "api": {
+    "type": "openapi",
+    "has_user_authentication": false,
+    "url": "https://talkfpl.beegreeeen.workers.dev/openapi.json"
+  }
+}

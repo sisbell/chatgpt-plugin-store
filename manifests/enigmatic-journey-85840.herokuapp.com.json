@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ML Paper Reader",
+  "name_for_model": "MLPaperReader",
+  "description_for_human": "Search for ML papers on different topics and speed up research by \"talking\" to the PDFs.",
+  "description_for_model": "Fetch PDFs or URLs and anwser questions related to them at the level of an ML researcher. \n Return the link to the source URL so the user always knows what you are referencing",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://enigmatic-journey-85840.herokuapp.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://enigmatic-journey-85840.herokuapp.com/browser_logo.png",
+  "contact_email": "shrestha.isu.k@gmail.com",
+  "legal_info_url": "https://enigmatic-journey-85840.herokuapp.com/legal"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "WhizList",
+  "name_for_model": "WhizList",
+  "description_for_human": "Your go-to for creating amazing Spotify playlists.",
+  "description_for_model": "Create a Spotify playlist with WhizList. The AI will autonomously assign a unique playlist name.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://whizlist-plugin.chatbot.so/d2d00899-7c38-4a00-a0ac-b172316b3d00",
+    "scope": "chatgpt_plugin",
+    "authorization_url": "https://whizlist-plugin.chatbot.so/99fc0a0b-b334-4137-b522-f7696327d090",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "f52bbecc4f0b42b397d9d35964cc6f51"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://whizlist-plugin.chatbot.so/openai.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://whizlist-plugin.chatbot.so/assets/WhizList.png",
+  "contact_email": "dev@chatbot.so",
+  "legal_info_url": "https://whizlist-plugin.chatbot.so/info"
+}

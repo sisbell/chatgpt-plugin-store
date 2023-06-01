@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Video Highlight",
+  "name_for_model": "video_highlight",
+  "description_for_human": "Explore, research, and interact with YouTube videos and personal videos.",
+  "description_for_model": "Explore, research, and interact with YouTube videos and personal videos.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://videohighlight.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://videohighlight.com/img/logo/video-highlight-logo.svg",
+  "contact_email": "contact@videohighlight.com",
+  "legal_info_url": "https://videohighlight.com/terms-of-service"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ChatWithWebsite",
+  "name_for_model": "chatwithwebsite",
+  "description_for_human": "Have a conversation with any website, powered by magicform.ai",
+  "description_for_model": "A plugin that allows users to load and query websites using ChatGPT. Users must first provide a website URL for processing. You must only use the URL they specify do not add www and remove any query parameters or path names that is not specifically the domain name that the user has specified. For example magicform.ai would be https://magicform.ai. If the domain does not work, remove www if is in the domain url. If not add www. If that does not work add / at the end. Once the text file of website is loaded, help the user learn more about the company and website in the conversation without them needing to specify it everytime.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatwithwebsite.sdan.io/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://chatwithwebsite.sdan.io/logo.png",
+  "contact_email": "support@chatwithwebsite@sdan.io",
+  "legal_info_url": "https://chatwithwebsite.sdan.io/legal"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "PDF Exporter",
+  "name_for_model": "PDF_Exporter",
+  "description_for_human": "Export any chat response into a stylized PDF document.",
+  "description_for_model": "PDF Exporter converts chat conversations into handy PDF documents.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://auth.replypdf.com",
+    "scope": "app:read,app:write,pdf:read,pdf:write",
+    "authorization_url": "https://auth.replypdf.com/api/authorize",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "6c6e23ce34c3469ea955b62bcb9c3648"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.replypdf.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://api.replypdf.com/logo.png",
+  "contact_email": "legal@replypdf.com",
+  "legal_info_url": "https://replypdf.com/legal"
+}

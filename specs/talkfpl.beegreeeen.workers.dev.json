@@ -1,0 +1,59 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "TalkFPL",
+    "description": "Talk with AI to help you manage your FPL team. Compare players, transfer options and more.",
+    "version": "v0.0.1"
+  },
+  "paths": {
+    "/search": {
+      "get": {
+        "operationId": "get_GetSearch",
+        "tags": [
+          "Search"
+        ],
+        "summary": "The message content to send to TalkFPL",
+        "parameters": [
+          {
+            "description": "The message content to send to TalkFPL",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The message content to send to TalkFPL",
+              "default": "Haaland vs Kane?"
+            },
+            "name": "q",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "I think Haaland is the better option."
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/ai-plugin.json": {
+      "get": {
+        "operationId": "get__.well-known_ai-plugin.json",
+        "parameters": null
+      }
+    }
+  }
+}

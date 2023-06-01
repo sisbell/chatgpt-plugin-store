@@ -1,0 +1,19 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "sic",
+  "name_for_human": "sic",
+  "description_for_model": "Your gateway to crypto. Explore prices, accounts, and transactions on blockchains, starting with Ethereum.",
+  "description_for_human": "Your gateway to crypto. Explore prices, accounts, and transactions on blockchains, starting with Ethereum.",
+  "auth": {
+    "type": "none",
+    "authorization_type": "bearer"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://sic.smlxl.ai/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://sic.smlxl.ai/.well-known/sic-logo.png",
+  "contact_email": "sic@smlxl.io",
+  "legal_info_url": "smlxl.io"
+}

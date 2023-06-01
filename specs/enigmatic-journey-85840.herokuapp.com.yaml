@@ -1,0 +1,104 @@
+openapi: 3.0.1
+info:
+  title: ML Research tool
+  description: Stay up to date with the latest ML trends
+  version: 'v1'
+servers:
+  - url: https://enigmatic-journey-85840.herokuapp.com
+paths:
+  /browse:
+    get:
+      operationId: browsePage
+      summary: Get the text contents of any HTML web page. Use if you get a URL to browse.
+      parameters:
+      - in: query
+        name: url
+        schema:
+            type: string
+        required: true
+        description: The URL that we want to browse
+      - in: query
+        name: page_number
+        schema:
+            type: string
+        required: true
+        description: page number of returned text. Defaults to 1
+      responses:
+        "200":
+          description: OK
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTextResponse'
+  /pdf_extract:
+    get:
+      operationId: pdfExtract
+      summary: Get the text contents of a PDF page by page
+      parameters:
+      - in: query
+        name: url
+        schema:
+            type: string
+        required: true
+        description: The URL that we want to browse
+      - in: query
+        name: page_number
+        schema:
+            type: string
+        required: true
+        description: The page number that we want to fetch from the PDF. Defaults to 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTextResponse'
+            
+  /search_papers:
+    get:
+      operationId: searchPapers
+      summary: Search for reseach papers on ML using keywords, or the title of a paper
+      parameters:
+      - in: query
+        name: q
+        schema:
+            type: string
+        required: true
+        description: The keywords that describe the paper
+      - in: query
+        name: page_number
+        schema:
+            type: string
+        required: true
+        description: The page number that we want to fetch from the PDF. Defaults to 0
+      responses:
+        "200":
+          description: OK
+
+
+components:
+  schemas:
+    getTextResponse:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Text from the URL or PDF
+        url:
+          type: string
+          description: Source of the text
+        page_start:
+          type: string
+          description: Starting page
+        page_end:
+          type: string
+          description: Ending page
+        total_pages:
+          type: string
+          description: Total number of pages available
+
+  

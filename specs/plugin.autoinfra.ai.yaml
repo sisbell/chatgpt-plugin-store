@@ -6,17 +6,20 @@ info:
 servers:
   - url: https://plugin.autoinfra.ai
 paths:
-  /run_command/{command}:
-    get:
+  /run_command:
+    post:
       operationId: runCommand
       summary: Run command in shell
-      parameters:
-      - in: path
-        name: command
-        schema:
-            type: string
+      requestBody:
         required: true
-        description: The linux command to run.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                command:
+                  type: string
+                  description: The linux command to run.
       responses:
         "200":
           description: OK
@@ -25,7 +28,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/getrunResponse'
         "500":
-          description: OK
+          description: Internal Server Error
           content:
             application/json:
               schema:
@@ -43,17 +46,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/getAvailableCommandsResponse'
 
-  /install_cmd/{package}:
-    get:
+  /install_cmd:
+    post:
       operationId: installCommand
       summary: Install Ubuntu package using sudo
-      parameters:
-      - in: path
-        name: package
-        schema:
-            type: string
+      requestBody:
         required: true
-        description: The linux command that installs a package
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ins_package:
+                  type: string
+                  description: The linux command that installs a package
       responses:
         "200":
           description: OK
@@ -61,7 +67,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/installCommandResponse'
-
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/installCommandResponse'
+                
   /set_public_ip/{address}:
     post:
       summary: Set the user's address in the format username@ip_address, and their port if they specify it

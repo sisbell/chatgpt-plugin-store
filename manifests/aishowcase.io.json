@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "AI Showcase",
+  "name_for_model": "aishowcase",
+  "description_for_human": "Discover the perfect AI tool for your personal and business needs with AI Showcase.",
+  "description_for_model": "Plugin for exploring a large database of AI tools. This plugin allows users to search for and discover a wide variety of AI tools suitable for various use cases. It includes categories such as Face Generators, No Code, SEO tools, and more. Users can input their specific needs or use case, and the plugin will return a list of relevant AI tools from the database. Additionally, users can specify their preferred price model (free, open source, or paid) to further refine the search results. This plugin does not prescribe actions or make decisions for the user but provides information to aid in their AI tool selection process.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.aishowcase.io/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://cdn.aishowcase.io/logo.png",
+  "contact_email": "corey@aishowcase.io",
+  "legal_info_url": "https://www.aishowcase.io/terms-of-use"
+}

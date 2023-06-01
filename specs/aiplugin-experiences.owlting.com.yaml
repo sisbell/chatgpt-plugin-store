@@ -1,0 +1,136 @@
+openapi: 3.0.1
+info:
+  title: Experiences Travel API
+  description: API for activities recommendations, including but not limited to including activities and package tours.
+  version: v1
+servers:
+  - url: https://aiplugin-experiences.owlting.com
+paths:
+  /activitiesProducts:
+    post:
+      operationId: activitiesProducts
+      summary: Get recommended activities and package tours.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/activitiesProductsRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/activitiesProductsResponse'
+
+components:
+  schemas:
+    activitiesProductsRequest:
+      type: object
+      properties:
+        summary:
+          type: string
+          description: Brief search keyword of the question asked by the user for search, using the same language as the user.
+          required: true
+        destination:
+          type: string
+          description: The destination can be a city, address, airport, or a landmark.
+          required: true
+        country_name_en:
+          type: string
+          description: The English name of the country where the destination is located. Specify that this field cannot be null.
+          required: true
+        city_name_en:
+          type: string
+          description: The English name of the city where the destination is located. Specify that this field cannot be null.
+          required: false
+        travel_date:
+          type: string
+          format: date
+          description: Travel date in YYYY-MM-DD format. If you are unsure of the date, the default is 30 days from the current date. Specify that this field cannot be null.
+          nullable: false
+        language:
+          type: string
+          description: User's the question language. ex Chinese (Traditional). Specify that this field cannot be null.
+          nullable: false  
+        maxPrice:
+          type: number
+          format: float
+          minimum: 0
+          description: The maximum price for activities. Specify that this field cannot be null.
+          nullable: false  
+        currency:
+          type: string
+          enum:
+            - twd
+            - usd
+            - jpy
+            - eur
+            - thb
+            - cny
+          description: The currency code for the price. Specify that this field cannot be null.
+          nullable: false  
+        skip:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Number of records to skip for pagination.
+          nullable: false          
+      required:
+        - summary
+        - destination
+        - country_name_en
+
+    activitiesProductsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Activity'
+        status:
+          type: integer
+          description: The status code of the response.
+        target_language:
+          type: string
+          description: The language of the response.
+
+    Activity:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the activity.
+        name:
+          type: string
+          description: The name of the activity.
+        description:
+          type: string
+          description: The description of the activity.
+        country_id:
+          type: string
+          description: The ISO code of the country where the activity is located.
+        places_text:
+          type: string
+          description: The location text of the activity.
+        distance:
+          type: string
+          description: The distance to the activity in kilometers.
+        price:
+          type: string
+          description: The price of the activity with the currency code.
+        price_unit:
+          type: string
+          description: The unit of sale for the activity, such as person, group, car, day, etc.
+        view_count:
+          type: integer
+          description: The number of times the activity has been viewed by user.
+        image_url:
+          type: string
+          format: uri
+          description: The URL of the activity's image.
+        url:
+          type: string
+          format: uri
+          description: The URL for booking the activity.

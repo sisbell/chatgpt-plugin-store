@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "CheckTheChain",
+  "name_for_human": "CheckTheChain",
+  "description_for_human": "Look for anything on the blockchain and get instant analysis.",
+  "description_for_model": "Plugin for doing on-chain analysis over blockchain and crypto protocol datasets like Bitcoin, Ethereum and Uniswap",
+  "api": {
+    "type": "openapi",
+    "url": "https://nani.ooo/openapi.json",
+    "has_user_authentication": false
+  },
+  "auth": {
+    "type": "none"
+  },
+  "logo_url": "https://nani.ooo/logo.png",
+  "contact_email": "me@nani.ooo",
+  "legal_info_url": "https://nani.ooo/terms"
+}

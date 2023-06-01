@@ -1,0 +1,31 @@
+openapi: 3.0.2
+info:
+  title: WhizList
+  description: Your go-to for creating amazing Spotify playlists.
+  version: 'v1'
+servers:
+  - url: https://whizlist-plugin.chatbot.so/
+paths:
+  /7068326a-2ea4-4ac0-baac-04e20002890f:
+    post:
+      operationId: createSpotifyPlaylist
+      summary: Generated Playlist Name and Song List
+      requestBody:
+        description: JSON object containing a playlist name and an array of song names for integration into WhizList
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playlistName:
+                  type: string
+                songList:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "201":
+          description: Created Spotify playlist
+          content:
+            application/json: {}

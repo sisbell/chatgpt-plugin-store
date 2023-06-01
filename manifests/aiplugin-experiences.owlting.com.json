@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Experiences",
+  "name_for_model": "Experiences",
+  "description_for_human": "Provides activity suggestions, ensuring an engaging and user-friendly travel experiences.",
+  "description_for_model": "Experiences is a travel assistant designed to provide travel recommendations for any user's queries related to activities and package tours, ensuring a friendly and interactive experience for the user.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "787dfc8a984e4fdba3b1b6d00d7d57ca"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://aiplugin-experiences.owlting.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://aiplugin-experiences.owlting.com/logo.svg",
+  "contact_email": "support@owlting.com",
+  "legal_info_url": "https://static.owlting.com/experiences/%E5%A5%A7%E4%B8%81%E4%B8%81%E9%AB%94%E9%A9%97_%E4%BD%BF%E7%94%A8%E8%80%85%E6%A2%9D%E6%AC%BE_20191101.pdf"
+}

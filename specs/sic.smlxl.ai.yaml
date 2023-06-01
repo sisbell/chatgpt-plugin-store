@@ -1,0 +1,452 @@
+components:
+  schemas:
+    AccountBalanceRequest:
+      properties:
+        account:
+          title: Account
+          type: string
+        at:
+          title: At
+          type: string
+        block_number:
+          format: int64
+          title: BlockNumber
+          type: integer
+        compute_value:
+          title: ComputeValue
+          type: boolean
+      required:
+      - account
+      title: AccountBalanceRequest
+      type: object
+    AccountBalanceResponse:
+      properties:
+        address:
+          title: Address
+          type: string
+        asset_balances:
+          items:
+            $ref: '#/components/schemas/AssetBalancePoint'
+          title: AssetBalances
+          type: array
+        block_number:
+          format: int64
+          title: BlockNumber
+          type: integer
+        block_time:
+          title: BlockTime
+          type: string
+        chain_id:
+          format: int64
+          title: ChainId
+          type: integer
+        total_value_usd:
+          title: TotalValueUSD
+          type: string
+      title: AccountBalanceResponse
+      type: object
+    Asset:
+      properties:
+        chain_id:
+          format: int64
+          title: ChainId
+          type: integer
+        chain_name:
+          title: ChinaName
+          type: string
+        contract_address:
+          title: ContractAddress
+          type: string
+        symbol:
+          title: Symbol
+          type: string
+        token_id:
+          format: int64
+          title: TokenId
+          type: integer
+      title: Asset
+      type: object
+    AssetBalancePoint:
+      properties:
+        asset:
+          $ref: '#/components/schemas/Asset'
+          title: Asset
+          type: object
+        balance:
+          format: float
+          title: Balance
+          type: number
+        value_usd:
+          title: valueUSD
+          type: string
+      title: AssetBalancePoint
+      type: object
+    AssetPricePoint:
+      properties:
+        asset:
+          $ref: '#/components/schemas/Asset'
+          title: Asset
+          type: object
+        currency:
+          title: Currency
+          type: string
+        price:
+          format: float
+          items:
+            type: number
+          title: Price
+          type: array
+        utc_datetime:
+          format: date-time
+          items:
+            type: string
+          title: UTCDatetime
+          type: array
+      title: AssetPricePoint
+      type: object
+    AssetPricingRequest:
+      properties:
+        assets:
+          items:
+            $ref: '#/components/schemas/Asset'
+          title: Assets
+          type: array
+        at:
+          title: At
+          type: string
+        currency:
+          title: Currency
+          type: string
+      required:
+      - assets
+      type: object
+    AssetPricingRequestHistoricalRange:
+      properties:
+        assets:
+          items:
+            $ref: '#/components/schemas/Asset'
+          title: Assets
+          type: array
+        currency:
+          title: Currency
+          type: string
+        date_begin:
+          title: DateBegin
+          type: string
+        date_end:
+          title: DateEnd
+          type: string
+      required:
+      - assets
+      - date_begin
+      - date_end
+      title: AssetPricingRequest
+      type: object
+    AssetPricingResponse:
+      properties:
+        prices:
+          items:
+            $ref: '#/components/schemas/AssetPricePoint'
+          title: Prices
+          type: array
+        unavailable_for_pricing:
+          items:
+            $ref: '#/components/schemas/Asset'
+          title: UnavailableForPricing
+          type: array
+      title: AssetPricingResponse
+      type: object
+    ENSRequest:
+      properties:
+        address:
+          title: Address
+          type: string
+        block_number:
+          format: int64
+          title: BlockNumber
+          type: integer
+        block_time:
+          title: BlockTime
+          type: string
+        chain_id:
+          format: int64
+          title: ChainId
+          type: integer
+        ens_name:
+          title: ENSName
+          type: string
+      title: ENSRequest
+      type: object
+    ENSResponse:
+      properties:
+        address:
+          title: Address
+          type: string
+        block_number:
+          format: int64
+          title: BlockNumber
+          type: integer
+        block_time:
+          title: BlockTime
+          type: string
+        chain_id:
+          format: int64
+          title: ChainId
+          type: integer
+        ens_name:
+          title: ENSName
+          type: string
+        owner:
+          title: Owner
+          type: string
+      title: ENSResponse
+      type: object
+    GenericQueryRequest:
+      properties:
+        query_inputs:
+          properties:
+            contract_address:
+              title: ContractAddress
+              type: string
+            natural_language_query:
+              title: NaturalLanguageQuery
+              type: string
+          title: QueryInputs
+          type: object
+      required:
+      - query_inputs
+      title: GenericQueryRequest
+      type: object
+    GenericQueryResponse:
+      properties:
+        query_output_description:
+          title: QueryOutputDescription
+          type: string
+        query_outputs:
+          items:
+            type: object
+          title: QueryOutputs
+          type: array
+      title: GenericQueryResponse
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    TransactionTracerRequest:
+      properties:
+        chain_id:
+          format: int64
+          title: ChainId
+          type: integer
+        transaction_hash:
+          title: TransactionHash
+          type: string
+      required:
+      - transaction_hash
+      title: TransactionTracerRequest
+      type: object
+    TransactionTracerResponse:
+      properties:
+        summary:
+          title: Summary
+          type: string
+        trace_items:
+          items:
+            type: string
+          title: TraceItems
+          type: array
+      title: TransactionTracerResponse
+      type: object
+  securitySchemes:
+    HTTPBearer:
+      scheme: bearer
+      type: http
+info:
+  description: Your gateway to crypto. Explore prices, accounts, and transactions
+    on blockchains, starting with Ethereum.
+  servers:
+  - url: https://sic.smlxl.ai
+  title: Your gateway to crypto. Explore prices, accounts, and transactions on blockchains,
+    starting with Ethereum.
+  version: 0.0.1
+openapi: 3.0.2
+paths:
+  /api/accountBalance:
+    post:
+      description: API returns balances of tokens for an ETH wallet. Accounts are
+        referred to by ENS domains or hex addresses. The response includes an array
+        of assets and balances held in the wallet. If compute_value is set to true,
+        the response includes the value of the assets.
+      operationId: query_account_balance_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountBalanceRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountBalanceResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - HTTPBearer: []
+      summary: AccountBalance API
+  /api/assetPricing:
+    post:
+      description: 'API returns current and historical prices for tokens or assets
+        on Ethereum. Assets are referred to by symbols such as {"symbol": "SHIB"}.
+        A currency "USD" or a single historical date (MUST BE UTC) can be provided.
+        The response is an array of assets with their prices, UTC datetimes and currency.'
+      operationId: query_asset_pricing_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetPricingRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetPricingResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - HTTPBearer: []
+      summary: Asset Pricing API
+  /api/assetPricingHistoricalRange:
+    post:
+      description: 'API returns historical prices between 2 different dates (MUST
+        BE UTC) for tokens or assets on Ethereum network. Assets are referred to by
+        symbols such as {"symbol": "SHIB"}. A currency "USD". The response is an array
+        of assets with their prices, utc datetimes and currency.'
+      operationId: query_asset_pricing_historical_range_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetPricingRequestHistoricalRange'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetPricingResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - HTTPBearer: []
+      summary: Asset Pricing API for historical range data
+  /api/generic-query/classifyContract:
+    post:
+      description: 'API returns similarity scores between contract and standard interfaces.
+        Contract address is specified in the "contract_address" under "query_inputs"
+        as in {"query_inputs": {"contract_address": "0xab..cd"}}. It returns the list
+        of interfaces and how similiar they are to contract.'
+      operationId: query_classify_contract_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericQueryRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericQueryResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - HTTPBearer: []
+      summary: classifyContract API
+  /api/resolveENS:
+    post:
+      description: API returns the ENS name associated with an Ethereum address if
+        an address is passed, or the Ethereum address associated with an ENS name
+        if a name is passed. A block number or a time can be provided. The response
+        includes the address, ENS name and the owner of the domain.
+      operationId: query_resolve_ens_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ENSRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ENSResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - HTTPBearer: []
+      summary: ENSResolver API
+  /api/traceTransaction:
+    post:
+      description: API returns detailed trace of transaction. It needs transaction
+        hash, a hex string representing 256 bit hash of transaction in block. Trace
+        includes call, log, storage and sha3 operations.
+      operationId: query_trace_transaction_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionTracerRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionTracerResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - HTTPBearer: []
+      summary: TransactionTracer API

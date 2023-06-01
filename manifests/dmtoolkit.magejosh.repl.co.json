@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "DM Tool Kit",
+  "name_for_model": "diceroller",
+  "description_for_human": "App for rolling dice using the d20 or Fate/Fudge systems.",
+  "description_for_model": "App for rolling dice using the d20 or Fate/Fudge systems.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://dmtoolkit.magejosh.repl.co/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://dmtoolkit.magejosh.repl.co/logo.png",
+  "contact_email": "mageworksstudio@gmail.com",
+  "legal_info_url": "https://dmtoolkit.magejosh.repl.co/legal.html"
+}

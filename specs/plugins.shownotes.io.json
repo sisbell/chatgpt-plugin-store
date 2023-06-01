@@ -1,0 +1,123 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Shownotes",
+    "description": "Turns long podcasts into quick summaries, finds specific info, highlights key points, and suggests new episodes.",
+    "version": "v1"
+  },
+  "paths": {
+    "/captions-shownotes.php": {
+      "get": {
+        "description": "Returns the transcript from Shownotes of the specified show",
+        "operationId": "AudioController_findTranscript",
+        "parameters": [
+          {
+            "name": "show",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The show name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscriptSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search-youtube.php": {
+      "get": {
+        "description": "Returns list of up to 3 candidate YouTube shows related to the specified show. The videoid returned by this endpoint can be used in CaptionController_findTranscript to get the transcript directly from Youtube.",
+        "operationId": "SearchController_findVideos",
+        "parameters": [
+          {
+            "name": "show",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The show name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListVideo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/captions-youtube.php": {
+      "get": {
+        "description": "Returns transcript of YouTube video using the specified videoid. This endpoint can be used if a videoid is specified either by  the user or another endpoint. If the full URL of a Youtube link is provided, only send the 11-character videoid to this endpoint.",
+        "operationId": "CaptionController_findTranscript",
+        "parameters": [
+          {
+            "name": "videoid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The 11-character Youtube videoid."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscriptSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TranscriptSchema": {
+        "type": "object",
+        "properties": {
+          "transcript": {
+            "type": "string"
+          }
+        }
+      },
+      "VideoItem": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "videoid": {
+            "type": "string"
+          }
+        }
+      },
+      "ListVideo": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/VideoItem"
+        }
+      }
+    }
+  }
+}

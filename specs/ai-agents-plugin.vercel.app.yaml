@@ -25,25 +25,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AIAgentResponse'
-  /anime:
-    get:
-      operationId: anime
-      summary: Make an anime image
-      parameters:
-        - name: image
-          in: query
-          description: the base url image to make the the anime image
-          required: false
-          schema:
-            type: string
 
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AnimeResponse'
 components:
   schemas:
     AIAgentResponse:
@@ -60,12 +42,4 @@ components:
             description: the original request
        
 
-    AnimeResponse:
-      type: object
-      properties:
-        instructions:
-            type: string
-            description: instructions on how to process the response
-        image:
-            type: string
-            description: the url of the image created
+

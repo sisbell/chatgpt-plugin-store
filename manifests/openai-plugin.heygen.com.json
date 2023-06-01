@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "HeyGen",
+  "name_for_model": "heygen",
+  "description_for_human": "Meet HeyGen - The best AI video generation platform for your team.",
+  "description_for_model": "Plugin for creating avatar videos (AI spokesperson videos). The plugin can generate an avatar video from simply a piece of text.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://openai-plugin.heygen.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://openai-plugin.heygen.com/logo.png",
+  "contact_email": "openai-plugin@heygen.com",
+  "legal_info_url": "https://www.heygen.com/terms"
+}

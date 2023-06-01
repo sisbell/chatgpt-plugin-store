@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Meme Generator",
+  "name_for_model": "MemeGenerator",
+  "description_for_human": "Your AI meme generator.",
+  "description_for_model": "Your AI meme generator.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://memepluginchatgpt.azurewebsites.net/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://memepluginchatgpt.azurewebsites.net/logo.png",
+  "contact_email": "sasha.pad@gmail.com",
+  "legal_info_url": "https://memepluginchatgpt.azurewebsites.net/legal"
+}

@@ -1,18 +1,18 @@
 {
   "schema_version": "v1",
-  "name_for_human": "ChatSpot",
+  "name_for_human": "ChatSpot Plugin",
   "name_for_model": "chatspot",
-  "description_for_human": "Get access to marketing/sales data including domain information, company research and search keyword research.",
-  "description_for_model": "Provides information about companies, search keywords, website domains, and funding round information.",
+  "description_for_human": "ChatSpot combines the power of ChatGPT with the HubSpot CRM and many other SAAS tools.",
+  "description_for_model": "This plugin helps users interact with their HubSpot CRM and many other SAAS tools. It can provide information on domains, companies, people, deals, tickets, and more. It can also perform actions like creating new contacts, deals, tickets, and more.",
   "auth": {
     "type": "none"
   },
   "api": {
     "type": "openapi",
-    "url": "https://chatspot.ai/plugin/api.yaml",
+    "url": "https://do2.chatspot.ai/plugin/static/api.yaml",
     "is_user_authenticated": false
   },
-  "logo_url": "https://chatspot.ai/plugin/logo.png",
+  "logo_url": "https://do2.chatspot.ai/plugin/static/logo.png",
   "contact_email": "dshah@hubspot.com",
   "legal_info_url": "https://legal.hubspot.com/hubspot-beta-terms"
 }

@@ -1,0 +1,92 @@
+openapi: 3.0.1
+info:
+  title: SEO
+  description: Send a URL and keyword and get a On Page SEO analysis & insights!
+  version: 'v1'
+servers:
+  - url: https://seo-plugin.orrenprunckun.com/
+paths:
+  /:
+    get:
+      operationId: getData  
+      summary: Get data from users
+      description: Get data from users
+      parameters:
+        - name: keyword
+          in: query
+          description: Keyword
+          required: true
+          schema:
+            type: string
+        - name: url
+          in: query
+          description: URL
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    dataResponse:
+      type: object
+      properties:
+        robots:
+          type: string
+          description: Text from robots.txt
+        responseCode:
+          type: string
+          description: Response code
+        loadTime:
+          type: number
+          description: Load time
+        ahrefText:
+          type: string
+          description: Anchor text from ahref 
+        ahrefLink:
+          type: string
+          description: Link from ahref
+        imageName:
+          type: string
+          description: Name of image file             
+        imageAlt:
+          type: string
+          description: Alt text of image
+        title:
+          type: string
+          description: Title of page
+        meta:
+          type: string
+          description: Meta description of page
+        keywordUrl:
+          type: string
+          description: Keyword presence in URL
+        keywordBody:
+          type: string
+          description: Keyword presence in body text          
+        keywordUrltally:
+          type: string
+          description: Keyword tally in URL
+        keywordBodyTally:
+          type: string
+          description: Keyword tally in body text    
+        ahrefTextTally:
+          type: string
+          description: Anchor text from ahref tally
+        ahrefLinkTally:
+          type: string
+          description: Link from ahref tally
+        imageNameTally:
+          type: string
+          description: Name of image file tally           
+        imageAltTally:
+          type: string
+          description: Alt text of image tally   

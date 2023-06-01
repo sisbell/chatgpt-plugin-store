@@ -1,0 +1,74 @@
+openapi: 3.0.1
+info:
+  title: ChatWithWebsite
+  description: A plugin that allows users to load and query websites using ChatGPT. Users must first provide a website URL for processing. You must only use the URL they specify do not add www and remove any query parameters or path names that is not specifically the domain name that the user has specified. For example magicform.ai would be https://magicform.ai. If the domain does not work, remove www if is in the domain url. If not add www. If that does not work add / at the end. Once the text file of website is loaded, help the user learn more about the company and website in the conversation without them needing to specify it everytime.
+  version: "v1"
+servers:
+  - url: https://chatwithwebsite.sdan.io
+paths:
+  /url/load:
+    post:
+      operationId: loadWebUrl
+      summary: Load a webpage from a URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loadWebUrlRequest"
+      responses:
+        "200":
+          description: OK
+  /url/query:
+    post:
+      operationId: queryWebUrl
+      summary: Query a loaded website contents
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/queryWebUrlRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/queryWebUrlResponse"
+
+components:
+  schemas:
+    loadWebUrlRequest:
+      type: object
+      required:
+        - web_url
+      properties:
+        web_url:
+          type: string
+          format: uri
+          description: The URL of the web page to load, including scheme and netloc
+          required: true
+    queryWebUrlRequest:
+      type: object
+      required:
+        - query
+        - web_url
+      properties:
+        query:
+          type: string
+          description: The query or question to ask based on the target webpage(s).
+          required: true
+        web_url:
+          type: string
+          description: The Web URL of the target webpage(s).
+          required: true
+    queryWebUrlResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: string
+          description: The list of text chunks from the website URL that are relevant to the user's query.

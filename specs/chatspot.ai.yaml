@@ -1,10 +1,10 @@
 openapi: 3.0.1
 info:
   title: ChatSpot
-  description: All-in-one tool to access marketing/sales data including search keywords, domain information, and company/competitor research.
+  description: A plugin for an AI assistant called ChatSpot that helps users interact with their HubSpot CRM and many other SAAS tools.
   version: 'v1'
 servers:
-  - url: https://chatspot.ai/api/chatspot/plugin
+  - url: https://do2.chatspot.ai/plugin
 paths:
   /chat:
     post:

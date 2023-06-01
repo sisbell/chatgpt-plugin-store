@@ -1,0 +1,276 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "daigr.am openapi specification",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://daigr.am"
+    }
+  ],
+  "paths": {
+    "/create": {
+      "post": {
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "bar chart": {
+                  "version": "1.0",
+                  "model": {
+                    "data": [
+                      [
+                        4.2,
+                        10.1,
+                        7.5,
+                        6.3,
+                        5.5
+                      ],
+                      [
+                        3.7,
+                        8.9,
+                        6.2,
+                        5.2,
+                        4.8
+                      ],
+                      [
+                        4,
+                        9,
+                        6.5,
+                        5.5,
+                        4.9,
+                        3.1
+                      ]
+                    ],
+                    "nestingLevels": [
+                      {
+                        "name": "States",
+                        "labels": [
+                          "California",
+                          "Oregon",
+                          "Washington"
+                        ],
+                        "aggregator": "sum"
+                      },
+                      {
+                        "name": "Years",
+                        "labels": [
+                          "2019",
+                          "2020",
+                          "2021",
+                          "2022",
+                          "2023"
+                        ],
+                        "aggregator": "sum"
+                      }
+                    ]
+                  },
+                  "view": {
+                    "title": "Unemployment Rates by State for Years 2019-2023 in California, Oregon, and Washington",
+                    "type": "Bar Chart",
+                    "notes": "This is hypothetical data for demonstration purposes."
+                  }
+                },
+                "pie chart": {
+                  "version": "1.0",
+                  "model": {
+                    "data": [
+                      [
+                        11,
+                        0,
+                        12,
+                        -4
+                      ],
+                      [
+                        -5,
+                        6,
+                        1,
+                        2
+                      ],
+                      [
+                        3,
+                        -4,
+                        6,
+                        -7
+                      ]
+                    ],
+                    "nestingLevels": [
+                      {
+                        "name": "Employees",
+                        "labels": [
+                          "James Walker",
+                          "Barb Jones",
+                          "Pat Smith"
+                        ],
+                        "aggregator": "sum"
+                      },
+                      {
+                        "name": "Quarters",
+                        "labels": [
+                          "1st Quarter",
+                          "2nd Quarter",
+                          "3rd Quarter",
+                          "4th Quarter"
+                        ],
+                        "aggregator": "sum"
+                      }
+                    ]
+                  },
+                  "view": {
+                    "title": "Bonus Points by Employee and Quarter for 2022",
+                    "type": "Bar Chart"
+                  }
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "version": {
+                    "type": "string",
+                    "const": "1.0"
+                  },
+                  "model": {
+                    "type": "object",
+                    "properties": {
+                      "nestingLevels": {
+                        "description": "nestingLevels describe the shape of the data array by naming each nesting level (Years, Employees, etc), and by assigning labels to each datum at that level (2009, John Smith)",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "labels": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "aggregator": {
+                              "description": "Aggregators can be used to reduce extra data nestingLevels into aggregate values for display as outer nesting levels.",
+                              "type": "string",
+                              "enum": [
+                                "sum",
+                                "mean",
+                                "median",
+                                "first",
+                                "last",
+                                "count",
+                                "min",
+                                "max"
+                              ],
+                              "default": "sum"
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "labels"
+                          ]
+                        }
+                      },
+                      "data": {
+                        "description": "Data is a nested array of numbers. Each nesting level must be declared as an entry in the 'nestingLevels' property.",
+                        "type": "array",
+                        "items": {
+                          "oneOf": [
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "array",
+                              "items": {
+                                "oneOf": [
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "array",
+                                    "items": {
+                                      "oneOf": [
+                                        {
+                                          "type": "number"
+                                        },
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "oneOf": [
+                                              {
+                                                "type": "number"
+                                              },
+                                              {
+                                                "type": "array",
+                                                "items": {
+                                                  "oneOf": [
+                                                    {
+                                                      "type": "number"
+                                                    },
+                                                    {
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "number"
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "nestingLevels"
+                    ]
+                  },
+                  "view": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "Pie Chart",
+                          "Donut Chart",
+                          "Line Chart",
+                          "Bar Chart"
+                        ],
+                        "default": "Bar Chart"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "description": "Notes about the chart, such as a description of the data or a citation."
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "type"
+                    ]
+                  }
+                },
+                "required": [
+                  "version",
+                  "model",
+                  "view"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

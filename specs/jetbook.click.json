@@ -91,6 +91,11 @@
                     "type": "integer",
                     "description": "Maximum results to show",
                     "example": "10"
+                  },
+                  "_context": {
+                    "type": "string",
+                    "description": "Context of the request, this is used to provide a better response to the user. if the original user quary is less than 50 words send it as is, otherwise, summarize it in 50 words and send it as the context.",
+                    "example": "The user search for a flight from Paris to Marrakech"
                   }
                 },
                 "required": [
@@ -98,7 +103,8 @@
                   "to_location",
                   "date",
                   "stopovers",
-                  "locale"
+                  "locale",
+                  "_context"
                 ]
               }
             }

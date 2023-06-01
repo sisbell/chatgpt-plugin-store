@@ -1,0 +1,177 @@
+openapi: 3.0.1
+info:
+  title: Career Copilot
+  description: A trusted, always on assistant to help software developers find a better job. Built by Commit.dev.
+  version: 'v1'
+servers:
+  - url: http://localhost:3000
+    description: Local server
+  - url: https://copilot.commit-staging.dev
+    description: Stage server
+  - url: https://copilot.commit.dev
+    description: Production server
+  - url: https://app-staging.wolfie.ai
+    description: Stage server - alias
+  - url: https://app.wolfie.ai
+    description: Production server - alias
+paths:
+  /api/chatgpt/jobs:
+    get:
+      operationId: getJobs
+      summary: Get the list of jobs
+      description: Get the list of jobs
+      parameters:
+        - name: userId
+          in: query
+          description: the ID of the current user
+          required: false
+          schema:
+            type: string
+        - name: linkedinUrl
+          in: query
+          description: The linkedin url of the user, which will be used to build the user's profile for more accurate search. If this is provided, the other fields are not needed
+          required: false
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: The location of the user, which will be used to find jobs
+          required: false
+          schema:
+            type: string
+        - name: title
+          in: query
+          description: The title of the job
+          required: false
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: The description of the job
+          required: false
+          schema:
+            type: string
+        - name: skills
+          in: query
+          description: The skills for the job query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getJobsResponse'
+  /api/chatgpt/subscribe:
+    post:
+      operationId: subscribeJobs
+      summary: Subscribe user's email to get daily job lists
+      description: Subscribe user's email to get daily job lists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - email
+              properties:
+                userId:
+                  type: string
+                  description: the ID of the current user
+                linkedinUrl:
+                  type: string
+                  description: Ask this first. The linkedin url of the user, which will be used to build the user's profile for more accurate search
+                location:
+                  type: string
+                  description: The location of the user, which will be used to find jobs
+                title:
+                  type: string
+                  description: The title of the job
+                skills:
+                  type: array
+                  description: The skills for the job query
+                  items:
+                    type: string
+                email:
+                  type: string
+                  description: The email of the user, which will be used to send daily job lists
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subscribeJobsResponse'
+
+components:
+  schemas:
+    getJobsResponse:
+      type: object
+      properties:
+        userId:
+          description: the ID of the current user
+          type: string
+        jobs:
+          description: The list of jobs, if empty, bot should ask for more information from the user
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              company:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  websiteUrl:
+                    type: string
+              description:
+                type: string
+              jobTitle:
+                type: string
+              listingUrl:
+                type: string
+              location:
+                type: string
+              maxSalary:
+                type: number
+              minSalary:
+                type: number
+              postedOnDate:
+                type: Date
+              requiredSeniority:
+                type: string
+              salaryCurrency:
+                type: string
+              skills:
+                type: object
+                properties:
+                  slut:
+                    type: string
+                  displayName:
+                    type: string
+        missingData:
+          description: The list of missing data, if empty, bot should ask for more information from the user
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+          properties:
+            nextBotInstruction:
+              description: the instruction for the next action that the bot should take
+              type: string
+    subscribeJobsResponse:
+      type: object
+      properties:
+        message:
+          type: string

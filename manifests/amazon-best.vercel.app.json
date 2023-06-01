@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Shop Best",
+  "name_for_model": "shopbest",
+  "description_for_human": "Shopping intelligence, simplified. Your shortcut to shopping excellence on Amazon.",
+  "description_for_model": "Shop and get summarized reviews for the best products on Amazon.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://amazon-best.vercel.app/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://amazon-best.vercel.app/imgs/logo96.png",
+  "contact_email": "support@aiagentslab.com",
+  "legal_info_url": "https://www.aiagentslab.com/legal"
+}
