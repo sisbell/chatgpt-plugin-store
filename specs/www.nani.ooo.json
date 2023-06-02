@@ -8,7 +8,7 @@
     "/api/datasets/{datasetId}/tables/{tableId}/schema": {
       "get": {
         "operationId": "getTableSchema",
-        "summary": "Retrieve the schema of a given table in a given dataset",
+        "summary": "Retrieve the schema of a given table in a given dataset. Find dataset and table first.",
         "parameters": [
           {
             "in": "path",
@@ -92,7 +92,7 @@
     "/api/datasets/{datasetId}/tables": {
       "get": {
         "operationId": "getTables",
-        "summary": "Retrieve list of tables in a dataset",
+        "summary": "Retrieve list of tables in a dataset.",
         "parameters": [
           {
             "in": "path",
@@ -236,21 +236,7 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "reason": {
-                            "type": "string"
-                          },
-                          "location": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          }
-                        }
-                      }
+                      "type": "string"
                     }
                   }
                 }

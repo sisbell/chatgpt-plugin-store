@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "TXYZ AI",
+  "name_for_model": "txyz",
+  "description_for_human": "Effortlessly decipher, compare, and answer questions about research papers using a simple Arxiv ID.",
+  "description_for_model": "A plugin that helps researchers read papers.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://txyz.ai/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://txyz.ai/logo.png",
+  "contact_email": "support@txyz.ai",
+  "legal_info_url": "https://txyz.ai/legal"
+}

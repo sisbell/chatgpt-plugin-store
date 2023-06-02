@@ -91,7 +91,6 @@ components:
       type: object
       required:
         - prompt
-        - etfSortType
       properties:
         prompt:
           type: string

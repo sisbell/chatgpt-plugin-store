@@ -1,0 +1,73 @@
+openapi: 3.0.1
+info:
+  title: TODO Plugin
+  description: A plugin that allows the user to find apartments around Australia.
+  version: "v1"
+servers:
+  - url: https://api.urban.com.au/openai
+paths:
+  /apartments:
+    get:
+      operationId: getApartments
+      summary: Get the list of apartments based on the query parameters
+      parameters:
+        - in: query
+          name: address
+          schema:
+            type: string
+          required: false
+          description: The address of the apartment
+        - in: query
+          name: suburbs
+          schema:
+            type: string
+          required: false
+          description: The suburbs of the apartment
+        - in: query
+          name: suburb
+          schema:
+            type: string
+          required: false
+          description: The suburb of the apartment
+        - in: query
+          name: state
+          schema:
+            type: string
+          required: false
+          description: The state of the apartment
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getApartmentsResponse"
+
+components:
+  schemas:
+    getApartmentsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+            description: The title of the apartment.
+          description:
+            type: string
+            description: The description of the apartment.
+          floor_count:
+            type: string
+            description: The Floor count of the apartment.
+          address:
+            type: string
+            description: The Full address of the apartment.
+          suburbs:
+            type: string
+            description: The Suburb and State Code of the apartment.
+          suburb:
+            type: string
+            description: The Suburb and State of the apartment.
+          state:
+            type: string
+            description: The Suburb and State of the apartment.

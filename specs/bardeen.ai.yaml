@@ -28,6 +28,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/QueryResponse"
+        "422":
+          description: Could not understand the provided query. Please rephrase and try again.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
 
 components:
   schemas:

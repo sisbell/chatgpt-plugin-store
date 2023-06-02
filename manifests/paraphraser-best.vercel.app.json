@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Paraphraser",
+  "name_for_model": "Paraphraser",
+  "description_for_human": "Say it better, say it different: Paraphrase like a Pro. Paraphrase for impact and inspire.",
+  "description_for_model": "Paraphrase any text.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://paraphraser-best.vercel.app/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://paraphraser-best.vercel.app/imgs/logo.png",
+  "contact_email": "support@aiagentslab.com",
+  "legal_info_url": "https://www.aiagentslab.com/legal"
+}

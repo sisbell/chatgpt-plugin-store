@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Mini Habits",
+  "name_for_model": "mini_habits",
+  "description_for_human": "Form new habits by breaking them into small, daily tasks.",
+  "description_for_model": "Form new habits by breaking them into small, daily tasks.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://auth.minihabits.ai",
+    "scope": "app:read,app:write",
+    "authorization_url": "https://auth.minihabits.ai/api/authorize",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "30310aba1b884909962aaafdae9a7afc"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.minihabits.ai/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://api.minihabits.ai/logo.png",
+  "contact_email": "legal@minihabits.ai",
+  "legal_info_url": "https://minihabits.ai/legal"
+}

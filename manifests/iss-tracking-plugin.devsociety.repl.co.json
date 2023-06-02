@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ISS Location",
+  "name_for_model": "locator",
+  "description_for_human": "Add-on for displaying the current coordinates of the ISS and the names of the current astronauts in space.",
+  "description_for_model": "Add-on for displaying the current coordinates of the ISS and the names of the current astronauts in space.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://iss-tracking-plugin.devsociety.repl.co/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://i.postimg.cc/FFdwYBw3/ISS-emblem.png",
+  "contact_email": "laura.apenza@gmail.com",
+  "legal_info_url": "dominick.codes"
+}

@@ -1,0 +1,77 @@
+openapi: 3.0.1
+info:
+  title: ISS Tracker Add-On
+  description: It displays the current coordinates of the ISS and the names of the current astronauts in space.
+  version: 'v1'
+servers:
+  - url: https://iss-tracking-plugin.devsociety.repl.co
+paths:
+  /iss_location:
+    get:
+      operationId: getISSLocation
+      summary: Retrieve current location of the ISS.
+      description: Returns the current latitude and longitude of the ISS.
+      responses:
+        "200":
+          description: Returns the current location of the ISS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ISSLocationResponse'
+        "500":
+          description: An error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /astronauts:
+    get:
+      operationId: getAstronautsInSpace
+      summary: Retrieve the names of the current astronauts in space.
+      description: Returns the names of the current astronauts in space.
+      responses:
+        "200":
+          description: Returns the names of the current astronauts in space.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AstronautsResponse'
+        "500":
+          description: An error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ISSLocationResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        location:
+          type: object
+          properties:
+            state:
+              type: string
+            country:
+              type: string
+    AstronautsResponse:
+      type: object
+      properties:
+        number:
+          type: integer
+        astronauts:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              craft:
+                type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string

@@ -1,0 +1,351 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Charge My EV API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/openai/superchargers/frequently-asked-questions": {
+      "get": {
+        "summary": "Get an answer from frequently asked questions about the service and data, e.g. how do I use the Tesla supercharger network?",
+        "operationId": "getSuperchargerFAQsUsingGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Frequently asked questions about superchargers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "description": "Metadata about the FAQ request",
+                      "$ref": "#/components/schemas/Meta"
+                    },
+                    "infoLink": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "An optional link to a page with more information about the service, e.g. https://charge-my-ev.guide"
+                    },
+                    "faqs": {
+                      "type": "array",
+                      "description": "Frequently asked questions about superchargers and their answers.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "question": {
+                            "type": "string",
+                            "description": "The frequently asked question"
+                          },
+                          "answer": {
+                            "type": "string",
+                            "description": "The answer to the frequently asked question"
+                          },
+                          "link": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "An optional link to more information about the frequently asked question"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/openai/superchargers/total-non-tesla-locations": {
+      "get": {
+        "summary": "Get a global total of superchargers available to non-Tesla owners/vehicles for use. Provides the total count and what countries the locations are available in and the relevant superchargers if granularity is requested.",
+        "operationId": "checkOverallTotalAvailableNonTeslaVehicleSuperchargersUsingGET",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Provides the total count of all available superchargers globally for non-Tesla vehicles, plus relevant data like countries, provinces/states and specific superchargers if requested.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "description": "Metadata about the supercharger request",
+                      "$ref": "#/components/schemas/Meta"
+                    },
+                    "count": {
+                      "type": "number",
+                      "description": "Count of all available superchargers globally for non-Tesla vehicles"
+                    },
+                    "superchargers": {
+                      "type": "array",
+                      "description": "The primary and relevant superchargers for non-Tesla vehicles based the user request",
+                      "items": {
+                        "$ref": "#/components/schemas/Supercharger"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/openai/superchargers/non-tesla-evs-by-params": {
+      "get": {
+        "summary": "Get supercharger information available to non-Tesla owners/vehicles by one or more parameters, e.g. city, province/state, country, region. Includes metadata like count and countries relevant to the request.",
+        "operationId": "checkAvailableNonTeslaVehicleSuperchargersUsingGETAndParams",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "description": "City for which to retrieve supercharger for non-Tesla vehicles information. E.g. Toronto, Berlin, New York, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "State for which to retrieve supercharger for non-Tesla vehicles information. e.g. CA, NY, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "Country for which to retrieve supercharger for non-Tesla vehicles information. E.g. United States, Germany, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "description": "Region for which to retrieve supercharger for non-Tesla vehicles information. E.g. North America, Europe, Asia, etc.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Currently available superchargers for non-Tesla vehicles information. Displays the location's title, stations overview, address and permalink properties by default. Amenities and other information for each location can be shown if the user requests it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NonTeslaVehicleSuperchargerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Meta": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "boolean",
+            "description": "Whether or not an error occurred"
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "Error message if an error occurred"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of available superchargers returned"
+          },
+          "cities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Superchargers by cities relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request especially for larger dataset results like a country or region."
+            }
+          },
+          "provincesStates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Superchargers by province/state relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request especially for larger dataset results like a country or region.",
+              "properties": {
+                "abbr": {
+                  "type": "string",
+                  "description": "Abbreviation of the province/state, if available"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the province/state"
+                },
+                "country": {
+                  "type": "integer",
+                  "description": "Country of the province/state"
+                },
+                "stations": {
+                  "type": "integer",
+                  "description": "Number of overall stations in the province/state. Useful for summarizing results to the user and encouraging them to fine tune their location request."
+                }
+              }
+            }
+          },
+          "countries": {
+            "type": "array",
+            "description": "Superchargers by countries relevant to the request.",
+            "items": {
+              "type": "string",
+              "description": "Name of the country"
+            }
+          },
+          "userTip": {
+            "type": "string",
+            "description": "An optional tip for the user when their location request returns no results"
+          },
+          "params": {
+            "type": "object",
+            "description": "The parameters used to retrieve the superchargers"
+          }
+        }
+      },
+      "Supercharger": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "location_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "description": "Name of the supercharger location. Typically takes on the form of {city}, {state} for ease"
+          },
+          "open": {
+            "type": "boolean",
+            "description": "Whether the supercharger station is currently open to the public or not"
+          },
+          "stations": {
+            "type": "integer",
+            "description": "Number of supercharger stations available at the location"
+          },
+          "overview": {
+            "type": "string"
+          },
+          "compatibility": {
+            "type": "string",
+            "description": "The number of supercharger stations, hours of availability, the type of plug/adapter, etc."
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "province_state": {
+            "type": "string",
+            "description": "United States states should be in the form of their two character abbreviation code, e.g. CA for California. Other countries' state codes can be their full name."
+          },
+          "postal_code": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "country_code": {
+            "type": "string",
+            "description": "Standard country code, e.g US for United States"
+          },
+          "region": {
+            "type": "string",
+            "description": "Contitent the supercharger is located in"
+          },
+          "sales_phone": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Contact information for the supercharger",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "number": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "amenities": {
+            "type": "array",
+            "description": "Amenities available at the supercharger location to show if requested by the user",
+            "items": {
+              "type": "object",
+              "description": "Amenities available at the supercharger location",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Amenity descriptor, e.g. Restaurant, Restroom, etc."
+                },
+                "url": {
+                  "type": "string",
+                  "description": "Google Maps URL to the relevant amenities of the supercharger location"
+                }
+              }
+            }
+          },
+          "permalink": {
+            "type": "string",
+            "format": "uri",
+            "description": "A link to a page with more information about the supercharger's location in the format https://charge-my-ev.guide/l/{location_id}"
+          },
+          "latitude": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          }
+        }
+      },
+      "NonTeslaVehicleSuperchargerResponse": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "type": "object",
+            "description": "Metadata about the supercharger request",
+            "$ref": "#/components/schemas/Meta"
+          },
+          "infoLink": {
+            "type": "string",
+            "format": "uri",
+            "description": "An optional link to a page with more information about the service, e.g. https://charge-my-ev.guide"
+          },
+          "userTip": {
+            "type": "string",
+            "description": "An optional tip for the user when their location request returns no results"
+          },
+          "superchargers": {
+            "type": "array",
+            "description": "The superchargers that match the request and to be displayed to the user",
+            "items": {
+              "$ref": "#/components/schemas/Supercharger"
+            }
+          }
+        }
+      }
+    }
+  }
+}

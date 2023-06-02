@@ -1,0 +1,83 @@
+components:
+  schemas:
+    ChatPluginRequest:
+      properties:
+        arxiv_id:
+          title: Arxiv Id
+          type: string
+        chat_history:
+          items:
+            $ref: '#/components/schemas/ChatHistory'
+          title: Chat History
+          type: array
+        query:
+          title: Query
+          type: string
+      required:
+      - arxiv_id
+      - query
+      title: ChatPluginRequest
+      type: object
+    SummarizePluginRequest:
+      properties:
+        arxiv_id:
+          title: Arxiv Id
+          type: string
+      required:
+      - arxiv_id
+      title: SummarizePluginRequest
+      type: object
+info:
+  title: Txyz Plugin
+  version: 0.1.0
+  description: A plugin help researchers read arxiv papers.
+openapi: 3.0.2
+servers:
+  - url: https://api.txyz.ai
+paths:
+  /chat_plugin/:
+    post:
+      description: fastAPI POST /chat to send a new message to the chat. takes sessionId
+        (String), and query(String) as input and returns a message(string)
+      operationId: chat_plugin_chat_plugin__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatPluginRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Chat Plugin
+  /summarize_plugin/:
+    post:
+      operationId: summarize_plugin_summarize_plugin__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SummarizePluginRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Summarize Plugin

@@ -77,6 +77,67 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
+  /test-mysql-connection:
+    post:
+      operationId: testMySQLConnection
+      summary: Test the connection to the MySQL database with user credentials, server name, and ai2sql_token, and return the table names and their columns associated with the ai2sql_token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestMySQLConnectionRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestMySQLConnectionResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: "Server, user, password, database, or ai2sql_token not provided. Please contact support@ai2sql.io for assistance."
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: "Error while testing connection"
+                  details:
+                    type: string
+                    example: "An error occurred while testing the connection to the MySQL database. Please check your connection details or visit https://ai2sql.io and ensure that the MySQL server is accessible. For further assistance, contact support@ai2sql.io."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /test-connection:
     post:
@@ -186,6 +247,44 @@ components:
         details:
           type: string
           description: The error details
+    components:
+    TestMySQLConnectionRequest:
+      type: object
+      properties:
+        server:
+          type: string
+          description: The MySQL server
+        database:
+          type: string
+          description: The MySQL database
+        user:
+          type: string
+          description: The MySQL user
+        password:
+          type: string
+          description: The MySQL password
+        port:
+          type: integer
+          description: The MySQL port
+        ai2sql_token:
+          type: string
+          description: The user's ai2sql_token
+      required:
+        - server
+        - database
+        - user
+        - password
+        - ai2sql_token
+    TestMySQLConnectionResponse:
+      type: object
+      properties:
+        tables_with_columns:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+            description: The list of column names for each table
     TestConnectionRequest:
       type: object
       properties:

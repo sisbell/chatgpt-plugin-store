@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Kakaku.com/travel",
+  "name_for_model": "kakakucom_travel",
+  "description_for_human": "You can search for hotel that match your search criteria from among the many hotels registered on Kakaku.com.",
+  "description_for_model": "The assistant can search based on what the user types and provide relevant japanese hotel suggestions to the user. If the holes in response is blank, let user enter a different area name. Return all responses included in the API. Use only the information from the API response and nothing else. Assistant must never add extra information to the API response. Answer in the language asked. The first paragraph explain that what was searched for as area name. If there are conditions that are not reflected in search parameters even if user enters them, explain them in the first paragraph. The second paragraph displays a list of hotels from the API response in the same order. The hotel name becomes a text link which url is in the API response. For each hotel, under the hotel name, itemize the hotel information in the following order: description, total_rating with review_count. Do not repeat the same hotel list. If the API response has around areas information, show users the links which url are in the API response. On the last paragraph, note reviews are poseted on 4travel.jp which is operated by kakaku.com.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api-travel.kakaku.com/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://api-travel.kakaku.com/favicon.ico",
+  "contact_email": "travel_user_support@kakaku.com",
+  "legal_info_url": "https://help.kakaku.com/kiyaku_site.html"
+}

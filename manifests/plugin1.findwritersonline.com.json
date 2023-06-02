@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "My Writing Companion",
+  "name_for_model": "MyWritingCompanion",
+  "description_for_human": "Find, hire, and manage remote human writers, the best way to ensure your content is engaging, accurate, and error-free.",
+  "description_for_model": "Tool that helps you to hire and manage remote human writers, the best way to ensure your content is engaging, accurate, and error-free.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin1.findwritersonline.com/swagger/v1/swagger.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://plugin1.findwritersonline.com/.well-known/logo.png",
+  "contact_email": "support@findwritersonline.com",
+  "legal_info_url": "https://www.findwritersonline.com/TermsAndConditions"
+}

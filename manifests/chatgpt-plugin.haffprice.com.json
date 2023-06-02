@@ -2,7 +2,7 @@
   "schema_version": "v1",
   "name_for_human": "HaffPrice",
   "name_for_model": "HaffPrice",
-  "description_for_human": "Shopping all kinds of products with the lowest price in the market.",
+  "description_for_human": "Shop lowest price deals on millions of products. Electronics, shoes & clothing for less than Amazon!",
   "description_for_model": "Access, search and recommend products by both text and image in the haffprice.com.",
   "auth": {
     "type": "service_http",

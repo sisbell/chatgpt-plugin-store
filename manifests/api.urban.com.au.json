@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "urban_com_au",
+  "name_for_human": "Urban New Apartments",
+  "description_for_human": "Search the best off-the-plan and new apartments from Australiaâs leading property developers.",
+  "description_for_model": "Urban.com.au is Australia's premier off-the-plan properties and new apartments platform, committed to providing an unrivalled online experience for prospective buyers seeking quality residential properties. We pride ourselves on featuring thousands of world-class residential apartments from Australia's top property developers, connecting potential homeowners with their dream homes. Our platform is built on a robust and intuitive search system that empowers buyers to find the perfect property based on their unique preferences. Users can refine their search starting from locationâwhether it be by Suburb, Local Government Area (LGA), or State. To further tailor the search experience, additional filters such as budget and pricing, the number of bedrooms and bathrooms, and carpark availability can be applied. But we don't stop there. We understand that the surroundings of a property can be just as important as the property itself. That's why we've integrated the ability to search by amenities and nearby facilities such as schools, hospitals, supermarkets, and police stations. This holistic approach ensures our users can find a property that aligns not just with their housing needs, but also with their lifestyle and community preferences. In addition to the extensive search capabilities, No.1 new apartments, off-the-plan real estate property site  provides an immersive browsing experience. For select developments, we feature project videos and highlight desirable amenities such as swimming pools and gyms. This allows potential buyers to get a true sense of what living in these properties would be like, further aiding them in their decision-making process. Moreover, if users know the name of a developer, they can delve into their industry profile on our platform. This serves as a comprehensive source of information about the developer, their past projects, and their reputation in the industry, providing valuable insights to the buyer. At Urban.com.au, off-the-plan real estate property site , we believe in making the property search process as seamless and informative as possible. We are constantly refining our platform to ensure that it remains the leading choice for individuals seeking off-the-plan properties and new apartments in Australia. We invite you to explore Urban.com.au discover the unparalleled service that sets us apart in the Australian property market.",
+  "api": {
+    "type": "openapi",
+    "url": "https://api.urban.com.au/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "auth": {
+    "type": "none"
+  },
+  "logo_url": "https://www.urban.com.au/urban_logo.png",
+  "contact_email": "tech@urban.com.au",
+  "legal_info_url": "https://www.urban.com.au/legal"
+}

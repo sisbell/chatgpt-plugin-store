@@ -1,0 +1,278 @@
+openapi: 3.0.0
+info:
+  title: Mini Habits
+  description: |
+    Form new habits by breaking them into small, daily tasks.
+  version: "v1"
+servers:
+  - url: https://api.minihabits.ai
+paths:
+  /habit:
+    get:
+      summary: Get all habits
+      description: |
+        Returns a list of all habits for a given user.
+      tags:
+        - Habits
+      operationId: getHabits
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: No habits found
+    post:
+      summary: Create a habit
+      description: |
+        A habit is a behavior that you perform automatically, without thinking about it.
+        The goal of this app is to help you build good habits and break bad ones.
+        The app will help you track your progress and give you feedback on how you're doing.
+      tags:
+        - Habits
+      operationId: createHabit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                initialActivity:
+                  type: string
+                  description: |
+                    What is the user currently doing?
+                    This means the starting stage.
+              required:
+                - name
+                - description
+                - initialActivity
+      responses:
+        "201":
+          description: Habit created
+        "400":
+          description: Bad request
+        "500":
+          description: Internal Server Error
+  /habit/{habitId}:
+    get:
+      summary: Get a specific habit
+      tags:
+        - Habits
+      operationId: getHabit
+      parameters:
+        - in: path
+          name: habitId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: Habit not found
+  /habit/{habitId}/task:
+    get:
+      summary: Get all tasks for a habit
+      description: |
+        Returns a list of all tasks for a given habit.
+      tags:
+        - Tasks
+      operationId: getTasks
+      parameters:
+        - in: path
+          name: habitId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+        "404":
+          description: No tasks found
+    post:
+      summary: Create a task
+      description: |
+        A task that helps the user take a step towards accomplishing their habit.
+        Tasks are meant to be finite and achievable.
+        Emphasizes the compound effect of small, consistent improvements or 'atomic habits'.
+      tags:
+        - Tasks
+      operationId: createTask
+      parameters:
+        - in: path
+          name: habitId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                task:
+                  type: string
+                endDate:
+                  type: string
+                frequency:
+                  type: string
+                  enum: ['daily', 'weekly', 'monthly', 'yearly']
+              required:
+                - name
+                - description
+                - endDate
+                - task
+                - frequency
+      responses:
+        "201":
+          description: Task created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  task:
+                    $ref: '#/components/schemas/Task'
+        "400":
+          description: Bad request
+        "500":
+          description: Internal Server Error
+  /habit/{habitId}/task/{taskId}:
+    get:
+      summary: Get a specific task
+      tags:
+        - Tasks
+      operationId: getTask
+      parameters:
+        - in: path
+          name: habitId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  task:
+                    $ref: '#/components/schemas/Task'
+        "404":
+          description: Task not found
+    put:
+      summary: Update a speicfic task
+      description: |
+        Allows the user to log a task related to a habit.
+        Creates a date log entry for the task.
+      tags:
+        - Tasks
+      operationId: updateTask
+      parameters:
+        - in: path
+          name: habitId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  task:
+                    $ref: '#/components/schemas/Task'
+        "400":
+          description: Bad request (task already completed or abandoned)
+        "404":
+          description: Task not found
+        "500":
+          description: Internal Server Error
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: The ID of the user who owns the task.
+        habitId:
+          type: string
+          description: The ID of the habit that the task is associated with.
+        name:
+          type: string
+          description: The name of the task.
+        description:
+          type: string
+          description: A description of the task.
+        startDate:
+          type: string
+          format: date-time
+          description: The date when the task is to start.
+        endDate:
+          type: string
+          format: date-time
+          description: The date when the task is to end.
+        task:
+          type: string
+          description: The actual task to be completed.
+        status:
+          type: string
+          description: The status of the task (NOT_STARTED, IN_PROGRESS, COMPLETED, ABANDONED).
+          enum: [NOT_STARTED, IN_PROGRESS, COMPLETED, ABANDONED]
+        frequency:
+          type: string
+          description: How often the task should be done (daily, weekly, monthly, yearly).
+          enum: [daily, weekly, monthly, yearly]
+        logs:
+          type: array
+          items:
+            type: string
+            format: date-time
+          description: The dates when the task was logged.
+      required:
+        - userId
+        - habitId
+        - name
+        - description
+        - startDate
+        - task
+        - frequency

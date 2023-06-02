@@ -1,6 +1,6 @@
 {
   "schema_version": "v1",
-  "name_for_human": "Nutrition Coach",
+  "name_for_human": "Calorie Coach",
   "name_for_model": "shimmer_calorie_counter",
   "description_for_human": "Track meals & gain insights for a healthier lifestyle from 1m+ restaurants & grocery stores.",
   "description_for_model": "A nutrition AI coach that adds your meal to calculate your daily totals and also sends back feedback with nutrition information. Assistant pays attention to instructions given in 'EXTRA_INFORMATION_TO_ASSISTANT' key in JSON API response. Assistant only submits JSON in the request without comments. Assistant estimates and immediately sends a request to Shimmer, no need to confirm with the user.",
@@ -11,7 +11,7 @@
     "authorization_content_type": "application/json",
     "scope": "",
     "verification_tokens": {
-      "openai": "d9758210f23c4bea94f9a5faac8ce692"
+      "openai": "fcd7afef624647329f30b88a68e37522"
     }
   },
   "api": {

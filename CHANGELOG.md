@@ -1,4 +1,21 @@
 # Plugin Store Listing Changelog
+## 2023-06-02
+### Newly Listed
+* [api-travel.kakaku.com](manifests/api-travel.kakaku.com.json)
+* [api.minihabits.ai](manifests/api.minihabits.ai.json)
+* [api.urban.com.au](manifests/api.urban.com.au.json)
+* [cloudflare-workers-chatgpt-plugin-example.highperplexity.workers.dev](manifests/cloudflare-workers-chatgpt-plugin-example.highperplexity.workers.dev.json)
+* [iss-tracking-plugin.devsociety.repl.co](manifests/iss-tracking-plugin.devsociety.repl.co.json)
+* [paraphraser-best.vercel.app](manifests/paraphraser-best.vercel.app.json)
+* [plugin.charge-my-ev.guide](manifests/plugin.charge-my-ev.guide.json)
+* [plugin1.findwritersonline.com](manifests/plugin1.findwritersonline.com.json)
+* [txyz.ai](manifests/txyz.ai.json)
+### Delisted
+* [abcaudio.vynalezce.com](manifests/abcaudio.vynalezce.com.json)
+* [api.gamebase.chat](manifests/api.gamebase.chat.json)
+* [comicfinder.fly.dev](manifests/comicfinder.fly.dev.json)
+* [sic.smlxl.ai](manifests/sic.smlxl.ai.json)
+* [www.aperiodic.io](manifests/www.aperiodic.io.json)
 ## 2023-06-01
 ### Newly Listed
 * [aiplugin-experiences.owlting.com](manifests/aiplugin-experiences.owlting.com.json)

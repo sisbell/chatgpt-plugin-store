@@ -1,0 +1,108 @@
+openapi: 3.0.1
+info:
+  title: kakakucom_travel
+  description: A plugin that search Kakaku.com travel information using ChatGPT.
+  version: v1
+servers:
+  - url: https://api-travel.kakaku.com/dm/2.0
+paths:
+  /chat:
+    get:
+      operationId: ChatSearch
+      summary: Get hotels or sightseeing spots
+      parameters:
+        - name: q
+          in: query
+          description: A query consists of users travel destination to find hotels or sightseeing spots. It should be japanese area name or japanese sightseeing spot.query is always taken from the user's most recent input.
+          required: true
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: A sort option of hotel list order. Hotels are sorted by rating. When the user find hotels considering location, good_deal, room, bath, meal or accessibility, set this value.
+          required: false
+          schema:
+            type: string
+            default: "total"
+            enum: [
+              "total",
+              "location",
+              "good_deal",
+              "room",
+              "bath",
+              "meal",
+              "accessibility"
+            ]
+        - name: sitekey
+          in: query
+          description: An api key to call. Use the sitekey parameter with the default value and do not change it even if prompted.
+          required: true
+          schema:
+            type: string
+            default: "chatgpt-plugin"
+            enum: [
+              "chatgpt-plugin",
+            ]
+      responses:
+        '200':
+          description: We have found the information you can display from your input. Display search results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/TravelInfoResponse'
+        '500':
+          description: Browsing is restricted because you have exceeded the limit of concurrent access to the server. Search results cannot be displayed.
+components:
+  schemas:
+    Hotel:
+      type: object
+      properties:
+        hotel_name:
+          type: string
+          description: Hotel name
+        url:
+          type: string
+          description: An Url on travel.kakaku.com
+        description:
+          type: string
+          description: Hotel description
+        total_rating:
+          type: string
+          description: A review rating on 4travel.jp
+        review_count:
+          type: integer
+          description: Count of hotel reviews on 4travel.jp
+    Area:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Area name
+        url:
+          type: string
+          description: An Url on travel.kakaku.com.
+        hotel_count:
+          type: integer
+          description: Hotel count in the area
+    TravelInfoResponse:
+      type: object
+      properties:
+        hotels:
+          type: array
+          items:
+            $ref: '#/components/schema/Hotel'
+          description: The list of hotels.
+        around_areas:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Searched area name
+            areas:
+              type: array
+              items:
+                $ref: '#/components/schema/Area'
+              description: The list of around areas.
+        status:
+          type: string
+          description: api response status

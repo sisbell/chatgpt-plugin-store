@@ -1,9 +1,9 @@
 {
   "schema_version": "v1",
   "name_for_human": "HeyGen",
-  "name_for_model": "heygen",
+  "name_for_model": "HeyGen",
   "description_for_human": "Meet HeyGen - The best AI video generation platform for your team.",
-  "description_for_model": "Plugin for creating avatar videos (AI spokesperson videos). The plugin can generate an avatar video from simply a piece of text.",
+  "description_for_model": "The HeyGen plugin allows users to create an avatar video using ChatGPT by simply providing a transcript text. The user inputs the text transcript for the speech or voiceover they want to generate for the avatar video. The text should be short and concise. Optional properties such as video title and avatar gender can be extracted from the user's input, but if they are not present, the model should generate them without seeking additional user input. Once the avatar video is generated, a link to the video is provided. Users can view the video from the link after the avatar video has completed generation. It is important to remind users that they may see a loading message in the link if the video is still being processed, and they will need to manually refresh the link page to check if the video is ready. The user should also be informed that the video generation may take one to five minutes, depending on the text length. In case the avatar video fails to create, an error message containing the reason(s) for the failure will be provided.",
   "auth": {
     "type": "none"
   },
