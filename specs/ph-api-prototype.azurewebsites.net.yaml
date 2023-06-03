@@ -1,0 +1,44 @@
+openapi: 3.0.1
+info:
+  title: Peel Hunt AI API
+  version: 1.0.0
+servers:
+  - url: https://ph-api-prototype.azurewebsites.net
+paths:
+  /api:
+    post:
+      operationId: queryCompanyNews
+      summary: Query the AI model to find Company news from Peel Hunt.
+      description: Query the AI model to find Company news by the context of the query, date or list of sectors provided.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/queryCompanyNewsResponse'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/queryCompanyNewsResponse'
+components:
+  schemas:
+    queryCompanyNewsResponse:
+      type: object
+      properties:
+        query:
+          type: string
+          description: Mandatory header with the full unedited query from the user.
+        start_date:
+          description: A single date in 'YYYY-MM-DD' format. This is used to select publish dates that occur on or after this date. Default date is 120 days before today's date.
+          type: string
+        end_date:
+          description: A single date in 'YYYY-MM-DD' format. This is used to select publish dates that occur on or before this date. Default value should be today's date.
+          type: string
+        sectors:
+          description: List of sectors to filter by if relevant. Leave empty if no filter is needed. Availalble options are "Retailers", "Technology", "Food & Agribusiness", "Travel & Leisure","Mining", "Support Services", "Transport", "Media", "Financial Services", "Investment Companies", "Oil & Gas", "Industrials", "Real Estate", "Housing, Building Materials & Merchants", "Household Goods", "Insurance", "Healthcare & Life Sciences", "New Energy & Clean Technology"
+          type: array
+          items:
+            type: string

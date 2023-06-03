@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://roboad.herokuapp.com/"
+      "url": "https://roboad.herokuapp.com"
     }
   ],
   "paths": {

@@ -12,7 +12,7 @@
     "url": "https://roboad.herokuapp.com/openapi.yaml",
     "is_user_authenticated": false
   },
-  "logo_url": "https://roboad.herokuapp.com/static/roboad_logo.png",
+  "logo_url": "https://roboad.herokuapp.com/static/img/roboad_logo.png",
   "contact_email": "info@roboad.app",
   "legal_info_url": "https://roboad.herokuapp.com/legal"
 }

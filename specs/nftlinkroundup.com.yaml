@@ -1,0 +1,22 @@
+openapi: 3.0.1
+info:
+  title: NFT News Roundup
+  description: Get Today's NFT News Headlines As A Clickable Link Roundup!
+  version: 'v1'
+servers:
+  - url: https://nftlinkroundup.com/ai-plugin/
+paths:
+  /:
+    get:
+      summary: Give user headlines for NFTs from today
+      operationId: getHeadline       
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

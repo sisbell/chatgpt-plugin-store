@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Wanted Job Search",
+  "name_for_model": "wanted_job_search",
+  "description_for_human": "Explore and inquire about global job opportunities, and dive into the details of worldwide positions with precision.",
+  "description_for_model": "Explore and inquire about global job opportunities, and dive into the details of worldwide positions with precision.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://assistant.wanted.co.kr/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://assistant.wanted.co.kr/logo.png",
+  "contact_email": "jinjoong.kim@wantedlab.com",
+  "legal_info_url": "https://www.wanted.co.kr/terms"
+}

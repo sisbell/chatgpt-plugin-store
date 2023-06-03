@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: Stories
+  description: Create beautiful, illustrated stories easily.
+  version: 'v1'
+servers:
+  - url: https://api.storybird.ai
+paths:
+  /api/generate_story:
+    post:
+      operationId: generateStory
+      summary: Initialize story creation on storybird.ai, takes prompt parameter as input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getGenerateStoryRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGenerateStoryResponse'
+components:
+  schemas:
+    getGenerateStoryRequest:
+      type: object
+      properties:
+        prompt:
+          type: string
+          description: The prompt to generate the story from.
+    getGenerateStoryResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the story.
+        blurb:
+          type: string
+          description: The blurb for the story.
+        url:
+          type: string
+          description: The link to the story.
+        additionalInformationForAssistant:
+          type: string
+          description: The additional information for the assistant to render the response.

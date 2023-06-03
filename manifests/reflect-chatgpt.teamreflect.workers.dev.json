@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://reflect-chatgpt.teamreflect.workers.dev/auth",
+    "scope": "",
+    "authorization_url": "https://reflect-chatgpt.teamreflect.workers.dev/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "ca161bd40d4e4ccc868bf1c4ab2c6919"
+    }
+  },
+  "name_for_human": "Reflect Notes",
+  "name_for_model": "reflect_notes",
+  "description_for_human": "Creates a Reflect note.",
+  "description_for_model": "Creates a Reflect note. For example, saving a summary of a conversation history to Reflect.",
+  "contact_email": "support@reflect.app",
+  "legal_info_url": "https://reflect.app/terms",
+  "logo_url": "https://reflect.app/site/icons/512x512-rounded.png",
+  "api": {
+    "type": "openapi",
+    "has_user_authentication": false,
+    "url": "https://reflect-chatgpt.teamreflect.workers.dev/openapi.json"
+  }
+}

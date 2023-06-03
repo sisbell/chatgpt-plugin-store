@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "CharitySense",
+  "name_for_model": "charity",
+  "description_for_human": "Get data on US-based non-profits including mission, key people, governance, ratings and financial data.",
+  "description_for_model": "Get data on US-based non-profits including mission, key people, governance, ratings and financial data.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.charitysense.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://www.charitysense.com/favicon.png",
+  "contact_email": "mazhar@sinalabs.org",
+  "legal_info_url": "https://api.charitysense.com/legal.txt"
+}

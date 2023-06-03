@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "Sudoku",
+  "name_for_human": "Sudoku",
+  "description_for_model": "I am a sudoku game master. I will give you a problem and check your answer.",
+  "description_for_human": "This is a sudoku game. You use voice or text to play.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chat-sudoku-api.bricks.cool/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://chat-sudoku-api.bricks.cool/.well-known/logo.png",
+  "contact_email": "hello@chat-sudoku-api.bricks.cool",
+  "legal_info_url": "https://chat-sudoku-api.bricks.cool/.well-known/legal-info.txt"
+}

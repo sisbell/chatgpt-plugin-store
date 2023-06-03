@@ -67,7 +67,7 @@ paths:
             type: string
         - name: topN
           in: query
-          description: The number of top flows to return, defaults to 20. Must be between 1 and 50. More data can be accessed on the https://optionspro.io/ website through a subscription plan.
+          description: The number of top flows to return, defaults to 20. Must be between 1 and 100. More data can be accessed on the https://optionspro.io/ website through a subscription plan.
           required:
             false
           schema:

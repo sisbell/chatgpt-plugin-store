@@ -1,0 +1,44 @@
+openapi: 3.0.1
+info:
+  title: ChatGPT Plugin API
+  version: 1.0.0
+  description: A simple ChatGPT plugin for designing images.
+servers:
+  - url: https://try.hubcart.ai
+paths:
+  /sdapi/v1/txt2img:
+    post:
+      summary: Generate Image from Text
+      description: Generates an image based on the provided text prompt.
+      operationId: generateImageFromText
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Txt2ImgRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeedResponse'
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    Txt2ImgRequest:
+      type: object
+      properties:
+        prompt:
+          type: string
+        send_images:
+          type: boolean
+        save_images:
+          type: boolean
+    SeedResponse:
+      type: object
+      properties:
+        seed:
+          type: string

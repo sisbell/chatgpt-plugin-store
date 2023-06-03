@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Your AI Council",
+  "name_for_model": "ai_council",
+  "description_for_human": "The AI council assesses queries through various agents, offering insights from many perspectives.",
+  "description_for_model": "AI council sends the user query over to the api which evaluates it from 5 different perspectives and returns an evaluation.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://my-plugin.arnasltlt.repl.co/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://th.bing.com/th/id/OIG.AuvaCNUrvRfupQEne.ZD?pid=ImgGn",
+  "contact_email": "arnoldas@kemeklis.eu",
+  "legal_info_url": "https://my-plugin.arnasltlt.repl.co"
+}

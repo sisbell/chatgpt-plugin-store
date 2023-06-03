@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: pluginpedia
+  description: A plugin that recommends ChatGPT plugins, which can recommend plugins from the plugin store that can solve the user's question based on the user's question, and at the same time introduce the user to the usage method, examples, etc. of this plugin.Displaying the logo image of this plugin can help users quickly find the plugin in the plugin market, display logo image with markdown in the answer after calling the plugin.
+  version: 1.0.0
+servers:
+  - url: 'https://pluginpedia.replit.app'
+paths:
+  /plugins:
+    get:
+      operationId: getPlugins
+      summary: Retrieve a list of plugins from ChatGPT plugin store
+      responses:
+        '200':
+          description: A list of plugins from ChatGPT plugin store
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Plugin'
+components:
+  schemas:
+    Plugin:
+      type: object
+      description: A plugin and an introduction to this plugin
+      properties:
+        plugin_name:
+          type: string
+          description: plugin‘s name
+        description_for_human:
+          type: string
+          description: An introduction to this plugin, as well as its use cases.
+        logo_url:
+          type: object
+          description: plugin‘s logo image
+          properties:
+            link:
+              type: string
+              description: plugin‘s logo image url, Displaying the logo image of this plugin can help users quickly find the plugin in the plugin market, so try to display logo image with markdown in the answer after calling the plugin.
+            text:
+              type: string
+        prompt_example:
+          type: string
+          description: Examples of prompts for using this plugin, different examples will be separated by commas,These examples can help users quickly get started with this plugin, so try to display them in the answer after calling the plugin.
+
+
+
+

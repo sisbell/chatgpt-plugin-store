@@ -1,0 +1,130 @@
+openapi: 3.0.2
+info:
+  title: Scholar Assist
+  description: Searches relevant academic papers and answers any specific question from the papers.
+  version: 1.0.0
+  servers:
+    - url: https://scholarassist.org
+paths:
+  /collect:
+    post:
+      summary: Collect
+      description: Collects relevant academic papers from arXiv and summarizes each paper, providing reference information.
+      operationId: collect
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Collect"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CollectResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+  /ask:
+    post:
+      summary: Ask
+      description: Extracts an answer from a given PDF in response to the user's question.
+      operationId: ask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Ask"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AskResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    Collect:
+      title: Collect
+      type: object
+      properties:
+        query:
+          title: Collect
+          type: string
+    CollectResponse:
+      title: CollectResponse
+      required:
+        - result
+      type: object
+      properties:
+        result:
+          title: Results
+          type: string
+    Ask:
+      title: Ask
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        download_url:
+          title: pdf_url
+          type: string
+        title:
+          title: Title
+          type: string
+    AskResponse:
+      title: AskResponse
+      required:
+        - result
+      type: object
+      properties:
+        result:
+          title: Results
+          type: string
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

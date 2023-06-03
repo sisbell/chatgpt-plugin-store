@@ -199,7 +199,7 @@
                 "properties": {
                   "query": {
                     "type": "string",
-                    "description": "Executes a SQL query against Google Big Query datasets. The query should specify the project name, dataset name, and table name clearly e.g. 'bigquery-public-data.crypto_ethereum.balances'."
+                    "description": "Executes a SQL query against Google Big Query datasets. The query should specify the project name, dataset name, and table name clearly e.g. 'bigquery-public-data.crypto_ethereum.balances'. To ensure efficient and cost-effective queries, the AI model should: - Use WHERE, LIMIT, and TOP clauses to restrict the amount of data returned. - Specify the exact columns needed instead of using SELECT *. - Use functions like APPROX_COUNT_DISTINCT instead of COUNT DISTINCT. - Minimize the use of JOIN operations."
                   }
                 },
                 "required": [
@@ -258,7 +258,7 @@
     },
     "/api/resolve": {
       "get": {
-        "operationId": "getResolve",
+        "operationId": "resolveEthAddressOrEns",
         "summary": "Resolve an Ethereum address or ENS name",
         "parameters": [
           {

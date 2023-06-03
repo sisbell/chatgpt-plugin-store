@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Create a QR code",
+  "name_for_model": "create_qr_code",
+  "description_for_human": "Create a QR code for any text or url.",
+  "description_for_model": "Create a QR Code For Any Text or url.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://create-qr-code.modelxy.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://create-qr-code.modelxy.com/qr-logo.png",
+  "contact_email": "hi@michaelerasm.us",
+  "legal_info_url": "https://create-qr-code.modelxy.com/legal"
+}

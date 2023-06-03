@@ -1,0 +1,166 @@
+openapi: 3.0.2
+info:
+  title: GameSight
+  description: GameSight is a comprehensive tool for discovering, comparing, and gaining insights into video games. It enables users to search for specific games or related content such as guides, news, reviews, game strategy guide and beginner's guide to the game. Additionally, users can seek recommendations tailored to their preferences, or compare games based on player reviews. GameSight provides broad game coverage but might have limitations for some less popular or very new games. It also offers insights into game content, such as reviews, guides, PVs, and news, presenting a diverse array of game-related information. Lastly, it provides game recommendations and allows comparisons between different games based on player reviews. Please note that the available information and functions depend on the game's popularity and the time since its release.
+  version: 1.0.0
+servers:
+  - url: https://openai.tapapis.com
+
+paths:
+  /plugin/v1/search-game:
+    post:
+      operationId: searchGames
+      summary: API for looking games and game recommendations and comparisons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryGameRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGamesResponse'
+  /plugin/v1/search-game-related-content:
+    post:
+      operationId: searchGameRelatedContent
+      summary: API for search game-related content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryContentRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getContentsResponse'
+components:
+  schemas:
+    QueryGameRequest:
+      title: QueryGameRequest
+      type: object
+      required:
+        - query
+        - raw_question
+      properties:
+        query:
+          type: string
+          description: use to query games
+        raw_question:
+          type: string
+          description: raw description for finding games
+    QueryContentRequest:
+      title: QueryContentRequest
+      type: object
+      required:
+        - query
+        - raw_question
+      properties:
+        query:
+          type: string
+          description: use to query games related content
+        raw_question:
+          type: string
+          description: raw description for finding games related content
+    getGamesResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GameItem"
+    getContentsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContentItem"
+    GameItem:
+      title: GameItem
+      type: object
+      properties:
+        title:
+          title: title
+          type: string
+          description: The title of the game.
+        genre:
+          title: genre
+          type: string
+          description: game category
+        description:
+          title: description
+          type: string
+          description: The description of the game.
+        url:
+          title: url
+          type: string
+          description: The url of the game.
+        developer:
+          title: developer
+          type: string
+          description: game developer.
+        publisher:
+          title: publisher
+          type: string
+          description: game publisher.
+        release_date:
+          title: release_date
+          type: string
+          description: game release date.
+        platform:
+          title: platform
+          type: string
+          description: game support platform like ios,android etc.
+        status:
+          title: status
+          type: string
+          description: game status available for download or reservable.
+        price:
+          title: price
+          type: string
+          description: game sale price.
+        localization:
+          title: price
+          type: string
+          description: game supported localization.
+        rating:
+          title: rating
+          type: string
+          description: game rating in GameSight.
+        review:
+          title: review
+          type: string
+          description: game real review from user in GameSight.
+
+    ContentItem:
+      title: ContentItem
+      type: object
+      properties:
+        url:
+          title: url
+          type: string
+          description: The url of content.
+        title:
+          title: title
+          type: string
+          description: The title of content.
+        author:
+          title: author
+          type: string
+          description: The author of content.
+        summary:
+          title: summary
+          type: string
+          description: The summary of content.
+        content:
+          title: content
+          type: string
+          description: content detail.

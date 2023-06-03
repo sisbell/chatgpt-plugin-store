@@ -1,0 +1,99 @@
+openapi: 3.0.1
+info:
+  title: Product Offers API
+  version: 'v.0.1'
+servers:
+  - url: 'https://productoffergpt.bootstrapden.com'
+    description: Production server (uses live data)
+  - url: 'http://localhost:3333'
+    description: test local server
+paths:
+  /offers/{searchKey}/{userMessage}:
+    get:
+      operationId: getOffersBySearchKey
+      parameters:
+        - name: searchKey
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The search keyword, in english. Translate it in english before submitting. 
+        - name: userMessage
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The query used by chatgpt to derive the search keyword. I don't need the original message written by the user, but I would like a reduced form of the prompt in the original language.
+      responses:
+        '200':
+          description: A list of product offers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer'
+        '500':
+          description: There was an error processing your request
+  /offers/{searchKey}/{maximumPrice}/{userMessage}:
+    get:
+      operationId: getOffersBySearchKeyMaximumPrice
+      parameters:
+        - name: searchKey
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The search keyword, in english. Translate it in english before submitting. 
+        - name: maximumPrice
+          in: path
+          required: true
+          schema:
+            type: integer
+            default: 999999
+          description: The maximum price for offers.
+        - name: userMessage
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The query used by chatgpt to derive the search keyword. I don't need the original message written by the user, but I would like a reduced form of the prompt.
+      responses:
+        '200':
+          description: A list of product offers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer'
+        '500':
+          description: There was an error processing your request
+components:
+  schemas:
+    Offer:
+      type: object
+      properties:
+        brand:
+          type: string
+          description: The manufacturer of the object. 
+        title:
+          type: string
+        description:
+          type: string
+        rawUrl:
+          type: string
+        detailUrl:
+          type: object
+          properties:
+            value:
+              type: string
+        price:
+          type: integer
+        imageUrl:
+          type: string
+        imageLink:
+          type: string
+        merchantBaseWebsite:
+          type: string
+          description: The website where the item can be bought. 

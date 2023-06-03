@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Scholar Assist",
+  "name_for_model": "scholar_assist",
+  "description_for_human": "Search academic research papers from arXiv and find answers to your questions.",
+  "description_for_model": "Search academic research papers and find answers to the user's questions.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "c1264809e700470184edec28ba74a036"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://scholarassist.org/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://scholarassist.org/.well-known/logo.png",
+  "contact_email": "kiyo921@hotmail.co.jp",
+  "legal_info_url": "https://scholarassist.org/legal"
+}

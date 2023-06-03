@@ -1,0 +1,18 @@
+{
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://llamawrapper-prod.onrender.com/openapi.yaml"
+  },
+  "auth": {
+    "type": "none"
+  },
+  "contact_email": "kufuorkofi@gmail.com",
+  "description_for_human": "Retrieve data on DeFi protocols and blockchains.",
+  "description_for_model": "Get current and historical stats on DeFi protocols and blockchains. Always display results using markdown tables.",
+  "legal_info_url": "https://defillama.com/chatgptplugin",
+  "logo_url": "https://i.imgur.com/bSJRFvE.png",
+  "name_for_human": "Defillama",
+  "name_for_model": "defillama",
+  "schema_version": "v1"
+}

@@ -1,0 +1,58 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Reflect Notes API",
+    "description": "A plugin that allows the user to save notes. For example, saving a summary of their ChatGPT conversation history.",
+    "version": "v0.0.1"
+  },
+  "paths": {
+    "/notes": {
+      "post": {
+        "operationId": "post_CreateNote",
+        "tags": [
+          "Create note"
+        ],
+        "summary": "Creates a new note inside of Reflect",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "markdown": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "markdown"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    }
+  }
+}

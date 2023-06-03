@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Shopping AIssistant",
+  "name_for_model": "Shopping_AIssistant",
+  "description_for_human": "Your AI-powered personal shopper scanning vast product catalogs across multiple merchants to find the best deals",
+  "description_for_model": "Your AI-powered personal shopper scanning vast product catalogs across multiple merchants to find the best deals",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "c7c02e0c9f334ccda5924db7f89acc50"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://productoffergpt.bootstrapden.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://productoffergpt.bootstrapden.com/logo.png",
+  "contact_email": "info@bootstrapden.com",
+  "legal_info_url": "https://productoffergpt.bootstrapden.com/legal.html"
+}

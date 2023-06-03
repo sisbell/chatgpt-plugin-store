@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Easy Product Search",
+  "name_for_model": "EasyProductSearch",
+  "description_for_human": "Easy Product Search simplifies shopping on Japanese EC sites using keywords. It providing product info.",
+  "description_for_model": "The Easy Product Search is a tool designed to make your shopping and accommodation search experience on major Japanese online stores more convenient and efficient. With this tool, you can search for products and accommodations based on specific keywords, or narrow down your search to specific shops or genres. This allows you to quickly find the products or accommodations you're looking for, saving you time. In addition, you can retrieve a wide range of product and accommodation information from EC sites. This enriches your shopping experience, making it more fulfilling and enjoyable. Please note that this tool is designed specifically for use in Japan.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://easy-search.techno-gauss.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://easy-search.techno-gauss.com/logo.png",
+  "contact_email": "tetsuro.tayama@gmail.com",
+  "legal_info_url": "https://easy-search.techno-gauss.com/legal"
+}

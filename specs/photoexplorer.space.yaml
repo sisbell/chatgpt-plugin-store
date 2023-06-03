@@ -1,0 +1,82 @@
+openapi: 3.0.1
+info:
+  title: Space Photo Explorer
+  description: An Addon that allows the user to explore various data from NASA APIs including Astronomy Picture of the Day and Mars Rover Photos.
+  version: 'v1'
+servers:
+  - url: 'https://photoexplorer.space'
+paths:
+  /apod:
+    get:
+      operationId: getAstronomyPictureOfTheDay
+      summary: Get the Astronomy Picture of the Day
+      parameters:
+        - name: date
+          in: query
+          description: The date of the APOD image to retrieve
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apodResponse'
+                
+  /search:
+    get:
+      operationId: search
+      summary: Search for images of anything NASA related.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: The search query.
+      responses:
+        "200":
+          description: OK
+
+
+  
+  /mars-photos:
+    get:
+      operationId: getMarsRoverPhotos
+      summary: Get Mars Rover Photos
+      parameters:
+        - name: sol
+          in: query
+          description: The Martian sol number. ONLY enter sol date if user requests.
+          required: false
+          schema:
+            type: integer
+        - name: camera
+          in: query
+          description: The camera on the Mars Rover, if not provided MAST will be used. 
+          required: false
+          schema:
+            type: string
+        - name: earth_date
+          in: query
+          description: The Earth date corresponding to the Martian sol
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: rover
+          in: query
+          description: The name of the Mars Rover. If not provided, the 'curiosity' rover will be used.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/marsRoverPhotosResponse'
+

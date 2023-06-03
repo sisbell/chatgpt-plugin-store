@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "CCData.io",
+  "name_for_model": "CryptoPrices",
+  "description_for_human": "Access the latest crypto prices and news aggregated by CCData.io (formerly CryptoCompare.com).",
+  "description_for_model": "Access the latest crypto prices for our CCIX index (previosuly CCCAGG) and news aggregated by CCData.io (formerly CryptoCompare.com). You can use the API to get form any Digital Asset to any fiat currency and vice-versa. Also used for all the latest news from the crypto industry.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://data-api.cryptocompare.com/info/v1/openapi/chatgpt",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://data-api.cryptocompare.com/ccdata-logo.jpg",
+  "contact_email": "vcealicu@ccdata.io",
+  "legal_info_url": "https://ccdata.io/terms-and-conditions"
+}

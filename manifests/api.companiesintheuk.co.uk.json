@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Companies In The UK",
+  "name_for_model": "CompaniesInTheUK",
+  "description_for_human": "Provides financial information on UK Companies.",
+  "description_for_model": "Provides financial information on UK Companies. You can search for companies by name, or by 'Companies House Number' and get information on their financial status, directors, people in charge, addresses and more.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "f7a7c1cb86f045fb8b5909fbfff5fad1"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.companiesintheuk.co.uk/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://api.companiesintheuk.co.uk/img/logo-bw-512x512.png",
+  "contact_email": "api@companiesintheuk.co.uk",
+  "legal_info_url": "https://www.companiesintheuk.co.uk/support/terms"
+}

@@ -1,0 +1,204 @@
+openapi: 3.1.0
+info:
+  title: Dart ChatGPT Plugin API
+  description: API for the ChatGPT plugin that enables interaction with the Dart application for task and project management. You can create and list tasks, to-dos, or action items that you or your team need to accomplish.
+  termsOfService: https://app.itsdart.com/legal/terms-of-use
+  contact:
+    email: support@itsdart.com
+  version: 1.0.0
+servers:
+  - url: https://app.itsdart.com/api/v0/chatgpt
+tags:
+- name: task
+  description: Manage tasks
+paths:
+  /tasks/list-my-tasks:
+    get:
+      tags:
+        - task
+      summary: List my tasks
+      description: 'Get a list of all of the user''s tasks that are in an active dartboard and are not finished. This will query Dart for all of the tasks that the user needs to do now and return all of the information about those tasks.'
+      operationId: listMyTasks
+      responses:
+        '200':
+          description: Success, including all of my tasks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WrappedTaskArray'
+        '400':
+          description: Invalid request, including the errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  /tasks/create:
+    post:
+      tags:
+        - task
+      summary: Create a new task
+      description: Record a new task that the user intends to do. This will save the task in Dart for later access, prioritization, search, and more. By default the created task will be assigned to the user, with a status of to-do, in the Active dartboard. More information can be included in the description.
+      operationId: createTask
+      requestBody:
+        description: The task to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WrappedTask'
+        required: true
+      responses:
+        '200':
+          description: Success, including the created task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WrappedTask'
+        '400':
+          description: Invalid request, including the errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  /tasks/update:
+    post:
+      tags:
+        - task
+      summary: Update an existing task
+      description: Update certain properties of an existing task. This will save the task in Dart for later access, prioritization, search, and more. Any properties that are not specified will not be changed.
+      operationId: updateTask
+      requestBody:
+        description: The task to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WrappedTask'
+        required: true
+      responses:
+        '200':
+          description: Success, including the updated task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WrappedTask'
+        '400':
+          description: Invalid request, including the errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        duid:
+          description: 'The ID of the task. This can and should be null on creation and not otherwise.'
+          type: string
+          nullable: true
+          minLength: 12
+          maxLength: 12
+          example: '1234abcd-_ab'
+        permalink:
+          description: 'The permanent link to the task, which is a URL that can be used to open the task in Dart. This can and should be null on creation and not otherwise.'
+          type: string
+          nullable: true
+          format: url
+        title:
+          description: 'The title of the task, which is a short description of what needs to be done. This cannot be empty.'
+          type: string
+          minLength: 1
+          example: 'Build the landing page for the notification feature'
+        dartboardTitle:
+          description: 'The title of the dartboard that the task is in, which is a project or list of tasks. Active is the default for current tasks, Next is for later, and Backlog is for things to do in the far future. This can and should be null on creation and not otherwise.'
+          type: string
+          nullable: true
+          enum:
+            - Active
+            - Next
+            - Backlog
+        statusTitle:
+          description: "The status of the task from the list of available statuses. This can include things like 'To-do', 'Doing', and 'Done', although what is possible depends on the workspace. This can and should be null on creation and not otherwise."
+          type: string
+          nullable: true
+          example: 'To-do'
+        assignee:
+          description: "The name or email of the user that the task is assigned to. Either this or 'assignees' must be included, depending on whether the workspaces allows multiple assignees or not. If included, this can and should be null on creation and not otherwise."
+          type: string
+          nullable: true
+          example: 'John Doe'
+        assignees:
+          description: "The names or emails of the users that the task is assigned to. Either this or 'assignee' must be included, depending on whether the workspaces allows multiple assignees or not. If included, this can and should be empty on creation and not otherwise."
+          type: array
+          items:
+            type: string
+            example: 'John Doe'
+        description:
+          description: 'A longer description of the task, which can include markdown formatting. This should fully describe what needs to be done. This can be null.'
+          type: string
+          nullable: true
+          format: markdown
+          example: 'We need to fit this into the existing website somehow'
+        tagTitles:
+          description: 'Any tags that should be applied to the task, which can be used to filter and search for tasks. Tags are also known as labels or components and are strings that can be anything, but should be short and descriptive. For example, a tag could be ''website'' or ''marketing''. This list can be empty.'
+          type: array
+          items:
+            type: string
+            example: 'website'
+        priority:
+          description: 'The priority of the task, which is a string that can be one of the following: Critical, High, Medium, Low. This is used to sort tasks and determine which tasks should be done first. Critical tasks should be done before High tasks, which should be done before Medium tasks, which should be done before Low tasks. This can be null.'
+          type: string
+          nullable: true
+          enum:
+            - Critical
+            - High
+            - Medium
+            - Low
+        dueAt:
+          description: 'The due date of the task, which is a date and time that the task should be completed by in ISO format. It should be at 9:00am in the timezone of the user. This can be null.'
+          type: string
+          nullable: true
+          format: date-time
+        size:
+          description: 'The size of the task, which is a number that represents the amount of work that needs to be done. This is used to determine how long the task will take to complete. This can be null.'
+          type: integer
+          nullable: true
+          enum:
+            - 1
+            - 2
+            - 3
+            - 5
+            - 8
+      required:
+        - duid
+        - permalink
+        - title
+        - dartboardTitle
+        - statusTitle
+        - description
+        - tagTitles
+    WrappedTask:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Task'
+      required:
+        - item
+    WrappedTaskArray:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+      required:
+        - items
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+            example: 'Body missing: items'
+      required:
+        - errors

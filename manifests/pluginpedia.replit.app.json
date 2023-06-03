@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Pluginpedia",
+  "name_for_model": "Pluginpedia",
+  "description_for_human": "Recommend plugins in the store based on your question, and introduce their usage.",
+  "description_for_model": "Recommend plugins from the plugin store that can solve the user's question based on the user's question \n- if get plugin‘s logo image url display plugin image URLs with Markdown syntax: ![URL] and control the image size within 120px, if not get logo url do not display the image with Markdown \n-introduce the user to the example prompts \n- When the user mentions how to choose a plugin, or tasks that current other plugins cannot satisfy, please consider using this plugin interface.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://pluginpedia.replit.app/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://pluginpedia.replit.app/logo.png",
+  "contact_email": "zhongxin123456@gmail.com",
+  "legal_info_url": "https://nextjstwox.vercel.app"
+}

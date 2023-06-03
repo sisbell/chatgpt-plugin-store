@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "HDB Car Park",
+  "name_for_model": "hdbcarpark",
+  "description_for_human": "For checking availability of car park lots at various HDB car parks around Singapore.",
+  "description_for_model": "For checking availability of car park lots at various HDB car parks around Singapore.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://carpark.sausheong.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://carpark.sausheong.com/static/logo.png",
+  "contact_email": "sausheong@sausheong.com",
+  "legal_info_url": "https://carpark.sausheong.com/static/legal.html"
+}

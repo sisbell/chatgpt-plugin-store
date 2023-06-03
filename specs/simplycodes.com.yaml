@@ -1,0 +1,256 @@
+openapi: 3.0.0
+paths:
+  /v1/ai-plugin/retailer-codes-lookup:
+    get:
+      operationId: AIPluginController_lookupMerchantCodes
+      summary: ''
+      description: >-
+        Search for a retailer by official website domain and return top 5 promo
+        codes per page. Increment cursor (which starts at 0) to fetch another
+        page of coupons.
+      parameters:
+        - name: domain
+          required: true
+          in: query
+          description: The domain for the promo code lookup
+          schema:
+            type: string
+        - name: cursor
+          required: false
+          in: query
+          description: The cursor for the promo code lookup
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Information about the retailer along with any working promo codes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromoCodeLookupResponseDTO'
+      tags: &ref_0
+        - ai-plugin
+  /v1/ai-plugin/best-sitewide-code-lookup:
+    get:
+      operationId: AIPluginController_lookupBestMerchantCode
+      summary: ''
+      description: >-
+        Search for a retailer by official website domain and return the single
+        best storewide code
+      parameters:
+        - name: domain
+          required: true
+          in: query
+          description: The domain for the promo code lookup
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Single best storewide code for the retailer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BestStorewideCodeResponseDTO'
+      tags: *ref_0
+  /v1/ai-plugin/best-sitewide-code-lookup-multiple-retailers:
+    get:
+      operationId: AIPluginController_lookupBestMerchantCode_MultipleMerchants
+      summary: ''
+      description: >-
+        Search with a list of retailers' official website domains and return the
+        single best storewide code for each retailer
+      parameters:
+        - name: domains
+          required: true
+          in: query
+          description: The list of domains for the promo code lookups
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Single best storewide code for each retailer
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/BestMultipleRetailerStorewideCodeResponseDTO
+      tags: *ref_0
+info:
+  title: SimplyCodes AI Plugin
+  description: Provides information about merchants and their promo codes for the AI agent
+  version: '1.0'
+  contact: {}
+tags:
+  - name: ai-plugin
+    description: ''
+servers: []
+components:
+  securitySchemes:
+    access-token:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      in: header
+  schemas:
+    MerchantInfoResponseDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the merchant
+        logo:
+          type: string
+          description: The logo of the merchant
+        category:
+          type: string
+          description: The category of the merchant
+        url:
+          type: string
+          description: The url of the merchant
+        about:
+          type: string
+          description: About the merchant
+      required:
+        - name
+        - category
+        - url
+        - about
+    PromotionDetails:
+      type: object
+      properties:
+        isStorewide:
+          type: string
+          description: Whether or not the promotion code is storewide
+        isFreeshipping:
+          type: string
+          description: Whether or not the promotion code is free shipping
+        isFreebie:
+          type: string
+          description: Whether or not the promotion code is freebie
+        isExclusive:
+          type: string
+          description: Whether or not the promotion code is exclusive
+        percentOff:
+          type: string
+          description: Whether or not the code saving are a percentage
+        amountOff:
+          type: string
+          description: Whether or not the code saving are a flat dollar amount
+        otherOff:
+          type: string
+          description: Whether or not the code saving are another style of savings
+        restrictions:
+          type: string
+          description: The types of restrictions that are applied to this code
+          enum:
+            - none
+            - newcustomers
+            - members
+            - storecard
+            - other
+            - apponly
+            - undefined
+        restrictionsText:
+          type: string
+          description: The types of restrictions that are applied to this code as text
+        minorderAmount:
+          type: string
+          description: The minimum order amount
+        maxorderAmount:
+          type: string
+          description: The maximum order amount
+        minorderText:
+          type: string
+          description: The minimum order amount as text
+        maxorderText:
+          type: string
+          description: The maximum order amount as text
+        swExclusionsText:
+          type: string
+          description: Additional exclusions as text
+    PromoCodeResponseDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the promo code
+        code:
+          type: string
+          description: The code of the promo
+        url:
+          type: string
+          description: The url of the promo code
+        icon:
+          type: string
+          description: The icon of the promo code
+        lastWorkedOn:
+          type: string
+          description: The date when the promo code last worked
+        promotionDetails:
+          description: The details of the promo code
+          allOf:
+            - $ref: '#/components/schemas/PromotionDetails'
+      required:
+        - title
+        - code
+        - url
+        - lastWorkedOn
+        - promotionDetails
+    PromoCodeLookupResponseDTO:
+      type: object
+      properties:
+        merchant:
+          description: The merchant info
+          allOf:
+            - $ref: '#/components/schemas/MerchantInfoResponseDTO'
+        codes:
+          description: The promo codes
+          type: array
+          items:
+            $ref: '#/components/schemas/PromoCodeResponseDTO'
+      required:
+        - merchant
+        - codes
+    BestStorewideCodeResponseDTO:
+      type: object
+      properties:
+        domain:
+          type: string
+          description: The domain for the promo code lookup
+        title:
+          type: string
+          description: The title of the promo code
+        code:
+          type: string
+          description: The code of the promo
+        url:
+          type: string
+          description: The url of the promo code
+        icon:
+          type: string
+          description: The icon of the promo code
+        lastWorkedOn:
+          type: string
+          description: The date when the promo code last worked
+        promotionDetails:
+          description: The details of the promo code
+          allOf:
+            - $ref: '#/components/schemas/PromotionDetails'
+      required:
+        - title
+        - code
+        - url
+        - lastWorkedOn
+        - promotionDetails
+    BestMultipleRetailerStorewideCodeResponseDTO:
+      type: object
+      properties:
+        codes:
+          description: The list of promo codes for the domains
+          type: array
+          items:
+            $ref: '#/components/schemas/BestStorewideCodeResponseDTO'
+      required:
+        - codes

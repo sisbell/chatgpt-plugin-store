@@ -7,7 +7,7 @@
   "paths": {
     "/render": {
       "get": {
-        "operationId": "get_MermaidRoute",
+        "operationId": "get__MermaidRoute",
         "tags": [
           "Diagram"
         ],

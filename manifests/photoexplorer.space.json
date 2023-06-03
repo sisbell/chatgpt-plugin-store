@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Space Photo Explorer",
+  "name_for_model": "stellarexplorer",
+  "description_for_human": "Tool for exploring space through images including Mars Rover Photos, NASA image database, and space pictures of the day.",
+  "description_for_model": "Plugin for exploring photo and data from NASA. Use keywords 'nasa', 'mars', 'rover photos', 'space', and other astronomy words to prompt the plugin.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.photoexplorer.space/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://i.imgur.com/q80nmJK.png",
+  "contact_email": "nikkmitchell@gmail.com",
+  "legal_info_url": "https://github.com/nikkmitchell/Spacephotoexplorer/blob/main/Legal.txt"
+}

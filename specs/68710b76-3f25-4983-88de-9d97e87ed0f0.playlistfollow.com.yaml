@@ -1,0 +1,31 @@
+openapi: 3.0.2
+info:
+  title: Playlist Follow
+  description: Create and find the best music playlists, all in one place.
+  version: 'v1'
+servers:
+  - url: https://68710b76-3f25-4983-88de-9d97e87ed0f0.playlistfollow.com/v1/
+paths:
+  /2fffffff:
+    post:
+      operationId: createSpotifyPlaylist
+      summary: Generated Playlist Name and Song List
+      requestBody:
+        description: JSON object containing a playlist name and an array of song names for integration into Playlist Follow
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playlistName:
+                  type: string
+                songList:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "201":
+          description: Created Spotify playlist
+          content:
+            application/json: {}

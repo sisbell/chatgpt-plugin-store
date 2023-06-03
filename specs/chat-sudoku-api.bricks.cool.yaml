@@ -1,0 +1,278 @@
+openapi: 3.0.2
+info:
+  title: Sudoku Plugin API
+  description: A Sudoku API for play Sudoku game
+  version: 1.0.0
+  servers:
+    - url: https://chat-sudoku-api.bricks.cool
+paths:
+  /newgame:
+    post:
+      summary: NewGameQuery
+      description: Create a new sudoku problem.level difficulty is one of (easy, normal, hard).board size if one of (6, 9). Split queries if ResponseTooLargeError occurs.
+      operationId: newgame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewGameRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewGameResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+  /editgame:
+    post:
+      summary: EditGameRequest
+      description: Edit a sudoku problem. Accept user command to put some number into selected cell, and check game status. Split queries if ResponseTooLargeError occurs.
+      operationId: editgame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditGameRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EditGameResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    DocumentChunkMetadata:
+      title: DocumentChunkMetadata
+      type: object
+      properties:
+        source:
+          $ref: "#/components/schemas/Source"
+        source_id:
+          title: Source Id
+          type: string
+        url:
+          title: Url
+          type: string
+        created_at:
+          title: Created At
+          type: string
+        author:
+          title: Author
+          type: string
+        document_id:
+          title: Document Id
+          type: string
+    DocumentChunkWithScore:
+      title: DocumentChunkWithScore
+      required:
+        - text
+        - metadata
+        - score
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        text:
+          title: Text
+          type: string
+        metadata:
+          $ref: "#/components/schemas/DocumentChunkMetadata"
+        embedding:
+          title: Embedding
+          type: array
+          items:
+            type: number
+        score:
+          title: Score
+          type: number
+    DocumentMetadataFilter:
+      title: DocumentMetadataFilter
+      type: object
+      properties:
+        document_id:
+          title: Document Id
+          type: string
+        source:
+          $ref: "#/components/schemas/Source"
+        source_id:
+          title: Source Id
+          type: string
+        author:
+          title: Author
+          type: string
+        start_date:
+          title: Start Date
+          type: string
+        end_date:
+          title: End Date
+          type: string
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    Query:
+      title: Query
+      required:
+        - query
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        filter:
+          $ref: "#/components/schemas/DocumentMetadataFilter"
+        top_k:
+          title: Top K
+          type: integer
+          default: 3
+    NewGameRequest:
+      title: NewGameRequest
+      # required:
+      #   - difficulty
+      #   - board_size
+      type: object
+      properties:
+        difficulty:
+          type: string
+          default: easy
+          enum:
+            - easy
+            - normal
+            - difficult
+        board_size:
+          type: integer
+          default: 6
+          enum:
+            - 6
+            - 9
+    NewGameResponse:
+      type: object
+      properties:
+        results: 
+          type: object
+    EditGameResponse:
+      type: object
+      properties:
+        code:
+          description: 0 is success, other is fail
+          type: integer
+        message:
+          description: error message if code != 0
+          type: string
+        results: 
+          type: object
+    EditGameRequest:
+      title: EditGameRequest
+      # required:
+      #   - difficulty
+      #   - board_size
+      type: object
+      properties:
+        board_initial:
+          type: string
+          description: initial board data, equal to NewGameResponse's raw_data.board_initial
+        board_current:
+          type: string
+          description: When user move has accepted, this property will updated. If their has a initial number at {cell_select}, do not eidt board and explain to user what happened. 
+        cell_select:
+          type: string
+          description: User want to put something in to this cell. A1 is first row and first column, A2 is first row and second column, B1 is second row and first column, etc.
+        cell_value:
+          type: integer
+          description: User want to put this number into the selected cell. 1-9 etc.
+      
+    QueryRequest:
+      title: QueryRequest
+      required:
+        - queries
+      type: object
+      properties:
+        queries:
+          title: Queries
+          type: array
+          items:
+            $ref: "#/components/schemas/Query"
+    QueryResponse:
+      title: QueryResponse
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: "#/components/schemas/QueryResult"
+    QueryResult:
+      title: QueryResult
+      required:
+        - query
+        - results
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentChunkWithScore"
+    Source:
+      title: Source
+      enum:
+        - email
+        - file
+        - chat
+      type: string
+      description: An enumeration.
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

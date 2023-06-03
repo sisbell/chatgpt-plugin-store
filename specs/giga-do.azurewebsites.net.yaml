@@ -48,7 +48,8 @@ components:
           description: The preferred tone style for the user
           type: string
         user_level:
-          description: The pace at which the user can grasp the topic
+          description: The pace at which the user can grasp the topic. 1 for Elementary,
+            2 for High school, 3 for Undergraduate, 4 for Graduate, 5 for PhD.
           type: integer
       required:
       - user_level
@@ -70,9 +71,16 @@ info:
   version: 1.0.0
 openapi: 3.0.1
 paths:
-  /learningInfo:
+  /learningInfo/{topic_name}:
     get:
       operationId: getLearningPrefs
+      parameters:
+      - description: The Broad academic topic the user wants to learn.
+        in: path
+        name: topic_name
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -83,6 +91,13 @@ paths:
       summary: Get the learning preferences of the user
     post:
       operationId: updateLearningPrefs
+      parameters:
+      - description: The Broad academic topic the user wants to learn.
+        in: path
+        name: topic_name
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:

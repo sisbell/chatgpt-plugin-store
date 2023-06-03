@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Dart",
+  "name_for_model": "dart",
+  "description_for_human": "Project management on autopilot.",
+  "description_for_model": "This enables interaction with the Dart application for task and project management. You can create and list tasks, to-dos, or action items that you or your team need to accomplish.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://app.itsdart.com/api/oauth/authorize/",
+    "scope": "read write",
+    "authorization_url": "https://app.itsdart.com/api/oauth/token/",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "4de7e297e5024f3b838e93bf207da071"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://app.itsdart.com/.well-known/chatgpt/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://app.itsdart.com/static/chatgpt/logo.png",
+  "contact_email": "support@itsdart.com",
+  "legal_info_url": "https://app.itsdart.com/legal/privacy-policy"
+}

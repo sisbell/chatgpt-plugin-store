@@ -1,0 +1,67 @@
+openapi: 3.0.1
+info:
+  title: ArtCollection
+  version: 1.0.0
+servers:
+  - url: https://artcollection--chao-gu-ge-lei.repl.co
+paths:
+  /{query}:
+    get:
+      operationId: getArtCollection
+      summary: Get art collection
+      parameters:
+        - in: path
+          name: query
+          required: true
+          schema:
+            type: string
+          description: The query string to search for in the art collection.The query is generally in English. If it is not, please translate it into English first.
+      responses:
+        '200':
+          description: A list of artworks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    primaryImageSmall:
+                      type: string
+                      description: The URL of a small image of the artwork.
+                    department:
+                      type: string
+                      description: The department of the museum where the artwork is located.
+                    title:
+                      type: string
+                      description: The title of the artwork.
+                    artistRole:
+                      type: string
+                      description: The role of the artist.
+                    artistDisplayName:
+                      type: string
+                      description: The display name of the artist.
+                    artistDisplayBio:
+                      type: string
+                      description: The biography of the artist.
+                    objectDate:
+                      type: string
+                      description: The date of the artwork.
+                    objectBeginDate:
+                      type: string
+                      description: The begin date of the artwork.
+                    objectEndDate:
+                      type: string
+                      description: The end date of the artwork.
+                    artistBeginDate:
+                      type: string
+                      description: The begin date of the artist.
+                    artistEndDate:
+                      type: string
+                      description: The end date of the artist.
+                    classification:
+                      type: string
+                      description: The classification of the artwork.
+                    objectURL:
+                      type: string
+                      description: The URL of the artwork on the Met Museum website.

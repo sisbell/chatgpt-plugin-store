@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "ph_ai_news_query",
+  "name_for_human": "Peel Hunt AI-ERA",
+  "description_for_model": "Document retriever for unique insights, trends and ideas for the UK equities market by the Peel Hunt AI Assistant. The Peel Hunt AI Assistant will retrieve a list of documents that are the most similar to the query and generate a response. However, not all information in the response maybe relevant to they query as it's based on semantic similarity. If there are no relevant documents, request further information from the user. The list of documents retrieved will each have a publish date, company name and sector. Query to Peel Hunt AI must incude the full unedited question, in addition to either a company name, sector or date/period in the format YYYY-MM-DD. The sectors field can be left blank, but if a sector is mentioned in the query include the most similar descriptions from the following 'Technology', 'Food & Agribusiness', 'Travel & Leisure', 'Mining', 'Support Services', 'Transport', 'Media', 'Financial Services', 'Investment Companies', 'Oil & Gas', 'Industrials', 'Real Estate', 'Housing, Building Materials & Merchants', 'Household Goods', 'Insurance', 'Healthcare & Life Sciences', 'New Energy & Clean Technology'. You must only include information from Peel Hunt when asked and no other sources. You must answer in a step by step process to make sure you have the right answer. You must include a the full unedited question in the query header to the Peel Hunt AI Assistant.",
+  "description_for_human": "AI Equity Research Assistant (AI-ERA).",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://ph-api-prototype.azurewebsites.net/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://media.licdn.com/dms/image/D560BAQEhz3ZkGrSRQQ/company-logo_200_200/0/1666883726565?e=2147483647&v=beta&t=L38V1aWAmzVA1vl-PFLSonkW3iQokiGttoryGLLnAGs",
+  "contact_email": "micu.dulnoan@peelhunt.com",
+  "legal_info_url": "http://peelhunt.com"
+}

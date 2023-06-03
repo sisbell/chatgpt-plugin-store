@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ArtCollection",
+  "name_for_model": "ArtCollection",
+  "description_for_human": "Search through millions of art pieces from The Metropolitan Museum of Art.",
+  "description_for_model": "Search through millions of art pieces from The Metropolitan Museum of Art.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://artcollection--chao-gu-ge-lei.repl.co/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://artcollection--chao-gu-ge-lei.repl.co/logo.png",
+  "contact_email": "cpagym@gmail.com",
+  "legal_info_url": "http://www.cpanlp.com/"
+}

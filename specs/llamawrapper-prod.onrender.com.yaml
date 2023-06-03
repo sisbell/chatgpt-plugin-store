@@ -1,0 +1,508 @@
+openapi: 3.0.1
+info:
+    title: Defillama
+    description: Get current and historical stats on DeFi protocols and blockchains.
+    version: "v1"
+servers:
+    - url: https://llamawrapper-prod.onrender.com
+paths:
+    /protocol/{slug}:
+      get:
+        operationId: getProtocol
+        summary: Get descriptive information and current stats of a protocol.
+        parameters:
+          - in: path
+            name: slug
+            schema:
+              type: string
+              example: lido
+            required: true
+            description: Used to filter protocols by their slug.
+        responses:
+          '200':
+            description: OK
+          '404':
+            description: Protocol not found
+          '500':
+            description: Could not retrieve protocols.
+            
+    /tvl/{slug}:
+      get:
+        operationId: getProtocolTvl
+        description: Get the current TVL of a protocol.
+        parameters:
+          - in: path
+            name: slug
+            schema:
+              type: string
+              example: uniswap
+            required: true
+            description: Used to filter protocols by their slug.
+            required: true
+        responses:
+          '200':
+            description: OK
+          '500':
+            description: Could not retrieve TVL data.
+
+    /top_gainers/{num_protocols}:
+      get:
+        operationId: getTopGainers
+        summary: Get the protocols that gained the most TVL.
+        parameters:
+          - in: path
+            name: num_protocols
+            schema:
+              type: integer
+              example: 10
+            required: true
+            description: The number of top gainers you want to see. Default to 10.
+          - in: query
+            name: min_tvl
+            schema:
+              type: number
+              format: float
+              example: 1000000
+            required: false
+            description: The minimum TVL that a protocol should have to be included. Defaults to 0.
+          - in: query
+            name: time_period
+            schema:
+              type: string
+              enum: ['hour', 'day', 'week']
+              example: 'day'
+            required: false
+            description: The time period in which the change occured. Can be 'hour', 'day', or 'week'. Defaults to 'week'.
+          - name: chain
+            in: query
+            description: Name of the chain to retrieve TVL for.
+            required: false
+            schema:
+              type: string
+              example: ethereum
+        responses:
+          '200':
+            description: OK
+          '500':
+            description: Error processing data or Could not retrieve protocols.            
+
+    /top_losers/{num_protocols}:
+      get:
+        operationId: getTopLosers
+        summary: Get the protocols that lost the most TVl.
+        parameters:
+          - in: path
+            name: num_protocols
+            schema:
+              type: integer
+              example: 10
+            required: true
+            description: The number of top gainers you want to see. Default to 10.
+          - in: query
+            name: min_tvl
+            schema:
+              type: number
+              format: float
+              example: 1000000
+            required: false
+            description: The minimum TVL that a protocol should have to be included. Defaults to 0.
+          - in: query
+            name: time_period
+            schema:
+              type: string
+              enum: ['hour', 'day', 'week']
+              example: 'day'
+            required: false
+            description: The time period in which the change occured. Can be 'hour', 'day', or 'week'. Defaults to 'week'.
+          - name: chain
+            in: query
+            description: Name of the chain to retrieve TVL for.
+            required: false
+            schema:
+              type: string
+              example: ethereum
+        responses:
+          '200':
+            description: OK
+          '500':
+            description: Error processing data or Could not retrieve protocols.               
+
+    /historical_protocol_tvl/{slug}:
+      get:
+        operationId: getHistoricalProtocolTVL
+        summary: Get historical TVL data of a protocl.
+        parameters:
+          - in: path
+            name: slug
+            schema:
+              type: string
+              example: lido
+            required: true
+            description: Used to filter protocols by their slug.
+        responses:
+          '200':
+            description: OK
+          '500':
+            description: Could not retrieve protocol data.          
+
+    /get_slug:
+      get:
+        operationId: getSlug
+        summary: Get the slug most similar to the given text.
+        parameters:
+          - in: query
+            name: text
+            schema:
+              type: string
+              example: uniswap
+            required: true
+            description: The text to match against the available slugs.
+        responses:
+          '200':
+            description: OK
+          '404':
+            description: No matching slug found.   
+          '500':
+            description: Could not retrieve protocol.               
+
+    /get_protocol_fees:
+      get:
+        operationId: getProtocolFees
+        summary: Get the fees earned by a protocol
+        parameters:
+          - name: defillamaId
+            in: query
+            description: The DefiLlamaID of the protocol
+            required: true
+            schema:
+              type: string
+          - name: time_period
+            in: query
+            description: The time period in which the fees were collected. Can be 'day', 'week', or 'month'. Defaults to 'month'.
+            required: false
+            schema:
+              type: string
+              enum: ["day", "week", "month"]
+        responses:
+          "200":
+            description: OK
+          '400':
+            description: Missing defillamaId parameter or Invalid time_period parameter.
+          '404':
+            description: No protocol found with the given defillamaId.
+          '500':
+            description: Could not retrieve protocol.          
+
+    /top_protocol_fees:
+      get:
+        operationId: getTopProtocolFees
+        summary: Get the protocols that have earned the most fees.
+        parameters:
+          - name: num_protocols
+            in: query
+            description: The number of top protocols to return. Default to 10.
+            required: false
+            schema:
+              type: integer
+          - name: time_period
+            in: query
+            description: The time period in which the fees were collected. Can be 'day', 'week', or 'month'. Defaults to 'month'.
+            required: false
+            schema:
+              type: string
+              enum: ["day", "week", "month"]
+          - name: chain
+            in: query
+            description: The blockchain the protocol is on
+            required: false
+            schema:
+              type: string
+        responses:
+          "200":
+            description: OK
+          '400':
+            description: Invalid time_period parameter.
+          '500':
+            description: Could not retrieve fee data.            
+
+    /get_defillamaId:
+      get:
+        operationId: getDefiLlamaID
+        summary: Get the DefiLlamaID of a protocol
+        parameters:
+          - name: text
+            in: query
+            description: The name of the protocol
+            required: true
+            schema:
+              type: string
+              example: uniswap
+        responses:
+          "200":
+            description: OK
+          '404':
+            description: No fee and revenue data for this protocol.
+          '500':
+            description: Could not retrieve protocol.            
+
+    /get_protocol_revenue:
+      get:
+        operationId: getProtocolRevenue
+        summary: Get the revenue earned by a protocol
+        parameters:
+          - name: defillamaId
+            in: query
+            description: The DefiLlamaID of the protocol
+            required: true
+            schema:
+              type: string
+          - name: time_period
+            in: query
+            description: The time period in which the revenue was earned. Can be 'day', 'week', or 'month'. Defaults to 'month'.
+            required: false
+            schema:
+              type: string
+              enum: ["day", "week", "month"]
+        responses:
+          "200":
+            description: OK
+          '400':
+            description: Missing defillamaId parameter or invalid time_period parameter.
+          '404':
+            description: No protocol found with the given defillamaId.
+          '500':
+            description: Could not retrieve protocol.            
+
+    /top_protocol_revenue:
+      get:
+        operationId: getTopProtocolRevenue
+        summary: Get the protocols that have earned the most revenue.
+        parameters:
+          - name: num_protocols
+            in: query
+            description: The number of top protocols to return. Default to 10.
+            required: false
+            schema:
+              type: integer
+          - name: time_period
+            in: query
+            description: The time period in which the revenue was earned. Can be 'day', 'week', or 'month'. Defaults to 'month'.
+            required: false
+            schema:
+              type: string
+              enum: ["day", "week", "month"]
+          - name: chain
+            in: query
+            description: The blockchain the protocol is on
+            required: false
+            schema:
+              type: string
+        responses:
+          "200":
+            description: OK
+          '400':
+            description: Invalid time_period parameter.
+          '500':
+            description: Could not retrieve revenue data.            
+
+    /get_chain_tvl:
+      get:
+        operationId: getChainTVL
+        summary: Get the TVL for a specific chain or L2.
+        parameters:
+          - name: chain
+            in: query
+            description: Name of the chain to retrieve TVL for.
+            required: false
+            schema:
+              type: string
+              example: ethereum
+        responses:
+          '200':
+            description: OK
+          '404':
+            description: No chain found with the provided name.  
+          '500':
+            description: Could not retrieve chain data.            
+        
+    /get_chain_tvl_change:
+      get:
+        operationId: getChainTVLChange
+        summary: Get the change in TVL for a specific chain or L2 over a given time period.
+        parameters:
+          - name: chain
+            in: query
+            description: Name of the chain to retrieve TVL change for.
+            required: true
+            schema:
+              type: string
+              example: ethereum
+          - name: time_period
+            in: query
+            description: Time period for TVL change calculation. Can be day, week or month.
+            required: false
+            schema:
+              type: string
+              enum: [day, week, month]
+              default: month
+        responses:
+          '200':
+            description: OK
+          '404':
+            description: No chain found with the provided name.
+          '500':
+            description: Could not retrieve chain data.            
+
+    /get_net_bridge_flow:
+      get:
+        operationId: getNetBridgeFlow
+        summary: Get the net bridge flow for a specific chain or L2 over a given time period.
+        parameters:
+          - name: chain
+            in: query
+            description: Name of the chain to retrieve net bridge flow for.
+            required: true
+            schema:
+              type: string
+              example: ethereum
+          - name: time_period
+            in: query
+            description: Time period for net bridge flow calculation. Can be day, week or month.
+            required: false
+            schema:
+              type: string
+              enum: [day, week, month]
+              default: month
+        responses:
+          '200':
+            description: OK
+          '500':
+            description: Internal server error            
+
+    /get_all_net_bridge_flows:
+      get:
+        operationId: getAllNetBridgeFlows
+        summary: Get the net bridge flow for all chains and L2s over a given time period.
+        parameters:
+          - name: time_period
+            in: query
+            description: Time period for net bridge flow calculation. Can be day, week or month.
+            required: false
+            schema:
+              type: string
+              enum: [day, week, month]
+              default: month
+        responses:
+          '200':
+            description: OK
+          '500':
+            description: Internal server error            
+            
+    /get_top_yields:
+      get:
+        operationId: getTopYields
+        summary: Get the top yielding pools.
+        parameters:
+          - name: num_pools
+            in: query
+            description: Number of pools to retrieve. Default is 10.
+            required: false
+            schema:
+              type: integer
+              minimum: 1
+              default: 10
+          - name: chain
+            in: query
+            description: Name of the chain to filter pools by.
+            required: false
+            schema:
+              type: string
+              example: ethereum
+          - name: stablecoin
+            in: query
+            description: Flag indicating whether to filter for stablecoin yield pools.
+            required: false
+            schema:
+              type: boolean
+              example: true
+        responses:
+          '200':
+            description: OK
+          '500':
+            description: Internal server error            
+
+    /get_features:
+      get:
+        operationId: getFeatures
+        summary: Get information about what this plugin can do.
+        responses:
+          '200':
+            description: OK
+            
+    /top_chain_gainers:
+      get:
+        operationId: getTopChainGainers
+        summary: Get the chains that have gained the most TVL.
+        parameters:
+          - in: query
+            name: num_chains
+            schema:
+              type: integer
+              example: 5
+            required: false
+            description: The number of top gainers you want to see. Defaults to 5.
+          - in: query
+            name: min_tvl
+            schema:
+              type: number
+              format: float
+              example: 10000
+            required: false
+            description: The minimum TVL that a chain should have to be included. Defaults to 10000.
+          - in: query
+            name: time_period
+            schema:
+              type: string
+              enum: ['day', 'week', 'month']
+              example: 'week'
+            required: false
+            description: The time period in which the change occurred. Can be 'day', 'week', or 'month'. Defaults to 'week'.
+        responses:
+          '200':
+            description: A list of the top chain gainers.
+          '400':
+            description: Invalid time period provided            
+
+    /top_chain_losers:
+      get:
+        operationId: getTopChainLosers
+        summary: Get the chains that have lost the most TVL.
+        parameters:
+          - in: query
+            name: num_chains
+            schema:
+              type: integer
+              example: 5
+            required: false
+            description: The number of top losers you want to see. Defaults to 5.
+          - in: query
+            name: min_tvl
+            schema:
+              type: number
+              format: float
+              example: 10000
+            required: false
+            description: The minimum TVL that a chain should have to be included. Defaults to 10000.
+          - in: query
+            name: time_period
+            schema:
+              type: string
+              enum: ['day', 'week', 'month']
+              example: 'week'
+            required: false
+            description: The time period in which the change occurred. Can be 'day', 'week', or 'month'. Defaults to 'week'.
+        responses:
+          '200':
+            description: A list of the top chain losers.
+          '400':
+            description: Invalid time period provided               
