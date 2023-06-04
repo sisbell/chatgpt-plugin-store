@@ -22,7 +22,7 @@ paths:
         schema:
             type: string
             minLength: 2    
-            minLength: 128
+            maxLength: 128
         required: true
         description: |
           The search keyword.
@@ -106,7 +106,7 @@ paths:
         schema:
             type: string
             minLength: 2    
-            minLength: 128
+            maxLength: 128
         description: |
           Keywords you want to exclude from search results
           URL-encoded strings in UTF-8

@@ -1,0 +1,306 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Three Sentence Service API",
+    "version": "1.0.0",
+    "description": "This API provides a comprehensive interface for managing Three Sentence Services. It allows users to add, remove, view, and invoke services defined in a three-sentence format. Each service is defined by an input, an action, and an output. The services are executed using a large language model, which enables a wide range of capabilities. However, it's important to note that the effectiveness of the service is dependent on the clarity and specificity of the three sentences defining it. The API does not guarantee the execution of services that involve tasks beyond the capabilities of the language model, such as interacting with external databases or performing complex computations like image processing or audio processing."
+  },
+  "servers": [
+    {
+      "url": "https://plugin.redefined.cloud"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/add_service": {
+      "post": {
+        "summary": "Add a new service",
+        "operationId": "addService",
+        "requestBody": {
+          "description": "Three Sentence Service to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateThreeSentenceService"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Service added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/remove_service/{service_name}": {
+      "delete": {
+        "summary": "Remove a service",
+        "operationId": "removeService",
+        "parameters": [
+          {
+            "name": "service_name",
+            "in": "path",
+            "required": true,
+            "description": "Name of the service",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service removed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/view_service/{service_name}": {
+      "get": {
+        "summary": "View a service",
+        "operationId": "viewService",
+        "parameters": [
+          {
+            "name": "service_name",
+            "in": "path",
+            "required": true,
+            "description": "Name of the service",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreeSentenceService"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list_services": {
+      "get": {
+        "summary": "List all services",
+        "operationId": "listServices",
+        "responses": {
+          "200": {
+            "description": "List of services",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreeSentenceServiceList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invoke_service/{service_name}": {
+      "post": {
+        "summary": "Invoke a specific service",
+        "description": "Invoke a specific service with the given payload. The payload is processed by the service using a large language model and the output is returned.",
+        "operationId": "invokeService",
+        "parameters": [
+          {
+            "name": "service_name",
+            "in": "path",
+            "required": true,
+            "description": "The name of the service",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The payload to be processed by the service",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The processed output from the service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "CreateThreeSentenceService": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the service"
+          },
+          "input": {
+            "type": "string",
+            "description": "Input for the service"
+          },
+          "action": {
+            "type": "string",
+            "description": "Action of the service"
+          },
+          "output": {
+            "type": "string",
+            "description": "Output of the service"
+          },
+          "example_response_template": {
+            "type": "string",
+            "description": "Example response template of the service"
+          },
+          "example_request_template": {
+            "type": "string",
+            "description": "Example request template of the service"
+          }
+        },
+        "required": [
+          "name",
+          "input",
+          "action",
+          "output",
+          "example_response_template",
+          "example_request_template"
+        ]
+      },
+      "ThreeSentenceService": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the service"
+          },
+          "input": {
+            "type": "string",
+            "description": "Input for the service"
+          },
+          "action": {
+            "type": "string",
+            "description": "Action of the service"
+          },
+          "output": {
+            "type": "string",
+            "description": "Output of the service"
+          },
+          "example_response_template": {
+            "type": "string",
+            "description": "Example response template of the service"
+          },
+          "example_request_template": {
+            "type": "string",
+            "description": "Example request template of the service"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "input",
+          "action",
+          "output",
+          "example_response_template",
+          "example_request_template"
+        ]
+      },
+      "ThreeSentenceServiceList": {
+        "type": "object",
+        "properties": {
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ThreeSentenceService"
+            }
+          }
+        },
+        "required": [
+          "services"
+        ]
+      },
+      "ServiceRequest": {
+        "description": "Request Body for invoking a service",
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "string",
+            "description": "A JSON String representing the payload to be processed by the service"
+          }
+        },
+        "required": [
+          "payload"
+        ]
+      },
+      "MessageResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Response message"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Strology",
+  "name_for_model": "strology",
+  "description_for_human": "Get daily astrological predictions for your sun sign.",
+  "description_for_model": "Get daily astrological predictions for your sun sign.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://pretzelbox.cc/strology/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://pretzelbox.cc/strology/logo.png",
+  "contact_email": "strology@pretzelbox.cc",
+  "legal_info_url": "https://pretzelbox.cc/strology/legal.html"
+}

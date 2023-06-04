@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Earthquake Info",
+  "name_for_model": "earthquake",
+  "description_for_human": "Get latest earthquake information.",
+  "description_for_model": "Get latest earthquake information.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://earthquake.beta3.dev/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://earthquake.beta3.dev/logo.png",
+  "contact_email": "interskh@gmail.com",
+  "legal_info_url": "http://earthquake.beta3.dev/legal"
+}

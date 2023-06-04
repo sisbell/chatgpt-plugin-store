@@ -1,4 +1,12 @@
 # Plugin Store Listing Changelog
+## 2023-06-04
+### Newly Listed
+* [chatsshplug.com](manifests/chatsshplug.com.json)
+* [earthquake.beta3.dev](manifests/earthquake.beta3.dev.json)
+* [plugin.redefined.cloud](manifests/plugin.redefined.cloud.json)
+* [pretzelbox.cc](manifests/pretzelbox.cc.json)
+### Delisted
+* [try.hubcart.ai](manifests/try.hubcart.ai.json)
 ## 2023-06-03
 ### Newly Listed
 * [68710b76-3f25-4983-88de-9d97e87ed0f0.playlistfollow.com](manifests/68710b76-3f25-4983-88de-9d97e87ed0f0.playlistfollow.com.json)
