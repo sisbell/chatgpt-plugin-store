@@ -1,6 +1,6 @@
 {
   "schema_version": "v1",
-  "name_for_human": "TXYZ AI",
+  "name_for_human": "txyz.ai",
   "name_for_model": "txyz",
   "description_for_human": "Effortlessly decipher, compare, and answer questions about research papers using a simple Arxiv ID.",
   "description_for_model": "A plugin that helps researchers read papers.",

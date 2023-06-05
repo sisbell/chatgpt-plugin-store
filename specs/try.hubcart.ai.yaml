@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: A simple ChatGPT plugin for designing images.
 servers:
-  - url: https://try.hubcart.ai
+  - url: https://app.try.hubcart.ai
 paths:
   /sdapi/v1/txt2img:
     post:

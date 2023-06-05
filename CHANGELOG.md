@@ -1,4 +1,14 @@
 # Plugin Store Listing Changelog
+## 2023-06-05
+### Newly Listed
+* [api.fintorch.ca](manifests/api.fintorch.ca.json)
+* [cribbage.azurewebsites.net](manifests/cribbage.azurewebsites.net.json)
+* [figletgptplugin.wisemonkey.repl.co](manifests/figletgptplugin.wisemonkey.repl.co.json)
+* [gh-plugin.teammait.com](manifests/gh-plugin.teammait.com.json)
+* [openai-plugin.tophap.com](manifests/openai-plugin.tophap.com.json)
+* [scholarly.maila.ai](manifests/scholarly.maila.ai.json)
+### Delisted
+* [llmsearch.gygservice.com](manifests/llmsearch.gygservice.com.json)
 ## 2023-06-04
 ### Newly Listed
 * [chatsshplug.com](manifests/chatsshplug.com.json)

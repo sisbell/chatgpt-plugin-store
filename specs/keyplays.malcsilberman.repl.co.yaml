@@ -76,11 +76,11 @@ paths:
   /chat/fetch_standings:
     get:
       operationId: fetchStandings
-      summary: Get football standings tables.
+      summary: Get football standings tables try return all teams in table format
       parameters:
         - name: league_search
           in: query
-          description: name of country or league or mix of these two returns a league id
+          description: name of the league and if possible prefix the country since some leagues share the same names, it is also possible to search for a countries league and get back the league
           required: false
           schema:
             type: string
@@ -90,6 +90,11 @@ paths:
           required: false
           schema:
             type: string
+        - in: query
+          name: year
+          schema:
+            type: string
+          description: The year for the standings, in cases where season cross years we use the start year, if a user gives 2020/2021 then use 2020            
       responses:
         "200":
           description: OK
@@ -102,7 +107,7 @@ paths:
   /chat/fetch_tvstations:
     get:
       operationId: fetchTvStations
-      summary: Get TV stations broadcasting football matches, specify a leaque or country of the league, or blank for all leagues.
+      summary: Get TV stations broadcasting football matches, specify a leaque or country of the league, or blank for all leagues, return data should include team postions.
       parameters:
         - name: league_search
           in: query
@@ -164,7 +169,7 @@ paths:
           name: timezone
           schema:
             type: string
-          description: Timezone
+          description: Timezone      
       responses:
         "200":
           description: Returns league name, games, teams playing, starting date/time, result

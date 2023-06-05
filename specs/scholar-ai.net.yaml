@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: ScholarAI-test
+  title: ScholarAI
   description: Allows the user to search facts and findings from scientific articles
   version: 'v1'
 servers:
@@ -20,7 +20,7 @@ paths:
         - name: sort
           in: query
           description: The sort order for results, defaults to cited_by_count. Valid values are cited_by_count or publication_date.
-          required: false
+          required: true
           schema:
             type: string
         - name: query
@@ -32,6 +32,24 @@ paths:
         - name: peer_reviewed_only
           in: query
           description: Whether to only return peer reviewed articles. Defaults to true, ChatGPT should cautiously suggest this value can be set to false
+          required: false
+          schema:
+            type: string
+        - name: start_year
+          in: query
+          description: The first year, inclusive, to include in the search range. Excluding this value will include all years.
+          required: false
+          schema:
+            type: string
+        - name: end_year
+          in: query
+          description: The last year, inclusive, to include in the search range. Excluding this value will include all years.
+          required: false
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: The offset of the first result to return. Defaults to 0.
           required: false
           schema:
             type: string
@@ -66,11 +84,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getFullTextResponse'
+  /api/save-citation:
+    get:
+      operationId: saveCitation
+      summary: Save citation to reference manager
+      parameters:
+        - name: doi
+          in: query
+          description: Digital Object Identifier (DOI) of article
+          required: true
+          schema:
+            type: string
+        - name: zotero_user_id
+          in: query
+          description: Zotero User ID
+          required: true
+          schema:
+            type: string
+        - name: zotero_api_key
+          in: query
+          description: Zotero API Key
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/saveCitationResponse'
 components:
   schemas:
     searchAbstractsResponse:
       type: object
       properties:
+        next_offset:
+          type: number
+          description: The offset of the next page of results.
+        total_num_results:
+          type: number
+          description: The total number of results. 
         abstracts:
           type: array
           items:
@@ -104,7 +158,6 @@ components:
               cited_by_count:
                 type: number
                 description: The number of citations of the article.
-
           description: The list of relevant abstracts.
     getFullTextResponse:
       type: object
@@ -121,3 +174,9 @@ components:
         total_chunk_num:
           type: number
           description: The total chunks of the paper.
+    saveCitationResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Confirmation of successful save or error message.

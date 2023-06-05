@@ -25,12 +25,22 @@
           {
             "name": "responsetoolarge",
             "in": "query",
-            "description": "Increase if ResponseTooLarge occurs should be equal and more than 1",
+            "description": "Increase if ResponseTooLarge occurs should be equal or more than 3",
             "required": true,
             "schema": {
               "type": "string"
             },
-            "example": "1"
+            "example": "3"
+          },
+          {
+            "name": "numofpages",
+            "in": "query",
+            "description": "Start it as '3'. Retry the request by increasing only this one if 'Error fetching content' occurs. Should be between 3 and 10",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "3"
           }
         ],
         "responses": {

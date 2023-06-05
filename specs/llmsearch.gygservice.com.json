@@ -27,6 +27,16 @@
           {
             "required": false,
             "schema": {
+              "title": "Location",
+              "type": "string",
+              "default": ""
+            },
+            "name": "location",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
               "title": "Skip",
               "type": "integer",
               "default": 0

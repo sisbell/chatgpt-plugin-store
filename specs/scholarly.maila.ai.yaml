@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: Scholarly
+  description: AI-powered Scholar Search Engine to search for the latest research papers.
+  version: 1.0.0
+  contact:
+    email: kevin@maila.ai
+servers:
+  - url: https://scholarly.maila.ai
+paths:
+  /search:
+    get:
+      operationId: searchGet
+      summary: Search scientific research papers and fetch meta data.
+      description: |
+        Scholarly using the provided query and returns the search results, including the title, summary, abstract, url, publication date, and citation count of each paper.
+      parameters:
+        - name: q
+          in: query
+          description: Search query
+          required: true
+          schema:
+            type: string
+          example: machine learning
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: The title of the paper
+                    summary:
+                      type: string
+                      description: The summary of the paper
+                    abstract:
+                      type: string
+                      description: The abstract of the paper
+                    url:
+                      type: string
+                      format: uri
+                      description: The URL of the paper
+                    publicationDate:
+                      type: string
+                      description: The publication date of the paper
+                    citationCount:
+                      type: integer
+                      description: The citation count of the paper
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                example:
+                  error: No query provided
+        "default":
+          description: Error fetching search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                example:
+                  error: Error fetching search results

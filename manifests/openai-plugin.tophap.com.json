@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "TopHap",
+  "name_for_model": "tophap",
+  "description_for_human": "Enriched real estate data and location-based tools.",
+  "description_for_model": "Enriched real estate data and location-based tools.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://openai-plugin.tophap.com/openapi.yaml"
+  },
+  "logo_url": "https://openai-plugin.tophap.com/logo.png",
+  "contact_email": "support@tophap.com",
+  "legal_info_url": "https://www.tophap.com/terms"
+}

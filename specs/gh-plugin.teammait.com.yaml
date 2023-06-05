@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: ChatGPT Plugin
+  description: Plugin that integrates with GitHub to retrieve user information and repositories. Used to search for trending repositories, code, issues, pull requests, and more. Users should be able to use this plugin to interact with GitHub in a conversational way.
+  version: "v1"
+servers:
+  - url: https://gh-plugin.teammait.com
+paths:
+  /api/repo:
+    post:
+      operationId: callOctokitMethod
+      summary: Make a dynamic API call to the Octokit JS library to Github. Provide valid octokitMethod and args {} in the request body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                octokitMethod:
+                  type: string
+                  description: The valid Octokit method to call in the format `category.method`, e.g., issues.listForRepo, repos.get, search.repos, search.code, issues.list, repos.listForks, etc.
+                  required: true
+                args:
+                  $ref: "#/components/schemas/flexibleObject"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorResponse"
+components:
+  schemas:
+    errorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: The error message
+      required:
+        - error
+    flexibleObject:
+      type: object
+      nullable: true
+      additionalProperties: true

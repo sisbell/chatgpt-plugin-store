@@ -14,15 +14,15 @@ paths:
       - in: path
         name: username
         schema:
-            type: string
+          type: string
         required: true
         description: The name of the user.
       - in: query
         name: keyword
         schema:
-            type: string
-            minLength: 2    
-            maxLength: 128
+          type: string
+          minLength: 2    
+          maxLength: 128
         required: true
         description: |
           The search keyword.
@@ -34,68 +34,68 @@ paths:
       - in: query
         name: shopCode
         schema:
-            type: string
+          type: string
         description: The shop code. The xyz in the per-shop URL (http://www.rakuten.co.jp/[xyz])
       - in: query
         name: itemCode
         schema:
-            type: string
+          type: string
         description: |
           The item code. The value of the format "shop:1234" is rarely included in the output parameters of the Product Search API, Rakuten Product Ranking API, and Favorite Bookmark Acquisition API.
           Values of the format "shop:1234
       - in: query
         name: genreId
         schema:
-            type: integer
+          type: integer
         description: The genre ID.
       - in: query
         name: hits
         schema:
-            type: integer
-        minimum: 1
-        maximum: 3
+          type: integer
+          minimum: 1
+          maximum: 3
         description: The number of items per page.
       - in: query
         name: page
         schema:
-            type: integer
-        minimum: 1
-        maximum: 100
+          type: integer
+          minimum: 1
+          maximum: 100
         description: Number of pages to be acquired. Must be an integer greater than 1 and less than or equal to 100.
       - in: query
         name: sort
         schema:
           type: string
           enum: ['+reviewCount', '-reviewCount', '+reviewAverage', '-reviewAverage', '+itemPrice', '-itemPrice', '+updateTimestamp', '-updateTimestamp', 'standard']
-        description: |
-        +reviewCount: Number of reviews (ascending order)
-        -reviewCount: Number of reviews in descending order
-        +reviewAverage: Review average (ascending order)
-        -reviewAverage: Review average order (descending)
-        +itemPrice: Price (ascending order)
-        -itemPrice: Price (descending order)
-        +updateTimestamp: Sort by item update timestamp (ascending order)
-        -updateTimestamp: Sort by item update date and time (descending order)
-        standard: standard sort order
+          description: |
+            +reviewCount: Number of reviews (ascending order)
+            -reviewCount: Number of reviews in descending order
+            +reviewAverage: Review average (ascending order)
+            -reviewAverage: Review average order (descending)
+            +itemPrice: Price (ascending order)
+            -itemPrice: Price (descending order)
+            +updateTimestamp: Sort by item update timestamp (ascending order)
+            -updateTimestamp: Sort by item update date and time (descending order)
+            standard: standard sort order
       - in: query
         name: minPrice
         schema:
-            type: integer
-        minimum: 1
-        maximum: 999999999
+          type: integer
+          minimum: 1
+          maximum: 999999999
         description: Integer between 1 and 999,999,999
       - in: query
         name: maxPrice
         schema:
-            type: integer
-        minimum: 1
-        maximum: 999999999
+          type: integer
+          minimum: 1
+          maximum: 999999999
         description: Integer between 1 and 999,999,999. maxPrice must be greater than minPrice
       - in: query
         name: orFlag
         schema:
-            type: integer
-            enum: [0, 1]
+          type: integer
+          enum: [0, 1]
         description: |
           When multiple keywords are set, either AND or OR search can be selected.
           0:AND search
@@ -104,9 +104,9 @@ paths:
       - in: query
         name: NGKeyword
         schema:
-            type: string
-            minLength: 2    
-            maxLength: 128
+          type: string
+          minLength: 2    
+          maxLength: 128
         description: |
           Keywords you want to exclude from search results
           URL-encoded strings in UTF-8
@@ -117,8 +117,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                description: The search results.
                 $ref: '#/components/schemas/SearchResponse'
         "500":
           description: Error
@@ -152,15 +150,15 @@ paths:
         name: page
         schema:
           type: integer
-        minimum: 1
-        maximum: 100
+          minimum: 1
+          maximum: 100
         description: Number of pages to be acquired. Must be an integer greater than 1 and less than or equal to 100.
       - in: query
         name: hits
         schema:
           type: integer
-        minimum: 1
-        maximum: 3
+          minimum: 1
+          maximum: 3
         description: A parameter that limits the number of facilities retrieved per page. Must be an integer greater than or equal to 1 and less than or equal to 3.
       - in: query
         name: datumType
@@ -210,8 +208,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                description: The search results.
                 $ref: '#/components/schemas/TravelSearchResponse'
         "400":
           description: Invalid parameters
@@ -299,7 +295,7 @@ components:
           type: integer
           description: Number of reviews
         reviewAverage:
-          type: float
+          type: number
           description: Average review score
         giftFlag:
           type: integer

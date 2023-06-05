@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "TradingBro",
+  "name_for_model": "FinTorch_Trading_Assistant",
+  "description_for_human": "Get financial data for your trading/learning: earning call, analyst view, DCF, sales details, insider trading etc.",
+  "description_for_model": "Get a wide range of financial data companies to assist your trading / research / learning (financials, earning call transcript, analyst price prediction, DCF, social media sentiments, sales by business / geographic segmentation, insider trading information etc). All data is up-to-date and is retreived from our credible proprietory sources.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://raw.githubusercontent.com/Leo6Leo/resources_hosting/main/FinTorch_plugin.png",
+  "contact_email": "tech@fintorch.com",
+  "legal_info_url": "https://boulder-eustoma-1fc.notion.site/Fintorch-Terms-of-Service-7cbb8f101b9e4dfab2c9d6d226c9fb29"
+}

@@ -6,7 +6,7 @@ info:
 servers:
   - url: https://assistant.wanted.co.kr
 paths:
-  /openaiplugin/spotlight/search/job-postings/keyword:
+  /search/job-postings/keyword:
     post:
         operationId: searchGlobal
         summary: Get the list of global job positions
@@ -41,6 +41,9 @@ components:
         properties:
           id:
             type: string
+          url:
+            type: string
+            description: The URL of job position
           title:
             type: string
           description:

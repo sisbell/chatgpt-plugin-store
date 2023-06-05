@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Figlet",
+  "name_for_model": "Figlet",
+  "description_for_human": "Utility for converting strings of text into ASCII fonts.",
+  "description_for_model": "Utility for converting strings of text into ASCII fonts.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://figletgptplugin.wisemonkey.repl.co/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://i.imgur.com/sGhZBiS.png",
+  "contact_email": "oranbusiness+figletgpt@gmail.com",
+  "legal_info_url": "https://www.termsfeed.com/live/24f4c12e-2c37-4e93-9678-8ce83f7a72fa"
+}

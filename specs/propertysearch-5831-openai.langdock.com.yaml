@@ -10,6 +10,13 @@ paths:
     post:
       operationId: getProperties
       summary: Get the properties based on the information provided by the user
+      parameters:
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: What was my last message?
       responses:
         '200':
           description: The found properties
