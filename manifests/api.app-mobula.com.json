@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Mobula",
+  "name_for_model": "mobula",
+  "description_for_human": "Fetching real-time data for all crypto & blockchain metrics.",
+  "description_for_model": "Fetching real-time data for all crypto & blockchain metrics.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.app-mobula.com/.well-known/openapi.yml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://mobula.fi/mobula/apple.png",
+  "contact_email": "contact@mobulalabs.org",
+  "legal_info_url": "https://docs.mobula.fi"
+}

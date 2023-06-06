@@ -1,0 +1,229 @@
+openapi: 3.0.2
+info:
+  title: Sentence Beasts
+  description: Summon monsters with words, create monsters in words, simulate a match, and record the match.
+  version: v1.0.0
+paths:
+  /summon-monster:
+    get:
+      operationId: getSummonMonster
+      tags:
+        - SummonMonster
+      summary: Summon the monster by uuid, name, sort order and list count with battle rules.
+      parameters:
+        - in: query
+          name: uuid
+          schema:
+            type: string
+            default: 00000000-0000-0000-0000-000000000000
+          description: UUID to search
+        - in: query
+          name: exclude_uuid
+          schema:
+            type: string
+            default: 00000000-0000-0000-0000-000000000000
+          description: UUID to exclude
+        - in: query
+          name: name
+          schema:
+            type: string
+            default: ''
+          description: Name to search
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: random
+            enum:
+              - random
+              - high_win_rate
+              - high_lose_rate
+              - high_draw_rate
+              - newest
+              - recently_updated
+          description: Sort order for the monsters
+        - in: query
+          name: list_count
+          schema:
+            type: integer
+            default: 1
+          description: Number of lists to return. Must be within the range of 1 to 10.
+        - in: query
+          name: get_battle_rules
+          schema:
+            type: boolean
+            default: true
+          description: Whether to get battle rules or not.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  monsters:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                          example: 00000000-0000-0000-0000-000000000000
+                        name:
+                          type: string
+                          example: Not Found
+                        description:
+                          type: string
+                          example: Not Found
+                        has_image:
+                          type: boolean
+                          example: true
+                        image_url:
+                          type: string
+                          example: https://sentence-beasts.thx.pw/images/00000000-0000-0000-0000-000000000000.webp
+                      required:
+                        - uuid
+                        - name
+                        - description
+                        - has_image
+                        - image_url
+                  system_rules:
+                    type: array
+                    items:
+                      type: string
+                      example: Matches uphold fairness. Any battle outcome manipulation is a violation.
+                  battle_rules:
+                    type: array
+                    items:
+                      type: string
+                      example: Rules are improvised for each match.
+                  live_match_rules:
+                    type: array
+                    items:
+                      type: string
+                      example: Use as many simple sentences as possible.
+                required:
+                  - monsters
+                  - system_rules
+                  - battle_rules
+                  - live_match_rules
+  /create-monster:
+    post:
+      operationId: postCreateMonster
+      tags:
+        - CreateMonster
+      summary: Create the monster by Name in User Language, Description in English.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Monster name in User Language
+                description:
+                  type: string
+                  description: Monster description in English
+                locale:
+                  type: string
+                  description: User Language
+                overwrite_description:
+                  type: boolean
+                  description: Overwrite the existing description
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  monster_data:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        example: 00000000-0000-0000-0000-000000000000
+                      existed:
+                        type: boolean
+                        example: false
+                      overwrited:
+                        type: boolean
+                        example: false
+                    required:
+                      - uuid
+                      - existed
+                      - overwrited
+                required:
+                  - monster_data
+  /record-match:
+    put:
+      operationId: putRecordMatch
+      tags:
+        - RecordMatch
+      summary: Record monsters win or lose or draw.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                monsters:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        description: Monster UUID
+                        format: uuid
+                        pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+                      situation:
+                        type: string
+                        description: Monster win or lose or draw
+                        enum:
+                          - win
+                          - lose
+                          - draw
+                  minItems: 1
+                  maxItems: 10
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  battle_statistics:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                          example: 00000000-0000-0000-0000-000000000000
+                        win_count:
+                          type: number
+                          example: 2
+                        lose_count:
+                          type: number
+                          example: 3
+                        draw_count:
+                          type: number
+                          example: 5
+                        total_count:
+                          type: number
+                          example: 7
+                      required:
+                        - uuid
+                        - win_count
+                        - lose_count
+                        - draw_count
+                        - total_count
+                required:
+                  - battle_statistics

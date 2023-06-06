@@ -1,0 +1,103 @@
+openapi: 3.0.1
+info:
+  title: Market News Plugin
+  description: A plugin that connects to the MarketAux API to provide market news.
+  version: 'v1'
+servers:
+  - url: https://marketnews-plugin.tradexy.repl.co
+paths:
+  /news:
+    get:
+      operationId: fetchNews
+      summary: Get market news
+      parameters:
+        - name: symbols
+          in: query
+          description: The symbols to search for
+          required: false
+          schema:
+            type: string
+        - name: exchanges
+          in: query
+          description: The exchanges to search for
+          required: false
+          schema:
+            type: string
+        - name: entity_types
+          in: query
+          description: The entity types to search for
+          required: false
+          schema:
+            type: string
+        - name: industries
+          in: query
+          description: The industries to search for
+          required: false
+          schema:
+            type: string
+        - name: countries
+          in: query
+          description: The countries to search for
+          required: false
+          schema:
+            type: string
+        - name: sentiment_gte
+          in: query
+          description: The minimum sentiment score
+          required: false
+          schema:
+            type: string
+        - name: sentiment_lte
+          in: query
+          description: The maximum sentiment score
+          required: false
+          schema:
+            type: string
+        - name: min_match_score
+          in: query
+          description: The minimum match score
+          required: false
+          schema:
+            type: string
+        - name: filter_entities
+          in: query
+          description: The entities to filter
+          required: false
+          schema:
+            type: string
+        - name: must_have_entities
+          in: query
+          description: The entities that must be present
+          required: false
+          schema:
+            type: string
+        - name: group_similar
+          in: query
+          description: Group similar news
+          required: false
+          schema:
+            type: string
+        - name: search
+          in: query
+          description: Search terms
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The news articles
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: An error message describing the issue

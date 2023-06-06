@@ -192,12 +192,21 @@ components:
           description: The details of the promo code
           allOf:
             - $ref: '#/components/schemas/PromotionDetails'
+        successProbability:
+          enum:
+            - This promo code is very likely to work.
+            - This promo code is likely to work.
+            - This promo code is unlikely to work.
+            - This promo code is very unlikely to work.
+          type: string
+          description: The probability of the promo code working
       required:
         - title
         - code
         - url
         - lastWorkedOn
         - promotionDetails
+        - successProbability
     PromoCodeLookupResponseDTO:
       type: object
       properties:
@@ -238,12 +247,21 @@ components:
           description: The details of the promo code
           allOf:
             - $ref: '#/components/schemas/PromotionDetails'
+        successProbability:
+          enum:
+            - This promo code is very likely to work.
+            - This promo code is likely to work.
+            - This promo code is unlikely to work.
+            - This promo code is very unlikely to work.
+          type: string
+          description: The probability of the promo code working
       required:
         - title
         - code
         - url
         - lastWorkedOn
         - promotionDetails
+        - successProbability
     BestMultipleRetailerStorewideCodeResponseDTO:
       type: object
       properties:

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Coupons by Tenere",
+  "name_for_model": "coupons_by_tenereteam",
+  "description_for_human": "TenereTeam.com - Get the Best Deals & Coupons on Millions of Products At Over 50,000 Online Stores.",
+  "description_for_model": "A plugin that offers a comprehensive list of coupons, promos, and discounts from various online stores and brands worldwide. Assistant will reply with the following 3 paragraphs \n1) List coupons, each display as a html button\n2) Link to show more coupon\n3) Link to read reviews about Store/Brand.\n If the prompt contain some keywords can be used by this plugin: 'today best deals'",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.tenereteam.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://www.tenereteam.com/v2/images/openai/logo.png",
+  "contact_email": "admin@tenereteam.com",
+  "legal_info_url": "https://www.tenereteam.com/terms-page"
+}

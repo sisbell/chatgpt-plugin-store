@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Tira",
+  "name_for_model": "tira",
+  "description_for_human": "Shop Tira for top beauty brands! Explore cosmetics, health products & more online. Your beauty store awaits.",
+  "description_for_model": "This tool enables you to search for products, manage your cart, and display QR code for easy cart sharing within Tira's marketplace.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.tirabeauty.com/ext/chatgpt-plugin/application/api/v1.0/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://cdn.tirabeauty.com/v2/billowing-snowflake-434234/tira-p/wrkr/company/1/applications/62d53777f5ad942d3e505f77/application/pictures/favicon/original/V_o65MTJW-Tira.png",
+  "contact_email": "help@tirabeauty.com",
+  "legal_info_url": "https://www.tirabeauty.com/terms-and-conditions"
+}

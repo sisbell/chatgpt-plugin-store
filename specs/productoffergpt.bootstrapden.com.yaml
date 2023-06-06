@@ -17,7 +17,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The search keyword, in english. Translate it in english before submitting. 
+          description: The search keyword, in english. Translate it in english before submitting it to the API. 
         - name: userMessage
           in: path
           required: true
@@ -44,7 +44,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The search keyword, in english. Translate it in english before submitting. 
+          description: The search keyword, in english. Translate it in english before submitting it to the API.
         - name: maximumPrice
           in: path
           required: true

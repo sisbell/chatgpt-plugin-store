@@ -50,6 +50,13 @@ components:
                     enum:
                         - male
                         - female
+                skintone:
+                    type: string
+                    description: The skin tone of the avatar that appears in the user's requested avatar video.
+                    enum:
+                        - light
+                        - dark
+                        - asian
         generateSimpleAvatarVideoResponse:
             type: object
             properties:

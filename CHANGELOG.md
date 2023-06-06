@@ -1,4 +1,20 @@
 # Plugin Store Listing Changelog
+## 2023-06-06
+### Newly Listed
+* [alaga-ai-h43cosb3ia-uc.a.run.app](manifests/alaga-ai-h43cosb3ia-uc.a.run.app.json)
+* [api.app-mobula.com](manifests/api.app-mobula.com.json)
+* [kirill.customgpt.ai](manifests/kirill.customgpt.ai.json)
+* [lsong.org](manifests/lsong.org.json)
+* [marketnews-plugin.tradexy.repl.co](manifests/marketnews-plugin.tradexy.repl.co.json)
+* [plugins.midgard.avalara.io](manifests/plugins.midgard.avalara.io.json)
+* [sentence-beasts.thx.pw](manifests/sentence-beasts.thx.pw.json)
+* [stepstone.de](manifests/stepstone.de.json)
+* [tenereteam.com](manifests/tenereteam.com.json)
+* [www.tirabeauty.com](manifests/www.tirabeauty.com.json)
+* [www.travelmyth.com](manifests/www.travelmyth.com.json)
+* [www.zumper.com](manifests/www.zumper.com.json)
+### Delisted
+* [ph-api-prototype.azurewebsites.net](manifests/ph-api-prototype.azurewebsites.net.json)
 ## 2023-06-05
 ### Newly Listed
 * [api.fintorch.ca](manifests/api.fintorch.ca.json)

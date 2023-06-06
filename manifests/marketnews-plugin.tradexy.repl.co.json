@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Market News and Sentiment",
+  "name_for_model": "marketnews",
+  "description_for_human": "Fetches market news from Marketaux API. Get news about markets, large companies, industries, countries.",
+  "description_for_model": "Fetches market news from Marketaux API. Get news about markets, entities, industries, countries. Use 'marketnews' keyword to interact.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://marketnews-plugin.tradexy.repl.co/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMTIyLjg4cHgiIGhlaWdodD0iMTIyLjg4cHgiIHZpZXdCb3g9IjAgMCAxMjIuODggMTIyLjg4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMjIuODggMTIyLjg4IiB4bWw6c3BhY2U9InByZXNlcnZlIj48Zz48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTYxLjQzOCwwYzMzLjkzOCwwLDYxLjQ0MiwyNy41MDksNjEuNDQyLDYxLjQ0MlM5NS4zNzUsMTIyLjg4LDYxLjQzOCwxMjIuODggQzI3LjUwOSwxMjIuODgsMCw5NS4zNzYsMCw2MS40NDJTMjcuNTA5LDAsNjEuNDM4LDBMNjEuNDM4LDB6IE02MS40NDIsNDMuMDI3YzEwLjE3LDAsMTguNDEzLDguMjQ1LDE4LjQxMywxOC40MTYgYzAsMTAuMTctOC4yNDMsMTguNDEzLTE4LjQxMywxOC40MTNjLTEwLjE3MSwwLTE4LjQxNi04LjI0My0xOC40MTYtMTguNDEzQzQzLjAyNiw1MS4yNzIsNTEuMjcxLDQzLjAyNyw2MS40NDIsNDMuMDI3IEw2MS40NDIsNDMuMDI3eiBNNjEuNDM4LDE4LjM4OWMyMy43NzgsMCw0My4wNTQsMTkuMjc5LDQzLjA1NCw0My4wNTRzLTE5LjI3NSw0My4wNDktNDMuMDU0LDQzLjA0OSBjLTIzLjc3LDAtNDMuMDQ5LTE5LjI3NC00My4wNDktNDMuMDQ5UzM3LjY2OCwxOC4zODksNjEuNDM4LDE4LjM4OUw2MS40MzgsMTguMzg5eiIvPjwvZz48L3N2Zz4=",
+  "contact_email": "support@marketaux.com",
+  "legal_info_url": "http://www.marketaux.com/legal"
+}

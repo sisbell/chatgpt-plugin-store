@@ -238,16 +238,18 @@ paths:
                     description: The tarot card generated using the specified planet's Kamea matrix.
   /favicon.ico:
     get:
+      operationId: fetchFavicon
       summary: Fetch the favicon.ico file
       description: This endpoint returns the favicon.ico file for the application.
       responses:
-        200:
+        '200':
           description: Favicon file fetched successfully
           content:
             image/x-icon:
               schema:
                 type: string
                 format: binary
-        404:
+        '404':
           description: Favicon file not found
+
 

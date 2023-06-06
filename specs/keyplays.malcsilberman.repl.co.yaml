@@ -9,7 +9,7 @@ paths:
   /chat/fetch_game:
     get:
       operationId: fetch_game
-      summary: Fetch game data for dates for a team or league, returns participants, tvstations, weather, venue, referees. Can request commentary, lineups, statistics, events, sidelined players, predictions
+      summary: Fetch game data for dates for a team or league, returns participants, tvstations, weather, venue, referees. Can request commentary, lineups, statistics, events, sidelined players, predictions.
       parameters:
         - name: team_search
           in: query
@@ -107,7 +107,7 @@ paths:
   /chat/fetch_tvstations:
     get:
       operationId: fetchTvStations
-      summary: Get TV stations broadcasting football matches, specify a leaque or country of the league, or blank for all leagues, return data should include team postions.
+      summary: Get TV stations broadcasting football matches, specify in order an optional country and leaque name, or blank for all leagues, return data should include team postions.
       parameters:
         - name: league_search
           in: query
@@ -181,7 +181,7 @@ paths:
   /chat/playerSearch:
     get:
       operationId: fetchPlayerSearch
-      summary: Fetches details for a player using search by providing the player name.
+      summary: Fetches details for a player using search by providing the player name. Can request statistics as an include.
       parameters:
         - in: query
           name: name
@@ -210,9 +210,22 @@ paths:
             type: integer
             default: 1
           description: Page number for pagination
+        - in: query
+          name: year
+          schema:
+            type: string
+          description: The year for the statistics, if seasons cross years then input 2022 will give statistics for 2021/2022 and 2022/2023 seasons            
+        - name: include
+          in: query
+          description: Additional data to be requested in the response; possible value is statistics
+          required: false
+          schema:
+            type: string
+            enum:
+              - statistics          
       responses:
         "200":
-          description: Returns player details such as country, city, nationality, transfers, teams, trophies, etc.
+          description: Returns player details such as country, city, nationality, transfers, teams, trophies, seasons, statistics etc.
           content:
             application/json:
               schema:

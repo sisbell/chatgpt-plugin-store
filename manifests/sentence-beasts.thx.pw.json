@@ -1,0 +1,19 @@
+{
+  "schema_version": "v1",
+  "auth": {
+    "type": "none"
+  },
+  "name_for_human": "Sentence Beasts",
+  "name_for_model": "Sentence_Beasts",
+  "description_for_human": "Summon or create unique word monsters, engage them in thrilling battles, and record the outcomes using Word Monsters.",
+  "description_for_model": "Automatic to the end, Summon monsters with words, create monsters in words, simulate a match in short, and record the match.",
+  "contact_email": "contact@thx.pw",
+  "legal_info_url": "https://blog.thx.pw/p/sentence-beasts-legal-info-en.html",
+  "logo_url": "https://sentence-beasts.thx.pw/logo.svg",
+  "is_dev": false,
+  "api": {
+    "type": "openapi",
+    "has_user_authentication": false,
+    "url": "https://sentence-beasts.thx.pw/openapi.yaml"
+  }
+}

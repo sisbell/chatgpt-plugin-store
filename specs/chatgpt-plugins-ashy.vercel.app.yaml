@@ -5,6 +5,7 @@ info:
   version: 'v1'
 servers:
   - url: https://chatgpt-plugins-ashy.vercel.app/
+
 paths:
   /ping:
     get:
@@ -117,28 +118,46 @@ paths:
                   details:
                     type: string
                     example: "An error occurred while testing the connection to the MySQL database. Please check your connection details or visit https://ai2sql.io and ensure that the MySQL server is accessible. For further assistance, contact support@ai2sql.io."
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  /test-postgresql-connection:
+    post:
+      operationId: testPostgreSQLConnection
+      summary: Test the connection to the PostgreSQL database with user credentials, server name, and ai2sql_token, and return the table names and their columns associated with the ai2sql_token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestPostgreSQLConnectionRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestPostgreSQLConnectionResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: "Server, user, password, database, or ai2sql_token not provided. Please contact support@ai2sql.io for assistance."
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: "Error while testing connection"
+                  details:
+                    type: string
+                    example: "An error occurred while testing the connection to the PostgreSQL database. Please check your connection details or visit https://ai2sql.io and ensure that the PostgreSQL server is accessible. For further assistance, contact support@ai2sql.io."
   /test-connection:
     post:
       operationId: testConnection
@@ -310,6 +329,44 @@ components:
         - password
         - ai2sql_token
     TestConnectionResponse:
+      type: object
+      properties:
+        tables_with_columns:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+            description: The list of column names for each table
+
+    TestPostgreSQLConnectionRequest:
+      type: object
+      properties:
+        server:
+          type: string
+          description: The PostgreSQL server
+        database:
+          type: string
+          description: The PostgreSQL database
+        user:
+          type: string
+          description: The PostgreSQL user
+        password:
+          type: string
+          description: The PostgreSQL password
+        port:
+          type: integer
+          description: The PostgreSQL port
+        ai2sql_token:
+          type: string
+          description: The user's ai2sql_token
+      required:
+        - server
+        - database
+        - user
+        - password
+        - ai2sql_token
+    TestPostgreSQLConnectionResponse:
       type: object
       properties:
         tables_with_columns:

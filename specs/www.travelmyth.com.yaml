@@ -1,0 +1,123 @@
+openapi: 3.0.1
+info:
+  title: Travelmyth ChatGPT Plugin
+  description: A plugin that connects to the Travelmyth API to provide hotel search functionality.
+  version: 'v1'
+servers:
+  - url: https://www.travelmyth.com/api_chat.php
+paths:
+  /search:
+    get:
+      operationId: fetchHotels
+      summary: Search for hotels based on specific criteria.
+      parameters:
+        - name: destination
+          in: query
+          description: The destination to search for hotels
+          required: true
+          schema:
+            type: string
+        - name: checkinDay
+          in: query
+          description: The check-in day for the hotel search
+          required: false
+          schema:
+            type: integer
+        - name: checkinMonth
+          in: query
+          description: The check-in month for the hotel search
+          required: false
+          schema:
+            type: integer
+        - name: checkinYear
+          in: query
+          description: The check-in year for the hotel search
+          required: false
+          schema:
+            type: integer
+        - name: checkoutDay
+          in: query
+          description: The check-out day for the hotel search
+          required: false
+          schema:
+            type: integer
+        - name: checkoutMonth
+          in: query
+          description: The check-out month for the hotel search
+          required: false
+          schema:
+            type: integer
+        - name: checkoutYear
+          in: query
+          description: The check-out year for the hotel search
+          required: false
+          schema:
+            type: integer
+        - name: adults
+          in: query
+          description: The number of adults for the hotel search.
+          required: false
+          default: 2
+          schema:
+            type: integer
+        - name: children
+          in: query
+          description: The number of children for the hotel search
+          required: false
+          schema:
+            type: integer
+        - name: rooms
+          in: query
+          description: The number of rooms for the hotel search
+          required: false
+          schema:
+            type: integer
+        - name: categories
+          in: query
+          description: |
+            Specify one or many Travelmyth categories: infinity_pool,heated_pool,indoor_pool,rooftop_pool,wave_pool,children_pool,panoramic_view_pool,pool_swim_up_bar,pool_water_slide,pool_lap_lanes,water_park,lazy_river,private_pool,dog_play_area,dog_sitting,dogs_stay_free,outdoor_pool,health_and_safety,treehouse,haunted,overwater_bungalows,three_star,skyscraper,four_star,five_star,yoga,tennis,small,adult_only,gym,accessible,cheap,parking,business,free_wifi,pool,nightlife,romantic,dog_friendly,family,spa,casino,honeymoon,eco_friendly,beach,beachfront,ski,ski_in_ski_out,historic,unusual,vineyard,monastery,castle,golf,luxury,boutique,ev_charging,jacuzzi_hot_tub,fireplace,all_inclusive
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hotels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          description: Name of the hotel
+                          type: string
+                        star_rating:
+                          description: Star rating of the hotel
+                          type: string
+                        guest_rating:
+                          description: How guests have rated the hotel on a scale from 1 to 10
+                          type: string
+                        avg_nightly_price:
+                          description: Average price per night for the hotel
+                          type: int
+                        photo:
+                          description: Photo of the hotel
+                          type: string
+                        description:
+                          type: string
+                        categories:
+                          description: The categories that Travelmyth has added the hotel to
+                          type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

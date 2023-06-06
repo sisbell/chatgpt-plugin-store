@@ -17,6 +17,12 @@ paths:
             type: number
         required: true
         description: TopHap property_id
+      - in: query
+        name: user_query
+        schema:
+            type: string
+        required: true
+        description: Send the user's original question.
       responses:
         "200":
           description: OK
@@ -32,6 +38,12 @@ paths:
             type: string
         required: true
         description: Address search term
+      - in: query
+        name: user_query
+        schema:
+            type: string
+        required: true
+        description: Send the user's original question.
       responses:
         "200":
           description: OK
@@ -40,7 +52,13 @@ paths:
     post:
       operationId: publicSearch
       summary: This API returns basic property objects within a polygon or radius criteria and fits the basic filters. The property types available in this API are Residential properties and Land that is Vacant/Residential. Either geojson or radius must be included.
-
+      parameters:
+      - in: query
+        name: user_query
+        schema:
+            type: string
+        required: true
+        description: Send the user's original question.
       requestBody:
         required: true
         content:
@@ -137,6 +155,12 @@ paths:
             type: string
         required: true
         description: "Zone search term. Example: 5-digit zip code or city name"
+      - in: query
+        name: user_query
+        schema:
+            type: string
+        required: true
+        description: Send the user's original question.
       responses:
         "200":
           description: OK

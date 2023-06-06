@@ -1,0 +1,164 @@
+openapi: "3.0.3"
+info:
+  title: "Tenere Coupons"
+  description: "List of coupons, promos, and discounts from online stores and brands worldwide"
+  version: "1.0.0"
+servers:
+  - url: "https://tenereteam.com"
+paths:
+  /api/coupons/{alias}:
+    get:
+      tags:
+        - "Store"
+      summary: "Find coupons by Store alias"
+      description: "Returns a list of available coupons by input Store alias"
+      operationId: "getCouponsByStore"
+      parameters:
+        - name: "alias"
+          in: "path"
+          description: "Alias of the Store for which coupons need to be found"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+        "400":
+          description: "Invalid Store alias supplied"
+        "404":
+          description: "Store not found"
+  /api/coupons-by-event/{event_name}:
+    get:
+      tags:
+        - "Event"
+      summary: "Find coupons by Event name"
+      description: "Returns a list of available coupons by input Event name"
+      operationId: "getCouponsByEvent"
+      parameters:
+        - name: "event_name"
+          in: "path"
+          description: "Name of the event to find coupons for (Assistant only need send Event Name)"
+          required: true
+          schema:
+            type: "string"
+            examples:
+              - "Student Discounts"
+              - "Black Friday Coupons"
+              - "Halloween Coupons"
+              - "Thanksgiving Coupons"
+              - "Tax Preparation Coupons"
+              - "Military Discounts"
+              - "Employee Discounts"
+              - "Senior Discounts"
+              - "Back To School Coupons"
+              - "Cyber Monday Coupons"
+              - "Valentine's Coupons"
+              - "Summer Coupons"
+              - "Father's Day Coupons"
+              - "Graduation Coupons"
+              - "Memorial Day Coupons"
+              - "Christmas Coupons"
+              - "Winter Coupons"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+        "400":
+          description: "Invalid Store alias supplied"
+        "404":
+          description: "Store not found"
+  /api/coupons-by-category/{category_name}:
+    get:
+      tags:
+        - "Category"
+      summary: "Find coupons by Category Name"
+      description: "Returns a list of available coupons by input Category name"
+      operationId: "getCouponsByCategoryName"
+      parameters:
+        - name: "category_name"
+          in: "path"
+          description: "Name of the category to find coupons for"
+          required: true
+          schema:
+            type: "string"
+            examples: ["Rugs","Candles","Prints","Paintings","Sculpture","Carvings","Aviation","Children","Wallpaper","Towels","Shades","Wine","Craft Supplies","Art Supplies","Gyms","Car Seats","Strollers","Mobiles","Baby Formula","Wipes","Diapers","Hair Care","Skin Care","Makeup","Shaving","Conditioners","Shampoos","Moisturizers","Soaps","Toners","Bronzers","Mascaras","Lipsticks","Nail Polish","Body Wash","Shower Gels","Essential Oils","Juvenile","Cooking","House","Art","Gardening","Medical","Transportation","Security Cameras","Lenses","Filters","Car Accessories","RV","Wheels","Dresses","Footwear","Shirts","Bags","Clothing Accessories","Pants","Underwear","Costumes","Swimwear","Shorts","Sleepwear","Socks","Suits","Sweaters","Bridal","Uniforms","Sandals","Boots","Slippers","Coats","Backpacks","Handbags","Gym","Luggage","Hats","Wallets","Belts","Sunglasses","Gloves","Umbrellas","Jeans","Contact Lenses","Oral Care","Deodorants","Necklaces","Rings","Diamonds","Pendants","Bracelets","Earrings","Cookware","Cutlery","Kitchen Utensils","Deep Fryers","Blenders","Toaster Ovens","Toasters","Knives","Refrigerators","Dishwashers","Air Conditioners","Freezers","Washing Machines","Ovens","Vacuums","Plants","Patio","Roses","Gift Cards","TV Shows","Holiday","Concerts","Guitars","Paper","Pens","Binders","Pet Food","Graphics","Hobby","Operating Systems","Camping","Fitness","Fishing","Skates","Water Bottles","Bicycles","Flashlights","Tents","Hiking","Yoga","Outdoors","Wellness","Posters","Security","Cushions","Motorcycle","Costume","Baby Care","Utensils","Shampoo","Spa","Recreation","Hobbies","Plays","Internet","Technology","Intimates","Hosiery","Jackets","Duffel Bags","Wristbands","Notebooks","Cartridges","DVDs","Video","Headsets","Cleaning","Medical Aids","Massage","Drinks","Engagement","Fertilizers","Spas","Adventure","Electronic","Frame","Lights","Wrestling","Bibs","Bath","Tires","Printers","Networking","Computer Accessories","Laptops","Desktop Computers","Processors","Fans","Computer Memory","Keyboards","Mice","Keyboard","Modems","Memory Cards","Laptop Accessories","Electronics Accessories","TV","Cell Phones","Tablets","Car Electronics","Headphones","Batteries","Cables","Remote Controls","Televisions","Projectors","Television Receivers","Chocolates","Snacks","Beverages","Cigars","Soups","Rice","Pasta","Meat","Nuts","Ice Cream","Nutrition","Medications","Supplements","Vitamins","Eyeglasses","Eye Care","Coffee Makers","Balls","Bats","Safety","Eyewear","Skateboards","Helmets","Ski","Skis","Snowboards","Hardware","Flooring","Windows","Generators","Showers","Saws","Cabinet","Lubricants","Chain Saws","Drills","Tiles","Switches","Baby Toys","Adapters","Xbox","Mac","Air Purifiers","Speakers","Home Theater","Bras","Leggings","Brakes","Lighting","Windshield Wipers","Chargers","Computer","Game","Candy","Chocolate","Chips","Coffee","Tea","Cocoa","Poultry","Fish","Business Cards","Greeting Cards","Stationery","Invitations","Copiers","Calendars","Markers","Pencils"]
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+        "400":
+          description: "Invalid category name supplied"
+        "404":
+          description: "Category name not found"
+  /api/today-deals/{keyword}:
+    get:
+      tags:
+        - "Deal"
+      summary: "Find today best deals"
+      description: "Returns a list of today's best deals"
+      operationId: "getTodayDeals"
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Keyword for filtering deals"
+          required: true
+          schema:
+            type: "string"
+            examples:
+              - "deal"
+              - "Today's deal"
+              - "best deals"
+              - "hot deals"
+              - "deal today"
+              - "drop price"
+              - "all deals"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Deal"
+components:
+  schemas:
+    Coupon:
+      type: "object"
+      properties:
+        title:
+          type: "string"
+        coupon_code:
+          type: "string"
+        discount:
+          type: "number"
+        expire_date:
+          type: "string"
+    Deal:
+      type: "object"
+      properties:
+        deal_title:
+          type: "string"
+        deal_description:
+          type: "string"
+        deal_price:
+          type: "number"
+        deal_expiry_date:
+          type: "string"

@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "Shopping AIssistant",
   "name_for_model": "Shopping_AIssistant",
-  "description_for_human": "Your AI-powered personal shopper scanning vast product catalogs across multiple merchants to find the best deals",
-  "description_for_model": "Your AI-powered personal shopper scanning vast product catalogs across multiple merchants to find the best deals",
+  "description_for_human": "Your AI-powered personal shopper scanning vast product catalogs across multiple merchants to find the best deals, in US. ",
+  "description_for_model": "Your AI-powered personal shopper scanning vast product catalogs across multiple merchants to find the best deals, in US. ",
   "auth": {
     "type": "service_http",
     "authorization_type": "bearer",
