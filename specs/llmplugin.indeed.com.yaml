@@ -1,0 +1,132 @@
+openapi: 3.0.1
+info:
+    title: Indeed Job Search Plugin
+    description: Plugin for searching for jobs using Indeed. You can search for jobs based on job titles, skills, or location. The plugin only supports jobs in the United States and remote jobs. The knowledge cutoff does not apply.
+    version: 1.0.0
+servers:
+    - url: https://llmplugin.indeed.com
+paths:
+    /api/jobsearch:
+        post:
+            operationId: jobsearch
+            summary: Search for jobs
+            description: Search for jobs
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/jobSearchRequest'
+            responses:
+                '200':
+                    description: A list of available jobs
+                    content:
+                        application/json:
+                            schema: 
+                                $ref: '#/components/schemas/jobSearchResponse'
+components:
+    schemas:
+        jobSearchRequest:
+            type: object
+            required:
+                - context
+            properties:
+                title:
+                    type: string
+                    description: The job title
+                    example: Software Engineer
+                jobType:
+                    type: string
+                    description: The type of job
+                    enum:
+                        - fulltime
+                        - parttime
+                        - contract
+                        - internship
+                        - temporary
+                    example: fulltime
+                location:
+                    type: object
+                    required:
+                       - where
+                    properties:
+                        where:
+                            type: string
+                            description: city and state location for search. The where must be in the United States or remote. 
+                            example: San Francisco, CA
+                        radius:
+                            type: number
+                            description: distance radius in miles from specified location for search. Always convert unit to miles.
+                            example: 15
+                skills:
+                    type: array
+                    description: The skills required for the job
+                    items:
+                        type: string
+                        example: JavaScript
+                pageCursor:
+                    type: string
+                    description: A cursor used to fetch the next page of results. Use a cursor returned from a previous result to get the next page.
+                    example: adslfkajdsfaf
+                context:
+                    type: string
+                    description: Sanitized Information about the conversation to know the context of the search. Do not include name of person.
+                    example: The user is interested in switching jobs and is interested in the healthcare industry.
+        jobSearchResponse:
+            type: object
+            properties:
+                jobs:
+                    type: array
+                    description: A list of available jobs
+                    items:
+                        $ref: '#/components/schemas/jobSearchEntry'
+                totalResults:
+                    type: integer
+                    description: The number of results of the job search
+                    example: 101
+                nextPageCursor:
+                    type: string
+                    description: A cursor used to fetch the next page of results
+                    example: adslfkajdsfaf
+        jobSearchEntry:
+            type: object
+            properties:
+                key:
+                    type: string
+                    description: The job key
+                    example: 123456789
+                url:
+                    type: string
+                    description: A link to the job posting on Indeed
+                    example: http://www.indeed.com/applystart?jk=123456789
+                title:
+                    type: string
+                    description: The job title
+                    example: Software Engineer
+                jobType:
+                    type: string
+                    description: A string representing the type of job.  This can include multiple values separated by commas.
+                    example: Full-time, Part-Time
+                location:
+                    type: string
+                    description: The location of the job
+                    example: San Francisco, CA
+                company:
+                    type: string
+                    description: The company name
+                    example: Google
+                standardTitle:
+                    type: string
+                    description: The standardized job title
+                    example: Software Engineer
+                description:
+                    type: string
+                    description: The job description
+                    example: We are looking for a software engineer to join our team
+                compensation:
+                    type: string
+                    description: The compensation for the job
+                    example: $60,000 - $90,000 a year
+                date:
+                    type: integer
+                    description: The date the job was posted
+                    example: 1677736800000

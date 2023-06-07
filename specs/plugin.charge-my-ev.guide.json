@@ -58,6 +58,125 @@
         }
       }
     },
+    "/api/openai/chargers/nrel": {
+      "get": {
+        "summary": "Get a list of all public charging stations throughout the United States. Includes Tesla and other vendors, like Rivian, ChargePoint, etc. Most but not all stations are lower charging speeds and available to non-Tesla vehicles, including Teslas.",
+        "operationId": "getNRELChargingStationsUsingGET",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "query",
+            "required": false,
+            "description": "The vendor/provider of the charging station, e.g. ChargePoint, Tesla, Rivian, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "description": "The name of the charging station or business name location, e.g. Walmart, Target, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "description": "City for which to query general public charging station information. E.g. Reno, Toronto, Berlin, New York, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "US State for which to query for general public charging station information. e.g. NV, CA, NY, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "in": "query",
+            "required": false,
+            "description": "The address of the charging station, e.g. 123 Main St. For locations, like a restaurant or business, use the title parameter instead.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zipCode",
+            "in": "query",
+            "required": false,
+            "description": "The zip code of the charging station, e.g. 12345",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "planned",
+            "in": "query",
+            "required": false,
+            "description": "Whether to query for planned public charging stations",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "dc_fast_chargers",
+            "in": "query",
+            "required": false,
+            "description": "Whether to query for public charging stations with DC fast charging, e.g. Tesla Superchargers, Rivian, etc. This does not mean they are available to non-Tesla vehicles.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "connectorType",
+            "in": "query",
+            "required": false,
+            "description": "The type of connector to query for, e.g. J1772, CHAdeMO, Tesla, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pricing",
+            "in": "query",
+            "required": false,
+            "description": "The pricing structure of the charging station, if free or otherwise. For free, use 'free' otherwise leave blank for everything else.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "facilityType",
+            "in": "query",
+            "required": false,
+            "description": "The type of facility the charging station is located at, e.g. Parking, Retail, Restaurant, Government Office, etc.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Provides a list of available public charging stations for electric vehicles in the United States. Displays the location's title, address, provider/vendor, connection types and permalink properties by default.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NRELChargingStationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/openai/superchargers/total-non-tesla-locations": {
       "get": {
         "summary": "Get a global total of superchargers available to non-Tesla owners/vehicles for use. Provides the total count and what countries the locations are available in and the relevant superchargers if granularity is requested.",
@@ -219,6 +338,100 @@
           }
         }
       },
+      "NrelCharger": {
+        "type": "object",
+        "properties": {
+          "last_updated": {
+            "type": "string",
+            "description": "The date and time the charging station information was last updated"
+          },
+          "location_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "description": "Name of the charger location. Typically takes on the form of {business_name} {city} - {provider} for ease"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the charging station, e.g. Available, Planned, Temporarily Unavailable, etc."
+          },
+          "level_2_chargers_count": {
+            "type": "integer",
+            "description": "Number of charger stations available with level 2 charging"
+          },
+          "dc_fast_chargers_count": {
+            "type": "integer",
+            "description": "Number of charger stations available with DC fast charging"
+          },
+          "facility_type": {
+            "type": "string",
+            "description": "The type of facility the charging station is located at, e.g. Parking, Retail, Restaurant, Government Office, etc."
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "description": "The US state the charging station is located in"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string",
+            "description": "Standard country code, e.g US for United States"
+          },
+          "provider": {
+            "type": "string",
+            "description": "The vendor/provider of the charging station"
+          },
+          "pricing": {
+            "type": "string",
+            "description": "The pricing structure of the charging station, if free or otherwise"
+          },
+          "connnector_types": {
+            "type": "array",
+            "description": "The types of connectors available at the charging station",
+            "items": {
+              "type": "string"
+            }
+          },
+          "access_days_time": {
+            "type": "string",
+            "description": "The days and times the charging station is available for use"
+          },
+          "station_phone": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Contact information for the public charging station",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "number": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "latitude": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "string"
+          },
+          "map_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "A link to google maps with the location of the charging station in the format of https://www.google.com/maps/place/{latitude},{longitude}"
+          }
+        }
+      },
       "Supercharger": {
         "type": "object",
         "properties": {
@@ -320,6 +533,32 @@
           }
         }
       },
+      "NRELChargingStationResponse": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "type": "object",
+            "description": "Metadata about the charging stations request",
+            "$ref": "#/components/schemas/Meta"
+          },
+          "infoLink": {
+            "type": "string",
+            "format": "uri",
+            "description": "An optional link to a page with more information about the service, e.g. https://charge-my-ev.guide"
+          },
+          "userTip": {
+            "type": "string",
+            "description": "An optional tip for the user when their location request returns no results or is too broad"
+          },
+          "chargers": {
+            "type": "array",
+            "description": "The charging stations that match the request and to be displayed to the user",
+            "items": {
+              "$ref": "#/components/schemas/NrelCharger"
+            }
+          }
+        }
+      },
       "NonTeslaVehicleSuperchargerResponse": {
         "type": "object",
         "properties": {
@@ -335,7 +574,7 @@
           },
           "userTip": {
             "type": "string",
-            "description": "An optional tip for the user when their location request returns no results"
+            "description": "An optional tip for the user when their location request returns no results or is too broad"
           },
           "superchargers": {
             "type": "array",

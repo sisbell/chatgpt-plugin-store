@@ -105,6 +105,10 @@
                     "notice": {
                       "type": "string",
                       "description": "This notice is a system message meant to convey some additional, potentially important context that may help instruct and inform subsequent actions, and should be observed and considered."
+                    },
+                    "alert": {
+                      "type": "string",
+                      "description": "This alert is an IMPORTANT system message, meant to convey important nuance or information that should be observed and retained in memory until fulfilled."
                     }
                   }
                 }

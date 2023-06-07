@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Cribbage Scorer",
+  "name_for_model": "CribbageScorer",
+  "description_for_human": "Tool for scoring your cards in the game of cribbage.",
+  "description_for_model": "Tool for scoring your cards in the game of cribbage.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://cribbage.azurewebsites.net/openapi.yaml"
+  },
+  "logo_url": "https://cribbage.azurewebsites.net/static/crib_scorer_logo.png",
+  "contact_email": "pete@investigatingsoftware.co.uk",
+  "legal_info_url": "https://cribbage.azurewebsites.net/legal"
+}

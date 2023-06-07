@@ -1,4 +1,14 @@
 # Plugin Store Listing Changelog
+## 2023-06-07
+### Newly Listed
+* [llmplugin.indeed.com](manifests/llmplugin.indeed.com.json)
+### Delisted
+* [alaga-ai-h43cosb3ia-uc.a.run.app](manifests/alaga-ai-h43cosb3ia-uc.a.run.app.json)
+* [marketnews-plugin.tradexy.repl.co](manifests/marketnews-plugin.tradexy.repl.co.json)
+* [plugin-dtwewgpm2a-uc.a.run.app](manifests/plugin-dtwewgpm2a-uc.a.run.app.json)
+* [plugin.bramework.com](manifests/plugin.bramework.com.json)
+* [trialradar2.marketflare.repl.co](manifests/trialradar2.marketflare.repl.co.json)
+* [txyz.ai](manifests/txyz.ai.json)
 ## 2023-06-06
 ### Newly Listed
 * [alaga-ai-h43cosb3ia-uc.a.run.app](manifests/alaga-ai-h43cosb3ia-uc.a.run.app.json)

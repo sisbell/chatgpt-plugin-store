@@ -122,3 +122,6 @@ components:
           type: string
           nullable: true
           description: "If available, the author of the content. Nullable"
+        score:
+          type: float
+          description: "A number from 0 to 1 representing similarity between the query/url and the result"

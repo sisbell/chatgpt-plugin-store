@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Market News Plugin
-  description: A plugin that connects to the MarketAux API to provide market news.
+  description: Plugin that connects to the MarketAux API to provide market and company news.
   version: 'v1'
 servers:
   - url: https://marketnews-plugin.tradexy.repl.co

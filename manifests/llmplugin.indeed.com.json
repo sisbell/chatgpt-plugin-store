@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Job search by Indeed",
+  "name_for_model": "indeed",
+  "description_for_human": "Explore & discover the latest open jobs from the #1 job site in the world, Indeed.com.",
+  "description_for_model": "Plugin for searching for jobs using Indeed. You can search for jobs based on job titles, skills, or location. The plugin only supports jobs in the United States and remote jobs. The knowledge cutoff does not apply.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://llmplugin.indeed.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://llmplugin.indeed.com/static/icon.svg",
+  "contact_email": "llm-incubator@indeed.com",
+  "legal_info_url": "http://indeed.com/legal"
+}
