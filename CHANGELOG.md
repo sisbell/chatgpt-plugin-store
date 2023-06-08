@@ -1,4 +1,8 @@
 # Plugin Store Listing Changelog
+## 2023-06-08
+### Newly Listed
+* [chatgpt.apps.mantiumai.com](manifests/chatgpt.apps.mantiumai.com.json)
+* [llmsearch.gygservice.com](manifests/llmsearch.gygservice.com.json)
 ## 2023-06-07
 ### Newly Listed
 * [llmplugin.indeed.com](manifests/llmplugin.indeed.com.json)

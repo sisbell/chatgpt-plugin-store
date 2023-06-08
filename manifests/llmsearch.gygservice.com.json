@@ -2,7 +2,7 @@
   "schema_version": "v1",
   "name_for_model": "getyourguide_activity_search",
   "name_for_human": "GetYourGuide",
-  "description_for_model": "Plugin for exploring activities to do in an city, location or country. Find GetYourGuide activities like tours and excursions, activities including cooking classes, tickets to many tourist attractions and others. Translate all query parameters to English. Always show activity rating. When a location is mentioned, include the location in the query.",
+  "description_for_model": "Plugin for exploring activities to do in an city, location or country. Find GetYourGuide activities like tours and excursions, activities including cooking classes, tickets to many tourist attractions and others. Translate all query parameters to English. Always show activity rating. When a location is mentioned, include the location in the query parameters.",
   "description_for_human": "Find tours, excursions and other travel activities.",
   "auth": {
     "type": "none"
@@ -12,7 +12,7 @@
     "url": "https://llmsearch.gygservice.com/openapi.json",
     "has_user_authentication": false
   },
-  "logo_url": "https://code.getyourguide.com/assets/gyg-logo.svg",
+  "logo_url": "https://cdn.getyourguide.com/tf/assets/static/chatgpt/gyg-chatgpt-logo.svg",
   "contact_email": "chatgpt-plugin-support@getyourguide.com",
   "legal_info_url": "https://www.getyourguide.com/c/legal"
 }

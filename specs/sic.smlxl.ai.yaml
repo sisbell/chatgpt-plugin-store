@@ -12,9 +12,6 @@ components:
           format: int64
           title: BlockNumber
           type: integer
-        compute_value:
-          title: ComputeValue
-          type: boolean
       required:
       - account
       title: AccountBalanceRequest
@@ -279,10 +276,9 @@ openapi: 3.0.2
 paths:
   /api/accountBalance:
     post:
-      description: API returns balances of tokens for an ETH wallet. Accounts are
-        referred to by ENS domains or hex addresses. The response includes an array
-        of assets and balances held in the wallet. If compute_value is set to true,
-        the response includes the value of the assets.
+      description: API returns balances and values of top assets for an ETH wallet.
+        Accounts are referred to by ENS domains or hex addresses. The response includes
+        an array of top assets with their balances and values.
       operationId: query_account_balance_post
       requestBody:
         content:

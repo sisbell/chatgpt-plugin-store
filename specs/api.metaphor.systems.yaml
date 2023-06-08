@@ -26,13 +26,44 @@ paths:
                   description: "The query string. On the web, people often recommend content - it's vital that the query takes the form of a declarative suggestion, where a high quality search result link would follow."
                 numResults:
                   type: integer
-                  example: 20
-                  description: "Number of search results to return. Minimum 20. Maximum 500. Default 100."
+                  example: 10
+                  description: "Number of search results to return. Maximum 500. Default 100"
+                includeDomains:
+                  type: array
+                  items:
+                    type: string
+                  description: "List of domains to include in the search. If specified, results will only come from these domains. Only one of includeDomains and excludeDomains should be specified."
+                  example: ["example.com", "sample.net"]
+                excludeDomains:
+                  type: array
+                  items:
+                    type: string
+                  description: "List of domains to exclude in the search. If specified, results will only come from these domains. Only one of includeDomains and excludeDomains should be specified."
+                  example: ["excludedomain.com", "excludeme.net"]
+                startCrawlDate:
+                  type: string
+                  format: date-time
+                  description: "\"Crawl date\" refers to the date that Metaphor discovered a link, which is more granular and can be more useful than published date. If startCrawlDate is specified, results will only include links that were crawled after startCrawlDate. Must be specified in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ)"
+                  example: "2023-01-01T00:00:00Z"
+                endCrawlDate:
+                  type: string
+                  format: date-time
+                  description: "\"Crawl date\" refers to the date that Metaphor discovered a link, which is more granular and can be more useful than published date. If endCrawlDate is specified, results will only include links that were crawled before endCrawlDate. Must be specified in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ)"
+                  example: "2023-12-31T23:59:59Z"
+                startPublishedDate:
+                  type: string
+                  format: date-time
+                  description: "If specified, only links with a published date after startPublishedDate will be returned. Must be specified in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ). Note that for some links, we have no published date, and these links will be excluded from the results if startPublishedDate is specified."
+                  example: "2023-01-01"
+                endPublishedDate:
+                  type: string
+                  format: date-time
+                  description: "If specified, only links with a published date before endPublishedDate will be returned. Must be specified in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ). Note that for some links, we have no published date, and these links will be excluded from the results if endPublishedDate is specified."
+                  example: "2023-12-31T23:59:59Z"
               required:
                 - query
-
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -41,14 +72,30 @@ paths:
                 properties:
                   results:
                     type: array
-                    description: "A list of search results containing title, URL, creation date, and author."
+                    description: "A list of search results containing title, URL, published date, author, and score."
                     items:
-                      $ref: "#/components/schemas/Result"
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          description: "The title of the search result, typically representing the main heading of the content."
+                        url:
+                          type: string
+                          format: uri
+                          description: "The URL of the search result, which directs to the web page containing the relevant content."
+                        publishedDate:
+                          type: string
+                          nullable: true
+                          description: "An estimate of the published date, from parsing HTML content. Format is YYYY-MM-DD. Nullable"
+                        author:
+                          type: string
+                          nullable: true
+                          description: "If available, the author of the content. Nullable"
               example:
                 results:
                   - title: "Google Search is Dying"
                     url: https://dkb.blog/p/google-search-is-dying
-                    dateCreated: "2022-02-14"
+                    publishedDate: "2022-02-14"
                     author: "Dmitri Brereton"
       security:
         - apikey: []
@@ -70,13 +117,45 @@ paths:
                   description: "The url for which you would like to find similar links"
                 numResults:
                   type: integer
-                  example: 20
-                  description: "Number of search results to return. Minimum 20. Maximum 500. Default 100"
+                  example: 10
+                  description: "Number of search results to return. Maximum 500. Default 100"
+                includeDomains:
+                  type: array
+                  items:
+                    type: string
+                  description: "An optional list of domain names to include in the search. If specified, results will only come from these domains."
+                  example: ["example.com", "sample.net"]
+                excludeDomains:
+                  type: array
+                  items:
+                    type: string
+                  description: "An optional list of domain names to exclude from the search. If specified, results will not include any from these domains."
+                  example: ["excludedomain.com", "excludeme.net"]
+                startCrawlDate:
+                  type: string
+                  format: date-time
+                  description: "The optional start date (inclusive) for the crawled data. Must be specified in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ). The search will only include results crawled on or after this date."
+                  example: "2023-01-01T00:00:00Z"
+                endCrawlDate:
+                  type: string
+                  format: date-time
+                  description: "The optional end date (inclusive) for the crawled data. Must be specified in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ). The search will only include results crawled on or before this date."
+                  example: "2023-12-31T23:59:59Z"
+                startPublishedDate:
+                  type: string
+                  format: date-time
+                  description: "The optional start date (inclusive) for the published data. Must be specified in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ). The search will only include results published on or after this date."
+                  example: "2023-01-01"
+                endPublishedDate:
+                  type: string
+                  format: date-time
+                  description: "The optional end date (inclusive) for the published data. Must be specified in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ). The search will only include results published on or before this date."
+                  example: "2023-12-31T23:59:59Z"
               required:
                 - url
 
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -87,12 +166,28 @@ paths:
                     type: array
                     description: "A list of search results containing title, URL, creation date, and author."
                     items:
-                      $ref: "#/components/schemas/Result"
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          description: "The title of the search result, typically representing the main heading of the content."
+                        url:
+                          type: string
+                          format: uri
+                          description: "The URL of the search result, which directs to the web page containing the relevant content."
+                        publishedDate:
+                          type: string
+                          nullable: true
+                          description: "An estimate of the creation date, from parsing HTML content. Format is YYYY-MM-DD. Nullable"
+                        author:
+                          type: string
+                          nullable: true
+                          description: "If available, the author of the content. Nullable"
               example:
                 results:
                   - title: "Misperceptions on Moloch"
                     url: "https://slatestarcodex.com/2014/08/01/misperceptions-on-moloch/"
-                    dateCreated: "2014-08-01"
+                    publishedDate: "2014-08-01"
                     author: "Scott Alexander"
       security:
         - apikey: []
@@ -114,7 +209,7 @@ components:
           type: string
           format: uri
           description: "The URL of the search result, which directs to the web page containing the relevant content."
-        dateCreated:
+        publishedDate:
           type: string
           nullable: true
           description: "An estimate of the creation date, from parsing HTML content. Format is YYYY-MM-DD. Nullable"
@@ -125,3 +220,4 @@ components:
         score:
           type: float
           description: "A number from 0 to 1 representing similarity between the query/url and the result"
+

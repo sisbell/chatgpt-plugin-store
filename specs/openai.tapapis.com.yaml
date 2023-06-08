@@ -10,7 +10,7 @@ paths:
   /plugin/v1/search-game:
     post:
       operationId: searchGames
-      summary: API for looking games and game recommendations and comparisons
+      summary: API for looking for games and game recommendations and comparisons
       requestBody:
         content:
           application/json:
@@ -47,28 +47,28 @@ components:
       title: QueryGameRequest
       type: object
       required:
-        - query
         - raw_question
+        - query
       properties:
-        query:
-          type: string
-          description: use to query games
         raw_question:
           type: string
-          description: raw description for finding games
+          description: just pass user raw question
+        query:
+          type: string
+          description: Use this field to finding games related to the conversation input. Please include as many specific keywords as possible;
     QueryContentRequest:
       title: QueryContentRequest
       type: object
       required:
-        - query
         - raw_question
+        - query
       properties:
-        query:
-          type: string
-          description: use to query games related content
         raw_question:
           type: string
-          description: raw description for finding games related content
+          description: just pass user raw question
+        query:
+          type: string
+          description: Use this field to submit up keywords for identifying the most relevant content like ugc,post etc to the conversation context. Please include as many specific keywords as possible;
     getGamesResponse:
       type: object
       properties:
@@ -139,7 +139,6 @@ components:
           title: review
           type: string
           description: game real review from user in GameSight.
-
     ContentItem:
       title: ContentItem
       type: object
