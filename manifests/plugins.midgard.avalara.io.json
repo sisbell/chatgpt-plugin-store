@@ -2,7 +2,7 @@
   "schema_version": "v1",
   "name_for_human": "Tax Calculator",
   "name_for_model": "Tax_Calculator",
-  "description_for_human": "Given an address (or city) in the United States and an amount, calculate the sales tax. Powered by the Avalara.",
+  "description_for_human": "Calculate sales tax given a U.S. address (or just a city) and an amount. Powered by Avalara.",
   "description_for_model": "Given an address in the United States and an amount, the system will calculate the sales tax. The system can also provide the sales tax given a city, or both a city and state. The total sales tax is the sum of state, county, city and special jurisdiction sales taxes.",
   "auth": {
     "type": "none"

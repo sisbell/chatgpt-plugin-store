@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Charge My EV API",
+    "title": "Charge My EV ChatGPT Plugin",
     "version": "1.0.0"
   },
   "paths": {

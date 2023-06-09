@@ -246,6 +246,7 @@
                           "Pie Chart",
                           "Donut Chart",
                           "Line Chart",
+                          "Area Chart",
                           "Bar Chart"
                         ],
                         "default": "Bar Chart"

@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: AIstrologer horoscope API
+  version: 'v.0.1'
+servers:
+  - url: 'https://aistrologer.io'
+    description: Production server (uses live data)
+  - url: 'http://localhost:3333'
+    description: test local server
+paths:
+  /horoscope/{signs}/{dates}/{userMessage}:
+    get:
+      operationId: getHoroscope
+      summary: Get horoscope for specific zodiac signs and dates
+      description: This endpoint returns the horoscope for specific zodiac signs on specific dates.
+      parameters:
+        - name: signs
+          in: path
+          description: The zodiac signs for which to get the horoscope. This can be a single sign or a comma-separated list of up to 3 signs. List of allowed values Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, Pisces.
+          required: true
+          schema:
+            type: string
+        - name: dates
+          in: path
+          description: The dates for which to get the horoscope. This can be a single date or a comma-separated list of up to 5 dates. Format YYYY-MM-DD.
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: userMessage
+          in: path
+          description: The query used by chatgpt to derive the search keyword. I don't need the original message written by the user, but I would like a reduced form of the prompt. 
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation. Returns the horoscope for the specified zodiac signs and dates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Horoscopes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        sign:
+                          type: string
+                          description: The zodiac sign for which the horoscope is provided.
+                        date:
+                          type: string
+                          description: The date for which the horoscope is provided.
+                        horoscopeTitle:
+                          type: string
+                          description: The title of the horoscope.
+                        horoscope:
+                          type: string
+                          description: The horoscope text.
+                  EXTRA_INFORMATION_TO_ASSISTANT:
+                    type: string
+                    description: Extra instructions for the assistant.
+        '400':
+          description: Invalid request. The provided zodiac signs or dates are not valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+        '500':
+          description: Internal server error.

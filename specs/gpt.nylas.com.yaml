@@ -1,0 +1,701 @@
+openapi: 3.0.1
+info:
+  title: Nylas Get Messages API
+  version: 1.0.0
+  description: This API allows you to search messages in your email account.
+  license: 
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://gpt.nylas.com
+security: 
+  -  access_token: []
+paths:
+  /api/total_results/thread:
+    get:
+      summary: Gets the total number of email threads
+      description: Gets the total number of email threads (emails with replies) in your email account.
+      operationId: totalResultsListThreads
+      parameters:
+        - name: subject
+          in: query
+          description: Filter messages with the exact subject line of the message.
+          required: false
+          schema:
+            type: string
+        - name: any_email
+          in: query
+          description: "Filters for emails that have been sent or received from this comma-separated list of fully qualified email addresses. For example: mail1@mail.com,mail2@mail.com. A maximum of 25 emails may be specified."
+          required: false
+          schema:
+            type: string
+        - name: starred
+          in: query
+          description: Filter messages by starred status.
+          required: false
+          schema:
+            type: boolean
+        - name: unread
+          in: query
+          description: Filter messages by unread status.
+          required: false
+          schema:
+            type: boolean
+        - name: has_attachment
+          in: query
+          description: Filter messages by attachment status.
+          required: false
+          schema:
+            type: boolean
+        - name: last_message_before
+          in: query
+          description: Filter messages with the last message received before a given date represented as an ISO-8601 date.
+          required: false
+          schema:
+            type: string
+        - name: last_message_after
+          in: query
+          description: Filter messages with the last message received after a given date represented as an ISO-8601 date.
+          required: false
+          schema:
+            type: string
+        - name: started_before
+          in: query
+          description: Filter messages started before a given date represented as an ISO-8601 date.
+          required: false
+          schema:
+            type: string
+        - name: started_after
+          in: query
+          description: Filter messages started after a given date represented as an ISO-8601 date.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: The maximum number of messages to return. Cannot be null. Maximum of 10.
+          required: false
+          schema:
+            type: integer
+            default: 5
+        - name: offset
+          in: query
+          description: The offset for paginating through messages. Cannot be null.
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TotalResults'
+        400:
+          description: Bad request. Invalid request body or parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'    
+        404:
+          description: Not found. The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'   
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'  
+  /api/thread:
+    get:
+      summary: Get a list of email threads
+      description: Gets a list of email threads  emails with replies) in your email account.
+      operationId: listThreads
+      parameters:
+        - name: subject
+          in: query
+          description: Filter messages with the exact subject line of the message.
+          required: false
+          schema:
+            type: string
+        - name: any_email
+          in: query
+          description: "Filters for emails that have been sent or received from this comma-separated list of fully qualified email addresses. For example: mail1@mail.com,mail2@mail.com. A maximum of 25 emails may be specified."
+          required: false
+          schema:
+            type: string
+        - name: starred
+          in: query
+          description: Filter messages by starred status.
+          required: false
+          schema:
+            type: boolean
+        - name: unread
+          in: query
+          description: Filter messages by unread status.
+          required: false
+          schema:
+            type: boolean
+        - name: has_attachment
+          in: query
+          description: Filter messages by attachment status.
+          required: false
+          schema:
+            type: boolean
+        - name: last_message_before
+          in: query
+          description: Filter messages with the last message received before a given date represented as an ISO-8601 date.
+          required: false
+          schema:
+            type: string
+        - name: last_message_after
+          in: query
+          description: Filter messages with the last message received after a given date represented as an ISO-8601 date.
+          required: false
+          schema:
+            type: string
+        - name: started_before
+          in: query
+          description: Filter messages started before a given date represented as an ISO-8601 date.
+          required: false
+          schema:
+            type: string
+        - name: started_after
+          in: query
+          description: Filter messages started after a given date represented as an ISO-8601 date.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: The maximum number of messages to return. Cannot be null. Maximum of 10.
+          required: false
+          schema:
+            type: integer
+            default: 5
+        - name: offset
+          in: query
+          description: The offset for paginating through messages. Cannot be null.
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListThread'
+        400:
+          description: Bad request. Invalid request body or parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'    
+        404:
+          description: Not found. The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'   
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'      
+  /api/thread/{thread_id}:
+    get:
+      summary: Get a single thread by ID
+      description: Get a single thread by ID
+      operationId: getThread
+      parameters:
+        - name: thread_id
+          in: path
+          description: The ID of the thread to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
+        400:
+          description: Bad request. Invalid request body or parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'    
+        404:
+          description: Not found. The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'   
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'   
+  /api/thread/search:
+    get:
+      summary: Search email threads
+      description: "Search through email threads (emails with replies) based on any text or specific to, from, participants, date or subject tags."
+      operationId: searchThreads
+      parameters:
+        - name: q
+          in: query
+          description: The search query to find email threads. Cannot be blank
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: The maximum number of email threads to return. Cannot be null. Maximum of 10.
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: offset
+          in: query
+          description: The offset for paginating through email threads. Cannot be null.
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListThread'
+        400:
+          description: Bad request. Invalid request body or parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'    
+        404:
+          description: Not found. The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'  
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'   
+  /api/email/search:
+    get:
+      summary: Search emails
+      description: Search through emails based on any text or specific to, from, participants, date or subject tags.
+      operationId: searchEmails
+      parameters:
+        - name: q
+          in: query
+          description: The search query to find emails. Cannot be blank
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: The maximum number of emails to return. Cannot be null.
+          required: false
+          schema:
+            type: integer
+            default: 5
+        - name: offset
+          in: query
+          description: The offset for paginating through emails. Cannot be null.
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListEmail'
+        400:
+          description: Bad request. Invalid request body or parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'    
+        404:
+          description: Not found. The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse' 
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'   
+  /api/email/{email_id}:
+    get:
+      summary: Get a single email by ID
+      description: Get a single email by ID
+      operationId: getEmail
+      parameters:
+        - name: email_id
+          in: path
+          description: The ID of the email to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Email'
+        400:
+          description: Bad request. Invalid request body or parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'    
+        404:
+          description: Not found. The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse' 
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/email/{email_id}/body:
+    get:
+      summary: Get a single email's body by ID
+      description: Get a single email's body by ID
+      operationId: getEmailBody
+      parameters:
+        - name: email_id
+          in: path
+          description: The ID of the email to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  body:
+                    type: array
+                    description: The body of the email chunked.
+                    items: 
+                      type: string
+                      description: A chunk of the email body.
+        400:
+          description: Bad request. Invalid request body or parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'    
+        404:
+          description: Not found. The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse' 
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'                           
+components:
+  securitySchemes:
+    access_token:
+      type: apiKey
+      name: Authorization
+      in: header
+  schemas:
+    Thread:
+      type: object
+      properties:
+        thread_id:
+          type: string
+          description: The unique identifier for the thread.
+        subject:
+          type: string
+          description: The subject of the thread (first email in the thread).
+        unread:
+          type: boolean
+          description: Whether the thread is unread.
+        starred:
+          type: boolean
+          description: Whether the thread is starred.
+        labels:
+          type: array
+          description: The labels applied to the thread.
+          items:
+            $ref: '#/components/schemas/EmailLabel'
+        snippet:
+          type: string
+          description: The snippet of the thread (first email in the thread).
+        email_ids:
+          type: array
+          description: The IDs of the emails in the thread.
+          items:
+            type: string
+        first_email_datetime:
+          type: string
+          description: The datetime of the first email in the thread.
+          format: date-time
+          nullable: true
+        last_email_received_datetime:
+          type: string
+          description: The datetime of the last email received in the thread.
+          format: date-time
+          nullable: true
+        last_email_datetime:
+          type: string
+          description: The datetime of the last email in the thread.
+          format: date-time
+          nullable: true
+        last_updated_datetime:
+          type: string
+          description: The datetime of the last update to the thread.
+          format: date-time
+          nullable: true    
+    Email:
+      type: object
+      description: An email message from a user's inbox.
+      properties:
+        email_id:
+          type: string
+          description: The unique identifier for the email message.
+        subject:
+          type: string
+          description: The subject of the email message.
+        from:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailContact'
+          description: The sender of the email message.
+        to:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailContact'
+          description: The recipients of the email message.
+        bcc:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailContact'
+          description: The BCC recipients of the email message.        
+        cc:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailContact'
+          description: The CC recipients of the email message.
+        sent_at:
+          type: string
+          format: date-time
+          description: The date and time the email message was sent.
+        snippet:
+          type: string
+          description: A snippet of the email message. Will only be plain text.
+        body:
+          type: array
+          description: The body of the email chunked.
+          items: 
+            type: string
+            description: A chunk of the email body.
+        starred:
+          type: boolean
+          description: Whether the email message is starred.
+        unread:
+          type: boolean
+          description: Whether the email message is unread.
+        labels:
+          type: array
+          description: The labels applied to the email message. 
+          items: 
+            $ref: "#/components/schemas/EmailLabel"   
+        reply_to_message_id:
+          type: string
+          nullable: true
+          description: The ID of the message this message is a reply to. If null, this message is not a reply.
+    ListEmail:
+      type: object
+      description: An email from a user's inbox.
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the email message.
+        subject:
+          type: string
+          description: The subject of the email message.
+        from:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailContact'
+          description: The sender of the email message.
+        to:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailContact'
+          description: The recipients of the email message.
+        date:
+          type: string
+          format: date-time
+          description: The date and time the email message was sent.
+        snippet:
+          type: string
+          description: A snippet of the email message.
+        starred:
+          type: boolean
+          description: Whether the email message is starred.
+        unread:
+          type: boolean
+          description: Whether the email message is unread.
+        labels:
+          type: array
+          description: The labels applied to the email message. 
+          items: 
+            $ref: "#/components/schemas/EmailLabel"
+        reply_to_email_id:
+          type: string
+          nullable: true
+          description: The ID of the message this message is a reply to. If null, this message is not a reply.
+    ListThread:
+      type: object
+      description: An email message thread from a user's inbox.
+      properties:
+        thread_id:
+          type: string
+          description: The unique identifier for the thread.
+        subject:
+          type: string
+          description: The subject of the thread (first email in the thread).
+        unread:
+          type: boolean
+          description: Whether the thread is unread.
+        starred:
+          type: boolean
+          description: Whether the thread is starred.
+        labels:
+          type: array
+          description: The labels applied to the thread.
+          items:
+            $ref: '#/components/schemas/EmailLabel'
+        snippet:
+          type: string
+          description: The snippet of the thread (first email in the thread).
+        email_ids:
+          type: array
+          description: The IDs of the emails in the thread.
+          items:
+            type: string
+        first_email_datetime:
+          type: string
+          description: The datetime of the first email in the thread.
+          format: date-time
+          nullable: true
+        last_email_received_datetime:
+          type: string
+          description: The datetime of the last email received in the thread.
+          format: date-time
+          nullable: true
+        last_email_datetime:
+          type: string
+          description: The datetime of the last email in the thread.
+          format: date-time
+          nullable: true
+        last_updated_datetime:
+          type: string
+          description: The datetime of the last update to the thread.
+          format: date-time
+          nullable: true    
+    EmailContact:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the email contact.
+        email:
+          type: string
+          format: email
+          description: The email address of the contact.
+    EmailLabel:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the email label.
+        display_name:
+          type: string
+          description: The display name of the email label.
+        id:
+          type: string
+          description: The unique identifier for the email label.      
+    ErrorResponse:
+      description: An error response from the API.
+      type: object
+      properties:
+        error:
+          type: string
+          description: The error message.
+        message:
+          type: string
+          description: A description of the error.  
+    TotalResults:
+      type: object
+      description: The total number of results for a query.
+      properties:
+        total_results:
+          type: integer
+          description: The total number of results for a query.

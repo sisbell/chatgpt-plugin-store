@@ -9,7 +9,7 @@ paths:
   /chat/fetch_game:
     get:
       operationId: fetch_game
-      summary: Fetch game data for dates for a team or league, returns participants, tvstations, weather, venue, referees. Can request commentary, lineups, statistics, events, sidelined players, predictions.
+      summary: Fetch game data for dates for a team or league, returns participants, tvstations, weather, venue. Request commentary, lineups, coaches, referees, statistics, events, sidelined players, predictions.
       parameters:
         - name: team_search
           in: query
@@ -51,7 +51,7 @@ paths:
             type: string
         - name: include
           in: query
-          description: Additional data to be requested in the response; possible values are trends, timeline, commentary, lineups, statistics, events, sidelined, predictions
+          description: Additional data to be requested in the response; possible values are trends, timeline, commentary, lineups, coaches, referees, statistics, events, sidelined, predictions
           required: false
           schema:
             type: string
@@ -60,6 +60,8 @@ paths:
               - timeline
               - commentary
               - lineups
+              - coaches
+              - referees
               - statistics
               - events
               - sidelined

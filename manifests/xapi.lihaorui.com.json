@@ -1,5 +1,5 @@
 {
-  "schema_version": "v1",
+  "schema_version": "v2",
   "name_for_human": "Xpapers",
   "name_for_model": "Xpapers_arXiv_paper_database",
   "description_for_human": "Effortlessly find real arXiv academic papers. Uncover abstracts and magically integrate PDF URLs with other plugins",

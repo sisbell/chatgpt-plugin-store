@@ -13,7 +13,7 @@ paths:
       parameters:
         - name: text
           in: query
-          description: The text to be converted
+          description: The text to be converted, example fonts are doom, graffiti, avatar, big, bulbhead, chunky, cybermedium, epic, graceful, small, double
           required: true
           schema:
             type: string

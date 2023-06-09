@@ -1,0 +1,137 @@
+openapi: 3.0.1
+info:
+  title: Tailor ERP Generator
+  description: A tool to helps creating tailor-made ERP application.
+  version: 'v1'
+servers:
+  - url: https://openai.tailor.tech
+paths:
+  /apply-template/{template}:
+    post:
+      operationId: applyTemplate
+      summary: Apply ERP application template in Tailor Platform
+      parameters:
+      - in: path
+        name: template
+        schema:
+          type: string
+        required: true
+        description: The name of ERP application template. The name is any of "CRM", "HRIS" or "SCM_simplified"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/applyTemplateResponse"
+
+  # /download-files/{uuid}:
+  #   post:
+  #     operationId: applyTemplate
+  #     summary: Apply ERP application template in Tailor Platform
+  #     parameters:
+  #     - in: path
+  #       name: template
+  #       schema:
+  #         type: string
+  #       required: true
+  #       description: The name of ERP application template. The name is any of "CRM", "HRIS" or "SCM_simplified"
+  #     responses:
+  #       "200":
+  #         description: OK
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/applyTemplateResponse"
+
+#   /todos/{business}:
+#     get:
+#       operationId: getTodos
+#       summary: Get the list of todos
+#       parameters:
+#       - in: path
+#         name: business
+#         schema:
+#             type: string
+#         required: true
+#         description: The name of the business segment.
+#       responses:
+#         "200":
+#           description: OK
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/getTodosResponse'
+#     post:
+#       operationId: addTodo
+#       summary: Add a todo to the list
+#       parameters:
+#       - in: path
+#         name: business
+#         schema:
+#             type: string
+#         required: true
+#         description: The name of the business segment.
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/addTodoRequest'
+#       responses:
+#         "200":
+#           description: OK
+#     delete:
+#       operationId: deleteTodo
+#       summary: Delete a todo from the list
+#       parameters:
+#       - in: path
+#         name: business
+#         schema:
+#             type: string
+#         required: true
+#         description: The name of the business segment.
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/deleteTodoRequest'
+#       responses:
+#         "200":
+#           description: OK
+
+# components:
+#   schemas:
+#     applyTemplateResponse:
+#       type: object
+#       properties:
+#         res:
+#           type: string
+#           description: ok or ng responses
+#     getTodosResponse:
+#       type: object
+#       properties:
+#         todos:
+#           type: array
+#           items:
+#             type: string
+#           description: The list of todos.
+#     addTodoRequest:
+#       type: object
+#       required:
+#       - todo
+#       properties:
+#         todo:
+#           type: string
+#           description: The todo to add to the list.
+#           required: true
+#     deleteTodoRequest:
+#       type: object
+#       required:
+#       - todo_idx
+#       properties:
+#         todo_idx:
+#           type: integer
+#           description: The index of the todo to delete.
+#           required: true

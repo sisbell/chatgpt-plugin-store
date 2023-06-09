@@ -1,0 +1,276 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/tokens/price/by-address/{address}": {
+      "get": {
+        "operationId": "TokensController_getTokenPrice",
+        "summary": "Get the current market price of a token.",
+        "description": "Get the current market price of a token. Return results in EUR, USD, GBP, BTC and ETH. Prices are coming from the Coingecko API. If no chain ID is provided, ethereum mainnet is assumed.",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The current market price of the token, as reported by Coingecko."
+          },
+          "404": {
+            "description": "No pricing data was found for the given token."
+          },
+          "500": {
+            "description": "An error occured while fetching the price from Coingecko."
+          }
+        }
+      }
+    },
+    "/tokens/search/by-symbol/{symbol}": {
+      "get": {
+        "operationId": "TokensController_searchBySymbol",
+        "summary": "Search for ERC20 tokens by symbol.",
+        "description": "Search for ERC20 tokens by symbol. Optionally filter by list name, chain id, chain name and navigate through pages using cursor. Merges results from multiple lists for more readability.",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Pagination cursor, used to fetch the next page of results. Given in the response of a previous request.",
+            "example": 1,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by the ID of the chain the token is on.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "listName",
+            "required": false,
+            "in": "query",
+            "description": "Only return tokens that have been indexed by the given list instead of mixing all lists together.",
+            "example": "ethereum",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainName",
+            "required": false,
+            "in": "query",
+            "description": "Filter by the name of the chain. Must be an exact match.",
+            "example": "ethereum",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "required": false,
+            "in": "query",
+            "description": "A tag to filter tokens by. A token may have multiple tags. For example, a token may be tagged as \"stablecoin\" and \"defi\".",
+            "example": "stablecoin",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "symbol",
+            "required": true,
+            "in": "path",
+            "description": "The symbol of the token. A symbol is usually 3-5 characters long and is not a proof of uniqueness.",
+            "example": "USDT",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of tokens matching the given criterias."
+          }
+        }
+      }
+    },
+    "/tokens/search/by-address/{address}": {
+      "get": {
+        "operationId": "TokensController_searchByAddress",
+        "summary": "Search for ERC20 tokens by contract address.",
+        "description": "Search for ERC20 tokens by contract address. Optionally filter by list name, chain id, chain name and navigate through pages using cursor. Merges results from multiple lists for more readability.",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Pagination cursor, used to fetch the next page of results. Given in the response of a previous request.",
+            "example": 1,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by the ID of the chain the token is on.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "listName",
+            "required": false,
+            "in": "query",
+            "description": "Only return tokens that have been indexed by the given list instead of mixing all lists together.",
+            "example": "ethereum",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainName",
+            "required": false,
+            "in": "query",
+            "description": "Filter by the name of the chain. Must be an exact match.",
+            "example": "ethereum",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "required": false,
+            "in": "query",
+            "description": "A tag to filter tokens by. A token may have multiple tags. For example, a token may be tagged as \"stablecoin\" and \"defi\".",
+            "example": "stablecoin",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "description": "The contract address of the token.",
+            "example": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of tokens matching the given criterias."
+          }
+        }
+      }
+    },
+    "/tokens/search/by-tag/{tag}": {
+      "get": {
+        "operationId": "TokensController_searchByTag",
+        "summary": "Search for ERC20 tokens by tag.",
+        "description": "Search for ERC20 tokens by tag. Optionally filter by list name, chain id, chain name and navigate through pages using cursor. Merges results from multiple lists for more readability.",
+        "parameters": [
+          {
+            "name": "tag",
+            "required": true,
+            "in": "path",
+            "description": "A tag to filter tokens by. A token may have multiple tags. For example, a token may be tagged as \"stablecoin\" and \"defi\".",
+            "example": "stablecoin",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Pagination cursor, used to fetch the next page of results. Given in the response of a previous request.",
+            "example": 1,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by the ID of the chain the token is on.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "listName",
+            "required": false,
+            "in": "query",
+            "description": "Only return tokens that have been indexed by the given list instead of mixing all lists together.",
+            "example": "ethereum",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainName",
+            "required": false,
+            "in": "query",
+            "description": "Filter by the name of the chain. Must be an exact match.",
+            "example": "ethereum",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of tokens matching the given criterias."
+          }
+        }
+      }
+    },
+    "/lists": {
+      "get": {
+        "operationId": "ListsController_findAll",
+        "summary": "Get all the indexed token lists",
+        "description": "Get all the indexed token lists and their current version. Useful to get list names and then filter tokens by list using /tokens/search endpoints",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The unpaginated list of indexed token lists."
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "erc20list-backend",
+    "description": "erc20list-backend API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "components": {
+    "schemas": {}
+  }
+}

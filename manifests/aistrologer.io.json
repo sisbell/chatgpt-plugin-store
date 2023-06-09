@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "AIstrologer",
+  "name_for_model": "AIstrologer",
+  "description_for_human": "Search for the horoscope for each zodiac sign for a specific date.",
+  "description_for_model": "Search for the horoscope for each zodiac sign. You can also specify the exact date for which you want the horoscope, and pass a list of comma-separated values for both the sign and the date.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "6590ce97db734953bac908a6a0291bb8"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://aistrologer.io/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://aistrologer.io/logo.png",
+  "contact_email": "info@bootstrapden.com",
+  "legal_info_url": "https://aistrologer.io/legal.html"
+}

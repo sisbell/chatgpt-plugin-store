@@ -1,4 +1,20 @@
 # Plugin Store Listing Changelog
+## 2023-06-09
+### Newly Listed
+* [aistrologer.io](manifests/aistrologer.io.json)
+* [api.buildbetter.app](manifests/api.buildbetter.app.json)
+* [api.gamebase.chat](manifests/api.gamebase.chat.json)
+* [chatgpt.erc20list.org](manifests/chatgpt.erc20list.org.json)
+* [converter.dialogueapps.com](manifests/converter.dialogueapps.com.json)
+* [dropgpt.netlify.app](manifests/dropgpt.netlify.app.json)
+* [gpt.nylas.com](manifests/gpt.nylas.com.json)
+* [openai.tailor.tech](manifests/openai.tailor.tech.json)
+* [portfoliometa.com](manifests/portfoliometa.com.json)
+* [public.advisor.definitive.io](manifests/public.advisor.definitive.io.json)
+### Delisted
+* [amactionbot.bestviewsreviews.com](manifests/amactionbot.bestviewsreviews.com.json)
+* [api.metaphor.systems](manifests/api.metaphor.systems.json)
+* [chatgpt.boolio.co.kr](manifests/chatgpt.boolio.co.kr.json)
 ## 2023-06-08
 ### Newly Listed
 * [chatgpt.apps.mantiumai.com](manifests/chatgpt.apps.mantiumai.com.json)

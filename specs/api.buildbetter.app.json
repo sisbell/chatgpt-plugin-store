@@ -1,0 +1,396 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "BuildBetter Retrieval API",
+    "description": "An API to make retrieval calls to the BuildBetter platform. BuildBetter is a platform that aggregates and analyzes call data to help product teams automate product operations.",
+    "version": "0"
+  },
+  "servers": [
+    {
+      "url": "https://api.buildbetter.app"
+    }
+  ],
+  "paths": {
+    "/v1/retrieval/retrieve": {
+      "post": {
+        "tags": [
+          "retrieval"
+        ],
+        "summary": "Retrieve Transcript Segments",
+        "description": "Retrieve transcript segments from a database of the user's company calls. You may call this endpoint to get adjacent context for a given segment by  <previous|next>_document_id. You can use the source_url to cite the call.",
+        "operationId": "retrieveTranscripts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrievalRequest"
+              },
+              "examples": {
+                "Calls from past week": {
+                  "summary": "What were my calls from last week?",
+                  "description": "This query will return calls from the past week.",
+                  "value": {
+                    "after": "2023-06-02",
+                    "top_k": 20
+                  }
+                },
+                "Calls that mentioned pricing": {
+                  "summary": "For when the user asks, 'Can you summarize what customers currently say about pricing?'",
+                  "description": "This query will return segments of transcripts of calls that mention pricing in the past 60 days.",
+                  "value": {
+                    "query": "pricing",
+                    "after": "2023-04-10",
+                    "top_k": 20
+                  }
+                },
+                "Calls that mentioned pricing and were from last week": {
+                  "summary": "For when the user asks, 'Can you summarize what customers currently say about pricing two weeks ago?'",
+                  "description": "This query will return segments of transcripts of calls that mention pricing two weeks ago.",
+                  "value": {
+                    "query": "pricing",
+                    "after": "2023-05-26",
+                    "before": "2023-06-02",
+                    "top_k": 20
+                  }
+                },
+                "Getting more context before providing results using the previous_document_id and the next_document_id": {
+                  "summary": "Get the next and previous documents for more context",
+                  "description": "This query will return the documents before and after the document with a document_id = 'call-1-5'.",
+                  "value": {
+                    "query": "",
+                    "document_id": [
+                      "call-1-4",
+                      "call-1-6"
+                    ]
+                  }
+                },
+                "Getting more context before providing results using the source_id": {
+                  "summary": "Get all documents from a call",
+                  "description": "This query will return the documents related to a call that will answer the question \"Summarize what Spencer did yesterday given the call with ID call-1\".",
+                  "value": {
+                    "after": "2023-06-08",
+                    "source_id": [
+                      "call-1"
+                    ],
+                    "people": [
+                      "Spencer"
+                    ],
+                    "call_scope": [
+                      "internal"
+                    ]
+                  }
+                },
+                "Calls that mentioned pricing and were from last week and were internal": {
+                  "summary": "For when the user asks, 'Can you summarize what customers currently say about pricing two weeks ago?'",
+                  "description": "This query will return segments of transcripts of calls that mention pricing two weeks ago.",
+                  "value": {
+                    "query": "pricing",
+                    "after": "2023-05-26",
+                    "before": "2023-06-02",
+                    "top_k": 20,
+                    "call_scope": [
+                      "internal"
+                    ]
+                  }
+                },
+                "Calls that mentioned what Nikhil was working on this week": {
+                  "summary": "For when the user asks, 'Can you summarize what Nikhil was working on this week?'",
+                  "description": "This query will return segments of transcripts of calls that mention Nikhil and what he was working on this week.",
+                  "value": {
+                    "query": "working on",
+                    "after": "2023-06-02",
+                    "people": [
+                      "Nikhil"
+                    ],
+                    "top_k": 20
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrievalResponseRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DocumentMetadataRead": {
+        "title": "DocumentMetadataRead",
+        "required": [
+          "ts",
+          "source_type",
+          "source_id",
+          "document_type",
+          "document_id",
+          "call_scope",
+          "source_url"
+        ],
+        "type": "object",
+        "properties": {
+          "ts": {
+            "title": "Ts",
+            "type": "number"
+          },
+          "source_type": {
+            "title": "Source Type",
+            "type": "string"
+          },
+          "source_id": {
+            "title": "Source Id",
+            "type": "integer"
+          },
+          "document_type": {
+            "title": "Document Type",
+            "type": "string"
+          },
+          "document_id": {
+            "title": "Document Id",
+            "type": "string"
+          },
+          "previous_document_id": {
+            "title": "Previous Document Id",
+            "type": "string"
+          },
+          "next_document_id": {
+            "title": "Next Document Id",
+            "type": "string"
+          },
+          "call_scope": {
+            "title": "Call Scope",
+            "enum": [
+              "internal",
+              "external",
+              "unknown"
+            ],
+            "type": "string"
+          },
+          "source_url": {
+            "title": "Source Url",
+            "type": "string"
+          }
+        },
+        "description": "Metadata for a document returned from on the retrieval API."
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "RetrievalRequest": {
+        "title": "RetrievalRequest",
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "Query",
+            "type": "string",
+            "description": "Natural language query for vector retrieval"
+          },
+          "source_id": {
+            "title": "Source Id",
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "description": "Source ID of the document to retrieve"
+          },
+          "document_id": {
+            "title": "Document Id",
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "description": "Document ID of the document to retrieve"
+          },
+          "before": {
+            "title": "Before",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "string",
+                "format": "date-time"
+              }
+            ],
+            "description": "Date to retrieve documents before"
+          },
+          "after": {
+            "title": "After",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "string",
+                "format": "date-time"
+              }
+            ],
+            "description": "Date to retrieve documents after"
+          },
+          "call_scope": {
+            "title": "Call Scope",
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "internal",
+                    "external",
+                    "unknown"
+                  ],
+                  "type": "string"
+                }
+              },
+              {
+                "enum": [
+                  "internal",
+                  "external",
+                  "unknown"
+                ],
+                "type": "string"
+              }
+            ],
+            "description": "Call scope to retrieve documents from. 'internal' for calls that exclusively have employees, 'external' for calls that have both customers and employees, and 'unknown' for calls that are underspecified."
+          },
+          "people": {
+            "title": "People",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "People to retrieve documents from. Just the name"
+          },
+          "top_k": {
+            "title": "Top K",
+            "type": "integer",
+            "default": 10
+          }
+        }
+      },
+      "RetrievalResponseRead": {
+        "title": "RetrievalResponseRead",
+        "required": [
+          "documents"
+        ],
+        "type": "object",
+        "properties": {
+          "documents": {
+            "title": "Documents",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RetrievedDocumentRead"
+            }
+          }
+        }
+      },
+      "RetrievedDocumentRead": {
+        "title": "RetrievedDocumentRead",
+        "required": [
+          "page_content",
+          "metadata"
+        ],
+        "type": "object",
+        "properties": {
+          "page_content": {
+            "title": "Page Content",
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/DocumentMetadataRead"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

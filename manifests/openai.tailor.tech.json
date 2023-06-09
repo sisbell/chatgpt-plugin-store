@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Tailor ERP Generator",
+  "name_for_model": "tailor_erp",
+  "description_for_human": "A tool to help creating tailor-made ERP application.",
+  "description_for_model": "A tool to help creating tailor-made ERP application.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://openai.tailor.tech/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://openai.tailor.tech/logo_tailor.png",
+  "contact_email": "naoto_yamamoto@tailor.tech",
+  "legal_info_url": "https://about.tailor.tech/"
+}

@@ -3,7 +3,7 @@
   "info": {
     "title": "Origamist",
     "description": "ChatGPT Plugin server for creating computational notebooks (in Python!), allowing you to execute code, explore data, and visualize results.",
-    "version": "0.24.0"
+    "version": "0.25.1"
   },
   "servers": [
     {
@@ -12,6 +12,28 @@
     }
   ],
   "paths": {
+    "/api/origami/s/default": {
+      "get": {
+        "summary": "Get Default Space",
+        "description": "Get the user's configured default Space for creating new Projects in.",
+        "operationId": "get_default_space",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
     "/api/origami/p/default": {
       "get": {
         "summary": "Get Default Project",
@@ -90,6 +112,48 @@
                 "schema": {
                   "title": "Response Clear Default Project",
                   "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/origami/p/": {
+      "post": {
+        "summary": "Create New Project",
+        "description": "Create a new Project for the user in their default Space. Projects can be optionally created\nfrom a git repository, in which case users can sync changes from the Noteable UI. Private repos\ncan be created from the Noteable UI but",
+        "operationId": "create_project",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectOptions"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -251,14 +315,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotebookSummary"
-                }
-              }
-            }
+            "description": "Successful Response"
           },
           "422": {
             "description": "Validation Error",
@@ -307,6 +364,99 @@
                     "$ref": "#/components/schemas/DataSource"
                   }
                 }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/origami/f/{file_id}/run_multiple_cells": {
+      "post": {
+        "summary": "Run Multiple Cells",
+        "description": "Execute multiple cells in a Notebook.",
+        "operationId": "run_multiple_cells",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "File Id",
+              "type": "string",
+              "format": "uuid"
+            },
+            "name": "file_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecuteCellsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/origami/f/{file_id}/kernel": {
+      "delete": {
+        "summary": "Shutdown Kernel From File",
+        "description": "Shutdown the kernel for a notebook.",
+        "operationId": "shutdown_kernel_from_file",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "File Id",
+              "type": "string",
+              "format": "uuid"
+            },
+            "name": "file_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           },
@@ -584,17 +734,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "title": "Response Run Cell",
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/RunCellResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/Summary"
-                    }
-                  ]
-                }
+                "schema": {}
               }
             }
           },
@@ -637,24 +777,76 @@
           }
         ]
       }
+    },
+    "/api/origami/k/": {
+      "get": {
+        "summary": "Get Active Kernel Sessions",
+        "description": "Returns a list of the user's active kernel sessions.",
+        "operationId": "get_active_kernel_sessions",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/origami/k/{kernel_session_id}": {
+      "delete": {
+        "summary": "Shutdown Kernel",
+        "description": "Shutdown the kernel for a notebook.",
+        "operationId": "shutdown_kernel",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Kernel Session Id",
+              "type": "string",
+              "format": "uuid"
+            },
+            "name": "kernel_session_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
     }
   },
   "components": {
     "schemas": {
-      "CellState": {
-        "title": "CellState",
-        "enum": [
-          "not_run",
-          "queued",
-          "executing",
-          "finished_with_no_error",
-          "finished_with_error",
-          "catastrophic_failure",
-          "dequeued",
-          "interrupted"
-        ],
-        "description": "The type representation for cell state within a cell status message."
-      },
       "ChangeCellTypeRequest": {
         "title": "ChangeCellTypeRequest",
         "required": [
@@ -754,6 +946,27 @@
           }
         }
       },
+      "CreateProjectOptions": {
+        "title": "CreateProjectOptions",
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "git_url": {
+            "title": "Git Url",
+            "type": "string"
+          }
+        }
+      },
       "DataSource": {
         "title": "DataSource",
         "required": [
@@ -786,6 +999,31 @@
           }
         }
       },
+      "ExecuteCellsRequest": {
+        "title": "ExecuteCellsRequest",
+        "type": "object",
+        "properties": {
+          "ids": {
+            "title": "Ids",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "before_id": {
+            "title": "Before Id",
+            "type": "string"
+          },
+          "after_id": {
+            "title": "After Id",
+            "type": "string"
+          },
+          "all": {
+            "title": "All",
+            "type": "boolean"
+          }
+        }
+      },
       "HTTPValidationError": {
         "title": "HTTPValidationError",
         "type": "object",
@@ -796,114 +1034,6 @@
             "items": {
               "$ref": "#/components/schemas/ValidationError"
             }
-          }
-        }
-      },
-      "NotebookSummary": {
-        "title": "NotebookSummary",
-        "required": [
-          "id",
-          "name",
-          "summary_of_cells",
-          "kernel_state",
-          "kernel_state_description",
-          "information"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "title": "Id",
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          },
-          "summary_of_cells": {
-            "title": "Summary Of Cells",
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          },
-          "kernel_state": {
-            "title": "Kernel State",
-            "type": "string"
-          },
-          "kernel_state_description": {
-            "title": "Kernel State Description",
-            "type": "string"
-          },
-          "information": {
-            "title": "Information",
-            "type": "string"
-          },
-          "assistant_hint": {
-            "title": "Assistant Hint",
-            "type": "string"
-          }
-        }
-      },
-      "RunCellResponse": {
-        "title": "RunCellResponse",
-        "required": [
-          "execution_state",
-          "cell_id",
-          "cell_link",
-          "assistant_hint"
-        ],
-        "type": "object",
-        "properties": {
-          "execution_state": {
-            "$ref": "#/components/schemas/CellState"
-          },
-          "cell_id": {
-            "title": "Cell Id",
-            "type": "string"
-          },
-          "cell_link": {
-            "title": "Cell Link",
-            "type": "string"
-          },
-          "assistant_hint": {
-            "title": "Assistant Hint",
-            "type": "string",
-            "description": "A hint for the assistant to display to the user."
-          }
-        }
-      },
-      "Summary": {
-        "title": "Summary",
-        "required": [
-          "cell",
-          "cell_link",
-          "kernel_state"
-        ],
-        "type": "object",
-        "properties": {
-          "cell": {
-            "title": "Cell",
-            "type": "object"
-          },
-          "cell_link": {
-            "title": "Cell Link",
-            "type": "string"
-          },
-          "cell_state": {
-            "$ref": "#/components/schemas/CellState"
-          },
-          "kernel_state": {
-            "title": "Kernel State",
-            "type": "string"
-          },
-          "kernel_state_description": {
-            "title": "Kernel State Description",
-            "type": "string"
-          },
-          "assistant_hint": {
-            "title": "Assistant Hint",
-            "type": "string"
           }
         }
       },
@@ -919,6 +1049,12 @@
             },
             "description": "Lines of source code to replace the cell with.",
             "default": []
+          },
+          "and_run": {
+            "title": "Run Cell",
+            "type": "boolean",
+            "description": "Whether to run the cell after updating it. Only applies to code and sql cells.",
+            "default": false
           }
         }
       },
