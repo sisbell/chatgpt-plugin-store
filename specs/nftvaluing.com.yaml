@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: P/E For NFTs
+  description: Get the price to earnings ratio for any NFT collection!,
+  version: 'v1'
+servers:
+  - url: https://nftvaluing.com/ai-plugin
+paths:
+  /:
+    get:
+      operationId: getToken   
+      summary: Get token name
+      parameters:
+        - name: token
+          in: query
+          description: What token collection name would you like to know about?
+          required: true
+          schema:
+            type: string
+    post:
+      operationId: SendResponse    
+      summary: Send token name
+      parameters:
+        - name: location
+          in: query
+          description: Token collection name to send the request.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

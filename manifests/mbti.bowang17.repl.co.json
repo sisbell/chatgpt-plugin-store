@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MBTI",
+  "name_for_model": "mbti",
+  "description_for_human": "For administering an MBTI test. You can get a list of questions and calculate your MBTI type.",
+  "description_for_model": "For administering an MBTI test. You can get a list of questions and calculate your MBTI type.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://mbti.bowang17.repl.co/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://mbti.bowang17.repl.co/.well-known/logo.png",
+  "contact_email": "brainwangbo2017@repl.co.com",
+  "legal_info_url": "https://mbti.bowang17.repl.co/.well-known/legal"
+}

@@ -1,4 +1,24 @@
 # Plugin Store Listing Changelog
+## 2023-06-10
+### Newly Listed
+* [api.getamplio.com](manifests/api.getamplio.com.json)
+* [copywriter.orrenprunckun.com](manifests/copywriter.orrenprunckun.com.json)
+* [cryptoprices.smoothplugins.com](manifests/cryptoprices.smoothplugins.com.json)
+* [hackit.co.il](manifests/hackit.co.il.json)
+* [live.forex-gpt.ai](manifests/live.forex-gpt.ai.json)
+* [mbti.bowang17.repl.co](manifests/mbti.bowang17.repl.co.json)
+* [midpage-plugin.onrender.com](manifests/midpage-plugin.onrender.com.json)
+* [nftvaluing.com](manifests/nftvaluing.com.json)
+* [now.techno-gauss.com](manifests/now.techno-gauss.com.json)
+* [openai-api.homes.co.jp](manifests/openai-api.homes.co.jp.json)
+* [rising-analogy-387407.uc.r.appspot.com](manifests/rising-analogy-387407.uc.r.appspot.com.json)
+* [scholarlyinsight--chao-gu-ge-lei.repl.co](manifests/scholarlyinsight--chao-gu-ge-lei.repl.co.json)
+* [sg-places.herokuapp.com](manifests/sg-places.herokuapp.com.json)
+* [skrive.klarityai.com](manifests/skrive.klarityai.com.json)
+* [speedcameras.orrenprunckun.com](manifests/speedcameras.orrenprunckun.com.json)
+* [techpulse.aigenprompt.com](manifests/techpulse.aigenprompt.com.json)
+* [today-currency-converter.oiconma.repl.co](manifests/today-currency-converter.oiconma.repl.co.json)
+* [ww88zc-8000.csb.app](manifests/ww88zc-8000.csb.app.json)
 ## 2023-06-09
 ### Newly Listed
 * [aistrologer.io](manifests/aistrologer.io.json)

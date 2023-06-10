@@ -1,0 +1,130 @@
+openapi: 3.0.2
+info:
+  title: midpage caselaw
+  description: Researching case law
+  version: 1.0.1
+servers:
+    - url: https://midpage-plugin.onrender.com
+paths:
+  /get_document:
+    post:
+    # intents:
+    # - Find case -- NOTE - removed trimmed check since it seems we are handling that on the backend now.
+    # - If user provided a legal proposition, pull out quotes, cite check it, using markdown blockquotes.
+      summary: Returns information about a case identified by the user (by citation) and analyzes accuracy of proposition if the user provides one. Always answers very succintly.
+      # tell user if case was trimmed.
+      # if proposition provided, gets relevant quotes, then checks its accuracy.
+      description: If you detect only a citation, do not summarize, instead only ask for follow up question. If you detect a legal proposition followed by a citation, extract 1-3 relevant quotes. Quotes must be accurate and shown as markdown block quotes. Use those quotes to determine if proposition is accurate.
+      operationId: get_full_document_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Document"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+components:
+  schemas:
+    DocumentRequest:
+      title: DocumentRequest
+      required:
+        - identifier
+      type: object
+      # Trying to get this to identify legal propositions.
+      description: A user's question about a case (by citation) (e.g., "what happens in X case?"); or a full sentence legal proposition follwed by a supporting citation.
+      properties:
+        identifier:
+          title: A citation
+          type: string
+        proposition:
+          title: Proposition
+          type: string
+    Document:
+      title: Document
+      required:
+        - text
+      type: object
+      description: The full text of specific case detected, and the user's legal proposition (if any).
+      properties:
+        document_id:
+          title: Id
+          type: string
+        text:
+          title: Text
+          type: string
+        metadata:
+          $ref: "#/components/schemas/DocumentMetadata"
+        proposition:
+          title: Proposition
+          type: string
+    DocumentMetadata:
+      title: DocumentChunkMetadata
+      type: object
+      description: The metadata associated with a document.
+      properties:
+        url:
+          title: Url
+          type: string
+        title:
+          title: The title / case name
+          type: string
+        court:
+          title: Court
+          type: string
+        filed_date:
+          title: Filed Date
+          type: string
+        reporter:
+          title: Reporter
+          type: string
+        cited_as:
+          title: How the case is cited
+          type: string
+        jurisdiction:
+          title: Jurisdiction
+          type: string
+        judge_name:
+          title: Judge
+          type: string
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Forex-Rates",
+  "name_for_model": "forex_gpt",
+  "description_for_human": "Forex Rates: Price analysis for currency markets. Gain insights, sentiment evaluation, and text completion.",
+  "description_for_model": "When a user asks ChatGPT for 'EUR/USD analysis since January', the plugin needs to interpret this user input and convert it into parameters that the Oanda API understands. User Input: Ensure the user is aware of the correct format for their request. For instance, 'What is the overall sentiment for the EUR/USD currency pair since January?' Parameter Extraction: 'EUR/USD' corresponds to the 'instrument' parameter, and it should be passed as 'EUR_USD'. 'since January' corresponds to the 'from_time' parameter. However, the Oanda API expects this parameter in a specific format, for example '2023-01-01T00:00:00.000000000Z' for January 1, 2023. Time Format: Implement a function to convert the user's input (e.g., 'since January') into the required format for the 'from_time' parameter. Granularity and Price Parameters: If 'granularity' and 'price' parameters are not specified by the user, ask the user to provide these details to ensure the analysis is as accurate and relevant as possible. Default values can be used if the user prefers not to specify. Note that asking for just the bid price or just the ask price will make the message smaller, allowing a larger duration for a given time-series or more granular time-series for a given duration. For example, if the maximum is one hour for one-minute candles when getting both bid and ask prices, you may be able to get two hours of bid-only data for the same range. Error Handling: If the time-frame and granularity cause a message that is too big, an error will trigger. Provide clear instructions on how to avoid this error and what to do if it occurs. Market Hours: Before attempting to fetch prices, check if the Forex market is currently open. The Forex market operates 24 hours a day from 5 p.m. EST on Sunday until 4 p.m. EST on Friday. Outside of these hours, the market will be closed, and the API may not be able to fetch the latest prices. Examples: Provide a range of examples to cover a variety of user inputs. For instance: 'What is the overall sentiment for the EUR/USD currency pair using ten-minute candles for the past nine hours, excluding volume data?' 'What is the overall sentiment for the GBP/USD currency pair using sixty-minute candles for the past sixty hours, excluding volume data?' 'What is the overall sentiment for the USD/JPY currency pair using monthly candles for the past sixty months, using bid prices only and excluding volume?' Disclaimer: Any analysis is not investment advice and is for educational purposes only. Forex trading involves substantial risk and is not suitable for everyone. Past performance is not indicative of future results.",
+  "auth": {
+    "type": "none",
+    "permissions": [
+      "tabs",
+      "contextMenus"
+    ]
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://live.forex-gpt.ai/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://live.forex-gpt.ai/logo.png",
+  "contact_email": "forexgptai@gmail.com",
+  "legal_info_url": "https://forex-gpt.ai"
+}

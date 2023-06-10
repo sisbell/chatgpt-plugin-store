@@ -73,13 +73,6 @@ paths:
               example: 'day'
             required: false
             description: The time period in which the change occured. Can be 'hour', 'day', or 'week'. Defaults to 'week'.
-          - name: chain
-            in: query
-            description: Name of the chain to retrieve TVL for.
-            required: false
-            schema:
-              type: string
-              example: ethereum
         responses:
           '200':
             description: OK
@@ -114,13 +107,6 @@ paths:
               example: 'day'
             required: false
             description: The time period in which the change occured. Can be 'hour', 'day', or 'week'. Defaults to 'week'.
-          - name: chain
-            in: query
-            description: Name of the chain to retrieve TVL for.
-            required: false
-            schema:
-              type: string
-              example: ethereum
         responses:
           '200':
             description: OK
@@ -213,7 +199,7 @@ paths:
               enum: ["day", "week", "month"]
           - name: chain
             in: query
-            description: The blockchain the protocol is on
+            description: Name of the blockchain to filter protocol fees by.
             required: false
             schema:
               type: string
@@ -293,7 +279,7 @@ paths:
               enum: ["day", "week", "month"]
           - name: chain
             in: query
-            description: The blockchain the protocol is on
+            description: Name of the blockchain to filter protocol revenue by.
             required: false
             schema:
               type: string
@@ -425,6 +411,22 @@ paths:
             schema:
               type: boolean
               example: true
+          - name: token
+            in: query
+            description: Token or token pair to filter pools by.
+            required: false
+            schema:
+              type: string
+            examples:
+              singleToken:
+                value: 'BTC'
+                summary: Single token
+              dualTokenDash:
+                value: 'RADAR-WBNB'
+                summary: Two tokens separated by a dash
+              dualTokenSlash:
+                value: 'ETH/XVS'
+                summary: Two tokens separated by a slash           
         responses:
           '200':
             description: OK
@@ -505,4 +507,21 @@ paths:
           '200':
             description: A list of the top chain losers.
           '400':
-            description: Invalid time period provided               
+            description: Invalid time period provided       
+            
+    /get_interesting:
+      get:
+        operationId: getInteresting
+        summary: Returns interesting/important data on what is happening on-chain re protocols, chains and yields.
+        parameters:
+          - in: query
+            name: time_period
+            description: The time period for which to retrieve data. Can be day or week.
+            required: false
+            schema:
+              type: string
+              enum: ['day', 'week']
+              default: week
+        responses:
+          "200":
+            description: OK          

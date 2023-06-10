@@ -1,0 +1,261 @@
+components:
+  schemas:
+    analyzeRequest:
+      properties:
+        entities:
+          items:
+            properties:
+              end:
+                description: The end index of the entity.
+                type: integer
+              start:
+                description: The start index of the entity.
+                type: integer
+              text:
+                description: The text of the entity.
+                type: string
+              type:
+                description: The type of entity.
+                type: string
+            type: object
+          type: array
+        text:
+          description: The text to analyze.
+          required: true
+          type: string
+      type: object
+    completeRequest:
+      properties:
+        text:
+          description: The text to complete.
+          required: true
+          type: string
+      type: object
+    completeResponse:
+      properties:
+        completed_text:
+          description: The completed text.
+          type: string
+      type: object
+    generateRequest:
+      properties:
+        prompt:
+          description: The prompt for the generator.
+          required: true
+          type: string
+        temperature:
+          default: 0.5
+          description: The temperature of the generator.
+          type: float
+      type: object
+    generateResponse:
+      properties:
+        generated_text:
+          description: The generated text.
+          type: string
+      type: object
+    playgroundRequest:
+      properties:
+        code:
+          description: The code to execute in the OpenAI playground.
+          required: true
+          type: string
+      type: object
+    playgroundResponse:
+      properties:
+        output:
+          description: The output of the code execution in the OpenAI playground.
+          type: string
+      type: object
+    pricesRequest:
+      properties:
+        from_time:
+          description: The start time for retrieving historical prices.
+          required: true
+          type: string
+        granularity:
+          description: The granularity of the historical prices.
+          required: true
+          type: string
+        instrument:
+          description: The instrument to get historical prices for.
+          required: true
+          type: string
+        price:
+          description: The price type to retrieve (e.g., BA, BC, BO).
+          required: true
+          type: string
+      type: object
+    pricesResponse:
+      properties:
+        prices:
+          items:
+            properties:
+              ask:
+                properties:
+                  c:
+                    description: The close ask price.
+                    type: string
+                  h:
+                    description: The high ask price.
+                    type: string
+                  l:
+                    description: The low ask price.
+                    type: string
+                  o:
+                    description: The open ask price.
+                    type: string
+                type: object
+              bid:
+                properties:
+                  c:
+                    description: The close bid price.
+                    type: string
+                  h:
+                    description: The high bid price.
+                    type: string
+                  l:
+                    description: The low bid price.
+                    type: string
+                  o:
+                    description: The open bid price.
+                    type: string
+                type: object
+              timestamp:
+                description: The timestamp of the price.
+                type: string
+            type: object
+          type: array
+      type: object
+    searchRequest:
+      properties:
+        query:
+          description: The search query.
+          required: true
+          type: string
+      type: object
+    searchResponse:
+      properties:
+        results:
+          items:
+            properties:
+              title:
+                description: The title of the search result.
+                type: string
+              url:
+                description: The URL of the search result.
+                type: string
+            type: object
+          type: array
+      type: object
+info:
+  description: Unleash Forex GPT; Advanced analysis for currency markets. Gain insights,
+    sentiment evaluation, and text completion.
+  title: Forex Prices powered by OpenAI
+  version: v1
+openapi: 3.0.1
+paths:
+  /analyze:
+    post:
+      operationId: analyze
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/analyzeRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/analyzeResponse'
+          description: OK
+      summary: Analyze text
+  /complete:
+    post:
+      operationId: complete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/completeRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/completeResponse'
+          description: OK
+      summary: Complete text
+  /generate:
+    post:
+      operationId: generate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/generateRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/generateResponse'
+          description: OK
+      summary: Generate text
+  /playground:
+    post:
+      operationId: playground
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/playgroundRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/playgroundResponse'
+          description: OK
+      summary: Use the OpenAI playground
+  /prices:
+    post:
+      operationId: prices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/pricesRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pricesResponse'
+          description: OK
+      summary: Get historical prices from the OANDA API
+  /search:
+    post:
+      operationId: search
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/searchRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchResponse'
+          description: OK
+      summary: Search for text
+servers:
+- url: https://live.forex-gpt.ai

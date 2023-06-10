@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "SA Speed Cameras",
+  "name_for_model": "SASpeedCameras",
+  "description_for_human": "See if a mobile speed camera or roadwork is on a South Australian road today!",
+  "description_for_model": "Enter the South Australian roads you will travel on today and see if a mobile speed camera or roadworks will be your journey!",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://speedcameras.orrenprunckun.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://speedcameras.orrenprunckun.com/speed-camera.png",
+  "contact_email": "hello@orrenprunckun.com",
+  "legal_info_url": "https://speedcameras.orrenprunckun.com/terms.php"
+}

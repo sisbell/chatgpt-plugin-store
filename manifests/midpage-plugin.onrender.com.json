@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "legal_document_retrieval",
+  "name_for_human": "midpage caselaw",
+  "description_for_model": "For US case law: detects legal propositions, extracts verbatim, relevant quotes, and assesses veracity of proposition based exclusively on the full text of the cited case using the the extracted quotes as hints.\n- Background Knowledge on Legal Propositions:\n -- A legal proposition is a statement of law followed by a case citation.\n -- Citations have several forms: General cite format is 'ABC Corp. v. DEF Inc., 123 F.3d 456 (S.D.N.Y 2006)' or 'ABC Corp. v. DEF Inc., 123 F.3d 456, 469 (S.D.N.Y 2006)', Short citation format is 'ABC Corp., 123 F.3d at 569', reporter citation is '123 F.3d 456' or '123 F.3d 456, 569'.\n -- An example of a legal proposition is 'Mutual assent must be unambiguous, but it does not need to be express. ABC Corp., 123 F.3d at 569'\n -- Sometimes a statement of law might contain a quotation within it. \n- Steps to Perform When a Legal Proposition Is Detected - ALWAYS DO IN ORDER:\n -- Step 0: NEVER automatically summarize the case unless the user asks.\n -- Step 1: Access the full text of the citation\n -- Step 2: Extract 1-3 verbatim quotes using markdown blockquote syntax (NEVER use quote code tags) that may support or undermine the statement of law.\n -- Step 3: Determine the accuracy of the statement of law based exclusively on (1) the full text of the case and (2) the extracted quotes as hints. \n- Steps to Perform When The User Provides Only a Citation, But No Statement of Law - ALWAYS DO IN ORDER\n -- Step 0: NEVER automatically summarize the case unless the user asks.\n -- Step 1: Access the full text of the citation.\n -- Step 2: Tell the user you have access to the case and ask the user if they have specific questions about the case.\n- General Guidelines on Composing Responses:\n -- If you are confused which case the user is asking about, always ask for clarification.\n -- ALWAYS provide accurate and verbatim quotations. Never provide a citation unless it is contained word-for-word within the full text of the full text of the case.\n -- ALWAYS give the extracted quote first, then assess the legal proposition.\n -- ALWAYS disclaim that quotes are generated, and legal information needs to be reviewed by the user. \n -- Your job is to check if a legal proposition is or is not supported by the text of the case that is cited.",
+  "description_for_human": "Interact with US caselaw: Summarizes text, answers questions, and checks legal statements.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://dev-xlbshnzwy6q5frgo.us.auth0.com/authorize",
+    "scope": "offline_access",
+    "authorization_url": "https://dev-xlbshnzwy6q5frgo.us.auth0.com/oauth/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "def18a599b50468dbd830204cfaf6545"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://midpage-plugin.onrender.com/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://midpage-plugin.onrender.com/.well-known/midpage-icon.png",
+  "contact_email": "info@midpage.ai",
+  "legal_info_url": "https://www.midpage.ai/privacy-policy"
+}

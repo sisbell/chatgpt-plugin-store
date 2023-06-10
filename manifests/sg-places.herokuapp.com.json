@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "SG Places Beta",
+  "name_for_model": "Singapore_Places_Of_Interest",
+  "description_for_human": "Provides information on attractions, F&B outlets, accommodation, tours, shops, and events in Singapore.",
+  "description_for_model": "Provides information on attractions, F&B outlets, accommodation, tours, shops, and events in Singapore, to enhance the tourist experience of visitors to Singapore.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://sg-places.herokuapp.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://sg-places.herokuapp.com/sg_logo.png",
+  "contact_email": "gabriel@dsaid.gov.sg",
+  "legal_info_url": "https://sg-places.herokuapp.com/legal"
+}

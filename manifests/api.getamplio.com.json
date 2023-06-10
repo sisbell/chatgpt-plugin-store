@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "locate_inventory_for_electronic_components",
+  "name_for_human": "PartSecure",
+  "description_for_model": "Plugin for locating inventory and providing information about electronic components. Use it whenever a user asks a question that might be about electronic components.",
+  "description_for_human": "Search & compare electronic component inventory, pricing, & lead time from top suppliers.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.getamplio.com/.well-known/openapi.yaml"
+  },
+  "logo_url": "https://api.getamplio.com/.well-known/logo.png",
+  "contact_email": "team@getamplio.com",
+  "legal_info_url": "https://www.bom.getamplio.com/legal"
+}

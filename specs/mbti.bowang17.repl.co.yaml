@@ -1,0 +1,108 @@
+openapi: 3.0.1
+info:
+  title: MBTI
+  description: Allows the user to fetch MBTI questions, submit answers, and receive their corresponding MBTI personality type.
+  version: 'v1'
+servers:
+  - url: https://mbti.bowang17.repl.co
+tags:
+  - name: MBTI
+    description: Operations related to MBTI personality estimation.
+paths:
+  /api/mbti/questions:
+    post:
+      tags:
+        - MBTI
+      summary: Fetch the next 9 MBTI questions.
+      description: This operation allows users to fetch the next 10 MBTI questions. The user should send their current progress as part of the request.
+      operationId: getMBTIQuestions
+      requestBody:
+        description: The user's current progress through the questions.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                index:
+                  type: integer
+                  description: The index of the current question.
+                  example: 9
+      responses:
+        "200":
+          description: Successful operation. Returns a list of 9 MBTI questions, the next index, and a hint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MBTIQuestionsResponse'
+  /api/mbti:
+    post:
+      tags:
+        - MBTI
+      summary: Submit answers to MBTI questions and get the corresponding MBTI type.
+      description: This operation allows users to submit their answers to a set of MBTI questions and get their corresponding MBTI personality type.
+      operationId: getMBTI
+      requestBody:
+        description: An array of questions and corresponding answers.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/QuestionAnswer'
+                  example:
+                    - type: "E_I"
+                      answer: 1
+      responses:
+        "200":
+          description: Successful operation. Returns the user's MBTI type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MBTIResponse'
+components:
+  schemas:
+    QuestionAnswer:
+      required:
+        - type
+        - answer
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of the question, e.g., "E_I".
+          example: "E_I"
+        answer:
+          type: integer
+          description: The user's answer to the question.
+          example: 1
+    MBTIResponse:
+      required:
+        - MBTI
+      type: object
+      properties:
+        MBTI:
+          type: string
+          description: The resulting MBTI type.
+          example: "INTJ"
+    MBTIQuestionsResponse:
+      type: object
+      properties:
+        questions:
+          type: array
+          items:
+            type: string
+          description: The list of 10 MBTI questions.
+          example: ["Question 1", "Question 2", "Question 3", "Question 4", "Question 5","Question 6","Question 7","Question 8","Question 9"]
+        index:
+          type: integer
+          description: The index for the next set of questions.
+          example: 9
+        hint:
+          type: string
+          description: A hint for the user to continue until they've answered all 36 questions.
+          example: "Keep going until you've answered all 36 questions!"

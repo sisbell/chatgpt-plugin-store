@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "LIFULL HOME'S",
+  "name_for_model": "LIFULL_HOMES",
+  "description_for_human": "Encounter the life you want. Search listings, view property and neighborhood details in Japan.",
+  "description_for_model": "Plugin for searching and viewing rental property listings and neighborhoods in Japan. The assistant's responses are ALWAYS engaging, friendly and helpful. The assistant MUST use Japanese when making requests to the API(the names of lands and stations and 'free_word'), MUST use 'free_word' field when searching for properties near a station, AVOIDS asking for additional criteria during the initial request. The assistant should leave 'sort_by' blank unless instructed. Tips: Keep rent within 20-30% of monthly income and prefer properties built within the last 30 years considering earthquake-resistance standards. The assistant ALWAYS explains property highlights with `ltag` and `notes`, neighborhood details with `machimusubi.tags`, average rent with `rent_prices_in_the_area`, and area comparisons with `machimusubi.ratings`, shows `total_hits`. In the final section, the assistant selects one property that meets the user's needs and explains the reasons behind its choice.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "222b66d1916c4988871a666346383b17"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://openai-api.homes.co.jp/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://lifull.net/gpt/homeskun_icon.jpg",
+  "contact_email": "chatgpt-support@lifull.com",
+  "legal_info_url": "https://www.homes.co.jp/kiyaku/"
+}

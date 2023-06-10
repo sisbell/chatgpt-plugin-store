@@ -100,19 +100,19 @@
                       {
                         "name": "Employees",
                         "labels": [
-                          "James Walker",
-                          "Barb Jones",
-                          "Pat Smith"
+                          "Walker",
+                          "Jones",
+                          "Smith"
                         ],
                         "aggregator": "sum"
                       },
                       {
                         "name": "Quarters",
                         "labels": [
-                          "1st Quarter",
-                          "2nd Quarter",
-                          "3rd Quarter",
-                          "4th Quarter"
+                          "1st",
+                          "2nd",
+                          "3rd",
+                          "4th"
                         ],
                         "aggregator": "sum"
                       }
@@ -121,6 +121,46 @@
                   "view": {
                     "title": "Bonus Points by Employee and Quarter for 2022",
                     "type": "Bar Chart"
+                  }
+                },
+                "area chart": {
+                  "version": "1.0",
+                  "model": {
+                    "nestingLevels": [
+                      {
+                        "name": "Employees",
+                        "labels": [
+                          "Walker",
+                          "Jones"
+                        ],
+                        "aggregator": "sum"
+                      },
+                      {
+                        "name": "Years",
+                        "labels": [
+                          "2021",
+                          "2022",
+                          "2023"
+                        ],
+                        "aggregator": "sum"
+                      }
+                    ],
+                    "data": [
+                      [
+                        11,
+                        0,
+                        12
+                      ],
+                      [
+                        3,
+                        4,
+                        6
+                      ]
+                    ]
+                  },
+                  "view": {
+                    "type": "Area Chart",
+                    "title": "Bonus Points by Employee and Year"
                   }
                 }
               },

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Skrive",
+  "name_for_model": "Skrive",
+  "description_for_human": "Envision your concepts through Diagrams. This tool allows you to create and modify diagrams within the chat interface.",
+  "description_for_model": "Plugin for creating Graphviz images from DOT language input. It takes a DOT language string and returns a URL to the saved image.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://skrive.klarityai.com/logo.png",
+  "contact_email": "samarvir1996@gmail.com",
+  "legal_info_url": "https://klarityai.com/terms-and-conditions"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ScholarlyInsight",
+  "name_for_model": "ScholarlyInsight",
+  "description_for_human": "Query research papers from Arxiv.",
+  "description_for_model": "Query research papers from Arxiv.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://scholarlyinsight--chao-gu-ge-lei.repl.co/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://scholarlyinsight--chao-gu-ge-lei.repl.co/logo.png",
+  "contact_email": "cpagym@gmail.com",
+  "legal_info_url": "http://www.cpanlp.com/"
+}

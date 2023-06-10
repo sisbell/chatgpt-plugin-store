@@ -1,0 +1,740 @@
+openapi: "3.0.3"
+info:
+  title: LIFULL HOME'S API
+  version: "1"
+servers:
+  - url: https://openai-api.homes.co.jp/v1
+paths:
+  /realestate_article/{property_id}:
+    get:
+      operationId: GET_realestate_article-property_id
+      description: "Retrieve detailed information of a property by specifying the `property_id`."
+      parameters:
+        - name: property_id
+          in: path
+          description: "property_id is a unique key for property data. Use it from the response of GET_realestate_article-search. It might look like BRent_1309350000008, serving as a specific identifier for each property."
+          required: true
+          schema:
+            type: string
+          examples:
+            "For rental properties.": { value: "BRent_1309350000008" }
+            "For single-family home purchases.": { value: "BKodate_17230010000003" }
+            "For condominium purchases.": { value: "BMansion_16015620000080" }
+
+      responses:
+        200:
+          description: "Successfully fetched property details."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  start_date:
+                    title: "Publish Start Date."
+                    description: "In RFC3339 format."
+                    type: string
+                  flg_new:
+                    title: "New Construction / Unoccupied Flag."
+                    description: "If 1, the property is either new construction or unoccupied."
+                    type: integer
+                  realestate_article_type_name:
+                    title: "Property Type."
+                    type: string
+                  realestate_article_name:
+                    title: "Property Name."
+                    type: string
+                  feature_comment:
+                    title: "Property Features."
+                    type: string
+                  full_address:
+                    title: "Property Address."
+                    description: "Property Address."
+                    type: string
+                  post_id:
+                    title: "Postal Code (7 digits)."
+                    type: string
+                  floor_plan_text:
+                    title: "Representing layout."
+                    type: string
+                  building_completed:
+                    title: "Built Month"
+                    description: "In YYYYMM format."
+                    type: string
+                  house_age:
+                    title: "Age of Building."
+                    description: >
+                      Returns 'n' as in 'n years since construction'.
+                      If it is 0, it refers to a new building.
+                      (i.e., a property that is in the first year since construction and has not been occupied).
+                    type: integer
+                  money_room:
+                    title: "Cost of the property that is minimum."
+                    type: integer
+                  money_room_h:
+                    title: "Cost of the property that is maximum."
+                    type: integer
+                  month_money_room:
+                    title: "Monthly rent cost of the property that is minimum."
+                    type: integer
+                  month_money_room_text:
+                    title: "Cost of the property as string."
+                    type: string
+                  deposit_text:
+                    title: "Deposit."
+                    type: string
+                  security_deposit_text:
+                    title: "Security deposits."
+                    type: string
+                  key_money_text:
+                    title: "Key Money."
+                    type: string
+                  photos:
+                    title: "Property Image."
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                        type:
+                          title: "Image type as number."
+                          type: string
+                        type_name:
+                          title: "Image type name."
+                          type: string
+                        comment:
+                          title: "Image comments."
+                          type: string
+                  floor_plan_detail_text:
+                    title: "Detail of Representing layout."
+                    type: string
+                  building_structure_long_name:
+                    title: "Official name of the building structure."
+                    type: string
+                  exposure_name:
+                    title: "Main light exposure."
+                    type: string
+                  renewal_fee_text:
+                    title: "Property renewal fee."
+                    type: string
+                  move_in_date_text:
+                    title: "Handover/Move-in Timing."
+                    type: string
+                  move_in_date_note:
+                    title: "Note as Handover/Move-in Timing."
+                    type: string
+                  floor_number:
+                    title: "Property location count."
+                    type: integer
+                  total_ground_floors:
+                    title: "Number of Floors (Above Ground)."
+                    type: integer
+                  tatal_basement_floors:
+                    title: "Number of Floors (Basement)."
+                    type: integer
+                  etc_area_text:
+                    title: "Other area text."
+                    type: string
+                  building_structure_detail:
+                    title: "Building structure info."
+                    type: string
+                  points:
+                    title: "Sales point texts."
+                    type: array
+                    items:
+                      type: string
+                  notes:
+                    title: "note"
+                    type: array
+                    items:
+                      type: string
+                  traffics:
+                    title: "Traffic"
+                    description: "Nearest public transportation options."
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        line_name:
+                          title: "Nearest train line to the property."
+                          type: string
+                        line_short_name:
+                          title: "Nearest train line to the property as short."
+                          type: string
+                        station_name:
+                          title: "Nearest station name of the property."
+                          type: string
+                        bus_stop:
+                          title: "Nearest bus stop name of the property."
+                          type: string
+                        bus_time:
+                          title: "Bus boarding time (minutes)."
+                          type: integer
+                        flg_use_bus:
+                          title: "Flag indicating whether to use the bus."
+                          description: "Set to 1 to use this flag."
+                          type: integer
+                        walk_distance:
+                          title: "Distance to nearest station/bus stop(m)."
+                          description: "Distance from the station to the bus stop nearest the station if a bus ride time is specified."
+                          type: integer
+                          nullable: true
+                        walk_time:
+                          title: "Walking minutes to nearest station/bus stop."
+                          description: "If `traffics.text` is not used / can be used instead of `walk_distance`."
+                          type: integer
+                        move_time:
+                          title: "Time from station (minutes)."
+                          description: "If bus boarding time is specified, bus boarding time is included."
+                          type: integer
+                        text:
+                          title: "presentation string."
+                          description: ""
+                          type: string
+                  traffic_other:
+                    title: "Other Transportation."
+                    description: ""
+                    type: string
+                  pr_comments:
+                    title: "PR Comments."
+                    type: array
+                    items:
+                      type: string
+                  url:
+                    title: "URL to property details page (generated by this application)."
+                    type: string
+                  ltag:
+                    title: "ltag"
+                    type: array
+                    items:
+                      type: string
+                  rent_prices_in_the_area:
+                    title: "Market rents for properties with the same floor plan in this area."
+                    type: object
+                    properties:
+                      name:
+                        title: "Name of the area subject to market rents."
+                        type: string
+                      floor_plan:
+                        title: "Floor plan subject to market rents."
+                        type: string
+                      average:
+                        title: "Average market rents in the area concerned."
+                        type: number
+                  machimusubi:
+                    title: "Machimusubi Information."
+                    type: object
+                    properties:
+                      tags:
+                        description: "Tag."
+                        type: array
+                        items:
+                          type: string
+                      ratings:
+                        description: "evaluation."
+                        type: object
+                        properties:
+                          shopping_convenience:
+                            type: number
+                          transportation_convenience:
+                            type: number
+                          childrearing_ease:
+                            type: number
+                          safety_level:
+                            type: number
+                          abundance_of_nature:
+                            type: number
+        400: { $ref: "#/components/responses/trait_error_response_400" }
+        401: { $ref: "#/components/responses/trait_error_response_401" }
+        403: { $ref: "#/components/responses/trait_error_response_403" }
+        500: { $ref: "#/components/responses/trait_error_response_500" }
+        503: { $ref: "#/components/responses/trait_error_response_503" }
+      security:
+        - oauth_2_0:
+            - realestate_article.default:read
+
+  /realestate_article/search/room:
+    get:
+      description: "Search for available rentals. It returns a list of properties matching the criteria. The property_id is a unique ID used in GET_realestate_article-property_id for identification."
+      operationId: GET_realestate_article-search
+      parameters:
+        - name: page
+          in: query
+          description: "Page number of the search results (for pagination purposes)."
+          schema:
+            type: string
+
+        - name: sort_by
+          in: query
+          description: "Search result sorting. '-monthmoneyroomh' for highest cost, '-area_house' for largest area, 'period' for newest buildings, '-newdate' for recent listings."
+          schema:
+            type: string
+
+        - name: walk_minutes
+          in: query
+          description: "Set the minimum walk time (in minutes) from the nearest station to the property."
+          schema:
+            type: integer
+
+        - name: walk_minutes_h
+          in: query
+          description: "Set the maximum walk time (in minutes) from the nearest station to the property. Default to 10 if not specified."
+          schema:
+            type: integer
+
+        - name: flg_wm_include_bustime
+          in: query
+          description: "Include bus time in travel from the nearest station? (0,1)"
+          schema:
+            type: integer
+            enum: [1]
+            nullable: true
+
+        - name: commute_station
+          in: query
+          description: "Input workplace station for a search considering commute. Use only if user specifies a workplace. Always pair with commute_time, commute_transfer_count."
+          schema:
+            type: string
+          examples:
+            "Specify one.": { value: "横川駅" }
+            "Specify two.": { value: "新宿,練馬" }
+
+        - name: commute_time
+          in: query
+          description: "Input travel time from commute_station for a search considering commute. Use only if user specifies a workplace. Always pair with commute_station, commute_transfer_count. Set to 30 if unspecified."
+          schema:
+            type: string
+          examples:
+            "Specify one.": { value: "15" }
+            "Specify two.": { value: "20,15" }
+
+        - name: commute_transfer_count
+          in: query
+          description: "Input commute train transfers (0-3) for a search considering commute. Use only if user specifies a workplace. Always pair with commute_station, commute_time. Default to 0 if not specified."
+          schema:
+            type: integer
+            enum: [0, 1, 2, 3]
+
+        - name: geo_pt
+          in: query
+          description: "Search properties around a point using geo_pt (center's coordinates) and geo_rd (distance in km). Use only if user specifies distance from a certain point or car commute.(e.g. 35.689634,139.692101)"
+          schema:
+            type: string
+
+        - name: geo_rd
+          in: query
+          description: "Search properties using geo_pt (center's decimal coordinates) and geo_rd (km). Use only if user specifies coordinates, distance, or car/bike commute."
+          schema:
+            type: number
+
+        - name: month_money_room
+          in: query
+          description: "Specify the minimum monthly cost of the property in ten thousand yen. (For 75,000 yen, specify 7.5.)"
+          schema:
+            type: number
+
+        - name: month_money_room_h
+          in: query
+          description: "Specify the maximum monthly cost of the property in ten thousand yen. (For 75,000 yen, specify 7.5.)"
+          schema:
+            type: number
+
+        - name: money_combo
+          in: query
+          description: "Specify the minimum rent (including management fee) of the property in ten thousand yen. (For 75,000 yen, specify 7.5)"
+          schema:
+            type: number
+
+        - name: money_combo_h
+          in: query
+          description: "Specify the maximum rent (including management fee) of the property in ten thousand yen. (For 75,000 yen, specify 7.5)"
+          schema:
+            type: number
+
+        - name: house_age_h
+          in: query
+          description: "Specify the maximum age of the property. Use 0 for new properties."
+          schema:
+            type: integer
+
+        - name: house_area
+          in: query
+          description: "Specify the minimum area of the property in square meters. Use the 'Living Area Level' as a standard: 25 for single, 30 for two people, 40 for three, 50 for four."
+          schema:
+            type: number
+
+        - name: house_area_h
+          in: query
+          description: "Specify the maximum area of the property in square meters. Use the 'Living Area Level' as a standard: 40 for single, 55 for two people, 75 for three, 95 for four."
+          schema:
+            type: number
+
+        - name: flg_house_area
+          in: query
+          description: "This flag indicates if the building/ownership area exists."
+          schema:
+            type: integer
+            enum: [1]
+            nullable: true
+
+        - name: land_area
+          in: query
+          description: "Specify the minimum land area of the property."
+          schema:
+            type: number
+          example: 142.55
+
+        - name: land_area_h
+          in: query
+          description: "Specify the maximum land area of the property."
+          schema:
+            type: number
+          example: 147.89
+
+        - name: free_word
+          in: query
+          description: "free_word enables property search using inputs like station names in Japanese, layouts(e.g. 2LDK), and features. Use commute_station for commuting stations. Multiple keywords can be space-separated."
+          schema:
+            type: string
+
+        - name: fw_type
+          in: query
+          description: "Search conditions when specifying multiple free words. (1: AND search, 2: OR search)"
+          schema:
+            type: string
+            enum: [1, 2]
+
+        - name: not_free_word
+          in: query
+          description: "Free words to be excluded."
+          schema:
+            type: string
+
+        - name: mcf
+          in: query
+          description: >
+            Additional property features conditions.
+            113201: Allows pets (Dogs, Cats)
+            340102: 2F or higher
+            420101: Close to an elementary school(within 800m)
+            423103: Close to an hospital(within 800m)
+          schema:
+            type: integer
+
+        - name: fulladdr
+          in: query
+          description: "fulladdr is used to search properties by specifying the full or partial address (e.g. prefecture or city/town/village names in Japanese)."
+          schema:
+            type: string
+
+        - name: move_in_status
+          in: query
+          description: "Handover/move-in time. 1: Immediate occupancy possible, 2: Negotiable, 3: Specific date specified."
+          schema:
+            type: integer
+            enum: [1, 2, 3]
+
+        - name: move_in_date
+          in: query
+          description: "Handover/move-in year and month (including and after the specified month). Format: [Year in 4 digits][Month in 2 digits]."
+          schema:
+            type: string
+          example: "202305"
+
+        - name: move_in_date_h
+          in: query
+          description: "Handover/move-in year and month (including and before the specified month). Format: [Year in 4 digits][Month in 2 digits]."
+          schema:
+            type: string
+          example: "202305"
+
+        - name: move_in_month_term
+          in: query
+          description: >
+            Handover/move-in period:
+            1: Early in the month
+            2: Mid-month
+            3: Late in the month
+          schema:
+            type: integer
+            enum: [1, 2, 3]
+
+        - name: exposure
+          in: query
+          description: >
+            Main light exposure:
+            1: North
+            2: Northeast
+            3: East
+            4: Southeast
+            5: South
+            6: Southwest
+            7: West
+            8: Northwest
+          schema:
+            type: integer
+            enum: [1, 2, 3, 4, 5, 6, 7, 8]
+
+        - name: new_date
+          in: query
+          description: "Retrieve properties listed since a specified number of days ago from today (1 for up to yesterday, 6 for a week)."
+          schema:
+            type: integer
+
+        - name: timelimit_date
+          in: query
+          description: "Specify the listing deadline as a number of days from today (negative values can be used)."
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: Successful property search.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result_set:
+                    type: object
+                    properties:
+                      total_hits:
+                        type: integer
+                  row_set:
+                    description: Array of properties.
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        property_id:
+                          description: Property identifier.
+                          type: string
+                        realestate_article_type_name:
+                          type: string
+                        realestate_article_name:
+                          type: string
+                          description: "Name of the property (may not be set, in which case the address (`full_address`) should be used instead). In this case, use the address (`full_address`) instead)."
+                        traffics:
+                          description: Nearby public transportation (max. 3).
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              line_name:
+                                type: string
+                              line_short_name:
+                                type: string
+                              station_name:
+                                type: string
+                              bus_stop:
+                                type: string
+                              bus_time:
+                                type: integer
+                              walk_distance:
+                                description: Distance from the station to the bus stop nearest the station if a bus ride time is specified.
+                                type: integer
+                              walk_time:
+                                description: "Can be used in place of `walk_distance`."
+                                type: integer
+                              move_time:
+                                description: If bus boarding time is specified, bus boarding time is included.
+                                type: integer
+                        traffic_other:
+                          type: string
+                        full_address:
+                          type: string
+                        lat:
+                          type: number
+                        lng:
+                          type: number
+                        floor_plan_text:
+                          type: string
+                        building_completed_text:
+                          type: string
+                          description: >
+                            Year of construction/year of completion given.
+                            YYYY year MM month indicated.
+                        house_age:
+                          description: Return n for the nth year of construction. However, if 0, it is a new construction (= property not yet occupied in the first year of construction).
+                          type: integer
+                        money_room_text:
+                          title: String of price for display.
+                          type: string
+                        month_money_room_text:
+                          title: String  of rent price for display.
+                          type: string
+                        money_maintenance_text:
+                          type: string
+                        deposit_text:
+                          type: string
+                        security_deposit_text:
+                          type: string
+                        key_money_text:
+                          type: string
+                        photos:
+                          description: An array of images of the property.
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              url:
+                                description: URL to an image of the property.
+                                type: string
+                              type_name:
+                                description: Type of property image.
+                                type: string
+                              comment:
+                                description: Property Image Comments.
+                                type: string
+                        move_in_date_text:
+                          type: string
+                        move_in_date_note:
+                          type: string
+                        notes:
+                          description: Additional Information
+                          type: array
+                          items: { type: string }
+                        flg_visit_reserve:
+                          description: Flag indicating whether sightseeing reservations are available.
+                          type: integer
+                        distance:
+                          description: >
+                            Distance from the specified latitude and longitude in the search criteria.
+                          type: number
+                        url:
+                          description: URL to property details page (generated by this application).
+                          type: string
+                        ltag:
+                          description: ltag
+                          type: array
+                          items:
+                            type: string
+                        rent_prices_in_the_area:
+                          description: Market rents for properties with the same floor plan in this area.
+                          type: object
+                          properties:
+                            name:
+                              description: Name of the area subject to market rents.
+                              type: string
+                            floor_plan:
+                              description: Floor plan subject to market rents.
+                              type: string
+                            average:
+                              description: Average market rents in the area concerned.
+                              type: number
+                        machimusubi:
+                          title: Machimusubi Information.
+                          type: object
+                          properties:
+                            tags:
+                              description: Tag.
+                              type: array
+                              items:
+                                type: string
+                            ratings:
+                              description: evaluation.
+                              type: object
+                              properties:
+                                shopping_convenience:
+                                  type: number
+                                transportation_convenience:
+                                  type: number
+                                childrearing_ease:
+                                  type: number
+                                safety_level:
+                                  type: number
+                                abundance_of_nature:
+                                  type: number
+        400: { $ref: "#/components/responses/trait_error_response_400" }
+        401: { $ref: "#/components/responses/trait_error_response_401" }
+        403: { $ref: "#/components/responses/trait_error_response_403" }
+        500: { $ref: "#/components/responses/trait_error_response_500" }
+        503: { $ref: "#/components/responses/trait_error_response_503" }
+      security:
+        - oauth_2_0:
+            - realestate_article.default:read
+components:
+  schemas: {}
+  responses:
+    trait_error_response_400:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                allOf:
+                  - type: string
+                  - type: number
+                type: string
+              error_message:
+                type: string
+    trait_error_response_401:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                allOf:
+                  - type: string
+                  - type: number
+                type: string
+              error_message:
+                type: string
+    trait_error_response_403:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                allOf:
+                  - type: string
+                  - type: number
+                type: string
+              error_message:
+                type: string
+    trait_error_response_500:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                allOf:
+                  - type: string
+                  - type: number
+                type: string
+              error_message:
+                type: string
+    trait_error_response_503:
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                allOf:
+                  - type: string
+                  - type: number
+                type: string
+              error_message:
+                type: string
+  parameters: {}
+  examples: {}
+  requestBodies: {}
+  headers: {}
+  securitySchemes:
+    oauth_2_0:
+      description: >
+        NextAPI supports OAuth 2.0 for authenticating all API requests.
+      type: oauth2
+      flows: {}
+  links: {}
+  callbacks: {}

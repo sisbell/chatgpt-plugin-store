@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Crypto Price Checker",
+  "name_for_model": "crypto_price_checker",
+  "description_for_human": "A Crypto Prices app that takes a pair of crypto or fiat tickers and returns the current price of the pair.",
+  "description_for_model": "Crypto Price Checker - A Crypto Prices app that takes a pair of crypto or fiat tickers and returns the current price of the pair. Provide the tickers and the app will return the current price. USD will be used as ticker_to in case no value is passed. Example: /?ticker_from=BTC&ticker_to=USD - will return BTC-USD price.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://cryptoprices.smoothplugins.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://smoothplugins.com/img/plugin_logos2/cryptoprices1.png",
+  "contact_email": "makevoid@gmail.com",
+  "legal_info_url": "https://smoothplugins.com/tos/3_crypto_prices_plugin_tos"
+}

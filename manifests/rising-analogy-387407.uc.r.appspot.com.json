@@ -1,0 +1,39 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Trending Music",
+  "name_for_model": "trending_music",
+  "description_for_human": "Service for finding the trending music, by genre, countries, and top songs globally.",
+  "description_for_model": "Find the most trending music around the world. You can search by country, genre, or globally. You can also get detailed information about a specific song or find songs similar to a specific track. Use the country's ISO 3166-1 alpha-2 code for country-specific searches. For genre-specific searches, use the genre's specific code. Available genres: POP, HIP_HOP_RAP, DANCE, ELECTRONIC, RNB_SOUL, ALTERNATIVE, ROCK, LATIN, FILM_TV_STAGE, COUNTRY, AFRO_BEATS, WORLDWIDE, REGGAE_DANCE_HALL, HOUSE, K_POP, FRENCH_POP, SINGER_SONGWRITER, REGIONAL_MEXICANO.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://rising-analogy-387407.uc.r.appspot.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "ui": {
+    "elements": [
+      {
+        "type": "image",
+        "url": "https://rising-analogy-387407.uc.r.appspot.com//logo.png",
+        "altText": "Trending Music Logo"
+      },
+      {
+        "type": "text",
+        "content": "Welcome to Trending Music!"
+      },
+      {
+        "type": "text",
+        "content": "This service allows you to get trending music from Shazam. You can also get detailed information about a specific song or find songs similar to a specific track."
+      },
+      {
+        "type": "text",
+        "content": "To use this service, just ask a question about the most trending music around the world, by genre, country, or globally. You can also request details about a particular song or ask for similar songs to a specific track."
+      }
+    ]
+  },
+  "logo_url": "https://rising-analogy-387407.uc.r.appspot.com/logo.png",
+  "contact_email": "macetenth@gmail.com",
+  "legal_info_url": "https://rising-analogy-387407.uc.r.appspot.com/legal"
+}

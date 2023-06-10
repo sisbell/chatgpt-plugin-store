@@ -26,7 +26,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SalesTax"
+                  "$ref": "#/components/schemas/FreeFormSalesTax"
                 }
               }
             }
@@ -47,6 +47,19 @@
   },
   "components": {
     "schemas": {
+      "FreeFormSalesTax": {
+        "title": "FreeFormSalesTax",
+        "required": [
+          "summary"
+        ],
+        "type": "object",
+        "properties": {
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          }
+        }
+      },
       "HTTPValidationError": {
         "title": "HTTPValidationError",
         "type": "object",
@@ -85,92 +98,6 @@
             "title": "Transactionvalue",
             "type": "number",
             "default": 100.0
-          }
-        }
-      },
-      "Rate": {
-        "title": "Rate",
-        "required": [
-          "jurisName",
-          "taxCalculated",
-          "jurisType",
-          "taxType"
-        ],
-        "type": "object",
-        "properties": {
-          "jurisName": {
-            "title": "Jurisname",
-            "type": "string"
-          },
-          "taxCalculated": {
-            "title": "Taxcalculated",
-            "type": "number"
-          },
-          "jurisType": {
-            "title": "Juristype",
-            "type": "string"
-          },
-          "taxType": {
-            "title": "Taxtype",
-            "type": "string"
-          }
-        }
-      },
-      "SalesTax": {
-        "title": "SalesTax",
-        "required": [
-          "totalTax",
-          "transactionValue",
-          "taxAmount",
-          "summary",
-          "contentType",
-          "status"
-        ],
-        "type": "object",
-        "properties": {
-          "totalTax": {
-            "title": "Totaltax",
-            "type": "number"
-          },
-          "transactionValue": {
-            "title": "Transactionvalue",
-            "type": "number"
-          },
-          "taxAmount": {
-            "title": "Taxamount",
-            "type": "number"
-          },
-          "summary": {
-            "$ref": "#/components/schemas/Summary"
-          },
-          "contentType": {
-            "title": "Contenttype",
-            "type": "string"
-          },
-          "status": {
-            "title": "Status",
-            "type": "integer"
-          }
-        }
-      },
-      "Summary": {
-        "title": "Summary",
-        "required": [
-          "summary",
-          "taxNotes"
-        ],
-        "type": "object",
-        "properties": {
-          "summary": {
-            "title": "Summary",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Rate"
-            }
-          },
-          "taxNotes": {
-            "title": "Taxnotes",
-            "type": "string"
           }
         }
       },

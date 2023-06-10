@@ -1,0 +1,35 @@
+openapi: 3.0.1
+info:
+  title: Copywriter
+  description: Send a URL and get sales copywriting suggestions for any page!
+  version: 'v1'
+servers:
+  - url: https://copywriter.orrenprunckun.com
+paths:
+  /:
+    get:
+      operationId: getData  
+      summary: Get data from users
+      description: Get data from users
+      parameters:
+        - name: url
+          in: query
+          description: url
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataResponse'
+components:
+  schemas:
+    dataResponse:
+      type: object
+      properties:
+        copy:
+          type: string
+          description: sales copy from the users url

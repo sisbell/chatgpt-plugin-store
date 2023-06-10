@@ -30,7 +30,7 @@
                   "summary": "What were my calls from last week?",
                   "description": "This query will return calls from the past week.",
                   "value": {
-                    "after": "2023-06-02",
+                    "after": "2023-06-03",
                     "top_k": 20
                   }
                 },
@@ -39,7 +39,7 @@
                   "description": "This query will return segments of transcripts of calls that mention pricing in the past 60 days.",
                   "value": {
                     "query": "pricing",
-                    "after": "2023-04-10",
+                    "after": "2023-04-11",
                     "top_k": 20
                   }
                 },
@@ -48,8 +48,8 @@
                   "description": "This query will return segments of transcripts of calls that mention pricing two weeks ago.",
                   "value": {
                     "query": "pricing",
-                    "after": "2023-05-26",
-                    "before": "2023-06-02",
+                    "after": "2023-05-27",
+                    "before": "2023-06-03",
                     "top_k": 20
                   }
                 },
@@ -68,7 +68,7 @@
                   "summary": "Get all documents from a call",
                   "description": "This query will return the documents related to a call that will answer the question \"Summarize what Spencer did yesterday given the call with ID call-1\".",
                   "value": {
-                    "after": "2023-06-08",
+                    "after": "2023-06-09",
                     "source_id": [
                       "call-1"
                     ],
@@ -85,8 +85,8 @@
                   "description": "This query will return segments of transcripts of calls that mention pricing two weeks ago.",
                   "value": {
                     "query": "pricing",
-                    "after": "2023-05-26",
-                    "before": "2023-06-02",
+                    "after": "2023-05-27",
+                    "before": "2023-06-03",
                     "top_k": 20,
                     "call_scope": [
                       "internal"
@@ -98,7 +98,7 @@
                   "description": "This query will return segments of transcripts of calls that mention Nikhil and what he was working on this week.",
                   "value": {
                     "query": "working on",
-                    "after": "2023-06-02",
+                    "after": "2023-06-03",
                     "people": [
                       "Nikhil"
                     ],
