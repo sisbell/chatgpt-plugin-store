@@ -1,0 +1,230 @@
+openapi: 3.0.1 
+info:
+  title: Quiver Quantitative API Plugin
+  description: A plugin that allows the user to interact with Quiver Quantitative API endpoints.
+  version: 'v1'
+servers:
+  - url: https://api.quiverquant.com
+paths:
+  /beta/bulk/congresstrading?version=V2&page_size=50:
+      get:
+        operationId: bulk_congressional_stock_trading
+        summary: Retrieves data on recent congressional trades. https://www.quiverquant.com/congresstrading/ has more data on congressional stock trading.
+        parameters:
+        - in: query
+          name: ticker
+          schema:
+            type: string
+          required: false
+          description: Use this paramater to get data on congressional trading of a particular ticker. Leave it empty to get the most recent trades across all tickers.
+        responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CongressTradingResponse'
+  /beta/historical/lobbying/SEARCHALL?page_size=5:
+    get:
+      operationId: historical_lobbying_ticker
+      summary: Retrieves data on recent lobbying by publicly traded companies. https://www.quiverquant.com/lobbyingsearch/ has more data on corporate lobbying.
+      parameters:
+      - in: query
+        name: queryTicker
+        schema:
+          type: string
+        required: false
+        description: Used to filter data down to a particular ticker. Leave it empty to get the most recent lobbying across all tickers.
+      - in: query
+        name: query
+        schema:
+          type: string
+        required: false
+        description: Used to filter data based on what issues are being lobbied on. For instance, '?query=energy' returns lobbying on energy-related issues.    
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LobbyingResponse'
+  /beta/live/insiders?page_size=50&limit_codes=True:
+    get:
+      operationId: live_insiders_ticker
+      summary: Retrieves data on recent insider stock purchases and sales. https://www.quiverquant.com/insiders/ has more data on insider transactions.
+      parameters:
+      - in: query
+        name: ticker
+        schema:
+          type: string
+        required: false
+        description: Use this parameter to get data on insider transactions of a particular stock ticker. Leave it empty to get the most recent trades across all tickers.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsidersResponse'
+  /beta/live/billSummaries?page_size=10&summary_limit=5000:
+      get:
+        operationId: live_billSummaries
+        summary: Get summaries of legislation which has recently been acted on in U.S. Congress.
+        parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+          required: false
+          description: Used to filter based on the bill summary or title. For example, ?query=energy will return bills that have 'energy' in their title or summary.
+        responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BillSummariesResponse'
+components:
+  schemas:
+    CongressTradingResponse:
+      type: object
+      properties:
+        Filed:
+          type: string
+          description: The date the transaction was reported.
+        Traded:
+          type: string
+          description: The date of the transaction.
+        Ticker:
+          type: string
+          description: The ticker symbol of the traded stock.
+        Name:
+          type: string
+          description: The name of the member of congress involved in the transaction.
+        Transaction:
+          type: string
+          description: The type of transaction (purchase, sale, etc.).
+        Trade_Size_USD:
+          type: string
+          description: The disclosed transaction size in USD.
+        Party:
+          type: string
+          description: The political party of the representative.
+        Chamber:
+          type: string
+          description: The chamber of Congress the member of congress belongs to.
+        Company:
+          type: string
+          description: The name of the asset traded.
+        TickerType:
+          type: string
+          description: The type of asset traded (ST = Stock, OP = Options, etc.)
+        Status:
+          type: string
+          description: Whether the transaction being reported is new or amended.
+        Subholding:
+          type: string
+          description: Contains info if the asset is a subholding.
+        Description:
+          type: string
+          description: Contains more info on the trade.
+        Comments:
+          type: string
+          description: Contains comments by the person disclosing the trade.
+        District:
+          type: string
+          description: District of the member of congress who made the trade.
+        excess_return:
+          type: string
+          description: Estimated excess return of the underlying asset traded since the trade took place.
+                              
+                    
+                    
+             
+    LobbyingResponse:
+      type: object
+      properties:
+        Date:
+          type: string
+          description: The date of the lobbying activity.
+        Ticker:
+          type: string
+          description: The ticker symbol of the company involved in lobbying.
+        Client:
+          type: string
+          description: The client for whom the lobbying activity was performed.
+        Amount:
+          type: string
+          description: The amount spent on the lobbying activity.
+        Issue:
+          type: string
+          description: The general issue that the lobbying activity was related to.
+        Specific_Issue:
+          type: string
+          description: The specific issue that the lobbying activity was related to.
+        Registrant:
+          type: string
+          description: The registrant who performed the lobbying activity.
+    InsidersResponse:
+      type: object
+      properties:
+        Ticker:
+          type: string
+          description: The ticker symbol of the traded stock.
+        Date:
+          type: string
+          description: The date of the transaction.
+        Name:
+          type: string
+          description: The name of the insider.
+        AcquiredDisposedCode:
+          type: string
+          description: The code indicating whether the shares were acquired or disposed.
+        TransactionCode:
+          type: string
+          description: The code indicating the type of transaction (P=Purchase, S=Sale).
+        Shares:
+          type: string
+          description: The number of shares involved in the transaction.
+        PricePerShare:
+          type: string
+          description: The price per share in the transaction.
+        SharesOwnedFollowing:
+          type: string
+          description: The number of shares owned following the transaction.
+        fileDate:
+          type: string
+          description: The date the transaction was filed.
+    BillSummariesResponse:
+      type: object
+      properties:
+        Title:
+          type: string
+          description: The title of the bill.
+        Congress:
+          type: string
+          description: The congress session in which the bill was introduced.
+        Number:
+          type: string
+          description: The number of the bill.
+        originChamber:
+          type: string
+          description: The chamber where the bill was originally introduced.
+        currentChamber:
+          type: string
+          description: The current chamber considering the bill.
+        billType:
+          type: string
+          description: The type of the bill.
+        Summary:
+          type: string
+          description: A summary of the bill.
+        URL:
+          type: string
+          description: The URL where more information about the bill can be found.
+        lastAction:
+          type: string
+          description: The last action taken on the bill.
+        lastActionDate:
+          type: string
+          description: The date of the last action taken on the bill.

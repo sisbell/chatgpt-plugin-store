@@ -1,0 +1,71 @@
+openapi: 3.0.2
+info:
+  title: Lingo
+  description: Allows user to search among all Japan shopping platforms using ChatGPT. If you do not know the user's desired price range, or name of preferred brand or store, ask the user before making queries to the plugin.
+  version: 1.0.0
+  servers:
+    - url: https://lingo.wandougongzhu.cn
+paths:
+  /api/query:
+    post:
+      summary: Query
+      description: Accepts a search query and returns a list of items.
+      operationId: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+components:
+  schemas:
+    Goods:
+      title: Goods
+      required:
+        - id
+        - name
+        - price
+        - link
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        name:
+          title: Name
+          type: string
+        price:
+          title: Price
+          type: number
+        link:
+          title: Link
+          type: string
+          description: goods hyperlink to view detail of goods
+    QueryRequest:
+      title: Query
+      required:
+          - query
+      type: object
+      properties:
+        query:
+          title: Query
+          type: string
+    QueryResponse:
+      title: QueryResponse
+      required:
+        - results
+      type: object
+      properties:
+        results:
+          title: Results
+          description: The list of searched goods
+          type: array
+          items:
+            $ref: "#/components/schemas/Goods"

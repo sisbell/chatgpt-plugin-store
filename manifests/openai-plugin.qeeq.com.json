@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "QEEQ",
+  "name_for_model": "QEEQ",
+  "description_for_human": "Our mission is to make journeys more enjoyable and bring better travel experiences to QEEQ with the help of technology.",
+  "description_for_model": "Founded in 2017, we provide services to tens of millions of travelers every year. Our mission is to make journeys more enjoyable and bring better travel experiences to QEEQ with the help of technology.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://openai-plugin.qeeq.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://openai-plugin.qeeq.com/logo.png",
+  "contact_email": "support@qeeq.com",
+  "legal_info_url": "https://www.qeeq.com/term?info=privacypolicy"
+}

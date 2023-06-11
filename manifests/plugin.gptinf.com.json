@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "HumanInf",
+  "name_for_model": "HumanInf",
+  "description_for_human": "Humanizing AI content via paraphrasing.",
+  "description_for_model": "Paraphraser that humanizes AI content.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://plugin.gptinf.com/api/oauth",
+    "scope": "",
+    "authorization_url": "https://plugin.gptinf.com/api/oauth_exchange",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "9c0e3effd0d146ab8d26e519f7e8ba0b"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin.gptinf.com/openapi.yaml",
+    "is_user_authenticated": true
+  },
+  "logo_url": "https://plugin.gptinf.com/logo.png",
+  "contact_email": "support@gptinf.com",
+  "legal_info_url": "https://app.gptinf.com/terms_of_service.html"
+}

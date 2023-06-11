@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ad4mat",
+  "name_for_model": "ad4mat",
+  "description_for_human": "API to monetize outgoing traffic via tracking links.",
+  "description_for_model": "API to create trackable links in order to monetize traffic to external online stores and services. Affiliate Marketing, Performance Marketing, Link monetization, Referral Marketing.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://ad4mat-api-chatgpt-plugin.ufostart-dev.workers.dev/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://assets.ad4m.at/logo/D822F800EF1B9B651321039FF33448384EE5FA1585A0E43E7565AE97FC12EBF2692E406CA0EB0DB054A5A55B11847D32AE9D0C39189B9165F6CB510816F359FF",
+  "contact_email": "sascha.hoffmann@advanced-store.com",
+  "legal_info_url": "https://www.ad4mat.com/terms-of-service"
+}

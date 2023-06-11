@@ -1,0 +1,259 @@
+openapi: 3.0.0
+info:
+  title: Chat with Workspace
+  description: Chat with your Notion workspace.
+  version: 'v1'
+servers:
+  - url: https://api.notionlink.io
+paths:
+  /search:
+    post:
+      summary: Search endpoint
+      description: |
+        Returns all pages or databases that have titles that include the query param.
+        If no query param is provided, then the response contains all pages or databases.
+        To limit the request to search only pages or to search only databases, use the filter param.
+      operationId: searchEndpoint
+      security:
+        - BearerAuth: ['app:write']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                sort:
+                  $ref: '#/components/schemas/Sort'
+                filter:
+                  $ref: '#/components/schemas/Filter'
+                start_cursor:
+                  type: string
+                page_size:
+                  type: integer
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                  next_cursor:
+                    type: string
+                  has_more:
+                    type: boolean
+                  type:
+                    type: string
+                  page_or_database:
+                    type: string      
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        500:
+          description: Internal server error
+  /page/{id}:
+    get:
+      summary: Get page endpoint
+      description: |
+        Retrieves a Page object using the ID specified.
+        Responses contains page properties, not page content.
+        To fetch page content, use the retrieve block children endpoint.
+      operationId: getPageEndpoint
+      security:
+        - BearerAuth: ['app:read']
+      parameters:
+        - name: id
+          in: path
+          description: Page ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        500:
+          description: Internal server error or failed to fetch data from Notion API
+  /block/{id}:
+    get:
+      summary: Get block endpoint
+      description: |
+        Retrieves a specific block by its ID.
+        Pages are considered blocks, so you can provide a page ID to this endpoint.
+      operationId: getBlockEndpoint
+      security:
+        - BearerAuth: ['app:read']
+      parameters:
+        - name: id
+          in: path
+          description: Block ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        500:
+          description: Internal server error or failed to fetch data from Notion API
+  /block/{id}/children:
+    get:
+      summary: Get block children endpoint
+      description: |
+        Returns a paginated array of child block objects contained in the block using the ID specified.
+        In order to receive a complete representation of a block, you may need to recursively retrieve the block children of child blocks.
+        Pages are considered blocks, so you can provide a page ID.
+      operationId: getBlockChildrenEndpoint
+      security:
+        - BearerAuth: ['app:read']
+      parameters:
+        - name: id
+          in: path
+          description: Block ID
+          required: true
+          schema:
+            type: string
+        - name: start_cursor
+          in: query
+          description: Pagination cursor
+          schema:
+            type: string
+        - name: page_size
+          in: query
+          description: Size of the page
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        500:
+          description: Internal server error or failed to fetch data from Notion API
+  /database/{id}:
+    get:
+      summary: Get database endpoint
+      description: |
+        Retrieves a database object — information that describes the structure and columns of a database — for a provided database ID.
+        To fetch database rows rather than columns, use the Query a database endpoint.
+      operationId: getDatabaseEndpoint
+      security:
+        - BearerAuth: ['app:read']
+      parameters:
+        - name: id
+          in: path
+          description: Database ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        500:
+          description: Internal server error or failed to fetch data from Notion API
+  /database/{id}/query:
+    post:
+      summary: Query database endpoint
+      description: |
+        Gets a list of Pages contained in the database, filtered and ordered according to the filter conditions and sort criteria provided in the request.
+        The response may contain fewer than page_size of results.
+      operationId: queryDatabaseEndpoint
+      security:
+        - BearerAuth: ['app:read']
+      parameters:
+        - name: id
+          in: path
+          description: Database ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filter:
+                  type: object
+                sorts:
+                  type: array
+                  items:
+                    type: object
+                start_cursor:
+                  type: string
+                page_size:
+                  type: integer
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          description: Missing access token
+        403:
+          description: Invalid access token or insufficient permissions
+        500:
+          description: Internal server error or failed to fetch data from Notion API
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Sort:
+      type: object
+      properties:
+        direction:
+          type: string
+          enum: ['ascending', 'descending']
+        timestamp:
+          type: string
+          enum: ['last_edited_time']
+    Filter:
+      type: object
+      properties:
+        value:
+          type: string
+          enum: ['page', 'database']
+        property:
+          type: string
+          enum: ['object']

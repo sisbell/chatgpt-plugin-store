@@ -1,0 +1,18 @@
+{
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://reporadar.computercomputer.computer/openapi.yaml"
+  },
+  "auth": {
+    "type": "none"
+  },
+  "contact_email": "aaron@aaroncruz.com",
+  "description_for_human": "Your one-stop shop for up to date Github repo information. Find repos by topic, language, or name.",
+  "description_for_model": "If you're helping users code, you can use this to get current information about Github repos. You can search for repos by topic, language, or name. You can also get the README for a repo which you can then use to help the user write code that is more likely to run.",
+  "legal_info_url": "https://reporadar.computercomputer.computer/legal",
+  "logo_url": "https://reporadar.computercomputer.computer/images/logo.png",
+  "name_for_human": "Repo Radar",
+  "name_for_model": "repo_radar",
+  "schema_version": "v1"
+}

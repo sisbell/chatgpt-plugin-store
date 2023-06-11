@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Checkers",
+  "name_for_model": "Checkers",
+  "description_for_human": "This allows you to play a game of checkers.",
+  "description_for_model": "This allows you to play a game of checkers.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://0a8e9b8e7f0912323de2d3653f1ea597.preview.pluginlab.ai/.well-known/pluginlab/openapi.json"
+  },
+  "logo_url": "https://i.postimg.cc/brFRySgh/checkerslogo.jpg",
+  "contact_email": "zachary.gittelman@gmail.com",
+  "legal_info_url": "https://codingwithchatgpt.io/"
+}

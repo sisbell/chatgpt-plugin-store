@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MagiCodex",
+  "name_for_model": "magi_codex",
+  "description_for_human": "Ask about Magic: The Gathering cards, rules and interactions.",
+  "description_for_model": "Find answers to questions about Magic: The Gathering (MTG). Use it whenever a user asks something about MTG rules or cards. When you get results back that have a Scryfall URI, show it to the user.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://mtg-rules-chatgpt-plugin.fly.dev/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://mtg-rules-chatgpt-plugin.fly.dev/logo.png",
+  "contact_email": "trevor@strieber.org",
+  "legal_info_url": "https://strieber.org"
+}

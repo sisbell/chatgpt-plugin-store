@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Shuto.IO",
+  "name_for_model": "shuto",
+  "description_for_human": "Shuto.IO is a multi-tool for creators and developers with SMS, Email, Wordpress and SSH Command Execution capabilities.",
+  "description_for_model": "multi-tool for creators and developers with SMS, Email, Wordpress and SSH Command Execution capabilities.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://shuto.io/oauth/authorize",
+    "scope": "sms email wordpress ssh",
+    "authorization_url": "https://shuto.io/oauth/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "5aa7c7f04d9d45909093a9c3a0f5ac49"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://shuto.io/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://shuto.io/logo_only_dark.png",
+  "contact_email": "adnan@shuto.io",
+  "legal_info_url": "https://shuto.io/legal"
+}

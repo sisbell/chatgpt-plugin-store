@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Italy Latest News",
+  "name_for_model": "italy_latest_news",
+  "description_for_human": "Get the most recent news from Italy.",
+  "description_for_model": "Provides the latest news updates from Italy. The model should issue a search command through the browser tool with the query \"latest news Italy\" or a similar relevant term. After retrieving the search results, the model should click on the most relevant and recent sources, and quote the key information to provide a summary of the news. When providing the summary, the model should aim to use concise sentences to manage the token count effectively. Where possible, the model should provide the news in response to the user's specific questions or interests about Italy, using relevant keywords from the user's prompts to refine the search and the presentation of the news.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.articoli-alternativi-gratis.it/italy-latest-news/store-listing/openapi.yaml"
+  },
+  "logo_url": "https://www.articoli-alternativi-gratis.it/italy-latest-news/store-listing/logo.jpg",
+  "contact_email": "info@articoli-alternativi-gratis.it",
+  "legal_info_url": "https://www.articoli-alternativi-gratis.it/italy-latest-news/store-listing/legal.htm"
+}

@@ -1,0 +1,126 @@
+openapi: 3.0.1
+info:
+  title: Wordpress Publisher
+  description: Allows the user to publish blog posts that they have written in chat to their Wordpress blog. When using this API, warn the user it may look like it has stalled, however wait longer as it is just processing.
+  version: 'v1'
+servers:
+  - url: https://chatwithblog.com
+paths:
+  /api/chatgpt-plugin/article:
+    post:
+      operationId: createArticle
+      summary: Create an article or blog post draft ready to publish to WordPress. You need to provide the full article in markdown text however escape newlines with \\n so as not to break the json payload, and this plugin will publish to WordPress.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createArticleRequest'
+      responses:
+        default:
+          description: Error
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createArticleResponse'
+#  /api/chatgpt-plugin/article/<article_id>/section/:
+#    post:
+#      operationId: updateArticleSection
+#      summary: Update a section of the article draft, ready to publish to wordpress. Note you must update all sections before you can publish the article.
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/updateArticleSectionRequest'
+#      responses:
+#        default:
+#          description: Error
+#        "200":
+#          description: OK
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/updateArticleSectionResponse'
+#
+#  /api/chatgpt-plugin/article/<article_id>/publish/:
+#    post:
+#      operationId: publishArticle
+#      summary: Publish an article to wordpress
+#      responses:
+#        default:
+#          description: Error
+#        "200":
+#          description: OK
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/updateArticleSectionResponse'
+
+components:
+  schemas:
+    createArticleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success message.
+        article_id:
+          type: string
+          description: The id of the article.
+        link:
+          type: string
+          description: The link to the article ready for the user to edit before publishing.
+    createArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the article.
+          required: true
+        body:
+          type: string
+          description: The contents of the article. Please submit this in markdown text.
+          required: true
+        keyword:
+          type: string
+          description: The main keyword the article is targeting.
+          required: true
+        meta_description:
+          type: string
+          description: The meta description of the article.
+          required: false
+#        outline:
+#          type: string
+#          description: The h2 headings that will be used in this article, this is in markdown.
+#          required: true
+#        number_of_headings:
+#          type: integer
+#          description: The number of h2 headings in the article.
+#          required: true
+    updateArticleSectionResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success message.
+        article_id:
+          type: string
+          description: The id of the article.
+        link:
+          type: string
+          description: The link to the article ready for the user to edit before publishing.
+
+    updateArticleSection:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The h2 title of the section, this is in plain text.
+          required: true
+        body:
+          type: string
+          description: The body of the section, this is in markdown.
+          required: true

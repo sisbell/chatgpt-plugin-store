@@ -1,0 +1,24 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "memorybank",
+  "name_for_human": "Memory Bank",
+  "description_for_model": "Use for storing, updating, and retrieving user's information or documents (such as files, emails, and more) to find answers to questions and retrieve relevant information. Use it whenever a user asks something that might be found in their personal information, or asks you to save information for later.",
+  "description_for_human": "Extend AI memory. Ask it to store and retrieve your information to get personalized assistance tailored to your needs.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://dev-5hctgu3e4fhyq5c1.us.auth0.com/authorize",
+    "scope": "openid profile email offline_access",
+    "authorization_url": "https://dev-5hctgu3e4fhyq5c1.us.auth0.com/oauth/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "dfdd8e743c574050ad49f41cfd6688ad"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin.memorybank.app/.well-known/openapi.yaml"
+  },
+  "logo_url": "https://plugin.memorybank.app/.well-known/logo.png",
+  "contact_email": "apprizon@gmail.com",
+  "legal_info_url": "https://memorybank.app/legal"
+}

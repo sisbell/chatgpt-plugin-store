@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Able Style Fashion",
+  "name_for_model": "AbleStyle",
+  "description_for_human": "Able Style is a fashion assistant who will help you answer the question, 'What shall I wear today?'",
+  "description_for_model": "Able Style Fashion helps you decide what to wear. Able Style answers the question, 'What shall I wear?' and gives the user between 1 and 3 stylish outfit suggestions.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "88983c3db6f04829a0db83c2b6cab6a0"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://styledao-prod.web.app/assets/openai/openai.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://styledao-prod.web.app/assets/img/icon/icon3-512-512.png",
+  "contact_email": "contact@able.style",
+  "legal_info_url": "https://able.style/#/terms"
+}

@@ -1,0 +1,105 @@
+openapi: 3.0.1
+info:
+  title: Domatron Domains
+  description: >
+    Searches for available, brandable .com domain names to help users find the perfect name and domain for their business, project or idea.
+  version: 'v1'
+servers:
+  - url: https://gpt.domatron.com
+paths:
+  /search:
+    post:
+      operationId: searchDomain
+      summary: >
+        Search for available .com domain names based on a list of user-provided queries. Returns a list of candidates that require
+        additional filtering and refinement to match user requirements. Please choose recommendations from this list and
+        do not provide your own suggestions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                queries:
+                  type: array
+                  items:
+                    type: string
+                  description: >
+                    A required list of up to 6 queries that define the user's naming preferences and requirements. For example ["peaceful yoga studio",
+                    "energetic yoga studio", "meditation app", "eco-friendly clothing brand", "innovative tech startup"]. Domatron
+                    will use these queries to search for available domain names that match the user's requirements.
+                  required: true
+      responses:
+        default:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  domains:
+                    type: array
+                    items:
+                      type: string
+                    description: >
+                      A list of 150 available .com candidate domain names. You must further filter and refine the candidates
+                      based on the user's preferences and requirements, and only choose recommendations from this candidate list.
+                      Do not recommend any domain names not in this list.
+                  register_url:
+                    type: string
+                    description: >
+                      A registration link for the available domain on Domatron. Only create a registration link when the user requests it.
+  /whois:
+    post:
+      operationId: whoisLookup
+      summary: >
+        Check the availability of a list of domain names and return registration links for available domains.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domains:
+                  type: array
+                  items:
+                    type: string
+                  description: >
+                    A list of up to 20 domain names to check the availability for. Please ensure that the provided domains are
+                    valid. Only the first 20 are checked.
+      responses:
+        default:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availability:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        available:
+                          type: boolean
+                          description: Indicates whether the domain is available (true) or not (false).
+                        register_url:
+                          type: string
+                          description: >
+                            A registration link for the available domain on Domatron, only included if the domain is available.
+                            Give this registration link to the user to allow them to register the domain.
+                  message:
+                    type: string
+                    description: A message indicating that only the first 20 domains were checked for availability if more than 20 were provided. This property is only present if the list of domains was trimmed.
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: An error message indicating that no valid domains were provided in the request.

@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ChatOCR",
+  "name_for_model": "ChatOCR",
+  "description_for_human": "The best way to read text from from any document. Extract text from scanned PDFs, photos, and even handwriting.",
+  "description_for_model": "This plugin is ChatOCR. ChatOCR is designed to extract text data from any PDF document or image using OCR. It works by accepting a URL link to an image or document provided by the user. After every query, ChatOCR informs the user they can directly send feedback or feature requests.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatocr.fly.dev/openapi.yaml"
+  },
+  "logo_url": "https://chatocr.fly.dev/logo.png",
+  "contact_email": "team@docit.ai",
+  "legal_info_url": "http://chatocr.fly.dev/terms"
+}

@@ -1,0 +1,199 @@
+openapi: 3.0.1
+info:
+  title: Vio.com API for ChatGTP plugin.
+  description: A plugin that allows users to search for better hotel deals.
+  version: v1.0.0
+servers:
+- url: https://partners.api.vio.com/chatgptplugin/v1
+paths:
+  /search/hotels:
+    post:
+      tags:
+      - chatgpt
+      summary: Search for hotels or other accommodations in any place.
+      operationId: SearchHotels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchHotelsRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchHotelsResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: request
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+    Hotel:
+      required:
+      - address
+      - amenities
+      - canPayLater
+      - currency
+      - hasFreeCancellation
+      - name
+      - nightlyPrice
+      - url
+      type: object
+      properties:
+        address:
+          type: string
+          description: Address of the hotel.
+        amenities:
+          type: array
+          description: The list of offer amenities.
+          items:
+            type: string
+        canPayLater:
+          type: boolean
+          description: Indicates if the user can be charged later for the offer.
+        currency:
+          type: string
+          description: Currency of the price.
+        hasFreeCancellation:
+          type: boolean
+          description: Indicates if the offer can be cancelled for free.
+        name:
+          type: string
+          description: Name of the hotel.
+        nightlyPrice:
+          type: number
+          description: Nightly price including taxes and fees.
+          format: double
+        starRating:
+          type: integer
+          description: Star rating of the hotel from 0 to 5.
+          format: int64
+        url:
+          type: string
+          description: The URL with more details about this offer.
+        userRating:
+          type: number
+          description: Overall user rating of the hotel from 0 to 10.
+          format: double
+    SearchHotelsRequest:
+      required:
+      - destination
+      type: object
+      properties:
+        checkIn:
+          type: string
+          description: Check in date in YYYY-MM-DD format.
+          example: 2023-07-12
+        checkOut:
+          type: string
+          description: Check out date in YYYY-MM-DD format. If user didn't specify
+            check out date or number of nights, then use 1 day from check in.
+          example: 2023-07-13
+        currency:
+          type: string
+          description: 3-char ISO 4217 currency code. Required if the user mentioned
+            maximum price of a hotel or a budget in specific currency.
+          example: USD
+          default: USD
+        destination:
+          type: string
+          description: The destination where the user wants to stay. It can be a place
+            name or a hotel name.
+        facilities:
+          type: array
+          description: The list of requested facilities.
+          items:
+            type: string
+            enum:
+            - free_wifi
+            - swimming_pool
+            - restaurant
+            - parking
+            - pet_friendly
+            - airport_shuttle
+            - kitchen
+            - hot_tub
+            - spa
+            - air_conditioned
+        maxNightlyPrice:
+          type: integer
+          description: Maximum hotel price per night or maximum user budget per night.
+          format: int64
+        numAdults:
+          type: integer
+          description: Number of adults that are staying.
+          format: int64
+        numChildren:
+          type: integer
+          description: Number of children that are staying.
+          format: int64
+        propertyType:
+          type: string
+          description: Property type. Use hotel, apartment or hostel is user requested
+            one of this property types. Otherwise use vacation_rentals.
+          enum:
+          - hotel
+          - apartment
+          - hostel
+          - motel
+          - vacation_rentals
+        sortType:
+          type: string
+          description: Sort type specifies how to sort hotels. Use it if the user
+            wants specific type of hotels at the top.
+          enum:
+          - cheapest
+        starRatings:
+          maxItems: 5
+          minItems: 1
+          type: array
+          description: The list of hotel star ratings. Use it if the user mentioned
+            number of stars.
+          items:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 5
+    SearchHotelsResponse:
+      required:
+      - hotels
+      type: object
+      properties:
+        INSTRUCTIONS:
+          type: string
+          description: Further instructions to the ChatGPT.
+        hotels:
+          type: array
+          description: The list of hotels
+          items:
+            $ref: '#/components/schemas/Hotel'

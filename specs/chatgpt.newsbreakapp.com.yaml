@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: NewsBreak
+  description: Learn about the most popular local or national news in the United States.
+  version: v1
+
+servers:
+  - url: https://chatgpt.newsbreakapp.com
+
+paths:
+  /get_top_national:
+    get:
+      operationId: getTopNational
+      summary: Get the titles and text of top national news articles in America.
+      parameters:
+        - name: num
+          in: query
+          description: The number of articles to get. Between 1 and 5, inclusive.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: The title of the news article.
+                    text:
+                      type: string
+                      description: The text of the news article.
+                    url:
+                      type: string
+                      description: The URL of the news article.
+  /get_top_local:
+    get:
+      operationId: getTopLocal
+      summary: Get the titles and text of top local news articles given the city in America.
+      parameters:
+        - name: city_and_state
+          in: query
+          description: The city and state name, separated by a comma and without spaces in the format "city_name,state_name" such as "santa_fe,new_mexico".
+          schema:
+            type: string
+        - name: num
+          in: query
+          description: The number of articles to get. Between 1 and 5, inclusive.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: The title of the news article.
+                    text:
+                      type: string
+                      description: The text of the news article.
+                    url:
+                      type: string
+                      description: The URL of the news article.

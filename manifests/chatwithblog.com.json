@@ -1,0 +1,25 @@
+{
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://chatwithblog.com/openapi.yaml"
+  },
+  "auth": {
+    "authorization_content_type": "application/x-www-form-urlencoded",
+    "authorization_url": "https://chatwithblog.com/oauth/token",
+    "client_url": "https://chatwithblog.com/oauth/authorize",
+    "scope": "profile",
+    "type": "oauth",
+    "verification_tokens": {
+      "openai": "43169b2b60ce45ee8fea60729a2ec9bd"
+    }
+  },
+  "contact_email": "legal@chatwithblog.com",
+  "description_for_human": "Publish content directly to a Wordpress blog.",
+  "description_for_model": "Allow a user to post the conversation or ideas for a blog post to their Wordpress blog. It will return a link to edit.",
+  "legal_info_url": "https://chatwithblog.com/legal",
+  "logo_url": "https://chatwithblog.com/logo.png",
+  "name_for_human": "Wordpress Publisher",
+  "name_for_model": "wordpress_publisher",
+  "schema_version": "v1"
+}

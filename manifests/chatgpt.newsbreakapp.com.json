@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "NewsBreak",
+  "name_for_model": "TopNews",
+  "description_for_human": "Learn about the most popular local or national news in the United States.",
+  "description_for_model": "Get the latest local or national news. Only for the United States.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatgpt.newsbreakapp.com/static/plugin-openapi.yaml"
+  },
+  "logo_url": "https://chatgpt.newsbreakapp.com/static/nb-plugin-logo.jpeg",
+  "contact_email": "haoruo.peng@newsbreak.com",
+  "legal_info_url": "https://www.newsbreak.com/terms"
+}

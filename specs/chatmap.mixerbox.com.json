@@ -1,0 +1,473 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox ChatMap",
+    "description": "This plugin enables users to efficiently plan their journeys, estimate travel times, make informed transportation choices, and explore their surroundings for an enhanced discovery experience.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://chatmap.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/map/searchplace": {
+      "get": {
+        "summary": "The plugin enables users to search a place on Google Map with its related information. It will also generate URL of the places on Google Maps.",
+        "description": "After users search for places by a keyword, the plugin delivers search results, including address, phone number, users rating, concise summaries, etc.",
+        "operationId": "searchPlace",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "location",
+            "schema": {
+              "type": "string"
+            },
+            "description": "An absolute geographic location on map. This is necessary to serve as a reference point for searching in its vicinity. If the user does not provide an absolute geographic location, ask the user for it.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query, to search places on the map. do not use any prepositions, just split keywords with spaces.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "$ref": "#/components/schemas/LanguageCode"
+            },
+            "description": "The language of response contents.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchPlaceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/map/searchdirection": {
+      "get": {
+        "summary": "The plugin enables users to search a route from an origin to a destination on Google Maps.",
+        "description": "After users search for routes by a keyword, the plugin delivers search results, including distance information ,estimated time, each step of route, and some human readable instructions",
+        "operationId": "searchDirection",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "destination",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The destination place to calculate routes on map.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "origin",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The origin place to calculate routes on map.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "$ref": "#/components/schemas/LanguageCode"
+            },
+            "description": "The language of response contents.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "$ref": "#/components/schemas/TravingMode"
+            },
+            "description": "The travling mode of calculated routes.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchDirectionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LanguageCode": {
+        "type": "string",
+        "default": "en",
+        "enum": [
+          "ar",
+          "be",
+          "bg",
+          "bn",
+          "ca",
+          "cs",
+          "da",
+          "de",
+          "el",
+          "en",
+          "en-Au",
+          "en-GB",
+          "es",
+          "eu",
+          "fa",
+          "fi",
+          "fil",
+          "fr",
+          "gl",
+          "gu",
+          "hi",
+          "hr",
+          "hu",
+          "id",
+          "it",
+          "iw",
+          "ja",
+          "kk",
+          "kn",
+          "ko",
+          "ky",
+          "lt",
+          "lv",
+          "mk",
+          "ml",
+          "mr",
+          "my",
+          "nl",
+          "no",
+          "pa",
+          "pl",
+          "pt",
+          "pt-BR",
+          "pt-PT",
+          "ro",
+          "ru",
+          "sk",
+          "sl",
+          "sq",
+          "sr",
+          "sv",
+          "ta",
+          "te",
+          "th",
+          "tl",
+          "tr",
+          "uk",
+          "uz",
+          "vi",
+          "zh-CN",
+          "zh-TW"
+        ]
+      },
+      "TravingMode": {
+        "type": "string",
+        "enum": [
+          "driving",
+          "walking",
+          "bicycling",
+          "transit"
+        ]
+      },
+      "SearchPlaceResponse": {
+        "title": "SearchPlaceResponse",
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Places of search results.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlaceItem"
+            },
+            "description": "The places of search results on map."
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
+          }
+        }
+      },
+      "PlaceItem": {
+        "type": "object",
+        "properties": {
+          "editorialSummary": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "$ref": "#/components/schemas/LanguageCode"
+              },
+              "overview": {
+                "type": "string",
+                "description": "The overview of the place item"
+              }
+            }
+          },
+          "formattedAddress": {
+            "type": "string",
+            "description": "The formatted address of the place item"
+          },
+          "formattedPhoneNumber": {
+            "type": "string",
+            "description": "The formatted phone number of the place item"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the place item"
+          },
+          "rating": {
+            "type": "number",
+            "description": "The rating of the place item"
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The types of the place item"
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL of the place item"
+          },
+          "userRatingsTotal": {
+            "type": "number",
+            "description": "The total user ratings of the place item"
+          },
+          "website": {
+            "type": "string",
+            "description": "The website of the place item"
+          }
+        }
+      },
+      "SearchDirectionResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Calculated routes from origin place to destination place.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DirectionItem"
+            },
+            "description": "The calculated routes from origin place to destination place."
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
+          }
+        }
+      },
+      "DirectionItem": {
+        "type": "object",
+        "properties": {
+          "legs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Leg"
+            },
+            "description": "The legs of the item"
+          },
+          "summary": {
+            "type": "string",
+            "description": "The summary of the item"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The warnings associated with the item"
+          }
+        }
+      },
+      "Leg": {
+        "type": "object",
+        "properties": {
+          "arrivalTime": {
+            "$ref": "#/components/schemas/Time",
+            "description": "The arrival time of the leg"
+          },
+          "departureTime": {
+            "$ref": "#/components/schemas/Time",
+            "description": "The departure time of the leg"
+          },
+          "distance": {
+            "$ref": "#/components/schemas/Distance",
+            "description": "The distance of the leg"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/Duration",
+            "description": "The duration of the leg"
+          },
+          "endAddress": {
+            "type": "string",
+            "description": "The end address of the leg"
+          },
+          "endLocation": {
+            "$ref": "#/components/schemas/Location",
+            "description": "The end location of the leg"
+          },
+          "startAddress": {
+            "type": "string",
+            "description": "The start address of the leg"
+          },
+          "startLocation": {
+            "$ref": "#/components/schemas/Location",
+            "description": "The start location of the leg"
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Step"
+            },
+            "description": "The steps of the leg"
+          },
+          "trafficSpeedEntry": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrafficSpeedEntry"
+            },
+            "description": "The traffic speed entries of the leg"
+          },
+          "viaWaypoint": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Waypoint"
+            },
+            "description": "The via waypoints of the leg"
+          }
+        }
+      },
+      "Time": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The textual representation of the time"
+          },
+          "timeZone": {
+            "type": "string",
+            "description": "The time zone"
+          },
+          "value": {
+            "type": "integer",
+            "description": "The value of the time"
+          }
+        }
+      },
+      "Distance": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The textual representation of the distance"
+          },
+          "value": {
+            "type": "integer",
+            "description": "The value of the distance"
+          }
+        }
+      },
+      "Duration": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The textual representation of the duration"
+          },
+          "value": {
+            "type": "integer",
+            "description": "The value of the duration"
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "lat": {
+            "type": "number",
+            "description": "The latitude of the location"
+          },
+          "lng": {
+            "type": "number",
+            "description": "The longitude of the location"
+          }
+        }
+      },
+      "Step": {
+        "type": "object",
+        "properties": {
+          "distance": {
+            "$ref": "#/components/schemas/Distance",
+            "description": "The distance of the step"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/Duration",
+            "description": "The duration of the step"
+          },
+          "endLocation": {
+            "$ref": "#/components/schemas/Location",
+            "description": "The end location of the step"
+          },
+          "htmlInstructions": {
+            "type": "string",
+            "description": "The HTML instructions of the step"
+          },
+          "maneuver": {
+            "type": "string",
+            "description": "The maneuver of the step"
+          },
+          "startLocation": {
+            "$ref": "#/components/schemas/Location",
+            "description": "The start location of the step"
+          },
+          "travelMode": {
+            "$ref": "#/components/schemas/TravingMode",
+            "description": "The travel mode of the step"
+          }
+        }
+      },
+      "TrafficSpeedEntry": {
+        "type": "object",
+        "properties": {}
+      },
+      "Waypoint": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

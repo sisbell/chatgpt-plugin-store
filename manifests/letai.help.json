@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "QR Generator",
+  "name_for_model": "qreator",
+  "description_for_human": "Generate QR code in seconds.",
+  "description_for_model": "Generate QR code in seconds.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://letai.help/qreator/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://letai.help/qreator/logo.png",
+  "contact_email": "support@dreampunk.ai",
+  "legal_info_url": "https://letai.help/legal"
+}

@@ -29,6 +29,29 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/generateSimpleAvatarVideoError"
+    /presentation.video.generate:
+        post:
+            operationId: generatePresentationAvatarVideo
+            summary: Generate a presentation avatar video with an image and a piece of transcript text.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/generatePresentationAvatarVideoRequest"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/generateSimpleAvatarVideoResponse"
+                "400":
+                    description: Bad Request. Cannot create a presentation avatar video based on the parameter(s) provided.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/generateSimpleAvatarVideoError"
 
 components:
     schemas:
@@ -69,3 +92,26 @@ components:
                 message:
                     type: string
                     description: The error message containing the reason(s) that why the avatar video failed to create.
+        generatePresentationAvatarVideoRequest:
+            type: object
+            required:
+                - text
+                - image
+            properties:
+                text:
+                    type: string
+                    description: The text transcript for the speech/voiceover to the presentation video that the user wants to generate. Should be short and concise.
+                    required: true
+                image:
+                    type: string
+                    description: The URL to the image to be shown in the presentation video that the user wants to generate. Must be in jpg/jpeg/png/svg format.
+                    required: true
+                title:
+                    type: string
+                    description: A short title for the presentation video that the user wants to generate. Must be very short and concise.
+                gender:
+                    type: string
+                    description: The gender of the avatar that appears in the user's requested presentation video.
+                    enum:
+                        - male
+                        - female

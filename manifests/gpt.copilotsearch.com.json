@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "CoPilot",
+  "name_for_model": "copilot",
+  "description_for_human": "Searches every dealer, analyzes & ranks every car for you so you can buy with confidence.",
+  "description_for_model": "Provides real-time data about vehicles for sale and detailed information about vehicle models.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gpt.copilotsearch.com/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gpt.copilotsearch.com/logo.png",
+  "contact_email": "support@copilotsearch.com",
+  "legal_info_url": "https://copilotsearch.com/legal"
+}

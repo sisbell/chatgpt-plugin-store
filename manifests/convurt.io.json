@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": " Top Agencies",
+  "name_for_model": "find_agency",
+  "description_for_human": "Find top marketing and design agencies around the World by service, locations, and ratings.",
+  "description_for_model": "Find and recommend marketing, web development, and digital agencies using agency name, services, description, city, state, and country.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://convurt.io/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://convurt.io/img/logo/logo-icon.png",
+  "contact_email": "support@convurt.io",
+  "legal_info_url": "https://convurt.io/resources/terms-of-use/"
+}

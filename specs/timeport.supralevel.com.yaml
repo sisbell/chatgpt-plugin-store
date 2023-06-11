@@ -1,0 +1,109 @@
+openapi: "3.0.1"
+info:
+  version: "1.0.0"
+  title: "Timeport"
+servers:
+  - url: https://timeport.supralevel.com
+paths:
+  /start:
+    get:
+      operationId: startGame
+      summary: "Before setting up the time-travel game, ask the player to choose a historical period, a random one, or view a list of suggestions. Allow the player to also travel to a specific historical event or person. If a historical time was already provided, proceed to set up the game."
+      responses:
+        '200':
+          description: "Game started successfully."
+        '500':
+          description: "An error occurred while starting the game."
+  /setup:
+    post:
+      operationId: setupGame
+      summary: "Set up the game with a chosen or random historical time. Create three inventory items that are relevant to the time period. At any time, the player can type 'options' for next steps, check or use the 'inventory', go on a 'quest', simply chat with characters, or travel to another time."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                timePeriod:
+                  type: "string"
+                  description: "The historical time for the game. If 'random' was chosen, randomly generate a historical period."
+                inventory:
+                  type: "array"
+                  items:
+                    type: "string"
+                  maxItems: 3
+                  description: "Create three inventory items relevant to the time period. Replace any previous items."
+              required:
+                - timePeriod
+                - inventory
+      responses:
+        '200':
+          description: "Game setup successfully."
+        '400':
+          description: "Both time period and inventory are required."
+        '500':
+          description: "An error occurred while setting up the game."
+  /inventory:
+    get:
+      operationId: getInventory
+      summary: "Get the current game's inventory."
+      parameters:
+      - in: query
+        name: inventory
+        required: true
+        schema:
+          type: "array"
+          items:
+            type: "string"
+        description: "The available inventory items."
+      responses:
+        '200':
+          description: "Inventory retrieved successfully"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+        '404':
+          description: "No items found in the inventory."
+        '500':
+          description: "An error occurred while fetching the inventory."
+    put:
+      operationId: updateInventory
+      summary: "Update the game's inventory when a non-reusable item (e.g., food, money, etc) is used, when a new item is received, or when a reward is given after winning a quest. The player cannot buy new items unless they have money or offer an inventory item in exchange."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                inventory:
+                  type: "array"
+                  items:
+                    type: "string"
+                  description: "The updated inventory, with any new items included in this list."
+      responses:
+        '200':
+          description: "Inventory updated successfully."
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+        '400':
+          description: "Invalid request, please try again."
+        '500':
+          description: "An error occurred while updating the inventory."
+  /quest:
+    get:
+      operationId: startQuest
+      summary: "Create an interactive quest related to the historical period we are exploring. The quest should be fun and educational. Avoid quests that involve monotonous activities. Start with a list of first steps to take. Allow the player to have open-ended conversations with characters."
+      responses:
+        '200':
+          description: "Quest started successfully."
+        '500':
+          description: "An error occurred while starting the quest."

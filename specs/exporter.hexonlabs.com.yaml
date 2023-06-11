@@ -1,0 +1,48 @@
+  openapi: 3.1.0
+  info:
+    title: Export Tool
+    description: A Tool that allows the user to download the entire conversation or certain conversations. If you do not know the user's username, ask them first before making queries to the plugin. Otherwise, use the username "global".
+    version: 'v1'
+  servers:
+    - url: https://exporter.hexonlabs.com
+  paths:
+    /export/{username}:
+      post:
+        operationId: export
+        summary: Export the conversation
+        parameters:
+        - in: path
+          name: username
+          schema:
+              type: string
+          required: true
+          description: The name of the user.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/exportRequest'
+        responses:
+          "200":
+            description: OK
+
+  components:
+    schemas:
+      exportRequest:
+        type: object
+        required:
+        - data
+        - format
+        properties:
+          data:
+            type: string
+            description: The message or group of messages to be exported only in html format.
+            required: true
+          format:
+            type: string
+            description: The file type in which the user wants the exported file in.
+            required: true
+            default : pdf
+
+

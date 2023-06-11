@@ -1,0 +1,24 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Clearbit",
+  "name_for_model": "clearbit_integration",
+  "description_for_human": "Access Clearbit Enrichment, Prospecting, Reveal APIs and website visitors data to access information about companies.",
+  "description_for_model": "Access Clearbit Enrichment, Prospecting, Reveal APIs and website visitors data to access information about companies. Always display results using markdown tables",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://chatgpt-plugin.clearbit.com/oauth/authorize",
+    "scope": "",
+    "authorization_url": "https://chatgpt-plugin.clearbit.com/oauth/auth",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "1938030681b143e3b92adb5a51815d1e"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatgpt-plugin.clearbit.com/openapi.yaml"
+  },
+  "logo_url": "https://chatgpt-plugin.clearbit.com/logo.png",
+  "contact_email": "support@clearbit.com",
+  "legal_info_url": "https://clearbit.com/legal"
+}

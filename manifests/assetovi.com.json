@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Asset Ovi",
+  "name_for_model": "assetOvi",
+  "description_for_human": "Search and preview millions of 3D assets for games, AIGC, AR/VR and others.",
+  "description_for_model": "Search and preview millions of 3D assets for games, AIGC, AR/VR and others. Always display results using markdown.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://assetovi.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://assetovi-cdn.yahaha.com/assetovi-gpt-logo.png",
+  "contact_email": "contact@yahaha.com",
+  "legal_info_url": "https://yahaha.com/tos?utm_source=ovi"
+}

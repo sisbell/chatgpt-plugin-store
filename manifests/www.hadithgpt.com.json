@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Hadith Advice",
+  "name_for_model": "hadith",
+  "description_for_human": "Ask a question and get advice from hadith.",
+  "description_for_model": "Plugin to get authentic hadiths for a given topic or situation through semantic search.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.hadithgpt.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://www.hadithgpt.com/chatgpt-plugin-logo.png",
+  "contact_email": "munirfardeem@gmail.com",
+  "legal_info_url": "https://www.hadithgpt.com/legal"
+}

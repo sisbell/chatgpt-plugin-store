@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Ferryhopper",
+  "name_for_model": "Ferryhopper",
+  "description_for_human": "Search for ferries and plan your trip with the assistance of AI and Ferryhopper.",
+  "description_for_model": "With this plugin you can search for ferries, get timetables and prices using the API of Ferryhopper.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://openai.ferryhopper.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://images.ferryhopper.com/assets/logo/ferryhopper-marker-60.png",
+  "contact_email": "support@ferryhopper.com",
+  "legal_info_url": "https://www.ferryhopper.com/en/terms"
+}

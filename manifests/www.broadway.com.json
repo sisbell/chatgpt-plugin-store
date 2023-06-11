@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "Broadway",
+  "name_for_human": "Broadway",
+  "description_for_human": "Search for shows that are currently playing on Broadway in New York City.",
+  "description_for_model": "Use the Broadway plugin to allow users to explore shows currently playing on Broadway in New York City.",
+  "api": {
+    "type": "openapi",
+    "url": "https://aidocs.broadway.com/openai/v1/docs/",
+    "has_user_authentication": false
+  },
+  "auth": {
+    "type": "none"
+  },
+  "logo_url": "https://static.broadway.com/img/responsive/favicons/apple-touch-icon.f003c455893a.png",
+  "contact_email": "shadow@broadway.com",
+  "legal_info_url": "https://www.broadway.com/terms/"
+}

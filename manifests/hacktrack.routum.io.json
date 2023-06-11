@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "HackTrack",
+  "name_for_model": "hacktrack",
+  "description_for_human": "This tool checks if credentials linked to an email have been exposed in data breaches or hacks.",
+  "description_for_model": "This tool checks if credentials linked to an email have been exposed in data breaches or hacks.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://hacktrack.routum.io/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://hacktrack.routum.io/logo.png",
+  "contact_email": "x@votkon.com",
+  "legal_info_url": "https://hacktrack.routum.io/terms-of-use.html"
+}

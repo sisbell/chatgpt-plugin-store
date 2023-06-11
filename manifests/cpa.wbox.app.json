@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Universal",
+  "name_for_model": "universal",
+  "description_for_human": "Enables to access web pages, analyze PDFs, generate QR codes, etc.",
+  "description_for_model": "Enables to access web pages, analyze PDFs, generate QR codes, etc.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://cpa.wbox.app/swagger/doc.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://img.icons8.com/?size=16&id=I8EMO0x9C323&format=png",
+  "contact_email": "ley@yxw21.com",
+  "legal_info_url": "https://www.yxw21.com/"
+}

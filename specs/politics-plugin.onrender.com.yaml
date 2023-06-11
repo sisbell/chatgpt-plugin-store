@@ -1,0 +1,1566 @@
+openapi: 3.0.3
+info:
+  title: UK Politics
+  description: >-
+    An API for searching through the political documents (such as manifestos,
+    press releases, speeches, voting records and candidates profiles etc) to
+    find answers to questions and retrieve relevant information. Use it whenever
+    a user asks something that might be related to politics in the United
+    Kingdom.
+  version: 0.1.0
+components:
+  schemas:
+    Party:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country:
+          type:
+            - string
+            - 'null'
+        url:
+          type:
+            - string
+            - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        Document:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        Person:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
+    Person:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+        country:
+          type:
+            - string
+            - 'null'
+        url:
+          type:
+            - string
+            - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        partyId:
+          type:
+            - integer
+            - 'null'
+        constituency:
+          type:
+            - string
+            - 'null'
+        twfyId:
+          type:
+            - integer
+            - 'null'
+        Document:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        Party:
+          anyOf:
+            - $ref: '#/components/schemas/Party'
+            - type: 'null'
+        Vote:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vote'
+    Document:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        name:
+          type: string
+        publishedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        referenceUrl:
+          type:
+            - string
+            - 'null'
+        partyId:
+          type:
+            - integer
+            - 'null'
+        personId:
+          type:
+            - integer
+            - 'null'
+        Division:
+          type: array
+          items:
+            $ref: '#/components/schemas/Division'
+        Party:
+          anyOf:
+            - $ref: '#/components/schemas/Party'
+            - type: 'null'
+        Person:
+          anyOf:
+            - $ref: '#/components/schemas/Person'
+            - type: 'null'
+        DocumentChunk:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentChunk'
+    DocumentChunk:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        documentId:
+          type: integer
+        order:
+          type:
+            - integer
+            - 'null'
+        referenceUrl:
+          type:
+            - string
+            - 'null'
+        vectorCreated:
+          type: boolean
+          default: false
+        Document:
+          $ref: '#/components/schemas/Document'
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        country:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        Division:
+          type: array
+          items:
+            $ref: '#/components/schemas/Division'
+    Division:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        date:
+          type: string
+          format: date-time
+        divisionNumber:
+          type:
+            - integer
+            - 'null'
+        referenceUrl:
+          type:
+            - string
+            - 'null'
+        debateReferenceUrl:
+          type:
+            - string
+            - 'null'
+        summary:
+          type:
+            - string
+            - 'null'
+        summaryReferences:
+          type:
+            - string
+            - 'null'
+        vectorCreated:
+          type: boolean
+          default: false
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        locationId:
+          type:
+            - integer
+            - 'null'
+        documentId:
+          type:
+            - integer
+            - 'null'
+        Document:
+          anyOf:
+            - $ref: '#/components/schemas/Document'
+            - type: 'null'
+        Location:
+          anyOf:
+            - $ref: '#/components/schemas/Location'
+            - type: 'null'
+        Vote:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vote'
+    Vote:
+      type: object
+      properties:
+        id:
+          type: integer
+        voteType:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        personId:
+          type: integer
+        divisionId:
+          type: string
+        Division:
+          $ref: '#/components/schemas/Division'
+        Person:
+          $ref: '#/components/schemas/Person'
+    Query:
+      type: object
+      properties:
+        id:
+          type: integer
+        openAiUserId:
+          type:
+            - string
+            - 'null'
+        openAiConversationId:
+          type:
+            - string
+            - 'null'
+        humanQuery:
+          type: string
+        modelQuery:
+          type: array
+          items:
+            type: string
+        functionId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+paths:
+  /.well-known/openapi.yaml:
+    get:
+      responses:
+        '200':
+          description: Default Response
+  /.well-known/ai-plugin.json:
+    get:
+      responses:
+        '200':
+          description: Default Response
+  /privacy:
+    get:
+      responses:
+        '200':
+          description: Default Response
+  /logo:
+    get:
+      responses:
+        '200':
+          description: Default Response
+  /api/v1/party/query:
+    post:
+      operationId: partyQuery
+      summary: Query a political parties political communication
+      description: >-
+        Accepts a search query and a list of parties to search against. Break
+        down complex questions into sub-questions.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - queries
+                - parties
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                queries:
+                  description: >-
+                    The queries to search against. Each topic should be a
+                    separate query.
+                  type: array
+                  items:
+                    type: string
+                publishedAfter:
+                  description: The date to search after
+                  type: string
+                publishedBefore:
+                  description: The date to search before
+                  type: string
+                returnCompletion:
+                  description: Whether to return llm created completion
+                  type: boolean
+                parties:
+                  description: >-
+                    The parties to search against. To search all parties send an
+                    empty array.
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - Labour
+                      - Conservative
+                      - Green Party
+                      - Liberal Democrats
+                      - Scottish National Party
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    documentChunks:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          party:
+                            $ref: '#/components/schemas/Party'
+                          relevantTextChunks:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/DocumentChunk'
+                    completion:
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                description: Bad request
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/person/query:
+    post:
+      operationId: personQuery
+      summary: Query a politicians appearances and votes
+      description: >-
+        Accepts a search query with filters to specify the politician,
+        publication dates and whether to return appearances, votes or both.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - queries
+                - name
+                - type
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                queries:
+                  description: >-
+                    The queries to search against. Each topic should be a
+                    separate query.
+                  type: array
+                  items:
+                    type: string
+                publishedAfter:
+                  description: The date to search after
+                  type: string
+                publishedBefore:
+                  description: The date to search before
+                  type: string
+                returnCompletion:
+                  description: Whether to return llm created completion
+                  type: boolean
+                name:
+                  description: The name of the politician
+                  type: string
+                type:
+                  description: The type of politician
+                  type: string
+                  enum:
+                    - Member of Parliament
+                findAppearances:
+                  description: >-
+                    Whether to return appearances, such as speeches and written
+                    questions
+                  type: boolean
+                findVotes:
+                  description: Whether to return votes
+                  type: boolean
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    person:
+                      $ref: '#/components/schemas/Person'
+                    completion:
+                      type: string
+                    documentChunks:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/DocumentChunk'
+                    votes:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Vote'
+        '204':
+          description: No results found
+          content:
+            application/json:
+              schema:
+                description: No results found
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                description: Bad request
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/postcode/{postcode}:
+    get:
+      operationId: postcodeGet
+      summary: Get election and candidate information for a given postcode
+      description: Get election and candidate information for a given postcode
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: postcode
+          required: true
+      responses:
+        '200':
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      address_picker:
+                        type: boolean
+                        description: True if we need to show this user an address picker
+                      addresses:
+                        type: array
+                        description: >-
+                          An array of address objects containing the addresses
+                          applicable to this request (if necessary)
+                      dates:
+                        type: array
+                        description: >-
+                          An array of date objects containing details of
+                          relevant ballots, candidates and polling station
+                          information
+                      electoral_services:
+                        type:
+                          - object
+                          - 'null'
+                        properties:
+                          council_id:
+                            type: string
+                            description: GSS code for this council
+                          name:
+                            type: string
+                            description: Name of this council
+                          nation:
+                            type: string
+                            description: Name of nation
+                          address:
+                            type: string
+                            description: Contact address for this council
+                          postcode:
+                            type: string
+                            description: >-
+                              Postcode component of contact address for this
+                              council
+                          email:
+                            type: string
+                            description: >-
+                              Contact email address for this council's Electoral
+                              Services team
+                          phone:
+                            type: string
+                            description: >-
+                              Telephone number for this council's Electoral
+                              Services team
+                          website:
+                            type: string
+                            description: URL for this council's website
+                        description: >-
+                          Contact details for the user's local Electoral
+                          Services team. If we do not know the user's polling
+                          station, this can be used to provide contact info for
+                          their local council. This may be `null` if we are not
+                          able to determine the user's council.
+                      registration:
+                        type:
+                          - object
+                          - 'null'
+                        properties:
+                          address:
+                            type: string
+                            description: Contact address for this council
+                          postcode:
+                            type: string
+                            description: >-
+                              Postcode component of contact address for this
+                              council
+                          email:
+                            type: string
+                            description: >-
+                              Contact email address for this council's Electoral
+                              Services team
+                          phone:
+                            type: string
+                            description: >-
+                              Telephone number for this council's Electoral
+                              Services team
+                          website:
+                            type: string
+                            description: URL for this council's website
+                        description: >-
+                          Sometimes the contact information for registration and
+                          proxy voting is different to the electoral services
+                          contact details. Use these if they exist and your
+                          users might have questions about voter registration.
+                          If this key is null, assume the electoral services
+                          contact details can be used for electoral registration
+                          related enquiries.
+                      postcode_location:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                          properties:
+                            type:
+                              - object
+                              - 'null'
+                            properties: {}
+                          geometry:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                              coordinates:
+                                type: array
+                                items:
+                                  - type: number
+                                  - type: number
+                        description: >-
+                          A [GeoJSON
+                          Feature](https://tools.ietf.org/html/rfc7946#section-3.2)
+                          containing a [Point
+                          object](https://tools.ietf.org/html/rfc7946#section-3.1.2)
+                          describing the centroid of the input postcode. If
+                          providing a map or directions for a polling station
+                          journey, use this as the start point. This may be
+                          `null` if we are not able to accurately geocode.
+                  - type: object
+                    properties:
+                      address_picker:
+                        type: boolean
+                        description: True if we need to show this user an address picker
+                      addresses:
+                        type: array
+                        description: >-
+                          An array of address objects containing the addresses
+                          applicable to this request (if necessary)
+                      dates:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            date:
+                              type: string
+                              description: Polling day on which an election will occur
+                            polling_station:
+                              type: object
+                              properties:
+                                polling_station_known:
+                                  type: boolean
+                                  description: Do we know where this user should vote?
+                                custom_finder:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  description: >-
+                                    If we don't know a user's polling station,
+                                    sometimes we can provide the URL of another
+                                    polling station finder. This will always be
+                                    populated for users in Northern Ireland
+                                    where Electoral Office for Northern Ireland
+                                    run their own service.
+                                report_problem_url:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  description: >-
+                                    If we provide a polling station result, this
+                                    URL may be used to provide a user with a
+                                    back-channel to report inaccurate data.
+                                station:
+                                  type:
+                                    - object
+                                    - 'null'
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                                    geometry:
+                                      type:
+                                        - object
+                                        - 'null'
+                                      properties:
+                                        type:
+                                          type: string
+                                        coordinates:
+                                          type: array
+                                          items:
+                                            - type: number
+                                            - type: number
+                                      description: >-
+                                        A GeoJSON [Point
+                                        object](https://tools.ietf.org/html/rfc7946#section-3.1.2)
+                                        object describing the location of this
+                                        polling station. Optionally null if we
+                                        know the address only but can't geocode
+                                        a location.
+                                    properties:
+                                      type: object
+                                      properties:
+                                        postcode:
+                                          type: string
+                                          description: Postcode for this polling station
+                                        address:
+                                          type: string
+                                          description: Address for this polling station
+                                  description: >-
+                                    A [GeoJSON
+                                    Feature](https://tools.ietf.org/html/rfc7946#section-3.2)
+                                    describing the user's polling station (if
+                                    known)
+                              description: Results for polling station search
+                            advance_voting_station:
+                              type:
+                                - object
+                                - 'null'
+                              properties:
+                                name:
+                                  type: string
+                                  description: The name of the Advance Voting Station
+                                address:
+                                  type: string
+                                  description: The address of the Advance Voting Station
+                                postcode:
+                                  type: string
+                                  description: The postcode of the Advance Voting Station
+                                location:
+                                  type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                    coordinates:
+                                      type: array
+                                      items:
+                                        - type: number
+                                        - type: number
+                                  description: >-
+                                    A GeoJSON [Point
+                                    object](https://tools.ietf.org/html/rfc7946#section-3.1.2)
+                                    object describing the location of this
+                                    Advance Voting Station.
+                                opening_times:
+                                  type: array
+                                  items:
+                                    type: array
+                              required:
+                                - name
+                                - address
+                                - postcode
+                                - location
+                                - opening_times
+                              additionalProperties: false
+                              description: Advance Voting Stations
+                            notifications:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  title:
+                                    type: string
+                                  type:
+                                    type: string
+                                    enum:
+                                      - cancelled_election
+                                      - voter_id
+                                    description: Type of notification
+                                  detail:
+                                    type: string
+                                  url:
+                                    type: string
+                              description: >-
+                                Array of notifications to be shown to the user
+                                about special conditions to be aware of on this
+                                date.
+                            ballots:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  ballot_paper_id:
+                                    type: string
+                                    description: Identifier for this ballot
+                                  ballot_title:
+                                    type: string
+                                    description: Friendly name for this ballot
+                                  ballot_url:
+                                    type: string
+                                    description: >-
+                                      API link for more detailed info about this
+                                      ballot from the /election endpoint
+                                  poll_open_date:
+                                    type: string
+                                    description: Polling day for this ballot  (ISO 8601)
+                                  elected_role:
+                                    type: string
+                                    description: >-
+                                      Name of the role the winner(s) of this
+                                      election will assume
+                                  metadata:
+                                    type:
+                                      - object
+                                      - 'null'
+                                    properties: {}
+                                    description: >-
+                                      Object containing information about
+                                      special conditions for the user to be
+                                      aware about (e.g: cancelled elections,
+                                      voter id pilot). (details TBC)
+                                  cancelled:
+                                    type: boolean
+                                    description: True if this ballot has been cancelled
+                                  replaced_by:
+                                    type:
+                                      - string
+                                      - 'null'
+                                    description: >-
+                                      If a ballot has been cancelled (cancelled
+                                      = true) and rescheduled for a later date,
+                                      this key will hold the ballot_paper_id of
+                                      the ballot that replaces it.
+                                  replaces:
+                                    type:
+                                      - string
+                                      - 'null'
+                                    description: >-
+                                      If this ballot replaces another cancelled
+                                      ballot, this key will hold the
+                                      ballot_paper_id of the ballot that it
+                                      replaces.
+                                  election_id:
+                                    type: string
+                                    description: >-
+                                      Identifier for this ballot's parent
+                                      election group
+                                  election_name:
+                                    type: string
+                                    description: >-
+                                      Friendly name for this ballot's parent
+                                      election group
+                                  post_name:
+                                    type: string
+                                    description: >-
+                                      Name of the division or post the winner(s)
+                                      of this election will represent
+                                  candidates_verified:
+                                    type: boolean
+                                    description: >-
+                                      True if the list of candidates for this
+                                      election has been confirmed against the
+                                      nomination papers for this ballot. If this
+                                      property is False, the candidate list is
+                                      provisional or unconfirmed.
+                                  voting_system:
+                                    type: object
+                                    properties:
+                                      slug:
+                                        type: string
+                                        description: >-
+                                          One of `AMS`, `FPTP`, `PR-CL`, `sv`,
+                                          `STV`
+                                      name:
+                                        type: string
+                                        description: >-
+                                          The name of this voting system (e.g:
+                                          "First-past-the-post")
+                                      uses_party_lists:
+                                        type: boolean
+                                        description: >-
+                                          True if this voting system uses party
+                                          lists
+                                    description: The voting system used in this election
+                                  hustings:
+                                    type:
+                                      - array
+                                      - 'null'
+                                    items:
+                                      type: object
+                                      properties:
+                                        title:
+                                          type: string
+                                          description: Title of the event
+                                        url:
+                                          type: string
+                                          description: URL to the event or event sign up page
+                                        starts:
+                                          type: string
+                                          description: Start datetime
+                                        ends:
+                                          type: string
+                                          description: End datetime
+                                        location:
+                                          type: string
+                                          description: Address of the event
+                                        postevent_url:
+                                          type: string
+                                          description: >-
+                                            Any post-event URL, e.g a YouTube
+                                            recording of the event
+                                    description: Hustings related to this election
+                                  seats_contested:
+                                    type: number
+                                  candidates:
+                                    type: array
+                                    items:
+                                      - type: object
+                                        properties:
+                                          list_position:
+                                            type:
+                                              - number
+                                              - 'null'
+                                            description: >-
+                                              Numeric position in party list. This
+                                              value is only relevant to elections
+                                              using party lists. It will always be
+                                              null in First-Past-The-post elections.
+                                          party:
+                                            type: object
+                                            properties:
+                                              party_id:
+                                                type: string
+                                              party_name:
+                                                type: string
+                                          previous_party_affiliations:
+                                            type:
+                                              - array
+                                              - 'null'
+                                            items:
+                                              type: object
+                                              properties:
+                                                party_id:
+                                                  type: string
+                                                party_name:
+                                                  type: string
+                                          person:
+                                            type: object
+                                            properties:
+                                              ynr_id:
+                                                type: number
+                                              name:
+                                                type: string
+                                              absolute_url:
+                                                type: string
+                                                description: >-
+                                                  Link for more (human-readable)
+                                                  information about this candidate
+                                              email:
+                                                type:
+                                                  - string
+                                                  - 'null'
+                                                description: >-
+                                                  Email address for this candidate, if we
+                                                  hold it
+                                              photo_url:
+                                                type:
+                                                  - string
+                                                  - 'null'
+                                                description: >-
+                                                  URL for a photo of this candidate, if we
+                                                  hold one
+                                              leaflets:
+                                                type:
+                                                  - array
+                                                  - 'null'
+                                                items:
+                                                  type: object
+                                                  properties:
+                                                    leaflet_id:
+                                                      type: number
+                                                      description: >-
+                                                        The electionleaflets.org ID for this
+                                                        leaflet
+                                                    thumb_url:
+                                                      type: string
+                                                      description: >-
+                                                        URL to the thumbnail image of this
+                                                        leaflet
+                                                    leaflet_url:
+                                                      type: string
+                                                      description: >-
+                                                        URL to the leaflet page on
+                                                        electionleaflets.org
+                                                description: >-
+                                                  Leaflets uploaded to
+                                                  electionleaflets.org and tagged with
+                                                  this person
+                                      - type: object
+                                        properties:
+                                          list_position:
+                                            type:
+                                              - number
+                                              - 'null'
+                                            description: >-
+                                              Numeric position in party list. This
+                                              value is only relevant to elections
+                                              using party lists. It will always be
+                                              null in First-Past-The-post elections.
+                                          party:
+                                            type: object
+                                            properties:
+                                              party_id:
+                                                type: string
+                                              party_name:
+                                                type: string
+                                          person:
+                                            type: object
+                                            properties:
+                                              ynr_id:
+                                                type: number
+                                              name:
+                                                type: string
+                                              absolute_url:
+                                                type: string
+                                                description: >-
+                                                  Link for more (human-readable)
+                                                  information about this candidate
+                                              email:
+                                                type:
+                                                  - string
+                                                  - 'null'
+                                                description: >-
+                                                  Email address for this candidate, if we
+                                                  hold it
+                                              photo_url:
+                                                type:
+                                                  - string
+                                                  - 'null'
+                                                description: >-
+                                                  URL for a photo of this candidate, if we
+                                                  hold one
+                                    description: >-
+                                      Array of candidate objects describing
+                                      candidates that will appear on this ballot
+                                      paper. In an election which uses party
+                                      lists, the `candidates` array is sorted by
+                                      party and `list_position` within parties.
+                                      For other election types it is sorted
+                                      alphabetically by candidate name.
+                                  wcivf_url:
+                                    type: string
+                                    description: >-
+                                      Link for more (human-readable) information
+                                      about this ballot
+                              description: >-
+                                List of ballots happening on this date. It is
+                                possible for more than one ballot to occur on
+                                the same date. For example, a user may vote in a
+                                local council election and mayoral election on
+                                the same day.
+                        description: >-
+                          An array of date objects (each describing a date on
+                          which an election or poll will take place) containing
+                          details of relevant ballots, candidates and polling
+                          station information
+                      electoral_services:
+                        type:
+                          - object
+                          - 'null'
+                        properties:
+                          council_id:
+                            type: string
+                            description: GSS code for this council
+                          name:
+                            type: string
+                            description: Name of this council
+                          nation:
+                            type: string
+                            description: Name of nation
+                          address:
+                            type: string
+                            description: Contact address for this council
+                          postcode:
+                            type: string
+                            description: >-
+                              Postcode component of contact address for this
+                              council
+                          email:
+                            type: string
+                            description: >-
+                              Contact email address for this council's Electoral
+                              Services team
+                          phone:
+                            type: string
+                            description: >-
+                              Telephone number for this council's Electoral
+                              Services team
+                          website:
+                            type: string
+                            description: URL for this council's website
+                        description: >-
+                          Contact details for the user's local Electoral
+                          Services team. If we do not know the user's polling
+                          station, this can be used to provide contact info for
+                          their local council. This may be `null` if we are not
+                          able to determine the user's council.
+                      registration:
+                        type:
+                          - object
+                          - 'null'
+                        properties:
+                          address:
+                            type: string
+                            description: Contact address for this council
+                          postcode:
+                            type: string
+                            description: >-
+                              Postcode component of contact address for this
+                              council
+                          email:
+                            type: string
+                            description: >-
+                              Contact email address for this council's Electoral
+                              Services team
+                          phone:
+                            type: string
+                            description: >-
+                              Telephone number for this council's Electoral
+                              Services team
+                          website:
+                            type: string
+                            description: URL for this council's website
+                        description: >-
+                          Sometimes the contact information for registration and
+                          proxy voting is different to the electoral services
+                          contact details. Use these if they exist and your
+                          users might have questions about voter registration.
+                          If this key is null, assume the electoral services
+                          contact details can be used for electoral registration
+                          related enquiries.
+                      postcode_location:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                          properties:
+                            type:
+                              - object
+                              - 'null'
+                            properties: {}
+                          geometry:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                              coordinates:
+                                type: array
+                                items:
+                                  - type: number
+                                  - type: number
+                        description: >-
+                          A [GeoJSON
+                          Feature](https://tools.ietf.org/html/rfc7946#section-3.2)
+                          containing a [Point
+                          object](https://tools.ietf.org/html/rfc7946#section-3.1.2)
+                          describing the centroid of the input postcode. If
+                          providing a map or directions for a polling station
+                          journey, use this as the start point. This may be
+                          `null` if we are not able to accurately geocode.
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Bad request
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/elections/:
+    get:
+      operationId: electionsGet
+      summary: Get elections with the UK
+      description: Get information about elections occurring in the UK
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: coords
+          required: false
+          description: >-
+            Pass a lat/lon string as ?coords={lat},{lon} to find elections
+            covering the given coordinates.
+        - schema:
+            type: string
+          in: query
+          name: current
+          required: false
+          description: >-
+            Pass ?current=1 to return only elections which will happen in the
+            near future (we may hold info on candidates or polling stations) or
+            happened in the recent past (we may hold results). Usually this is
+            an election whose polling date is either in the next 90 days or was
+            in the last 20 days, but we may sometimes make an editorial decision
+            that a major election (e.g: a scheduled general election) is
+            "current" for a wider window than this.
+        - schema:
+            type: string
+          in: query
+          name: future
+          required: false
+          description: >-
+            Pass ?future=1 to return only elections whose polling date is in the
+            future.
+        - schema:
+            type: string
+          in: query
+          name: identifier_type
+          required: false
+          description: >-
+            Pass ?identifier_type=election, ?identifier_type=organisation or
+            ?identifier_type=ballot to return only election groups, organisation
+            groups or ballot objects.
+        - schema:
+            type: string
+          in: query
+          name: limit
+          required: false
+          description: >-
+            Pass ?limit={num} to specify number of election objects to return.
+            Use with offset to page over results. This defaults to 50.
+        - schema:
+            type: string
+          in: query
+          name: offset
+          required: false
+          description: >-
+            Pass ?offset={num} to specify Election object to start from. Use
+            with limit to page over results.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    count:
+                      type: number
+                      description: Total number of election objects
+                    limit:
+                      type: number
+                      description: Number of election objects returned
+                    offset:
+                      type: number
+                      description: Offset of first election object returned
+                    elections:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            description: Identifier for this election
+                          title:
+                            type: string
+                            description: Understandable name for this election
+                          pollOpenDate:
+                            type: string
+                            description: Polling day for this election (ISO 8601)
+                          identifierType:
+                            type: string
+                            description: Type of election
+                          group:
+                            type: string
+                            description: >-
+                              Identifier for the election group this election
+                              belongs to
+                          childrenElections:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  description: Identifier for this election
+                                title:
+                                  type: string
+                                  description: Understandable name for this election
+                                pollOpenDate:
+                                  type: string
+                                  description: Polling day for this election (ISO 8601)
+                                identifierType:
+                                  type: string
+                                  description: Type of election
+                                group:
+                                  type: string
+                                  description: >-
+                                    Identifier for the election group this
+                                    election belongs to
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/elections/{id}:
+    get:
+      operationId: singleElectionGet
+      summary: Get a single election
+      description: Get information about a single election by its identifier
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                      format: uri
+                    history_url:
+                      type: string
+                      format: uri
+                    results_url:
+                      type: string
+                      format: uri
+                    election:
+                      type: object
+                      properties:
+                        election_id:
+                          type: string
+                        url:
+                          type: string
+                          format: uri
+                        name:
+                          type: string
+                        election_date:
+                          type: string
+                          format: date
+                        current:
+                          type: boolean
+                        party_lists_in_use:
+                          type: boolean
+                        created:
+                          type: string
+                          format: date-time
+                        last_updated:
+                          type: string
+                          format: date-time
+                      required:
+                        - election_id
+                        - url
+                        - name
+                        - election_date
+                        - current
+                        - party_lists_in_use
+                        - created
+                        - last_updated
+                    post:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        label:
+                          type: string
+                        slug:
+                          type: string
+                        created:
+                          type: string
+                          format: date-time
+                        last_updated:
+                          type: string
+                          format: date-time
+                      required:
+                        - id
+                        - label
+                        - slug
+                        - created
+                        - last_updated
+                    winner_count:
+                      type: integer
+                    ballot_paper_id:
+                      type: string
+                    cancelled:
+                      type: boolean
+                    sopn:
+                      type: object
+                      properties:
+                        document_type:
+                          type: string
+                        uploaded_file:
+                          type: string
+                          format: uri
+                        source_url:
+                          type: string
+                          format: uri
+                      required:
+                        - document_type
+                        - uploaded_file
+                        - source_url
+                    candidates_locked:
+                      type: boolean
+                    candidates:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          elected:
+                            type:
+                              - boolean
+                              - 'null'
+                          party_list_position:
+                            type:
+                              - integer
+                              - 'null'
+                          party:
+                            type: object
+                            properties:
+                              url:
+                                type: string
+                                format: uri
+                              ec_id:
+                                type: string
+                              name:
+                                type: string
+                              legacy_slug:
+                                type: string
+                              created:
+                                type: string
+                                format: date-time
+                              modified:
+                                type: string
+                                format: date-time
+                            required:
+                              - url
+                              - ec_id
+                              - name
+                              - legacy_slug
+                              - created
+                              - modified
+                          party_name:
+                            type: string
+                          party_description_text:
+                            type: string
+                          created:
+                            type: string
+                            format: date-time
+                          modified:
+                            type: string
+                            format: date-time
+                          person:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              url:
+                                type: string
+                                format: uri
+                              name:
+                                type: string
+                            required:
+                              - id
+                              - url
+                              - name
+                          result:
+                            type:
+                              - boolean
+                              - 'null'
+                        required:
+                          - elected
+                          - party_list_position
+                          - party
+                          - party_name
+                          - party_description_text
+                          - created
+                          - modified
+                          - person
+                          - result
+                    created:
+                      type: string
+                      format: date-time
+                    last_updated:
+                      type: string
+                      format: date-time
+                    replaces:
+                      type:
+                        - boolean
+                        - 'null'
+                    replaced_by:
+                      type:
+                        - boolean
+                        - 'null'
+                    uncontested:
+                      type: boolean
+                  required:
+                    - url
+                    - history_url
+                    - results_url
+                    - election
+                    - post
+                    - winner_count
+                    - ballot_paper_id
+                    - cancelled
+                    - sopn
+                    - candidates_locked
+                    - candidates
+                    - created
+                    - last_updated
+                    - replaces
+                    - replaced_by
+                    - uncontested
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string

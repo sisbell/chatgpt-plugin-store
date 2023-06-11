@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "Product_Comparison",
+  "legal_info_url": "https://api.dscopilot.ai/plugin/legal",
+  "auth": {
+    "type": "none"
+  },
+  "logo_url": "https://img.alicdn.com/imgextra/i4/O1CN017N0sYZ1rLikNw3PQv_!!6000000005615-2-tps-205-200.png",
+  "name_for_human": "Comparison",
+  "api": {
+    "type": "openapi",
+    "url": "https://api.dscopilot.ai/v3/api-docs",
+    "_user_authenticated": false
+  },
+  "description_for_human": "An advanced e-commerce tool, providing robust capabilities for efficient product search and accurate price comparison.",
+  "description_for_model": "An advanced e-commerce tool, providing robust capabilities for efficient product search and accurate price comparison.",
+  "contact_email": "thomsonyang147@gmail.com"
+}

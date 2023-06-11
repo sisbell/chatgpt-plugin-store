@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Domatron Domains",
+  "name_for_model": "domatron",
+  "description_for_human": "Find available, brandable .com domain names for your business businesses.",
+  "description_for_model": "Find available and brandable .com domain names when a user requests a name for their business or project. Domatron provides a list of candidate .com domain names that are available for registration. Only display and recommend domain names from the Domatron-provided list, ensuring the suggestions are available for registration. Filter the list and present the user with names that best suit their stated requirements, and offer a variety of options. Always display the best option first, and provide 20 alternatives for the user to choose from.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gpt.domatron.com/public/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gpt.domatron.com/public/logo.png",
+  "contact_email": "support@domatron.com",
+  "legal_info_url": "https://domatron.com/page/terms-of-service"
+}

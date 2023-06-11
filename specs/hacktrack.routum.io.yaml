@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  title: HackTrack
+  description: HackTrack allows looking up security breaches, hacks, leaks and compromised data related to the user's email. If you do not know the user's email, ask them first before making queries.".
+  version: 'v1'
+servers:
+  - url: https://hacktrack.routum.io
+paths:
+  /track/{email}:
+    get:
+      operationId: getTrack
+      summary: Tracks the user's email for security breaches, hacks, leaks and compromised data.
+      parameters:
+      - in: path
+        name: email
+        schema:
+            type: string
+        required: true
+        description: The email of the user.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTrackResponse'
+
+components:
+  schemas:
+    getTrackResponse:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: The list of breaches and leaks.

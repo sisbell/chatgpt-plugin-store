@@ -1,0 +1,134 @@
+openapi: 3.0.1
+info:
+  title: Reminders Plugin
+  description: A plugin that allows adding, deleting and listing reminders using ChatGPT.
+  version: 'v1'
+servers:
+  - url: "https://reminders.upon.chat/ai-plugin"
+paths:
+  /find:
+    get:
+      operationId: find
+      summary: Returns a list of reminders.
+      parameters:
+        - name: tags
+          in: query
+          description: Only reminders with the provided tags will be returned.
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/find_response'
+  /add:
+    post:
+      operationId: add
+      summary: Adds a reminder to the list.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reminders_request'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ok_response'
+  /remove:
+    post:
+      operationId: remove
+      summary: Deletes a reminder from the list.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reminders_request'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ok_response'
+  /tag:
+    post:
+      operationId: tag
+      summary: Tags some reminders.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reminders_request'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ok_response'
+  /untag:
+    post:
+      operationId: untag
+      summary: Untags reminders. Only the provided reminders are untagged.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reminders_request'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ok_response'
+components:
+  schemas:
+    find_response:
+      type: object
+      properties:
+        reminders:
+          description: The list of reminders.
+          type: array
+          items:
+            type: string
+        request_url:
+          description: The URL used to get the reminders list.
+          type: string
+    reminders_request:
+      type: object
+      required:
+      - reminders
+      properties:
+        reminders:
+          type: array
+          items:
+            type: string
+            description: The list of reminders to add, remove, tag or untag.
+            required: true
+        tags:
+          type: array
+          items:
+            type: string
+            description: The list of tags to add to, or remove from, the reminders.
+            required: true
+    ok_response:
+      type: object
+      properties:
+        request_url:
+          description: The URL used to get the reminders list.
+          type: string

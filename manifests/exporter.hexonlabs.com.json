@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Export Chat",
+  "name_for_model": "exportchat",
+  "description_for_human": "A Tool to export your conversation or specific parts of your conversation.",
+  "description_for_model": "Tool to export your conversation or specific parts of your conversation.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://exporter.hexonlabs.com/openapi.yaml"
+  },
+  "logo_url": "https://exporter.hexonlabs.com/logo.png",
+  "contact_email": "aarockiam@hexonglobal.com",
+  "legal_info_url": "https://hexonlabs.com/privacy-policy"
+}

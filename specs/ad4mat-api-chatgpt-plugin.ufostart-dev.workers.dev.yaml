@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: ad4mat link AI
+  description: AI powered trackinglink generator to monetize outgoing traffic. Turn any link to online stores and services into a referral link. You'll need an account with ad4mat.com to get paid.
+  version: 'v1'
+servers:
+  - url: https://ad4mat-api-chatgpt-plugin.ufostart-dev.workers.dev
+paths:
+  /links:
+    get:
+      operationId: getLinks
+      summary: Get the link by search params
+      parameters:
+        - in: query
+          name: url
+          required: true
+          schema:
+            type: string
+          description: The url of the landingpage (url-encoded, with protocol)
+        - in: query
+          name: siteId
+          required: true
+          schema:
+            type: integer
+          description: The siteId of one of your sites in your advanced store publisher account. You'll find the ID at https://suite.advanced-store.com/#!/publisher/sites. If you don't have an account yet, please register at https://www.ad4mat.com/sign-up
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getLinksResponse'
+components:
+  schemas:
+    getLinksResponse:
+      type: object
+      properties:
+        links:
+          type: string
+          description: the tracking link and its important to show the user the full link
+        markdown:
+          type: string
+          description: no description needed
+        html:
+          type: string
+          description: no description needed

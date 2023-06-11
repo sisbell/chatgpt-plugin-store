@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "TotalQuery Search",
+  "name_for_model": "total_query_meta_search_engine",
+  "description_for_human": "Go beyond google search: harness the combined power of 70+ search engines for ultimate web discovery.",
+  "description_for_model": "TotalQuery is a plugin that combines the power of more than 70 search services to provide the most unbiased and extensive search results on the Internet.\nIt supports general-purpose search engines such as Google or Bing but goes way beyond that by providing search for books, music, videos, scientific publications, software packages, torrents, social media content, geographical data, files, applications and more using an extensive amount of search services.\nEach query can use a combination of search services to diversify results and avoid bias. The query endpoint should always be provided with a list of engines to use.\nThe plugin should be able to state the engines it used for its query if it is asked to do so.\nFor news, specific news search services should be used to find the latest news on a topic. If the user seems to find that the results are not satisfactory, the plugin should redo the search using more general-purpose search engines.\nFor scientific publications, each result should mention which engine it came from and provide a direct link to the publication.\nIn case images are requested as a way to illustrate a concept or to provide an example, the plugin should prefer images from general-purpose search engines such as Google Images or Bing Images. However, if images are requested out of nowhere, the use of engines such as Unsplash, Flickr and DeviantArt makes more sense.\nFor software packages, where to search will depend on the context of the conversation. If a specialised search service is available for the language or framework being discussed, it should be used. Otherwise, the plugin should use general-purpose search engines such as Google or Bing.\nIn the case of apps, the plugin should ask the user which app store to use if it is not clear from the context of the conversation.",
+  "auth": {
+    "authorization_content_type": "application/json",
+    "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+    "client_url": "https://f14661818ab7a5cf917eff1c173663de.auth.portal-pluginlab.ai/oauth/authorize",
+    "scope": "all",
+    "type": "oauth",
+    "verification_tokens": {
+      "openai": "bd8a7e50e8a64f4da7f799d8ff84bec2"
+    }
+  },
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://plugin.totalquery.co/.well-known/pluginlab/openapi.json"
+  },
+  "logo_url": "https://firebasestorage.googleapis.com/v0/b/totalquery.appspot.com/o/totalquery.svg?alt=media&token=46153d3a-26f5-44f2-b2e3-15b2a13b31a0",
+  "contact_email": "contact@plugin.totalquery.co",
+  "legal_info_url": "https://plugin.totalquery.co/.well-known/legal"
+}

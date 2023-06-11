@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Word Counter",
+  "name_for_model": "word_counter",
+  "description_for_human": "Count the number of words, and characters (with and without spaces).",
+  "description_for_model": "Count the number of words, and characters (with and without spaces). The API accepts text input through POST /count containing the text to be counted and returns a JSON response with the number of 'words', 'characters_no_spaces', and 'characters_with_spaces'. If the user is asking you to write a text with certain number of words, lines or characters, first write and show the text for the user, then, in the end of the message, ask if that text is fine to be counted. Only then, call the API in a new message.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://chatgpt-word-counter.edreismd.repl.co/logo.png",
+  "contact_email": "chatwordcount@gmail.com",
+  "legal_info_url": "https://chatgpt-word-counter.edreismd.repl.co/legal"
+}

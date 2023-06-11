@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Gimmee Air Quality",
+  "name_for_model": "airqualityforeast",
+  "description_for_human": "Planning something outdoors? Get the 2-day air quality forecast for any US zip code.",
+  "description_for_model": "Planning something outdoors? Get the 2-day air quality forecast for any US zip code.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin.airquality.gimmee.info/.well-known/swagger.json"
+  },
+  "logo_url": "https://plugin.airquality.gimmee.info/Images/logo.png",
+  "contact_email": "greg@gimmee.info",
+  "legal_info_url": "https://gimmee.info/privacy-policy"
+}

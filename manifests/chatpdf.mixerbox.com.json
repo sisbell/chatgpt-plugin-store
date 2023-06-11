@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MixerBox ChatPDF",
+  "name_for_model": "MixerBox_ChatPDF_PDF_reader_analyzer",
+  "description_for_human": "Save time! MixerBox ChatPDF can summarize & analyze PDF files for you!",
+  "description_for_model": "MixerBox ChatPDF is an innovative tool that revolutionizes how users interact with PDF files. Users can simply paste a publicly accessible PDF link, and MixerBox ChatPDF analyzes the document and extracts valuable insights from the documents. It offers comprehensive summaries, seamless translations, and insightful interpretations to enhance understanding and productivity. MixerBox ChatPDF assists users in various scenarios of daily life. For researchers and students, it provides concise summaries of lengthy reports and research papers, saving time and facilitating efficient content navigation. Language barriers are overcome with its translation feature, enabling seamless cross-linguistic communication and comprehension of PDF content. Moreover, MixerBox ChatPDF goes beyond summarization and translation. It uncovers deeper meanings, identifies patterns, and offers valuable insights. By asking specific questions, users can extract specific information and delve deeper into the document's aspects. With MixerBox ChatPDF, users are able to unleash the full potential of PDFs and elevate analysis and understanding of their content. It's important to note that the loading and analysis processes may take varying amounts of time depending on the complexity and size of the PDF file. If the loading is not successful on the first attempt, users are advised to try again, unless an error message is received. Additionally, MixerBox ChatPDF requires the PDF files to be publicly accessible as it fetches and analyzes the content from the provided links.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "f538f0ffdaa347e597c710f2ce345232"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatpdf.mixerbox.com/.well-known/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://static.mixerbox.com/chatai/chatgpt-plugin/chatPDF_logo.png",
+  "contact_email": "support@chatpdf.mixerbox.com",
+  "legal_info_url": "https://www.mixerbox.com"
+}

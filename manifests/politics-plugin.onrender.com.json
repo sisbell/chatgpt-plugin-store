@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "uk_politics",
+  "name_for_human": "UK Politics",
+  "description_for_model": "An API for searching through the political documents (such as manifestos, press releases, speeches, voting records and candidates profiles etc) to find answers to questions and retrieve relevant information. Use it whenever a user asks something that might be related to politics in the United Kingdom.",
+  "description_for_human": "Search through UK political documents such as speeches, press releases, voting records, and candidates' profiles.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "32642e9fe34949e89a53f394d5c08764"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://politics-plugin.onrender.com/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://politics-plugin.onrender.com/logo",
+  "contact_email": "joe@politicsplugin.com",
+  "legal_info_url": "https://politics-plugin.onrender.com/privacy"
+}

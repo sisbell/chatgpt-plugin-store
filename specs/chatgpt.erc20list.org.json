@@ -37,6 +37,42 @@
         }
       }
     },
+    "/tokens/price/donotuse": {
+      "get": {
+        "operationId": "TokensController_getTokenPrice",
+        "summary": "Get the current market price of a token.",
+        "description": "Get the current market price of a token. Return results in EUR, USD, GBP, BTC and ETH. Prices are coming from the Coingecko API. If no chain ID is provided, ethereum mainnet is assumed.",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The current market price of the token, as reported by Coingecko."
+          },
+          "404": {
+            "description": "No pricing data was found for the given token."
+          },
+          "500": {
+            "description": "An error occured while fetching the price from Coingecko."
+          }
+        }
+      }
+    },
     "/tokens/search/by-symbol/{symbol}": {
       "get": {
         "operationId": "TokensController_searchBySymbol",

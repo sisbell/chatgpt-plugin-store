@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Smarter Contracts",
+  "name_for_model": "smarter_contracts",
+  "description_for_human": "Analyze smart contracts and tokens on Ethereum.",
+  "description_for_model": "Analyze smart contracts and tokens on Ethereum. Use it when a user asks about a token, a smart contract, or an NFT.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://smartercontracts.ai/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://smartercontracts.ai/logo.png",
+  "contact_email": "netdragonx@pm.me",
+  "legal_info_url": "https://smartercontracts.ai/legal"
+}

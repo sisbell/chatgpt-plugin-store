@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "ABC Music Notation",
   "name_for_model": "abc_to_audio",
-  "description_for_human": "Plugin for converting ABC music notation to wav, midi and postscript files.",
-  "description_for_model": "Plugin for converting ABC music notation to wav, midi and postscript files. You can input ABC notation and get an audio files and sheet urls in return.",
+  "description_for_human": "Converts ABC music notation to WAV, MIDI, and PostScript files.",
+  "description_for_model": "Converts ABC music notation to WAV, MIDI, and PostScript files. This allows users to input ABC notation and receive corresponding audio files and sheet URLs in return.",
   "auth": {
     "type": "none"
   },

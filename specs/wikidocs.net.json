@@ -1,0 +1,1237 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Wikidocs API",
+    "description": "\nWikidocs provides an open API.\n",
+    "contact": {
+      "name": "WikiDocs",
+      "url": "http://wikidocs.net"
+    },
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/api/v1/book/list": {
+      "get": {
+        "summary": "Get A Book List",
+        "description": "API to get a list of books with the starting page, size, and keyword as input.",
+        "operationId": "bookList",
+        "parameters": [
+          {
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "type": "integer",
+              "description": "Page number",
+              "default": 1
+            },
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "description": "Number to show on a page",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "type": "integer",
+              "description": "Number to show on a page",
+              "default": 10
+            },
+            "name": "size",
+            "in": "query"
+          },
+          {
+            "description": "Search terms (title, author name)",
+            "required": false,
+            "schema": {
+              "title": "Keyword",
+              "type": "string",
+              "description": "Search terms (title, author name)",
+              "default": ""
+            },
+            "name": "keyword",
+            "in": "query"
+          },
+          {
+            "description": "Sort by (recommend, popular, recent)",
+            "required": false,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/SortOrder"
+                }
+              ],
+              "description": "Sort by (recommend, popular, recent)",
+              "default": "recommend"
+            },
+            "name": "sort_order",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/book/list/me": {
+      "get": {
+        "summary": "Get A List Of My Books",
+        "description": "API to retrieve a list of your books with a starting page, size, and keywords. (This service requires authentication.)",
+        "operationId": "bookListMe",
+        "parameters": [
+          {
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "type": "integer",
+              "description": "Page number",
+              "default": 1
+            },
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "description": "Number to show on a page",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "type": "integer",
+              "description": "Number to show on a page",
+              "default": 10
+            },
+            "name": "size",
+            "in": "query"
+          },
+          {
+            "description": "Search terms (title, author name)",
+            "required": false,
+            "schema": {
+              "title": "Keyword",
+              "type": "string",
+              "description": "Search terms (title, author name)",
+              "default": ""
+            },
+            "name": "keyword",
+            "in": "query"
+          },
+          {
+            "description": "Sort by (recommend, popular, recent)",
+            "required": false,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/SortOrder"
+                }
+              ],
+              "description": "Sort by (recommend, popular, recent)",
+              "default": "recommend"
+            },
+            "name": "sort_order",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/book/create": {
+      "post": {
+        "summary": "Create A Book",
+        "description": "API to create a book with subject and summary as input. (ChatGPT plugin only)",
+        "operationId": "bookCreate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookInfo"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/toc/{book_id}": {
+      "get": {
+        "summary": "Get A Book Table Of Contents",
+        "description": "API to get the table of contents of a book by book ID number.",
+        "operationId": "bookToc",
+        "parameters": [
+          {
+            "description": "Book ID number",
+            "required": true,
+            "schema": {
+              "title": "Book Id",
+              "type": "integer",
+              "description": "Book ID number"
+            },
+            "name": "book_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Booktoc",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Toc"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/page/{page_id}": {
+      "get": {
+        "summary": "Page Details",
+        "description": "API to get the details of a page by its page ID number.",
+        "operationId": "pageDetail",
+        "parameters": [
+          {
+            "description": "Page ID number",
+            "required": true,
+            "schema": {
+              "title": "Page Id",
+              "type": "integer",
+              "description": "Page ID number"
+            },
+            "name": "page_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/page/create": {
+      "post": {
+        "summary": "Create A Page",
+        "description": "API to create a page with subject and summary as input. (ChatGPT plugin only)",
+        "operationId": "pageCreate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageInfo"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/page/edit": {
+      "put": {
+        "summary": "Edit A Page",
+        "description": "API to modify a page with subject and summary as input. (ChatGPT plugin only)",
+        "operationId": "pageEdit",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageEdit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageInfo"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/page/delete": {
+      "delete": {
+        "summary": "Delete A Page",
+        "description": "API to delete a page (ChatGPT plugin only)",
+        "operationId": "pageDelete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageDelete"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageDeleteResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/login": {
+      "post": {
+        "summary": "Login",
+        "description": "This API gets an access token by logging in with Wikidocs id/password.",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_login"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comment/list": {
+      "get": {
+        "summary": "Get A Comment List",
+        "description": "API to get a list of comments on a specific page",
+        "operationId": "commentList",
+        "parameters": [
+          {
+            "description": "Page number to pull comments from",
+            "required": true,
+            "schema": {
+              "title": "Page No",
+              "type": "integer",
+              "description": "Page number to pull comments from"
+            },
+            "name": "page_no",
+            "in": "query"
+          },
+          {
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "type": "integer",
+              "description": "Page number",
+              "default": 1
+            },
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "description": "Number to show on a page",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "type": "integer",
+              "description": "Number to show on a page",
+              "default": 10
+            },
+            "name": "size",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comment/create": {
+      "post": {
+        "summary": "Create A Comment",
+        "description": "Commenting API, login required",
+        "operationId": "commentCreate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentInfo"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/comment/modify": {
+      "put": {
+        "summary": "Modify A Comment",
+        "description": "API for modifying comments, login required",
+        "operationId": "commentModify",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentModify"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentInfo"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/comment/delete": {
+      "delete": {
+        "summary": "Delete A Comment",
+        "description": "API to delete comments, login required",
+        "operationId": "commentDelete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentDelete"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/comment/report": {
+      "post": {
+        "summary": "Report A Comment",
+        "description": "API for reporting comments, login required",
+        "operationId": "commentReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentReport"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_login": {
+        "title": "Body_login",
+        "required": [
+          "username",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "title": "Grant Type",
+            "pattern": "password",
+            "type": "string"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          },
+          "scope": {
+            "title": "Scope",
+            "type": "string",
+            "default": ""
+          },
+          "client_id": {
+            "title": "Client Id",
+            "type": "string"
+          },
+          "client_secret": {
+            "title": "Client Secret",
+            "type": "string"
+          }
+        }
+      },
+      "Book": {
+        "title": "Book",
+        "required": [
+          "id",
+          "subject",
+          "modify_time"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Book ID number",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Book title",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Book summaries",
+            "type": "string"
+          },
+          "ccl_left": {
+            "title": "For-profit use of the work",
+            "type": "string"
+          },
+          "ccl_right": {
+            "title": "Permission to change the work",
+            "type": "string"
+          },
+          "modify_time": {
+            "title": "Last Modified Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "users": {
+            "title": "Author, Co-author",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "image": {
+            "title": "Image path : https://wikidocs.net/images/ + image",
+            "type": "string"
+          },
+          "num_recommend": {
+            "title": "Recommendations",
+            "type": "integer"
+          }
+        }
+      },
+      "BookCreate": {
+        "title": "BookCreate",
+        "required": [
+          "subject",
+          "summary"
+        ],
+        "type": "object",
+        "properties": {
+          "subject": {
+            "title": "Book title",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Book summaries",
+            "type": "string"
+          }
+        }
+      },
+      "BookInfo": {
+        "title": "BookInfo",
+        "required": [
+          "url",
+          "book"
+        ],
+        "type": "object",
+        "properties": {
+          "url": {
+            "title": "Book URL",
+            "type": "string"
+          },
+          "book": {
+            "title": "Book information",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Book"
+              }
+            ]
+          }
+        }
+      },
+      "BookList": {
+        "title": "BookList",
+        "type": "object",
+        "properties": {
+          "total": {
+            "title": "Total",
+            "type": "integer",
+            "default": 0
+          },
+          "book_list": {
+            "title": "Book List",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Book"
+            },
+            "default": []
+          }
+        }
+      },
+      "Comment": {
+        "title": "Comment",
+        "required": [
+          "id",
+          "create_time"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Comment ID number",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Username",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "content": {
+            "title": "Comment content",
+            "type": "string"
+          },
+          "create_time": {
+            "title": "Created on",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CommentCreate": {
+        "title": "CommentCreate",
+        "required": [
+          "page_id",
+          "content"
+        ],
+        "type": "object",
+        "properties": {
+          "page_id": {
+            "title": "Page ID number",
+            "type": "integer"
+          },
+          "content": {
+            "title": "Comment content",
+            "type": "string"
+          }
+        }
+      },
+      "CommentDelete": {
+        "title": "CommentDelete",
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Comment ID number",
+            "type": "integer"
+          }
+        }
+      },
+      "CommentInfo": {
+        "title": "CommentInfo",
+        "required": [
+          "url",
+          "comment"
+        ],
+        "type": "object",
+        "properties": {
+          "url": {
+            "title": "Comment URL",
+            "type": "string"
+          },
+          "comment": {
+            "title": "Comment information",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Comment"
+              }
+            ]
+          }
+        }
+      },
+      "CommentList": {
+        "title": "CommentList",
+        "type": "object",
+        "properties": {
+          "total": {
+            "title": "Total",
+            "type": "integer",
+            "default": 0
+          },
+          "comment_list": {
+            "title": "Comment List",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            },
+            "default": []
+          }
+        }
+      },
+      "CommentModify": {
+        "title": "CommentModify",
+        "required": [
+          "id",
+          "content"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Comment ID number",
+            "type": "integer"
+          },
+          "content": {
+            "title": "Comment content",
+            "type": "string"
+          }
+        }
+      },
+      "CommentReport": {
+        "title": "CommentReport",
+        "required": [
+          "id",
+          "report"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Comment ID number",
+            "type": "integer"
+          },
+          "report": {
+            "title": "Comment report",
+            "type": "string"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "Page": {
+        "title": "Page",
+        "required": [
+          "id",
+          "subject",
+          "content",
+          "depth",
+          "modify_time"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Page ID number",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Page Title",
+            "type": "string"
+          },
+          "content": {
+            "title": "Page content",
+            "type": "string"
+          },
+          "depth": {
+            "title": "Indentation depth for table of contents (if no parent table of contents: 0)",
+            "type": "integer"
+          },
+          "modify_time": {
+            "title": "Last Modified Date",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PageCreate": {
+        "title": "PageCreate",
+        "required": [
+          "book_id",
+          "subject",
+          "content"
+        ],
+        "type": "object",
+        "properties": {
+          "book_id": {
+            "title": "Book ID number",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Page Title",
+            "type": "string"
+          },
+          "content": {
+            "title": "Page content",
+            "type": "string"
+          }
+        }
+      },
+      "PageDelete": {
+        "title": "PageDelete",
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Page ID number",
+            "type": "integer"
+          }
+        }
+      },
+      "PageDeleteResult": {
+        "title": "PageDeleteResult",
+        "required": [
+          "success"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "title": "Page deletion results",
+            "type": "boolean"
+          }
+        }
+      },
+      "PageEdit": {
+        "title": "PageEdit",
+        "required": [
+          "id",
+          "subject",
+          "content"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Page ID number",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Page Title",
+            "type": "string"
+          },
+          "content": {
+            "title": "Page content",
+            "type": "string"
+          }
+        }
+      },
+      "PageInfo": {
+        "title": "PageInfo",
+        "required": [
+          "url",
+          "page"
+        ],
+        "type": "object",
+        "properties": {
+          "url": {
+            "title": "Page URL",
+            "type": "string"
+          },
+          "page": {
+            "title": "Page information",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ]
+          }
+        }
+      },
+      "SortOrder": {
+        "title": "SortOrder",
+        "enum": [
+          "recommend",
+          "popular",
+          "recent"
+        ],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "Toc": {
+        "title": "Toc",
+        "required": [
+          "id",
+          "subject",
+          "depth"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Page ID number",
+            "type": "integer"
+          },
+          "subject": {
+            "title": "Page Title",
+            "type": "string"
+          },
+          "depth": {
+            "title": "Indentation depth for table of contents (if no parent table of contents: 0)",
+            "type": "integer"
+          }
+        }
+      },
+      "Token": {
+        "title": "Token",
+        "required": [
+          "access_token",
+          "token_type",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "title": "Access token",
+            "type": "string"
+          },
+          "token_type": {
+            "title": "Token type: Bearer",
+            "type": "string"
+          },
+          "username": {
+            "title": "UserID",
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "title": "User",
+        "required": [
+          "first_name"
+        ],
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "title": "Wikidocs username",
+            "type": "string"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/user/login"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: Dover Assistant
+  description: Tool for generating an email to someone you're interested in reaching out to for a job opportunity.
+  version: 'v1'
+servers:
+  - url: https://outreach-plugin.dover.io
+paths:
+  /generate-email:
+    post:
+      operationId: generateEmail
+      summary: Generate an outbound recruiting email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/generateEmailRequest'
+      responses:
+        "200":
+          description: Generated email
+components:
+  schemas:
+    generateEmailRequest:
+      type: object
+      required:
+      - profileLink
+      - jobDescriptionLink
+      properties:
+        profileLink:
+          type: string
+          description: A link to the person's LinkedIn or a PDF of their resume.
+          required: true
+        jobDescriptionLink:
+          type: string
+          description: A link to the job description of the role the person is being considered for.
+          required: true
+        senderFirstName:
+          type: string
+          description: The name of the person sending the email (not required)
+          required: false
+        senderJobTitle:
+          type: string
+          description: The job title / role the person has at their company (e.g. Software Engineer, CTO, etc.) (not required)
+          required: false

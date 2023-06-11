@@ -1,0 +1,153 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox ChatPDF",
+    "description": "A plugin designed to assist users extract valuable insights from PDF files by pasting a publicly accessible PDF link into the chat interface.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://chatpdf.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/chat_pdf/upload": {
+      "post": {
+        "summary": "Enable users to upload a PDF file by providing a publicly accessible PDF URL link.",
+        "description": "Users can upload PDF files by providing a publicly accessible URL link. Once the file is successfully loaded, the plugin will return a unique document ID that represents the uploaded file.",
+        "operationId": "uploadFile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "url"
+                ],
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "The temporary URL of the PDF document to load.",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loadPdfResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occur when loading user providing file, the reason might be pdf is too many pages or the file is too large.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string",
+                      "title": "Error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/chat_pdf/query": {
+      "post": {
+        "summary": "Enable users to issue commands and ask questions related to the PDF content.",
+        "description": "After users interact with the plugin, itprocesses the queries, searches for relevant information within the PDF, and provides answers or references to the corresponding sections.",
+        "operationId": "queryFile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "documentId",
+                  "query"
+                ],
+                "properties": {
+                  "documentId": {
+                    "type": "string",
+                    "description": "The documentId of PDF file.",
+                    "required": true
+                  },
+                  "query": {
+                    "type": "string",
+                    "description": "The user query",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/searchPdfResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "loadPdfResponse": {
+        "title": "loadPdfResponse",
+        "required": [
+          "documentId"
+        ],
+        "type": "string",
+        "description": "The documentId of PDF file."
+      },
+      "searchPdfResponse": {
+        "title": "searchPdfResponse",
+        "type": "object",
+        "properties": {
+          "chunks": {
+            "title": "The array of related query results",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of related query results"
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
+          }
+        }
+      }
+    }
+  }
+}

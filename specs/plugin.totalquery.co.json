@@ -1,0 +1,220 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/search": {
+      "get": {
+        "operationId": "SearxngController_search",
+        "summary": "Search for anything on the web.",
+        "description": "Search for anything on the web. Can be used to search for images, videos, news, and much more by combining different engines.",
+        "parameters": [
+          {
+            "name": "q",
+            "required": true,
+            "in": "query",
+            "description": "The search term to query.",
+            "example": "what is the meaning of life",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "engines",
+            "required": false,
+            "in": "query",
+            "description": "The list of search engines to use. If none is specified, most relevant engines will be used.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "bing",
+                  "brave",
+                  "duckduckgo",
+                  "google",
+                  "mojeek",
+                  "qwant",
+                  "startpage",
+                  "yahoo",
+                  "seznam",
+                  "goo",
+                  "naver",
+                  "alexandria",
+                  "archive is",
+                  "curlie",
+                  "currency",
+                  "ddg definitions",
+                  "dictzone",
+                  "lingva",
+                  "marginalia",
+                  "petalsearch",
+                  "tineye",
+                  "wikibooks",
+                  "wikidata",
+                  "wikipedia",
+                  "wikiquote",
+                  "wikisource",
+                  "wikiversity",
+                  "wikivoyage",
+                  "yep",
+                  "wikimini",
+                  "bing images",
+                  "duckduckgo images",
+                  "google images",
+                  "qwant images",
+                  "1x",
+                  "artic",
+                  "deviantart",
+                  "flickr",
+                  "frinkiac",
+                  "library of congress",
+                  "openverse",
+                  "petalsearch images",
+                  "unsplash",
+                  "bing videos",
+                  "google videos",
+                  "qwant videos",
+                  "ccc-tv",
+                  "dailymotion",
+                  "google play movies",
+                  "invidious",
+                  "peertube",
+                  "rumble",
+                  "sepiasearch",
+                  "vimeo",
+                  "youtube",
+                  "mediathekviewweb",
+                  "ina",
+                  "bing news",
+                  "google news",
+                  "qwant news",
+                  "wikinews",
+                  "yahoo news",
+                  "apple maps",
+                  "openstreetmap",
+                  "photon",
+                  "azlyrics",
+                  "genius",
+                  "bandcamp",
+                  "deezer",
+                  "gpodder",
+                  "invidious",
+                  "mixcloud",
+                  "soundcloud",
+                  "youtube",
+                  "docker hub",
+                  "hoogle",
+                  "lib.rs",
+                  "metacpan",
+                  "packagist",
+                  "pub.dev",
+                  "pypi",
+                  "rubygems",
+                  "askubuntu",
+                  "stackoverflow",
+                  "superuser",
+                  "bitbucket",
+                  "codeberg",
+                  "github",
+                  "gitlab",
+                  "sourcehut",
+                  "arch linux wiki",
+                  "free software directory",
+                  "gentoo",
+                  "framalibre",
+                  "habrahabr",
+                  "lobste.rs",
+                  "mankier",
+                  "searchcode code",
+                  "arxiv",
+                  "crossref",
+                  "google scholar",
+                  "pubmed",
+                  "semantic scholar",
+                  "openairedatasets",
+                  "openairepublications",
+                  "pdbe",
+                  "apk mirror",
+                  "apple app store",
+                  "fdroid",
+                  "google play apps",
+                  "1337x",
+                  "btdigg",
+                  "kickass",
+                  "library genesis",
+                  "nyaa",
+                  "openrepos",
+                  "piratebay",
+                  "solidtorrents",
+                  "tokyotoshokan",
+                  "9gag",
+                  "reddit",
+                  "twitter"
+                ],
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "timeRange",
+            "required": false,
+            "in": "query",
+            "description": "The time range to search in. Will work only for engines that support it.",
+            "example": "day",
+            "schema": {
+              "enum": [
+                "day",
+                "month",
+                "year"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "required": false,
+            "in": "query",
+            "description": "Search results page number.",
+            "example": "1",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results in JSON format."
+          }
+        }
+      }
+    },
+    "/engines": {
+      "get": {
+        "operationId": "SearxngController_getEngines",
+        "summary": "Get a list of all available categories and search engines.",
+        "description": "Get a list of all available categories and search engines. These can be used to alter the search query.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "totalquery",
+    "description": "totalquery API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "components": {
+    "schemas": {}
+  }
+}

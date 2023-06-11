@@ -1,0 +1,45 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Finna Bolag",
+  "name_for_model": "finnabolag",
+  "description_for_human": "Seamlessly search for and retrieve Swedish companies' financial data.",
+  "description_for_model": "Seamlessly search for and retrieve Swedish companies' financial data.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://finna-bolag.fly.dev/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "functions": {
+    "get_company_data": {
+      "endpoint": "get_company_data",
+      "description": "Fetches the historical financial data for a company.",
+      "parameters": [
+        {
+          "name": "registration_number",
+          "description": "The company's registration number.",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "responses": {
+        "type": "object",
+        "properties": {
+          "company": {
+            "type": "object",
+            "description": "The yearly financial data, income statement and balance sheet of the company."
+          },
+          "overview": {
+            "type": "object",
+            "description": "The details of the company name, registration number, address, ceo (VD), ... with keys in Swedish."
+          }
+        }
+      }
+    }
+  },
+  "logo_url": "https://finna-bolag.fly.dev/logo.png",
+  "contact_email": "hamed@finna.ai",
+  "legal_info_url": "https://finna.ai/finna-bolag"
+}

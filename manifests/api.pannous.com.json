@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Jini",
+  "name_for_model": "jini",
+  "description_for_human": "Get factual, knowledge-base and real-time information. \n Search news, images, videos, music, apps, pages and facts.",
+  "description_for_model": "Request real-time information:  Search images, videos, music, apps and facts. Get the latest news, twitter trends, sports scores, (stock) prices, celebrity and country data, navigation routes, public transport and traffic info. Acts as a proxy to make any information that exists online available.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.pannous.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://api.pannous.com/logo.png",
+  "contact_email": "info@pannous.com",
+  "legal_info_url": "http://files.pannous.com/legal"
+}

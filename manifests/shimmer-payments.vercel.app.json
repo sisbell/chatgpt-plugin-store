@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Father's Day Deals",
+  "name_for_model": "shimmer_daily",
+  "description_for_human": "Ideas, recommendations, and deals for Father's Day gifts.",
+  "description_for_model": "Return ideas, recommendations, and deals for Father's Day gifts.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://shimmer-payments.vercel.app/openapi.yaml",
+    "is_user_authenticated": true
+  },
+  "logo_url": "https://shimmer-payments.vercel.app/logo.svg",
+  "contact_email": "founders@shimmer.ooo",
+  "legal_info_url": "https://shimmer.ooo/legal/terms"
+}

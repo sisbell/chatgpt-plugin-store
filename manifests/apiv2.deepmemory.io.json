@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Deep Memory",
+  "name_for_model": "deepmemory",
+  "description_for_human": "Create flashcards and review them on Deep Memory, a spaced repetition app.",
+  "description_for_model": "Create as many flashcards as possible from the {input}, in the language of the {input}.FLASHCARD CREATION GUIDELINES:\n• Create flashcards for each topic in the {input}.\n• Only use explicit information from the {input} to create flashcards.\n• Do not use general knowledge or assumptions to create flashcards.\n• Ensure {question} and {answer} are concise and clear.\n• {answer} should only contain the answer, without rephrasing the question. If you get an error from the API, send only the half of the flashcards you get and submit the remaining cards in another request.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://apiv2.deepmemory.io/gpt-plugin/openapi.yaml"
+  },
+  "logo_url": "https://deepmemory.io/images/icon.svg",
+  "contact_email": "support@deepmemory.io",
+  "legal_info_url": "https://deepmemory.io/rules/#cgu"
+}

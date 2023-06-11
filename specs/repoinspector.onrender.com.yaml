@@ -1,0 +1,111 @@
+openapi: 3.0.1
+info:
+  title: Repo Inspector Plugin
+  description: A plugin that allows the user to inspect a Git repository using ChatGPT.
+  version: 'v1'
+servers:
+  - url: https://repoinspector.onrender.com
+paths:
+  /inspect_folder:
+    post:
+      operationId: inspectFolder
+      summary: Inspect a folder in the Git repository
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inspectFolderRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inspectFolderResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+  /inspect_file:
+    post:
+      operationId: inspectFile
+      summary: Inspect the content of a specific file in the Git repository
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inspectFileRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inspectFileResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+components:
+  schemas:
+    inspectFolderRequest:
+      type: object
+      properties:
+        repo_to_clone:
+          type: string
+          description: The HTTPS link to the Git repository
+        folder_path:
+          type: string
+          description: The relative path to the folder from the root directory
+      required:
+        - repo_to_clone
+    inspectFolderResponse:
+      type: object
+      properties:
+        filenames:
+          type: array
+          items:
+            type: string
+          description: The list of filenames in the specified folder
+    inspectFileRequest:
+      type: object
+      properties:
+        repo_to_clone:
+          type: string
+          description: The HTTPS link to the Git repository
+        file_path:
+          type: string
+          description: The relative path to the file from the root directory
+      required:
+        - repo_to_clone
+        - file_path
+    inspectFileResponse:
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the specified file
+    errorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The error message

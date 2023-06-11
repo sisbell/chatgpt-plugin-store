@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Gift ideas suggester",
+  "name_for_model": "gift_suggester",
+  "description_for_human": "Generate gift ideas for any occasion, such as birthdays, Mother's Day, etc. Please, provide details about recipient.",
+  "description_for_model": "Generate gift ideas for any occasion, such as birthdays, Mother's Day, etc. Additionally, it curates a selection of the most suitable items for each gift idea from popular online stores. Please, provide details about recipient.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://giftsuggester-openai.langdock.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://firebasestorage.googleapis.com/v0/b/security-web-app-e4217.appspot.com/o/e888129f-eda9-4814-babc-9323e988acaa%2Ficonlogo.png?alt=media&token=4725bce2-c7f6-49ee-afb0-e9858c5328f6",
+  "contact_email": "contact@langdock.com",
+  "legal_info_url": "https://www.langdock.com/terms-and-conditions"
+}

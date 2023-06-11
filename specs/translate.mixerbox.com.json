@@ -1,0 +1,231 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox Translate",
+    "description": "Learn various languages by conversing with AI in foreign languages.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://translate.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/translate/translate": {
+      "post": {
+        "operationId": "translate",
+        "summary": "Provide a description of how to express a particular phrase or term in a different language.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "translate_phrase": {
+                    "type": "string",
+                    "required": true,
+                    "description": "Phrase or concept that you would like to have translated into a foreign language."
+                  },
+                  "learning_language": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The language that the user is learning and inquiring about, it is important to use the full name of the language rather than an abbreviation or nickname. This will help to avoid confusion and ensure clear communication between both parties (e.g. English, Japanese)."
+                  },
+                  "native_language": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The full name of the language to indicate the user's native language, which can be inferred from the language they used to ask their question (e.g. English, Japanese)."
+                  },
+                  "origin_query": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The complete text of the user's inquiry."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translate_phrase": {
+                      "type": "string",
+                      "required": true,
+                      "description": "Phrase or concept that you would like to have translated into a foreign language."
+                    },
+                    "learning_language": {
+                      "type": "string",
+                      "required": true,
+                      "description": "The language that the user is learning and inquiring about, it is important to use the full name of the language rather than an abbreviation or nickname. This will help to avoid confusion and ensure clear communication between both parties (e.g. English, Japanese)."
+                    },
+                    "native_language": {
+                      "type": "string",
+                      "required": true,
+                      "description": "The full name of the language to indicate the user's native language, which can be inferred from the language they used to ask their question (e.g. English, Japanese)."
+                    },
+                    "extra_response_instructions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "The instructions which need chatgpt model to follow."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/translate/explain": {
+      "post": {
+        "operationId": "explain",
+        "summary": "Provide a description of the significance and application of a particular phrase in a non-native language that the user is inquiring about.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "explain_phrase": {
+                    "type": "string",
+                    "required": true,
+                    "description": "A phrase or word in a non-native language that the user requires clarification or information on."
+                  },
+                  "learning_language": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The language that the user is learning and inquiring about, which can be inferred from question, it is important to use the full name of the language rather than an abbreviation or nickname. This will help to avoid confusion and ensure clear communication between both parties. (e.g. English, Japanese)."
+                  },
+                  "native_language": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The full name of the language to indicate the user's native language, which can be inferred from the language they used to ask their question (e.g. English, Japanese)."
+                  },
+                  "origin_query": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The complete text of the user's inquiry."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "explain_phrase": {
+                      "type": "string",
+                      "description": "A phrase or word in a non-native language that the user requires clarification or information on."
+                    },
+                    "learning_language": {
+                      "type": "string",
+                      "description": "The language that the user is learning and inquiring about, it is important to use the full name of the language rather than an abbreviation or nickname. This will help to avoid confusion and ensure clear communication between both parties. (e.g. English, Japanese)."
+                    },
+                    "native_language": {
+                      "type": "string",
+                      "description": "The full name of the language to indicate the user's native language, which can be inferred from the language they used to ask their question (e.g. English, Japanese)."
+                    },
+                    "extra_response_instructions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "The instructions which need chatgpt model to follow."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/translate/task": {
+      "post": {
+        "operationId": "task",
+        "summary": "Offer guidance on the most effective approach to expressing or executing a task in a particular circumstance or context using a foreign language. Implement this endpoint when the user poses broad or overarching inquiries.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task_definition": {
+                    "type": "string",
+                    "required": true,
+                    "description": "A description of the objective or action that the user intends to complete or perform."
+                  },
+                  "learning_language": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The language that the user is learning and inquiring about, which can be inferred from question, it is important to use the full name of the language rather than an abbreviation or nickname. This will help to avoid confusion and ensure clear communication between both parties. (e.g. English, Japanese)."
+                  },
+                  "native_language": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The full name of the language to indicate the user's native language, which can be inferred from the language they used to ask their question (e.g. English, Japanese)."
+                  },
+                  "origin_query": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The complete text of the user's inquiry."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "task_definition": {
+                      "type": "string",
+                      "description": "A description of the objective or action that the user intends to complete or perform."
+                    },
+                    "learning_language": {
+                      "type": "string",
+                      "description": "The language that the user is learning and inquiring about, it is important to use the full name of the language rather than an abbreviation or nickname. This will help to avoid confusion and ensure clear communication between both parties. (e.g. English, Japanese)."
+                    },
+                    "native_language": {
+                      "type": "string",
+                      "description": "The full name of the language to indicate the user's native language, which can be inferred from the language they used to ask their question (e.g. English, Japanese)."
+                    },
+                    "extra_response_instructions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "The instructions which need chatgpt model to follow."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

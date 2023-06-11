@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MixerBox ChatMap",
+  "name_for_model": "MixerBox_ChatMap_map",
+  "description_for_human": "Powered by Google Maps API, MixerBox ChatMap is the world's 1st AI chatbot for Maps!",
+  "description_for_model": "MixerBox ChatMap excels in journey planning. Users can input their current location and desired destination, and MixerBox ChatMap intelligently calculates the most efficient route. It goes beyond that by providing estimated arrival and travel times, enabling users to plan their schedules effectively. Additionally, MixerBox ChatMap analyzes various factors and suggests the optimal mode of transportation for the journey, whether it's walking, driving, biking, or utilizing public transportation. This valuable feature helps users make informed decisions based on their preferences, time constraints, and local circumstances.\nSecondly, MixerBox ChatMap is an invaluable tool for discovering and exploring local surroundings. By entering their current location, users can access a comprehensive list of nearby locations, services, and spots. This includes restaurants, shops, landmarks, attractions, and more. It sorts these results based on distance, ratings, price, and similarity, making it effortless for users to find relevant options that match their preferences. Whether it's finding a nearby place to eat, shop, or visit, MixerBox ChatMap provides users with the information they need for an enriched local experience.\nWith MixerBox ChatMap, the seamless integration with Google Maps ensures a seamless and familiar experience, while its intelligent features streamline the planning and exploration process. It empowers users with advanced functionalities for enhanced navigation and exploration.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "a07d761c97734c94b227b1210acb9bd7"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatmap.mixerbox.com/.well-known/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://static.mixerbox.com/chatai/chatgpt-plugin/ChatMap_logo.png",
+  "contact_email": "support@chatmap.mixerbox.com",
+  "legal_info_url": "https://www.mixerbox.com"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Maps",
+  "name_for_model": "maps",
+  "description_for_human": "A Maps app that takes latitude and longitude coordinates and generates a map with a marker on the given spot.",
+  "description_for_model": "A Maps app that takes latitude and longitude coordinates and generates a map with a marker on the given spot. Provide the coordinates and the app will generate a map. Coordinates are in the format of latitude and longitude, separated by a comma. Example format /?latlng=lat,lng - e.g. /?latlng=12.34567,-23.45678.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://maps.smoothplugins.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://smoothplugins.com/img/plugin_logos2/maps1.png",
+  "contact_email": "makevoid@gmail.com",
+  "legal_info_url": "https://smoothplugins.com/tos/2_maps_plugin_tos"
+}

@@ -1,0 +1,338 @@
+{
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "components": {
+    "schemas": {
+      "douyin.HotSearchModel": {
+        "properties": {
+          "message": {
+            "description": "Handling failure feedback",
+            "type": "string"
+          },
+          "success": {
+            "description": "Whether the request processing was successful or not",
+            "type": "boolean"
+          },
+          "texts": {
+            "description": "Douyin Hot Search Data",
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": false
+          }
+        },
+        "type": "object"
+      },
+      "hackerone.LeaderboardModel": {
+        "properties": {
+          "message": {
+            "description": "Handling failure feedback",
+            "type": "string"
+          },
+          "success": {
+            "description": "Whether the request processing was successful or not",
+            "type": "boolean"
+          },
+          "usernames": {
+            "description": "Hacker Name",
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": false
+          }
+        },
+        "type": "object"
+      },
+      "tool.VisitWebModel": {
+        "properties": {
+          "content": {
+            "description": "The content of the web page's url to be summarized",
+            "type": "string"
+          },
+          "message": {
+            "description": "Handling failure feedback",
+            "type": "string"
+          },
+          "success": {
+            "description": "Whether the request processing was successful or not",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "tool.VisitWebRequest": {
+        "properties": {
+          "link": {
+            "description": "The web page's url to visit and retrieve content from.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "weibo.HotSearchModel": {
+        "properties": {
+          "message": {
+            "description": "Handling failure feedback",
+            "type": "string"
+          },
+          "success": {
+            "description": "Whether the request processing was successful or not",
+            "type": "boolean"
+          },
+          "texts": {
+            "description": "Weibo Hot Search Data",
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": false
+          }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Provide a large number of api",
+    "title": "ChatGPT Plugins API",
+    "version": "1.0"
+  },
+  "externalDocs": {
+    "description": "",
+    "url": ""
+  },
+  "paths": {
+    "/hackerone/leaderboard": {
+      "get": {
+        "description": "HackerOne platform ranks hacker rankings by country code, if the user does not specify a country code please tell me the user's current country code.",
+        "operationId": "HackerOneLeaderboard",
+        "parameters": [
+          {
+            "description": "year of the query",
+            "in": "query",
+            "name": "year",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "quarter of the query",
+            "in": "query",
+            "name": "quarter",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "country code of the query",
+            "in": "query",
+            "name": "countryCode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "total number of data returned",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hackerone.LeaderboardModel"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "HackerOne Leaderboard",
+        "tags": [
+          "HackerOne",
+          "Hacker",
+          "Leaderboard"
+        ]
+      }
+    },
+    "/hot-search/douyin": {
+      "get": {
+        "description": "Douyin Hot Search, Douyin Live News",
+        "operationId": "DouyinHotSearch",
+        "parameters": [
+          {
+            "description": "total number of data returned",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/douyin.HotSearchModel"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Douyin Hot Search",
+        "tags": [
+          "Douyin"
+        ]
+      }
+    },
+    "/hot-search/weibo": {
+      "get": {
+        "description": "Weibo Hot Search, Weibo Live News",
+        "operationId": "WeiboHotSearch",
+        "parameters": [
+          {
+            "description": "total number of data returned",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/weibo.HotSearchModel"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Weibo Hot Search",
+        "tags": [
+          "Weibo"
+        ]
+      }
+    },
+    "/tool/qrcode": {
+      "get": {
+        "description": "Generate QR code based on the input",
+        "operationId": "ToolQrCode",
+        "parameters": [
+          {
+            "description": "Inputs content",
+            "in": "query",
+            "name": "content",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "qrcode",
+        "tags": [
+          "QrCode"
+        ]
+      }
+    },
+    "/tool/time": {
+      "get": {
+        "description": "It just returns the current time information and does not contain any other information except the time information. It should be called only when the user asks for the time.",
+        "operationId": "ToolTime",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Current time information",
+        "tags": [
+          "Time"
+        ]
+      }
+    },
+    "/tool/visit-web": {
+      "post": {
+        "description": "allows users to input a URL, retrieves the web page content, and returns a comprehensible summary of it.",
+        "operationId": "ToolVisitWeb",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/tool.VisitWebRequest"
+              }
+            }
+          },
+          "description": "Visit Web Request",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tool.VisitWebModel"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "visit web page",
+        "tags": [
+          "Web"
+        ]
+      }
+    }
+  },
+  "openapi": "3.1.0",
+  "servers": [
+    {
+      "url": "https://cpa.wbox.app"
+    }
+  ]
+}

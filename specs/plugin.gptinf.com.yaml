@@ -1,0 +1,61 @@
+openapi: 3.0.1
+info:
+  title: GPTinf Plugin
+  description: A plugin to humanize AI content by paraphrasing. Only ethical use is allowed.
+  version: 'v1'
+servers:
+  - url: https://plugin.gptinf.com/api
+paths:
+  /paraphrase:
+    post:
+      operationId: paraphrase
+      summary: Paraphrase a text
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paraphraseRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/paraphraseResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorResponse'
+
+components:
+  schemas:
+    paraphraseRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: The text to paraphrase.
+    paraphraseResponse:
+      type: object
+      required:
+        - paraphrased
+      properties:
+        paraphrased:
+          type: string
+          description: The paraphrase of the text.
+    errorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Description of the error.
+        description:
+          type: string
+          description: Description of the error.

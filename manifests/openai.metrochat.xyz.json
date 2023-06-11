@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Korea subway route",
+  "name_for_model": "korea_subway",
+  "description_for_human": "Korea  metro subway route info.",
+  "description_for_model": "Korea  metro subway route info.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://openai.metrochat.xyz/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://openai.metrochat.xyz/logo.png",
+  "contact_email": "handdola@gmail.com",
+  "legal_info_url": "http://handdola.github.io/searchroute/legal"
+}

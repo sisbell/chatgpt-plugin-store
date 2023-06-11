@@ -1,0 +1,183 @@
+openapi: 3.0.1
+info:
+    title: Asset Ovi
+    description: Search 3D assets for games, AIGC, AR/VR and others.
+    version: "v1"
+servers:
+    - url: https://assetovi.com
+paths:
+    /v1/ovisearch/categories:
+      get:
+        operationId: categories
+        summary: Retrieves all categories. Display results using markdown.
+        responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/getCategoriesResponse"
+          "400":
+            description: Error occurred when process the request.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The internal error code for this error.
+                    message:
+                      type: string
+                      description: The error message of this error.
+    /v1/ovisearch/assets:
+      get:
+        operationId: assets
+        summary: Retrieves all assets that match the filters specified by the args. Please specify the search target and fuzzy search is not supported now.
+        parameters:
+          - in: query
+            name: count
+            schema:
+              type: integer
+            description: The count of results to return. The max value of count is 50.
+          - in: query
+            name: offset
+            schema:
+              type: integer
+            description: The start offset of results to return.
+          - in: query
+            name: keywords
+            schema:
+              type: string
+            description: Used to filter assets based on their name.
+          - in: query
+            name: categoryIds
+            schema:
+              type: array
+              items:
+                type: string
+            description: Filter by category ids. Category ids can be determined using the getCategories function.
+          - in: query
+            name: colors
+            schema:
+              type: array
+              items:
+                type: string
+            description: Used to filter assets based on their color.
+          - in: query
+            name: tags
+            schema:
+              type: array
+              items:
+                type: string
+            description: Used to filter assets based on their tags.
+          - in: query
+            name: min_polygon
+            schema:
+              type: integer
+            description: The minimal count of polygons in the asset.
+          - in: query
+            name: max_polygon
+            schema:
+              type: integer
+            description: The max count of polygons in the asset.
+          - in: query
+            name: animated
+            schema:
+              type: string
+            description: true or false. This is used to select assets that has animation or not.
+          - in: query
+            name: free
+            schema:
+              type: string
+            description: true or false. This is used to select assets is free or not.
+          - in: query
+            name: rigged
+            schema:
+              type: string
+            description: true or false. This is used to select assets that has rigged or not.
+        responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/getAssetsResponse"
+          "400":
+            description: Error occurred when process the request.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: The internal error code for this error.
+                    message:
+                      type: string
+                      description: The error message of this error.
+components:
+  schemas:
+    getCategoriesResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: The id of category.
+              name:
+                type: string
+                description: The name of category.
+    getAssetsResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the asset.
+              description:
+                type: string
+                description: The description of the asset.
+              category:
+                type: string
+                description: The category name of the asset.
+              sourceUrl:
+                type: string
+                description: The source url of the asset.
+              tags:
+                type: array
+                items:
+                  type: string
+                description: The tag list of the asset.
+              image:
+                type: string
+                description: The image of the asset.
+              polygons:
+                type: int
+                description: The polygon count of the asset.
+              free:
+                type: bool
+                description: Whether the asset is free or not.
+              rigged:
+                type: bool
+                description: Whether the asset has rig or not.
+              animated:
+                type: string
+                description: The animated count of the asset.
+              colors:
+                type: array
+                items:
+                  type: string
+                description: The color list of the asset.
+          description: The list of assets.
+        total:
+          type: integer
+          description: The count of assets in response.

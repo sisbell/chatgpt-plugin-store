@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MixerBox Scholar",
+  "name_for_model": "MixerBox_Scholar_academic_paper_search_engine",
+  "description_for_human": "Free and reliable academic search engine! Find research papers and get answers in an instant!",
+  "description_for_model": "MixerBox Scholar is a comprehensive tool for academic research, providing researchers with fast and accurate access to academic documents, papers, research reports, theses, and other scholarly resources.Built on internet-based academic resources, MixerBox Scholar covers various disciplines including science, engineering, humanities, social sciences, medicine, law, and more. It saves a significant amount of time and effort in reading and searching, ensuring users obtain the latest and most relevant research outcomes. Users can provide multiple keywords or search using relevant phrases, and MixerBox Scholar will search for related documents in academic literature and provide summaries.Users can also choose to sort search results based on citation count or publication date. In addition to searching and summarizing academic document content, MixerBox Scholar also allows users to ask questions and assist in finding related content. Whether users are graduate students or individuals interested in specific research topics, they can easily use MixerBox Scholar to find the academic papers they need.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "2266cf36a619407c8b1751bec0b2ef8b"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://scholar.mixerbox.com/.well-known/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://static.mixerbox.com/chatai/chatgpt-plugin/scholar_logo.png",
+  "contact_email": "support@scholar.mixerbox.com",
+  "legal_info_url": "https://www.mixerbox.com"
+}

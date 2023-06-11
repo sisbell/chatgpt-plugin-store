@@ -1,0 +1,53 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "60sec Website Maker",
+    "description": "Generate a beautiful website in 60 seconds using AI.",
+    "version": "v0.0.1"
+  },
+  "paths": {
+    "/generate": {
+      "get": {
+        "operationId": "get_GetGenerate",
+        "tags": [
+          "Generate"
+        ],
+        "summary": "The message content to send to 60sec.site",
+        "parameters": [
+          {
+            "description": "The description of the website to generate",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The description of the website to generate",
+              "default": "I want a website for my business that sells chocolate chip cookies in New York."
+            },
+            "name": "q",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Here is your website that we have generated for you using AI! https://f34tfsd.60sec.site."
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Timeport",
+  "name_for_model": "timeport",
+  "description_for_human": "Begin an exciting journey through time, interact with unique characters, and learn history in this time-travel game!",
+  "description_for_model": "An entertaining and educational time-travel game where the player engages with different historical periods, each accurately depicted. Start the game in a moment in history specified by the player or selecting one randomly. Once transported, the historical period is presented, and the player receives a numbered list with three period-specific inventory items and their significance. Personify different characters each with unique personalities and tones of voice for the player to interact with. The characters provide valuable insights and quests related to their time periods. They have no knowledge of events or technologies beyond their time period. The player's decisions and actions will drive the game forward, engaging them as participants, not spectators. Do not describe the player's emotions. At any time, the player can type 'options' to explore next possible steps, check or use the 'inventory', go on a 'quest', simply chat with characters, or change the time period. Ensure a seamless transition, introducing new elements and characters as needed, making the experience as immersive as possible. Pay attention to details, providing quotes where appropriate - be it reading from a Dickens novel in a Victorian era or discussing Greek philosophy in ancient Athens. Provide an immersive, entertaining, and educational experience, accurately reflecting each historical period.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "542de6d789f5486e9b0ac34cccc442d2"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://timeport.supralevel.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://timeport.supralevel.com/logo.png",
+  "contact_email": "info@supralevel.com",
+  "legal_info_url": "https://timeport.supralevel.com"
+}

@@ -1,0 +1,210 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox WebSearchG",
+    "description": "A plugin enables users to get information via a search engine or get content of a website URL.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://websearchg.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/websearchg/search": {
+      "get": {
+        "summary": "The plugin enables users to conduct research, seek access to information, and find articles, blog posts, product reviews. It will generate URL, title, and description accordingly.",
+        "description": "After users search for a topic or ask a question, the plugin delivers search results, including clickable links, descriptive titles, and concise summaries.",
+        "operationId": "searchByKeyword",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query, do not contain space in query.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "string",
+              "default": "5"
+            },
+            "description": "The upper bound of search results count.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/websearchg/browse": {
+      "get": {
+        "summary": "The plugin enables user to conduct web browsing by extracting the text content of a specified URL. It will generate title, meta tags, and content accordingly.",
+        "description": "After users type a specific URL with HTTP or HTTPS protocol, the plugins delivers the content of the URL, including title, meta tags, and content.",
+        "operationId": "browseByUrl",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "url",
+            "schema": {
+              "type": "string",
+              "format": "url"
+            },
+            "description": "URL of the website.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SearchResponse": {
+        "title": "SearchResponse",
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Websites of search results.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebsiteItem"
+            },
+            "description": "The websites of search results."
+          }
+        }
+      },
+      "WebsiteItem": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Website title."
+          },
+          "description": {
+            "type": "string",
+            "title": "Website description."
+          },
+          "url": {
+            "type": "string",
+            "title": "Website url."
+          },
+          "html": {
+            "type": "string",
+            "title": "Website HTML."
+          },
+          "text": {
+            "type": "string",
+            "title": "Website content in text."
+          }
+        }
+      },
+      "BrowseResponse": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "type": "object",
+            "title": "Meta tags of the website."
+          },
+          "title": {
+            "type": "string",
+            "title": "Title of the website."
+          },
+          "content": {
+            "type": "string",
+            "title": "Text content of the website"
+          },
+          "rules": {
+            "$ref": "#/components/schemas/Rules"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Error message."
+          },
+          "code": {
+            "type": "string",
+            "title": "Error code."
+          }
+        }
+      },
+      "Rules": {
+        "title": "The array of rules which recommend gpt to follow.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The array of rules which recommend gpt to follow."
+      }
+    }
+  }
+}

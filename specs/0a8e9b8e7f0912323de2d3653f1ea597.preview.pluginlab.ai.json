@@ -1,0 +1,309 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Checkers Game API",
+    "description": "This is an API for playing a game of checkers/draughts. The rules used are for competitive American checkers or English draughts. This means an 8x8 board with force captures and regular kings. Each position on the board is numbered 1 to 32. Each move is represented as an array with two values: starting position and ending position. The pieces used in this game are colored red and blue instead of traditional white and black.\n",
+    "version": "1.4.2"
+  },
+  "paths": {
+    "/start": {
+      "post": {
+        "operationId": "startGame",
+        "summary": "Start a new game",
+        "description": "Initiates a new checkers game and returns the game id.",
+        "responses": {
+          "200": {
+            "description": "New game started successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "game_id": {
+                      "type": "integer",
+                      "description": "The unique identifier of the started game"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/state/{game_id}": {
+      "get": {
+        "operationId": "getGameState",
+        "summary": "Get the current state of a game",
+        "description": "Retrieves the current state of the game including the board state, possible moves, and current turn.",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the game",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current game state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameState"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid game_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/move": {
+      "post": {
+        "operationId": "makeMove",
+        "summary": "Make a move in a game",
+        "description": "Make a move in the game by providing the game id, player, and the move.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "game_id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the game"
+                  },
+                  "player": {
+                    "type": "string",
+                    "description": "The player making the move (red or blue)"
+                  },
+                  "move": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "description": "The move being made, represented as an array with two values - the starting position and the ending position."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Move made successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MoveResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/board/{game_id}/image": {
+      "get": {
+        "operationId": "getBoardImage",
+        "summary": "Get an image of the game board",
+        "description": "Generates an image of the game board, uploads it to Cloudinary, and returns the URL of the image.",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "description": "The ID of the game.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the request."
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "The URL of the uploaded image on Cloudinary."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid game_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to upload image",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BoardPiece": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The position of the piece on the board, represented as an array of 2 integers"
+          },
+          "player": {
+            "type": "integer",
+            "description": "The identifier of the player who owns the piece"
+          },
+          "king": {
+            "type": "boolean",
+            "description": "Indicates if the piece has been crowned as king"
+          },
+          "captured": {
+            "type": "boolean",
+            "description": "Indicates if the piece has been captured"
+          },
+          "capture_moves": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "description": "An array of possible capture moves for the piece"
+          },
+          "positional_moves": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "description": "An array of possible positional moves for the piece"
+          }
+        }
+      },
+      "GameState": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The status of the request"
+          },
+          "game_state": {
+            "type": "object",
+            "properties": {
+              "board": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/BoardPiece"
+                }
+              },
+              "possible_moves": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "description": "An array of possible moves for the current player"
+              },
+              "turn": {
+                "type": "integer",
+                "description": "The player who's turn it is to move"
+              },
+              "winner": {
+                "type": "integer",
+                "description": "The identifier of the player who won the game (if the game is over)"
+              }
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The status of the request (always 'failed')"
+          },
+          "error": {
+            "type": "string",
+            "description": "The error message"
+          }
+        }
+      },
+      "MoveResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The status of the move"
+          },
+          "game_state": {
+            "$ref": "#/components/schemas/GameState"
+          }
+        }
+      }
+    }
+  }
+}

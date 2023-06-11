@@ -1,0 +1,26 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "TickTick",
+  "name_for_model": "TickTick",
+  "description_for_human": "TickTick for managing a TODO list, you can add, remove and view your TODOs.",
+  "description_for_model": "TickTick for managing a TODO list, you can add, remove and view your TODOs.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://ticktick.com/oauth/authorize",
+    "scope": "tasks:read tasks:write",
+    "authorization_url": "https://ticktick.com/oauth/token",
+    "authorization_content_type": "application/x-www-form-urlencoded",
+    "verification_tokens": {
+      "openai": "aabca05efe4445be9db88eaf01d46efe"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://ticktick.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://ticktick.com/static/img/pwa/icons-256.png",
+  "contact_email": "support@ticktick.com",
+  "legal_info_url": "https://ticktick.com/about/tos",
+  "oauth_client_id": "x7Adg29ZaR6GRQSHl3"
+}

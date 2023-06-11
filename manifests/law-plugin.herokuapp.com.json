@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "California Law",
+  "name_for_model": "california_law_search",
+  "description_for_human": "Get up to date access to California law.",
+  "description_for_model": "Used for searching California laws. Use this tool for ALL questions about California law. This tool can be used for questions about tenants rights, legal issues, criminal cases, taxes, and all California legal matters. This tool will provide relevant sections of California law for a given query. Always cite the section of the law you use in your response to users. Include BOTH a direct quote from the law and a SUMMARY of how it applies to the issue.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://law-plugin.herokuapp.com/logo.png",
+  "contact_email": "mswoff19@gmail.com",
+  "legal_info_url": "https://law-plugin.herokuapp.com/legal"
+}

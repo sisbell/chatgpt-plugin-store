@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Lark Base Importer",
+  "name_for_model": "LarkBaseImporter",
+  "description_for_human": "Importing data into Lark Base for further analysis and presentation. An easy-to-use data management solution.",
+  "description_for_model": "Importing structural data and spreadsheet into Lark Base for further analysis and presentation. It's an easy-to-use data management and visual database solution. Remember always set fields.type to 1 for the time being,injected data in data_map list, the format is using each field name as key and real data as value, one line for every row. When finished, show the returned base URL to the user",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://larkbaseagent--tongyao1.repl.co/openai.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://larkbaseagent--tongyao1.repl.co/lark.png",
+  "contact_email": "tongyao.curtis@bytedance.com",
+  "legal_info_url": "https://larkbaseagent--tongyao1.repl.co/legal.txt"
+}

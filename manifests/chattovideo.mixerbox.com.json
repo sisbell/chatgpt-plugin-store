@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MixerBox ChatToVideo",
+  "name_for_model": "MixerBox_ChatToVideo_YouTube_video_summarizer",
+  "description_for_human": "Summarize videos from YouTube! Ask questions and get answers right away!",
+  "description_for_model": "MixerBox ChatToVideo is an efficient tool for organizing various videos. It leverages transcripts, metadata, and other information from video providers such as YouTube to instantly summarize the key points of the videos. This allows users to quickly grasp the content without having to watch the entire video.\nThe usage is simple - users just need to upload the URL of the video they are interested in, whether it's a restaurant introduction, movie review, news highlights, current affairs discussions, cooking recipes, tourist attractions, or even a full-length drama or variety show.\nMixerBox ChatToVideo swiftly organizes the video content and presents it to the users. Users can further inquire about the organized content, such as restaurant ratings, establishment information, related news content, accommodation and transportation options for tourist attractions.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "9929ecd68f214be18bc7a54c290db9c2"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chattovideo.mixerbox.com/.well-known/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://static.mixerbox.com/chatai/chatgpt-plugin/ChatToVideo_logo.png",
+  "contact_email": "support@chattovideo.mixerbox.com",
+  "legal_info_url": "https://www.mixerbox.com"
+}

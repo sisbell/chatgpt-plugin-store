@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://60sec.site/oauth/code",
+    "scope": "",
+    "authorization_url": "https://60sec.site/oauth/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "5043db5fe69847f887db38f2c8d953ba"
+    }
+  },
+  "name_for_human": "60sec site",
+  "name_for_model": "sixtysecsite",
+  "description_for_human": "Generate a beautiful website in 60 seconds using AI.",
+  "description_for_model": "Generate a beautiful website in 60 seconds using AI.",
+  "logo_url": "https://60sec.site/assets/favicon-0f4a96d886ffc6ad8faddc032cc51bc9dd282d32ae692366b57769bd66138fe7.png",
+  "contact_email": "info@60sec.site",
+  "legal_info_url": "http://60sec.site/",
+  "api": {
+    "type": "openapi",
+    "has_user_authentication": false,
+    "url": "https://chat.60sec.site/openapi.json"
+  }
+}

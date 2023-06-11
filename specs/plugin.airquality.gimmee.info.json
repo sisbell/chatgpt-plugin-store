@@ -1,0 +1,102 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Plugin.AirQuality.Gimmee.io",
+    "version": "1.0"
+  },
+  "paths": {
+    "/AirQuality": {
+      "get": {
+        "tags": [
+          "AirQuality"
+        ],
+        "operationId": "GetAirQualityByZipCode",
+        "parameters": [
+          {
+            "name": "zipCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AirQualityForecast"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AirQualityForecast"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AirQualityForecast"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AirQualityForecast": {
+        "type": "object",
+        "properties": {
+          "forecastReports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AirQualityForecastReport"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AirQualityForecastReport": {
+        "type": "object",
+        "properties": {
+          "dateIssue": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateForecast": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportingArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "stateCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "airQualityIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "airQualityCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActionDay": {
+            "type": "boolean"
+          },
+          "discussion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

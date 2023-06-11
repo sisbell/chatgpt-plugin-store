@@ -1,0 +1,139 @@
+openapi: 3.0.1
+info:
+  title: Smarter Contracts
+  description: Analyze smart contracts and tokens on Ethereum.
+  version: "v1"
+servers:
+  - url: https://smartercontracts.ai
+paths:
+  /api/{network}/account/{address}:
+    get:
+      operationId: getAccount
+      summary: Get account information
+      parameters:
+        - name: network
+          in: path
+          description: Network name
+          required: true
+          schema:
+            type: string
+        - name: address
+          in: path
+          description: Account address
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/accountResponse"
+  /api/{network}/contract/{address}:
+    get:
+      operationId: analyzeContract
+      summary: Analyze smart contracts for tokens and NFTs.
+      parameters:
+        - name: network
+          in: path
+          description: Network name
+          required: true
+          schema:
+            type: string
+        - name: address
+          in: path
+          description: Contract address
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/analysisResponse"
+  /api/{network}/ens/{name}:
+    get:
+      operationId: ensResolveName
+      summary: Which address does this ENS or .eth point to?
+      parameters:
+        - name: network
+          in: path
+          description: Network name
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          description: ENS name
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/resolveNameResponse"
+  /api/{network}/gas:
+    get:
+      operationId: getGasFees
+      summary: What are the gas fees right now?
+      parameters:
+        - name: network
+          in: path
+          description: Network name
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/analysisResponse"
+components:
+  schemas:
+    accountResponse:
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the wallet.
+        balance:
+          type: string
+          description: The balance of the wallet.
+        history:
+          type: string
+          description: The history of the wallet.
+        txCount:
+          type: string
+          description: The number of transactions the wallet has made.
+    analysisResponse:
+      type: object
+      properties:
+        sourceCode:
+          type: string
+          description: The source code of the smart contract.
+        sourceCodeTooLong:
+          type: boolean
+          description: Whether the source code had to be truncated.
+        isHoneypot:
+          type: string
+          description: Whether the contract is a honeypot.
+    gasFeeResponse:
+      type: object
+      properties:
+        gasFeeData:
+          type: json
+          description: The current gas fees for the network.
+    resolveNameResponse:
+      type: object
+      properties:
+        address:
+          type: string
+          description: The resolved address of the ENS name.

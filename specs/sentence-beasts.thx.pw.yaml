@@ -1,4 +1,4 @@
-openapi: 3.0.2
+openapi: 3.0.1
 info:
   title: Sentence Beasts
   description: Summon monsters with words, create monsters in words, simulate a match, and record the match.
@@ -36,9 +36,8 @@ paths:
             default: random
             enum:
               - random
-              - high_win_rate
-              - high_lose_rate
-              - high_draw_rate
+              - high_rating
+              - low_rating
               - newest
               - recently_updated
           description: Sort order for the monsters
@@ -47,7 +46,9 @@ paths:
           schema:
             type: integer
             default: 1
-          description: Number of lists to return. Must be within the range of 1 to 10.
+            minimum: 1
+            maximum: 10
+          description: Number of lists to return.
         - in: query
           name: get_battle_rules
           schema:
@@ -69,19 +70,14 @@ paths:
                       properties:
                         uuid:
                           type: string
-                          example: 00000000-0000-0000-0000-000000000000
                         name:
                           type: string
-                          example: Not Found
                         description:
                           type: string
-                          example: Not Found
                         has_image:
                           type: boolean
-                          example: true
                         image_url:
                           type: string
-                          example: https://sentence-beasts.thx.pw/images/00000000-0000-0000-0000-000000000000.webp
                       required:
                         - uuid
                         - name
@@ -92,17 +88,14 @@ paths:
                     type: array
                     items:
                       type: string
-                      example: Matches uphold fairness. Any battle outcome manipulation is a violation.
                   battle_rules:
                     type: array
                     items:
                       type: string
-                      example: Rules are improvised for each match.
                   live_match_rules:
                     type: array
                     items:
                       type: string
-                      example: Use as many simple sentences as possible.
                 required:
                   - monsters
                   - system_rules
@@ -113,7 +106,7 @@ paths:
       operationId: postCreateMonster
       tags:
         - CreateMonster
-      summary: Create the monster by Name in User Language, Description in English.
+      summary: Create the monster by Name in User Language, Description in English. The total of [strength, intelligence, dexterity, constitution, charisma, luck, generativity] values must be 70.
       requestBody:
         required: true
         content:
@@ -127,12 +120,61 @@ paths:
                 description:
                   type: string
                   description: Monster description in English
-                locale:
-                  type: string
-                  description: User Language
                 overwrite_description:
                   type: boolean
                   description: Overwrite the existing description
+                strength:
+                  type: integer
+                  description: Monster's strength
+                  default: 10
+                  minimum: 1
+                  maximum: 20
+                intelligence:
+                  type: integer
+                  description: Monster's intelligence
+                  default: 10
+                  minimum: 1
+                  maximum: 20
+                dexterity:
+                  type: integer
+                  description: Monster's dexterity
+                  default: 10
+                  minimum: 1
+                  maximum: 20
+                constitution:
+                  type: integer
+                  description: Monster's constitution
+                  default: 10
+                  minimum: 1
+                  maximum: 20
+                charisma:
+                  type: integer
+                  description: Monster's charisma
+                  default: 10
+                  minimum: 1
+                  maximum: 20
+                luck:
+                  type: integer
+                  description: Monster's luck
+                  default: 10
+                  minimum: 1
+                  maximum: 20
+                generativity:
+                  type: integer
+                  description: Monster's generativity
+                  default: 10
+                  minimum: 1
+                  maximum: 20
+              required:
+                - name
+                - description
+                - strength
+                - intelligence
+                - dexterity
+                - constitution
+                - charisma
+                - luck
+                - generativity
       responses:
         '200':
           description: Successful Response
@@ -146,13 +188,10 @@ paths:
                     properties:
                       uuid:
                         type: string
-                        example: 00000000-0000-0000-0000-000000000000
                       existed:
                         type: boolean
-                        example: false
                       overwrited:
                         type: boolean
-                        example: false
                     required:
                       - uuid
                       - existed
@@ -182,13 +221,10 @@ paths:
                         description: Monster UUID
                         format: uuid
                         pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
-                      situation:
-                        type: string
-                        description: Monster win or lose or draw
-                        enum:
-                          - win
-                          - lose
-                          - draw
+                      rank:
+                        type: number
+                        description: Monster rank
+                        minimum: 1
                   minItems: 1
                   maxItems: 10
       responses:
@@ -206,21 +242,19 @@ paths:
                       properties:
                         uuid:
                           type: string
-                          example: 00000000-0000-0000-0000-000000000000
+                        rating:
+                          type: number
                         win_count:
                           type: number
-                          example: 2
                         lose_count:
                           type: number
-                          example: 3
                         draw_count:
                           type: number
-                          example: 5
                         total_count:
                           type: number
-                          example: 7
                       required:
                         - uuid
+                        - rating
                         - win_count
                         - lose_count
                         - draw_count

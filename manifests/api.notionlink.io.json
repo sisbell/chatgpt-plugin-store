@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Chat With Workspace",
+  "name_for_model": "chat_with_workspace",
+  "description_for_human": "Chat with your Notion workspace.",
+  "description_for_model": "Chat with your Notion workspace.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://auth.notionlink.io",
+    "scope": "app:read,app:write",
+    "authorization_url": "https://auth.notionlink.io/api/authorize",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "542fb92cab01423d948a03b933ff4194"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.notionlink.io/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://api.notionlink.io/logo.png",
+  "contact_email": "legal@notionlink.io",
+  "legal_info_url": "https://notionlink.io/legal"
+}

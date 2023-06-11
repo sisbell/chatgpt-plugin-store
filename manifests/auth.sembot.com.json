@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Sembot",
+  "name_for_model": "Sembot",
+  "description_for_human": "Manage your Search Engine Marketing. Get keywords reports, CPCs, domain visibility, SEO results and more.",
+  "description_for_model": "Plugin for managing a search engine marketing. You can report keywords, domain, ads, analytics, performance data.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://auth.sembot.com/oauth/authorize",
+    "scope": "",
+    "authorization_url": "https://auth.sembot.com/oauth/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "4e1839e08c4c4c3183fa5f4f9b6c3966"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://auth.sembot.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://auth.sembot.com/logo.png",
+  "contact_email": "support@sembot.com",
+  "legal_info_url": "https://sembot.com/sembot-terms-of-service"
+}

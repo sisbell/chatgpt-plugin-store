@@ -1,0 +1,205 @@
+openapi: 3.0.0
+info:
+  title: Clearbit API Wrapper
+  description: A simple API wrapper for all of Clearbit's APIs, allow you get data on pageview on your website, to enrich data, prospect new customer and get insights on how those interact with your website.
+  version: 1.2.0
+servers:
+  - url: 'https://chatgpt-plugin.clearbit.com'
+paths:
+  /weekly_visitor_report:
+    get:
+      operationId: weekly_visitor_report
+      summary: Get informations about visitors and pageview on your site from your lates weekly report.
+      description: Retrieve traffic, visitors and pageviews and company information from accesses to your website from your lastest weekly reports, might not include very recent accesses depending on the latest report generation date.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - BearerAuth: []
+  /weekly_visitor_report/companies:
+    post:
+      operationId: weekly_visitor_report_companies
+      summary: Get information about specific companies that might have visited your website in the last few days accordingly to your latest weekly visitor report.
+      description: For a sepcific set of companies doamins retrieve traffic, visitors and pageviews and company information from accesses to your website that were capture in your latest weekly visitor report, might not include very recent accesses depending on the latest report generation date.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companies:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of domains for companies you wanna check if are amoung your latest visitors in the weekly visitors report pageview
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - BearerAuth: []
+  /prospector/people/search/{domain}:
+    post:
+      operationId: prospector_people_search
+      summary: Search companies with various filters and parameters
+      description: Retrieve person information from Clearbit using their email address.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  description: The person standardized role at the company they work for based on their title, possible values are communications, customer_service, education, engineering, finance, health_professional, human_resources, information_technology, leadership, legal, marketing, operations, product, public_relations, real_estate, recruiting, research and sales.
+                seniority:
+                  type: string
+                  description: The person standardized seniority at the company they work for based on their title, possible values are executive, director and manager
+                title:
+                  type: string
+                  description: The person title at the company they work for.
+                city:
+                  type: string
+                  description: The city the person lives in.
+                state:
+                  type: string
+                  description: The state the person lives in.
+                country:
+                  type: string
+                  description: The country the person lives in.
+                name:
+                  type: string
+                  description: The person name.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: string
+          description: Which results page to show (default is 1).
+          required: false
+        - in: query
+          name: limit
+          schema:
+            type: string
+          description: Number of results per page to be returned as response.
+          required: false
+        - name: domain
+          in: path
+          required: true
+          description: The domain of the company you want to search at.
+          schema:
+            type: string
+            format: hostname
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - BearerAuth: []
+  /discovery/companies/search:
+    get:
+      operationId: discovery_companies_search
+      summary: Search companies with various filters and parameters
+      description: Retrieve person information from Clearbit using their email address.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: string
+          description: Which results page to show (default is 1).
+          required: false
+        - in: query
+          name: limit
+          schema:
+            type: string
+          description: Number of results per page to be returned as response.
+          required: false
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: |
+            Query to search companies, follows a filter:value format, add multiple filter using filter1:value filter2:value
+            Some filter expect range of numbers separated by a tilde, omit the first or last integer to scan the full range
+            Non numerical values must be enclosed by quotes
+
+
+            supported filters:
+            domain,name,location,state,city,country,employees(range),founded_year(range),market_cap:(range),raised(range),industry,sub_industry,sector,tag,tech(technologies used by the company),type(values are: education,government,nonprofit,private,public,or personal)
+
+
+            It also supports the following operators
+            - or eg: `or:(twitter_followers:10000~ type:nonprofit)
+            - not eg: `not:(tech:google_analytics type:public)
+          required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - BearerAuth: []
+  /enrichment/person/{email}:
+    get:
+      operationId: person_enrichment
+      summary: Get person enrichment information by email
+      description: Retrieve person information from Clearbit using their email address.
+      parameters:
+        - name: email
+          in: path
+          required: true
+          description: The email address of the person you want to search for.
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - BearerAuth: []
+    /enrichment/company/{domain}:
+      get:
+        operationId: company_enrichment
+        summary: Get company enrichment information by domain
+        description: Retrieve company information from Clearbit using their domain.
+        parameters:
+          - name: domain
+            in: path
+            required: true
+            description: The domain of the company you want to search for.
+            schema:
+              type: string
+              format: hostname
+        responses:
+          '200':
+            description: Success
+            content:
+              application/json:
+                schema:
+                  type: object
+        security:
+          - BearerAuth: []
+components:
+  schemas: {}
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

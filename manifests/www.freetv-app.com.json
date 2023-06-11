@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MixerBox FreecableTV",
+  "name_for_model": "MixerBox_FreecableTV",
+  "description_for_human": "Watch free ad-supported TV shows, series, live channels, movies, news & sports from across the web!",
+  "description_for_model": "MixerBox FreecableTV provides users with various TV program and movie information. Users simply need to input their desired movie genres (including comedy, drama, thriller, musical, period drama, documentary, science fiction, suspense, romance, mystery, crime, adventure, horror, fantasy, etc.) or program categories (such as series, talk shows, movies, anime, variety shows, sports events, music, entertainment, etc.) to receive tailored recommendations.\n\nMixerBox FreecableTV assists users in various viewing scenarios and moods in their daily lives. Whether users want to watch a comedy after a breakup or unwind with a talk show after a tiring day at work, they can enjoy the latest program content. Moreover, when users feel bored and are unsure of what to watch, they can discover suitable programs based on the most popular or highly viewed content.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://freetv-app.com/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://static.mixerbox.com/chatai/chatgpt-plugin/tv_logo.png",
+  "contact_email": "freetvapp.question@gmail.com",
+  "legal_info_url": "https://www.freetv-app.com"
+}

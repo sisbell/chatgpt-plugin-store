@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: Astrodaily
+  description: A plugin for getting the daily picture from NASA's APOD and searching the NASA Image and Video Library
+  version: 'v1'
+servers:
+  - url: https://api.360macky.com
+paths:
+  /image:
+    get:
+      operationId: getImage
+      summary: Get the NASA Picture of the Day
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getImageResponse'
+  /search:
+    get:
+      operationId: searchImages
+      summary: Get images from NASA based on a query
+      parameters:
+        - name: q
+          in: query
+          description: The search query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchImagesResponse'
+
+components:
+  schemas:
+    getImageResponse:
+      type: object
+      properties:
+        imageURL:
+          type: string
+          description: The URL of the NASA Picture of the Day.
+    searchImagesResponse:
+      type: object
+      description: The response containing the list of images from the NASA Image Library.
+      properties:
+        title:
+          type: string
+          description: The title of the image.
+        description:
+          type: string
+          description: The description of the image.
+        location:
+          type: string
+          description: The location of the image.
+        date_created:
+          type: string
+          description: The date when the image was created.
+        image_url:
+          type: string
+          description: The URL of the image. It must be displayed as an image in Markdown format.
+

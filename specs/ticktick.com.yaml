@@ -1,0 +1,267 @@
+openapi: 3.0.1
+info:
+  title: TickTick OpenAPI
+  description: OpenAPI that allows the user to create and manage a TODO list using ChatGPT.
+  version: 'v1'
+servers:
+  - url: https://ticktick.com
+paths:
+  /open/v1/project:
+    get:
+      operationId: getAllProjects
+      summary: Get the list of projects
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+
+  /open/v1/project/{projectId}:
+    get:
+      operationId: getProjectById
+      summary: Get a project by ID
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The ID of project.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+  /open/v1/project/{projectId}/data:
+    get:
+      operationId: getProjectWithDataById
+      summary: Get project with data by ID
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The ID of project.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectData'
+  /open/v1/task:
+    post:
+      operationId: createSingleTask
+      summary: Create a task to TickTick
+      requestBody:
+        description: New task info
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Task'
+            examples:
+              newtask:
+                summary: Create a new task example
+                value: {"title": "new task title"}
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /open/v1/project/{projectId}/task/{taskId}/complete:
+    post:
+      operationId: completeSpecifyTask
+      summary: Complete a task by project ID and task ID
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The ID of project which task in
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          required: true
+          description: The ID of task
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /open/v1/project/{projectId}/task/{taskId}:
+    delete:
+      operationId: deleteSpecifyTask
+      summary: Delete a task by project ID and task ID
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The ID of project which task in
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          required: true
+          description: The ID of task
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    ChecklistItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of checklistItem
+        title:
+          type: string
+          description: Title of checklistItem
+        status:
+          type: integer
+          format: int32
+          description: The completion status of checklistItem, Normal is 0, Completed is 1
+        completedTime:
+          type: string
+          description: checklistItem completed time in "yyyy-MM-dd'T'HH:mm:ssZ", Example "2019-11-13T03:00:00+0000
+        isAllDay:
+          type: string
+          description: Is checklistItem all day, true or false
+        sortOrder:
+          type: integer
+          format: int64
+          description: Order value of checklistItem
+        startDate:
+          type: string
+          description: checklistItem start date time in "yyyy-MM-dd'T'HH:mm:ssZ", Example "2019-11-13T03:00:00+0000"
+        timeZone:
+          type: string
+          description: checklistItem timezone, Example "America/Los_Angeles"
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of task
+        projectId:
+          type: string
+          description: The ID of project which task in
+        title:
+          type: string
+          description: Title of task
+        isAllDay:
+          type: string
+          description: Is task all day, true or false
+        completedTime:
+          type: string
+          description: Task completed time in "yyyy-MM-dd'T'HH:mm:ssZ", Example "2019-11-13T03:00:00+0000
+        content:
+          type: string
+          description: Content of task
+        desc:
+          type: string
+          description: Description of checklist
+        dueDate:
+          type: string
+          description: Task due date time in "yyyy-MM-dd'T'HH:mm:ssZ", Example "2019-11-13T03:00:00+0000"
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistItem'
+        priority:
+          type: integer
+          format: int32
+          description: Task priority, None is 0, Low is 1, Medium is 3, High is 5
+        reminders:
+          type: array
+          items:
+            type: string
+          description: List of reminder trigger, Example ["TRIGGER:P0DT9H0M0S","TRIGGER:PT0S"]
+        repeatFlag:
+          type: string
+          description: Recurring rules of task, Example "RRULE:FREQ=DAILY;INTERVAL=1"
+        sortOrder:
+          type: integer
+          format: int64
+          description: Sort order value of task, Example 12345
+        startDate:
+          type: string
+          description: Start data time in "yyyy-MM-dd'T'HH:mm:ssZ", Example "2023-04-23T12:00:00+0000"
+        status:
+          type: integer
+          format: int32
+          description: Task completion status, Normal is 0, Completed is 2
+        timeZone:
+          type: string
+          description: Task timezone, Example "America/Los_Angeles"
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of project
+        name:
+          type: string
+          description: Name of project
+        color:
+          type: string
+          description: Color of project
+        sortOrder:
+          type: integer
+          format: int64
+          description: Order value of project
+        closed:
+          type: string
+          description: Project closed, true or false
+        groupId:
+          type: string
+          description: ID of project group
+        viewMode:
+          type: string
+          description: View mode of project, "list" or "kanban" or "timeline"
+        permission:
+          type: string
+          description: Permission of project, "read" or "write" or "comment"
+        kind:
+          type: string
+          description: Kind of project, "Task" or "NOTE"
+    Column:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of column
+        projectId:
+          type: string
+          description: The ID of project which column in
+        name:
+          type: string
+          description: Name of column
+        sortOrder:
+          type: integer
+          format: int64
+          description: Order value of column
+    ProjectData:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/Project'
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/Column'

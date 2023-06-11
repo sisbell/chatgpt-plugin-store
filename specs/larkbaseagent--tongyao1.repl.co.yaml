@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+    title: Lark Base Importer
+    description: Plugin for importing structural data and spreadsheet into Lark Base for further analysis and presentation. It's an easy-to-use data management and visual database solution. Remember always set fields.type to 1 for the time being
+    version: "v1"
+servers:
+    - url: https://larkbaseagent--tongyao1.repl.co
+paths:
+    /api/data:
+        post:
+          name: api_inject
+          operationId: importData
+          description: This function injects data into a Lark Base.
+          parameters:
+            - in: body
+              name: data
+              schema:
+                type: object
+                properties:
+                  table_name:
+                    type: string
+                  fields:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field_name:
+                          type: string
+                        type:
+                          type: integer
+                  data_map:
+                    type: object
+                    additionalProperties:
+                      type: string
+          responses:
+            200:
+              description: Lark Based has been created
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+            400:
+              description: No JSON data found in request
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

@@ -1,0 +1,318 @@
+openapi: 3.0.1
+info:
+    title: Sembot
+    description: Keyword monitoring, google ads and analytics management
+    version: 'v1.7'
+servers:
+    -   url: https://auth.sembot.com
+paths:
+    /gpt/v1/getKeywordsData:
+        post:
+            operationId: getKeywordsData
+            summary: Get data for a list of keywords like search volume, competition
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                keywords:
+                                    type: array
+                                    items:
+                                        type: string
+                                language:
+                                    type: string
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        keyword:
+                                            type: string
+                                        views:
+                                            type: integer
+                                        competition:
+                                            type: string
+                                        competition_index:
+                                            type: number
+                                        low_top_of_page_bid:
+                                            type: number
+                                        high_top_of_page_bid:
+                                            type: number
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getAdsTraffic:
+        post:
+            operationId: getAdsTraffic
+            summary: Get data for a list of keywords like clicks, average cpc, ctr, impressions
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                keywords:
+                                    type: array
+                                    items:
+                                        type: string
+                                bid:
+                                    type: number
+                                date_interval:
+                                    type: string
+                                    enum: [ 'next_week', 'next_month', 'next_quarter' ]
+                                language:
+                                    type: string
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        keyword:
+                                            type: string
+                                        impressions:
+                                            type: number
+                                        ctr:
+                                            type: number
+                                        average_cpc:
+                                            type: number
+                                        cost:
+                                            type: number
+                                        clicks:
+                                            type: number
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getKeywordsForSite:
+        post:
+            operationId: getKeywordsForSite
+            summary: Get keywords for website with data like views, competition
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                website:
+                                    type: string
+                                language:
+                                    type: string
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+                                sort_by:
+                                    type: string
+                                    enum: [ 'relevance', 'search_volume', 'competition_index', 'low_top_of_page_bid', 'high_top_of_page_bid' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        keyword:
+                                            type: string
+                                        views:
+                                            type: integer
+                                        competition:
+                                            type: string
+                                        competition_index:
+                                            type: number
+                                        low_top_of_page_bid:
+                                            type: number
+                                        high_top_of_page_bid:
+                                            type: number
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getSerpForKeyword:
+        post:
+            operationId: getSerpForKeyword
+            summary: Get serp data for a given keyword like positions, titles, domains
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                keyword:
+                                    type: string
+                                language:
+                                    type: string
+                                    required: true
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    required: true
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+                                device:
+                                    type: string
+                                    enum: [ 'desktop', 'mobile' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        position:
+                                            type: integer
+                                        title:
+                                            type: string
+                                        source:
+                                            type: string
+                                        url:
+                                            type: string
+                                        type:
+                                            type: string
+                                            enum: [ 'organic', 'paid', 'shopping' ]
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+    /gpt/v1/getVisibilityForSite:
+        post:
+            operationId: getVisibilityForSite
+            summary: Get visibility data for a given website like top3, top10, top50, total serps
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                website:
+                                    type: string
+                                language:
+                                    type: string
+                                    enum: [ 'Czech', 'Dutch', 'French', 'German', 'Italian', 'Japanese', 'Polish', 'Spanish', 'English' ]
+                                location:
+                                    type: string
+                                    enum: [ 'Czechia', 'France', 'Germany', 'Italy', 'Japan', 'Netherlands', 'Poland', 'Spain', 'United Kingdom', 'United States' ]
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        top3:
+                                            type: integer
+                                        top10:
+                                            type: integer
+                                        top50:
+                                            type: integer
+                                        total:
+                                            type: integer
+                                        type:
+                                            type: string
+                                            enum: [ 'organic', 'paid', 'featured_snippet', 'local_pack' ]
+                '429':
+                    description: Limit for today reached
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: An error occured
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string

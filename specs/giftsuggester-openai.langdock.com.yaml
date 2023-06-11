@@ -1,0 +1,65 @@
+openapi: 3.0.1
+info:
+  title: gift_suggester
+  description: >-
+    Generate gift ideas for any occasion, such as birthdays, Mother's Day, etc.
+    Additionally, it curates a selection of the most suitable items for each
+    gift idea from popular online stores. Please, provide details about
+    recipient.
+  version: v1
+servers:
+  - url: https://giftsuggester-openai.langdock.com
+paths:
+  /giftideas/{query}:
+    get:
+      operationId: get
+      summary: Get the list of gift ideas for a query
+      parameters:
+        - in: path
+          name: query
+          schema:
+            type: string
+          required: true
+          description: Occasion description to generate ideas for
+        - in: query
+          name: prompt
+          schema:
+            type: string
+          required: true
+          description: What was my last message?
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getGiftIdeasResponse'
+components:
+  schemas:
+    getGiftIdeasResponse:
+      type: object
+      properties:
+        ideas:
+          type: array
+          description: The list of gift ideas.
+          items:
+            type: object
+            properties:
+              idea:
+                type: string
+                description: gift idea
+              links:
+                type: array
+                description: links on retails store to buy goods for proposed gift idea
+                items:
+                  type: object
+                  properties:
+                    link:
+                      type: string
+                      description: link to the item on online store like amazon
+                    title:
+                      type: string
+                      description: Title of the item from online store
+                    snippet:
+                      type: string
+                      description: Short description of the item

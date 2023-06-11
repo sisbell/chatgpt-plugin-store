@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Coursera",
+  "name_for_model": "Coursera",
+  "description_for_human": "Find recommendation for courses, specializations, and degrees on Coursera.",
+  "description_for_model": "Find recommendation for courses, specializations, and degrees on Coursera.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.coursera.org/api/rest/v1/search/openapi.yaml"
+  },
+  "logo_url": "http://www.coursera.org/api/rest/v1/search/logo.png",
+  "contact_email": "legal@coursera.org",
+  "legal_info_url": "http://coursera.org/about/terms"
+}

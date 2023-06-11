@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Dover Assistant",
+  "name_for_model": "dover_outreach",
+  "description_for_human": "Generate a personalized email to someone you're interested in reaching out to for a job opportunity.",
+  "description_for_model": "Tool for generating an email to someone you're interested in reaching out to for a job opportunity.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://outreach-plugin.dover.io/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://outreach-plugin.dover.io/logo.png",
+  "contact_email": "hello@dover.com",
+  "legal_info_url": "https://www.dover.com/subscription-agreement"
+}

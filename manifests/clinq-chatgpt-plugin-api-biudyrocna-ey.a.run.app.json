@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "CLINQ",
+  "name_for_model": "clinq",
+  "description_for_human": "Manage your CLINQ Account. Retrieve infos about calls, create call reminders and more.",
+  "description_for_model": "Manage your CLINQ Account. It can retrieve the information about calls, toggle Do Not Disturb and create call reminders.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://clinq-chatgpt-plugin-api-biudyrocna-ey.a.run.app/oauth",
+    "scope": "chatgpt",
+    "authorization_url": "https://clinq-chatgpt-plugin-api-biudyrocna-ey.a.run.app/authorize",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "c19b756cc956423ebc92acba25134389"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://clinq-chatgpt-plugin-api-biudyrocna-ey.a.run.app/api-yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://clinq-chatgpt-plugin-api-biudyrocna-ey.a.run.app/logo.png",
+  "contact_email": "moesenthin@clinq.com",
+  "legal_info_url": "https://clinq.com/impressum/"
+}

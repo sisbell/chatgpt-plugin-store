@@ -1,0 +1,24 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Reminders",
+  "name_for_model": "reminders",
+  "description_for_human": "Add, remove, list and tag reminders.",
+  "description_for_model": "Adds, removes and views user's reminders.",
+  "logo_url": "https://reminders.upon.chat/ai-plugin/logo2.png",
+  "contact_email": "quenio@nalan.tech",
+  "legal_info_url": "https://reminders.upon.chat/ai-plugin/legal",
+  "api": {
+    "type": "openapi",
+    "url": "https://reminders.upon.chat/ai-plugin/openapi.yaml"
+  },
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://nalan.us.auth0.com/authorize",
+    "scope": "openid profile email",
+    "authorization_url": "https://nalan.us.auth0.com/oauth/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "d87664bb734b4e719fe9a9cc64f790fa"
+    }
+  }
+}

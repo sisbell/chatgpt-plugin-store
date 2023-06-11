@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "plug_finder",
+  "name_for_human": "PlugFinder",
+  "description_for_model": "You can search for plugins using this plugin",
+  "description_for_human": "PlugFinder is your personal assistant for discovering AI tools.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin.lyrai.app/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "logo_url": "https://plugin.lyrai.app/.well-known/logo.png",
+  "contact_email": "peter@alephf.com",
+  "legal_info_url": "https://plugin.lyrai.app/.well-known/legal-info.html"
+}

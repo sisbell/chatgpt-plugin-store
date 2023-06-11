@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Vio.com",
+  "name_for_model": "vio_com",
+  "description_for_human": "A better deal on your next hotel, motel or accommodation booking.",
+  "description_for_model": "Search for hotels or other accommodations in any place. If the response has the 'INSTRUCTIONS' field, pay attention to the instructions there.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://partners.api.vio.com/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://partners.api.vio.com/.well-known/vio-white.svg",
+  "contact_email": "support@vio.com",
+  "legal_info_url": "https://www.vio.com/terms-of-use"
+}

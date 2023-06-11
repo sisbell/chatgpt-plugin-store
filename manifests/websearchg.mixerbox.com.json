@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MixerBox WebSearchG",
+  "name_for_model": "MixerBox_WebSearchG_web_search",
+  "description_for_human": "Search and summarize the web with our customized search engine powered by Google Search API!",
+  "description_for_model": "MixerBox WebSearchG enables users to browse search engine results within the chat interface effortlessly. Users can effortlessly browse search results without leaving the conversation. With a simple question or topic search, users can explore search results directly within the conversation. MixerBox WebSearchG offers clickable links, descriptive titles, and concise summaries for each result. No matter the context, MixerBox WebSearchG caters to users' needs. Whether users are engaged in a casual conversation, conducting research, or seeking quick access to information, MixerBox WebSearchG can provide information accordingly. Moreover, users can effortlessly find relevant articles, blog posts, or product reviews without having to open multiple tabs or leave the chat interface. Other than that, when users need to settle a debate or fact-check a statement, MixerBox WebSearchG can quickly retrieve trustworthy search results to provide related information. From staying updated with the latest news to exploring various perspectives on a topic, it empowers users to navigate the web seamlessly, saving time and enhancing the overall chat experience. In addition to browsing top search engine results, users can also conveniently extract summaries of web page content by simply pasting a URL. Whether it's an article, a blog post, or any webpage, MixerBox WebSearchG swiftly analyzes the content and provides concise and informative summaries. This feature eliminates the need to read through entire web pages, saving time and allowing users to quickly grasp the essence of the information they need. With the extracted summaries at their fingertips, users can seamlessly interact with WebSearchG, issuing commands like translation or asking specific questions about the article. This enhanced functionality empowers users to delve deeper into the content without having to read the entire webpage. From translating to gaining insights, MixerBox WebSearchG streamlines the information retrieval process, providing a comprehensive toolset within the chat interface. ",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "64c6984560ea4bf5ac266b96f88e688a"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://websearchg.mixerbox.com/.well-known/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://static.mixerbox.com/chatai/chatgpt-plugin/WebSearchG_logo.png",
+  "contact_email": "support@websearchg.mixerbox.com",
+  "legal_info_url": "https://websearchg.mixerbox.com"
+}

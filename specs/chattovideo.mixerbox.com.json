@@ -1,0 +1,164 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox ChatToVideo",
+    "description": "This plugin enables users to efficiently get information from an online video.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://chattovideo.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/video": {
+      "get": {
+        "summary": "The plugin enables users to search information of videos by urls. It can also provide subtitles if available.",
+        "description": "After users search for a video by a url, the plugin delivers search results including description, publish date, subtitles, viewCount, etc.",
+        "operationId": "searchVideo",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Searched video id, please parse it from the url provided by the user.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "src",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "youtube"
+              ]
+            },
+            "description": "The source of the url, please parse it from the url provided by the user. If there is no valid source, tell the user that this is not supported.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The language of response contents.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchVideoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SearchVideoResponse": {
+        "title": "SearchVideoResponse",
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Search results.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VideoItem"
+            },
+            "description": "The search results of the video."
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
+          }
+        }
+      },
+      "VideoItem": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "$ref": "#/components/schemas/VideoDetails"
+          },
+          "subtitles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of video subtitles, please generate a summary for the user based on this."
+          },
+          "subtitlesProcessing": {
+            "type": "boolean",
+            "description": "Flag indicating if subtitles are under processing. If true, tell the user that the request is being processed and will take some time, please check back later for the summary."
+          },
+          "subtitlesSupported": {
+            "type": "boolean",
+            "description": "Flag indicating if subtitles are supported."
+          }
+        }
+      },
+      "VideoDetails": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "string",
+            "description": "The author of the video"
+          },
+          "category": {
+            "type": "string",
+            "description": "The category of the video"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the video"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of keywords related to the video"
+          },
+          "lengthSeconds": {
+            "type": "string",
+            "description": "The duration of the video in seconds"
+          },
+          "ownerChannelName": {
+            "type": "string",
+            "description": "The name of the video owner's channel"
+          },
+          "publishDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The publish date of the video"
+          },
+          "shortDescription": {
+            "type": "string",
+            "description": "The short description of the video"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the video"
+          },
+          "viewCount": {
+            "type": "string",
+            "description": "The number of views the video has"
+          }
+        }
+      }
+    }
+  }
+}
