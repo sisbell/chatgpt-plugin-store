@@ -3,7 +3,7 @@
   "info": {
     "title": "CoPilot GPT API",
     "description": "Get current and historical information about vehicle models and vehicles for sale.",
-    "version": "9d9b848"
+    "version": "5d59078"
   },
   "paths": {
     "/logo.png": {
@@ -212,176 +212,10 @@
           }
         }
       }
-    },
-    "/chat/{chat_id}": {
-      "post": {
-        "summary": "Post Chat",
-        "description": "Start or continue a chat with a specified chat_id.\nThe chat allows a user to discover models that fit their needs.",
-        "operationId": "post_chat_chat__chat_id__post",
-        "parameters": [
-          {
-            "required": true,
-            "schema": {
-              "title": "Chat Id",
-              "type": "string"
-            },
-            "name": "chat_id",
-            "in": "path"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChatRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/chat": {
-      "post": {
-        "summary": "Post New Chat",
-        "description": "Start a new chat with no specified chat_id\nThe chat allows a user to discover models that fit their needs.",
-        "operationId": "post_new_chat_chat_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChatRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
-      "ChatModelSuggestion": {
-        "title": "ChatModelSuggestion",
-        "required": [
-          "make",
-          "model",
-          "description"
-        ],
-        "type": "object",
-        "properties": {
-          "make": {
-            "title": "Make",
-            "type": "string"
-          },
-          "model": {
-            "title": "Model",
-            "type": "string"
-          },
-          "description": {
-            "title": "Description",
-            "type": "string"
-          },
-          "product_url": {
-            "title": "Product Url",
-            "type": "string",
-            "default": ""
-          },
-          "model_url": {
-            "title": "Model Url",
-            "type": "string",
-            "default": ""
-          },
-          "photo": {
-            "title": "Photo",
-            "type": "string",
-            "default": ""
-          }
-        }
-      },
-      "ChatRequest": {
-        "title": "ChatRequest",
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "title": "Message",
-            "type": "string"
-          }
-        }
-      },
-      "ChatResponse": {
-        "title": "ChatResponse",
-        "required": [
-          "suggestions"
-        ],
-        "type": "object",
-        "properties": {
-          "chat_id": {
-            "title": "Chat Id",
-            "type": "string",
-            "default": ""
-          },
-          "prolog": {
-            "title": "Prolog",
-            "type": "string",
-            "default": ""
-          },
-          "suggestions": {
-            "title": "Suggestions",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ChatModelSuggestion"
-            }
-          }
-        }
-      },
       "HTTPValidationError": {
         "title": "HTTPValidationError",
         "type": "object",

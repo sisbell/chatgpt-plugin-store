@@ -1,0 +1,128 @@
+openapi: 3.0.1
+info:
+  title: Stepstone Job Search Plugin
+  description: A plugin that allows the user to find right jobs via Stepstone service.
+  version: 'v1'
+servers:
+  - url: https://www.stepstone.de
+paths:
+  /openai-plugin/v1/jobs:
+    get:
+      operationId: getJobs
+      summary: Get the list of jobs
+      parameters:
+      - in: query
+        name: keywords
+        schema:
+            type: string
+        required: true
+        description: Keywords to search for, can be either job title or company name
+      - in: query
+        name: location
+        schema:
+            type: string
+        required: true
+        description: Prefered location for job
+      - in: query
+        name: salary
+        schema:
+            type: integer
+        required: false
+        description: Desired annual salary
+      - in: query
+        name: salaryKind
+        schema:
+            type: string
+            enum: ["annual", "monthly", "weekly", "daily"]
+            default: "annual"
+        required: false
+        description: Kind of salary
+      - in: query
+        name: jobType
+        schema:
+            type: string
+            enum: ["fullTime", "partTime"]
+            default: "fullTime"
+        required: false
+        description: Job type
+      - in: query
+        name: pageNumber
+        schema:
+            type: integer
+            default: 1
+        required: false
+        description: Page number of results. Should be incremented when user wants more job offers.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getJobs'
+        "400":
+          description: Bad Request. Job Title or Location was not provided.
+  /openai-plugin/v1/company-information:
+      get:
+          operationId: GetCompanyInformation
+          summary: Get url to company page
+          parameters:
+              -   in: query
+                  name: companyName
+                  schema:
+                      type: string
+                  required: true
+                  description: Searched company name
+          responses:
+              "200":
+                  description: OK
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/getCompanyInformation'
+              "400":
+                  description: Bad Request. No company found with the given name.
+
+components:
+  schemas:
+    getJobs:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the job listing.
+        jobTitle:
+          type: string
+          description: Job title for the listing.
+        jobLocation:
+          type: string
+          description: Location of the job.
+        companyName:
+          type: string
+          description: Name of the company for the job listing.
+        url:
+          type: string
+          description: URL of the job listing.
+        salary:
+          type: string
+          description: Yearly salary amount.
+        logoUrl:
+          type: string
+          description: URL of the company's logo
+        instructionForModel:
+          type: string
+          description: Instruction for AI assistant
+        jobListingsCount:
+          type: integer
+          description: The total number of jobs found
+        jobSearchResultsUrl:
+            type: string
+            description: URL of page with job search results
+    getCompanyInformation:
+          type: object
+          properties:
+              instructionForModel:
+                  type: string
+                  description: Instruction for AI assistant
+              companyPageUrl:
+                  type: string
+                  description: URL of the company page

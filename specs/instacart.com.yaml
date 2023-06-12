@@ -2,11 +2,11 @@ openapi: 3.0.1
 info:
   title: Instacart
   description: Order from your favorite local grocery stores.
-  version: 'v1.0'
+  version: 'v2.0'
 servers:
   - url: https://www.instacart.com
 paths:
-  /v3/partner_recipe:
+  /rest/llm_integration/openapi/v2_0/recipes:
     post:
       operationId: create
       summary: Create an Instacart link to the shopping list of ingredients.

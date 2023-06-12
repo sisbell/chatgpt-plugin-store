@@ -2,7 +2,7 @@
   "schema_version": "v1",
   "name_for_human": "Boolio Invest",
   "name_for_model": "boolio",
-  "description_for_human": "The easiest way to analyze global stock values with the power of quantitative factor methodologies.",
+  "description_for_human": "Analyze stock investments from any country, with Boolio's state-of-the-art engine.",
   "description_for_model": "Comprehensive global stock value analysis based on quantitative methodologies.",
   "auth": {
     "type": "none"

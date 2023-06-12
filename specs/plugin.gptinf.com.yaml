@@ -47,7 +47,7 @@ components:
       properties:
         paraphrased:
           type: string
-          description: The paraphrase of the text.
+          description: The successful paraphrase of the text.
     errorResponse:
       type: object
       required:

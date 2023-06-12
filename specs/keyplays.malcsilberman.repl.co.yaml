@@ -96,7 +96,7 @@ paths:
           name: year
           schema:
             type: string
-          description: The year for the standings, in cases where season cross years we use the start year, if a user gives 2020/2021 then use 2020            
+          description: The year for the standings, in cases where season cross years we use the start year, if a user gives 2020/2021 then use 2020. For current year leave blank.            
       responses:
         "200":
           description: OK

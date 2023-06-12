@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Boolio ChatGPT plugin
-  version: 2023.5.3
+  version: 2023.6.1
 paths:
   /api/stock/summary:
     post:
@@ -50,7 +50,7 @@ components:
       properties:
         prompt:
           type: string
-          description: The original chat prompt from the user
+          description: The latest chat prompt from the user
         region:
           type: string
           description: An ISO-3166-1 alpha-2 code of the country

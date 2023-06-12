@@ -32,7 +32,7 @@ paths:
     /presentation.video.generate:
         post:
             operationId: generatePresentationAvatarVideo
-            summary: Generate a presentation avatar video with an image and a piece of transcript text.
+            summary: Generate a presentation video with an image and a piece of transcript text.
             requestBody:
                 required: true
                 content:

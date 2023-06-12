@@ -1,4 +1,7 @@
 # Plugin Store Listing Changelog
+## 2023-06-12
+### Delisted
+* [larkbaseagent--tongyao1.repl.co](manifests/larkbaseagent--tongyao1.repl.co.json)
 ## 2023-06-11
 ### Newly Listed
 * [0a8e9b8e7f0912323de2d3653f1ea597.preview.pluginlab.ai](manifests/0a8e9b8e7f0912323de2d3653f1ea597.preview.pluginlab.ai.json)

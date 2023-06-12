@@ -280,6 +280,22 @@ components:
           type: array
           items:
             type: string
+        request:
+          type:
+            - number
+            - string
+            - boolean
+            - object
+            - array
+            - 'null'
+        response:
+          type:
+            - number
+            - string
+            - boolean
+            - object
+            - array
+            - 'null'
         functionId:
           type: string
         createdAt:
@@ -514,17 +530,28 @@ paths:
                 properties:
                   error:
                     type: string
-  /api/v1/postcode/{postcode}:
-    get:
-      operationId: postcodeGet
+  /api/v1/postcode/query:
+    post:
+      operationId: postcodeQuery
       summary: Get election and candidate information for a given postcode
       description: Get election and candidate information for a given postcode
-      parameters:
-        - schema:
-            type: string
-          in: path
-          name: postcode
-          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - postcode
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                postcode:
+                  type: string
+        required: true
       responses:
         '200':
           description: Default Response
@@ -1204,66 +1231,61 @@ paths:
                 properties:
                   error:
                     type: string
-  /api/v1/elections/:
-    get:
-      operationId: electionsGet
+  /api/v1/elections/query:
+    post:
+      operationId: electionsQuery
       summary: Get elections with the UK
       description: Get information about elections occurring in the UK
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: coords
-          required: false
-          description: >-
-            Pass a lat/lon string as ?coords={lat},{lon} to find elections
-            covering the given coordinates.
-        - schema:
-            type: string
-          in: query
-          name: current
-          required: false
-          description: >-
-            Pass ?current=1 to return only elections which will happen in the
-            near future (we may hold info on candidates or polling stations) or
-            happened in the recent past (we may hold results). Usually this is
-            an election whose polling date is either in the next 90 days or was
-            in the last 20 days, but we may sometimes make an editorial decision
-            that a major election (e.g: a scheduled general election) is
-            "current" for a wider window than this.
-        - schema:
-            type: string
-          in: query
-          name: future
-          required: false
-          description: >-
-            Pass ?future=1 to return only elections whose polling date is in the
-            future.
-        - schema:
-            type: string
-          in: query
-          name: identifier_type
-          required: false
-          description: >-
-            Pass ?identifier_type=election, ?identifier_type=organisation or
-            ?identifier_type=ballot to return only election groups, organisation
-            groups or ballot objects.
-        - schema:
-            type: string
-          in: query
-          name: limit
-          required: false
-          description: >-
-            Pass ?limit={num} to specify number of election objects to return.
-            Use with offset to page over results. This defaults to 50.
-        - schema:
-            type: string
-          in: query
-          name: offset
-          required: false
-          description: >-
-            Pass ?offset={num} to specify Election object to start from. Use
-            with limit to page over results.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                coords:
+                  type: string
+                  description: >-
+                    Pass a lat/lon string as ?coords={lat},{lon} to find
+                    elections covering the given coordinates.
+                current:
+                  type: string
+                  description: >-
+                    Pass 1 to return only elections which will happen in the
+                    near future (we may hold info on candidates or polling
+                    stations) or happened in the recent past (we may hold
+                    results). Usually this is an election whose polling date is
+                    either in the next 90 days or was in the last 20 days, but
+                    we may sometimes make an editorial decision that a major
+                    election (e.g: a scheduled general election) is "current"
+                    for a wider window than this.
+                future:
+                  type: string
+                  description: >-
+                    Pass ?future=1 to return only elections whose polling date
+                    is in the future.
+                identifier_type:
+                  type: string
+                  description: >-
+                    Pass "election", "organisation" or "ballot" to return only
+                    election groups, organisation groups or ballot objects.
+                limit:
+                  type: string
+                  description: >-
+                    Pass to specify number of election objects to return. Use
+                    with offset to page over results. This defaults to 50.
+                offset:
+                  type: string
+                  description: >-
+                    Pass to specify Election object to start from. Use with
+                    limit to page over results.
+        required: true
       responses:
         '200':
           description: Successful response
@@ -1338,17 +1360,29 @@ paths:
                 properties:
                   error:
                     type: string
-  /api/v1/elections/{id}:
-    get:
-      operationId: singleElectionGet
+  /api/v1/election/query:
+    post:
+      operationId: singleElectionQuery
       summary: Get a single election
       description: Get information about a single election by its identifier
-      parameters:
-        - schema:
-            type: string
-          in: path
-          name: id
-          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - id
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                id:
+                  type: string
+                  description: The identifier of the election to retrieve
+        required: true
       responses:
         '200':
           description: Successful response

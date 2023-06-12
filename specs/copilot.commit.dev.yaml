@@ -45,12 +45,13 @@ paths:
           required: false
           schema:
             type: string
-        - name: description
+        - name: seniority
           in: query
-          description: The description of the job
+          description: The seniority of the job
           required: false
           schema:
             type: string
+            enum: [JUNIOR, INTERMEDIATE, SENIOR, STAFF, PRINCIPAL]
         - name: skills
           in: query
           description: The skills for the job query
@@ -59,6 +60,12 @@ paths:
             type: array
             items:
               type: string
+        - name: salaryMin
+          in: query
+          description: The minimum salary of the job
+          required: false
+          schema:
+            type: number
       responses:
         "200":
           description: OK
@@ -142,6 +149,15 @@ components:
                 type: string
               location:
                 type: string
+              place:
+                type: object
+                properties:
+                  city:
+                    type: string
+                  state:
+                    type: string
+                  country:
+                    type: string
               maxSalary:
                 type: number
               minSalary:
