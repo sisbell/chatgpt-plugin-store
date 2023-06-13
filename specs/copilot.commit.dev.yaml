@@ -88,26 +88,33 @@ paths:
                 - userId
                 - email
               properties:
+                email:
+                  description: The email of the user, which will be used to send daily job lists
+                  type: string
                 userId:
-                  type: string
                   description: the ID of the current user
+                  type: string
                 linkedinUrl:
+                  description: The linkedin url of the user, which will be used to build the user's profile for more accurate search. If this is provided, the other fields are not needed
                   type: string
-                  description: Ask this first. The linkedin url of the user, which will be used to build the user's profile for more accurate search
                 location:
-                  type: string
                   description: The location of the user, which will be used to find jobs
-                title:
                   type: string
+                title:
                   description: The title of the job
+                  type: string
+                seniority:
+                  description: The seniority of the job
+                  type: string
+                  enum: [JUNIOR, INTERMEDIATE, SENIOR, STAFF, PRINCIPAL]
                 skills:
-                  type: array
                   description: The skills for the job query
+                  type: array
                   items:
                     type: string
-                email:
-                  type: string
-                  description: The email of the user, which will be used to send daily job lists
+                salaryMin:
+                  description: The minimum salary of the job
+                  type: number
       responses:
         "200":
           description: OK

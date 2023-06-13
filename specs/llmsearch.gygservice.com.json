@@ -37,6 +37,15 @@
           {
             "required": false,
             "schema": {
+              "title": "Location Id",
+              "type": "integer"
+            },
+            "name": "location_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
               "title": "Skip",
               "type": "integer",
               "default": 0
@@ -584,41 +593,45 @@
             "items": {
               "$ref": "#/components/schemas/Activity"
             }
+          },
+          "seeMore": {
+            "title": "Seemore",
+            "type": "string"
           }
         }
       },
       "SearchPrice": {
         "title": "SearchPrice",
         "required": [
-          "discountPercentage",
-          "priceCategoryLabel",
-          "priceCategory",
           "startingPrice",
+          "formattedStartingPrice",
           "basePrice",
+          "formattedBasePrice",
           "currency",
-          "currencySymbol"
+          "currencySymbol",
+          "priceCategory",
+          "priceCategoryLabel",
+          "unformattedBookingFee",
+          "unformattedDiscountPercentage",
+          "discountPercentage"
         ],
         "type": "object",
         "properties": {
-          "discountPercentage": {
-            "title": "Discountpercentage",
-            "type": "string"
-          },
-          "priceCategoryLabel": {
-            "title": "Pricecategorylabel",
-            "type": "string"
-          },
-          "priceCategory": {
-            "title": "Pricecategory",
-            "type": "string"
-          },
           "startingPrice": {
             "title": "Startingprice",
             "type": "number"
           },
+          "formattedStartingPrice": {
+            "title": "Formattedstartingprice",
+            "type": "string"
+          },
           "basePrice": {
             "title": "Baseprice",
             "type": "number"
+          },
+          "formattedBasePrice": {
+            "title": "Formattedbaseprice",
+            "type": "string"
           },
           "currency": {
             "title": "Currency",
@@ -626,6 +639,26 @@
           },
           "currencySymbol": {
             "title": "Currencysymbol",
+            "type": "string"
+          },
+          "priceCategory": {
+            "title": "Pricecategory",
+            "type": "string"
+          },
+          "priceCategoryLabel": {
+            "title": "Pricecategorylabel",
+            "type": "string"
+          },
+          "unformattedBookingFee": {
+            "title": "Unformattedbookingfee",
+            "type": "number"
+          },
+          "unformattedDiscountPercentage": {
+            "title": "Unformatteddiscountpercentage",
+            "type": "number"
+          },
+          "discountPercentage": {
+            "title": "Discountpercentage",
             "type": "string"
           }
         }
@@ -645,6 +678,16 @@
           "rating": {
             "title": "Rating",
             "type": "number"
+          },
+          "totalCount": {
+            "title": "Totalcount",
+            "type": "integer",
+            "default": 0
+          },
+          "averageRating": {
+            "title": "Averagerating",
+            "type": "number",
+            "default": 0
           }
         }
       },

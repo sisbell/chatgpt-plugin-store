@@ -424,9 +424,9 @@ paths:
   /api/v1/person/query:
     post:
       operationId: personQuery
-      summary: Query a politicians appearances and votes
+      summary: Query a single politicians appearances and votes
       description: >-
-        Accepts a search query with filters to specify the politician,
+        Accepts search queries with filters to specify the politician,
         publication dates and whether to return appearances, votes or both.
       requestBody:
         content:
@@ -510,6 +510,108 @@ paths:
                 properties:
                   message:
                     type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                description: Bad request
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                description: Internal server error
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/v1/people/query:
+    post:
+      operationId: peopleQuery
+      summary: Query a group of politicians appearances
+      description: >-
+        Accepts search queries with filters to specify the group of politicians
+        and publication dates. Use to find which politicians from a group have
+        mentioned a topic in such places as the House of Commons, House of
+        Lords, or in a committee meeting.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - originalMessage
+                - queries
+                - parties
+                - type
+              properties:
+                originalMessage:
+                  description: >-
+                    The complete original message from the user. Do not omit any
+                    words.
+                  type: string
+                queries:
+                  description: >-
+                    The queries to search against. Each topic should be a
+                    separate query.
+                  type: array
+                  items:
+                    type: string
+                publishedAfter:
+                  description: The date to search after
+                  type: string
+                publishedBefore:
+                  description: The date to search before
+                  type: string
+                returnCompletion:
+                  description: Whether to return llm created completion
+                  type: boolean
+                parties:
+                  description: >-
+                    The parties to search against. To search all parties send an
+                    empty array.
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - Labour
+                      - Conservative
+                      - Green Party
+                      - Liberal Democrats
+                      - Scottish National Party
+                type:
+                  description: The type of politician
+                  type: string
+                  enum:
+                    - Member of Parliament
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                description: Successful response
+                type: object
+                schema:
+                  type: object
+                  properties:
+                    documentChunks:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          relevantTextChunks:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/DocumentChunk'
+                    completion:
+                      type: string
         '400':
           description: Bad request
           content:

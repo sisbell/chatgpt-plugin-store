@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Flight Ticket And Hotel Search API
-  description: Provide users customized itinarary planning and suitable recommendations of hotel and flights based on the real-time flight ticket and hotel info as per request.
+  title: Trip.com Plugin- Personal Travel Assistant.
+  description: Provide users with personalized itinerary planning and travel products including hotels, flights, trains, attractions & tours, etc.
   version: 1.0.0
 servers:
   - url: https://www.trip.com/ai-resource
@@ -54,6 +54,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
+  /searchItinerary:
+    post:
+      summary: Get the itinerary info that matches userâs request
+      operationId: search_itinerary
+      description: This endpoint can be used when a user wants to plan a travel itinerary, for example, plan a two-day trip to London.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItineraryQueryRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItineraryQueryResponse"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
 components:
   schemas:
     HTTPValidationError:
@@ -68,6 +92,8 @@ components:
       required:
         - destinationCityCode
         - locale
+        - originalInput
+        - originalInputInEnglish
       type: object
       properties:
         originCityCode:
@@ -91,6 +117,14 @@ components:
           enum:
             - OW
             - RT
+        originalInput:
+          title: originalInput
+          type: string
+          description: The user's original input
+        originalInputInEnglish:
+          title: originalInputInEnglish
+          type: string
+          description: The user's original input, translate to english.
     FlightQueryResponse:
       title: FlightQueryResponse
       required:
@@ -196,6 +230,8 @@ components:
       required:
         - cityName
         - locale
+        - originalInput
+        - originalInputInEnglish
       type: object
       properties:
         cityName:
@@ -213,6 +249,230 @@ components:
         checkOut:
           title: checkOut
           type: date
+        starList:
+          title: starList
+          description: |
+            Hotel star ranking.The possible values are:
+            -`1`	1-star
+            -`2`	2-star
+            -`3`	3-star
+            -`4`	4-star
+            -`5`	5-star
+          type: array
+          items:
+            type: integer
+            enum:
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        facilityList:
+          title: facilityList
+          description: |
+            Hotel facilities.The possible values are:
+            -`656`: åè½¦åº
+            -`102`: å¬ç¨åºwifi
+            -`144`: ææ°
+            -`110`: çµæ¢¯
+            -`97`:  è¡æå¯å­
+            -`384`: è±å­
+            -`147`: é¤å
+            -`142`: å¸çåº
+            -`15`:  æ´è¡£æå¡
+            -`61`:  å®¤å¤æ³³æ± 
+            -`16`:  éé¤æå¡
+            -`5`:   éå§
+            -`177`: å¬å±åºåçæ§
+            -`336`: æ¯æ¥ææ«
+            -`6`:   ä¼è®®å
+            -`42`:  å¥èº«å®¤
+            -`153`: éé±¼
+            -`19`:  æ éç¢å®¢æ¿
+            -`105`: æ¥æºæå¡
+            -`133`: ç­è½¦æå¡
+            -`129`: ä¼ ç/å¤å°
+            -`127`: ç¤¼å®¾æå¡
+            -`344`: æ¥æå
+            -`98`:  å«éæå¡
+            -`128`: å¹²æ´æå¡
+            -`350`: é¨ç¦ç³»ç»
+            -`123`: ç§è½¦æå¡
+            -`68`:  å¿ç«¥ä¹å­
+            -`374`: æµ·æ»©
+            -`362`: æ´è¡£æ¿
+            -`31`:  ç½çåº
+            -`173`: æ çæ¥¼å±
+            -`33`:  é«å°å¤«çåº
+            -`44`:  æ¡æ¿æµ´å®¤
+            -`3`:   åå¡å
+            -`154`: æ¸¸æå®¤
+            -`65`:  Spa
+            -`359`: å±ç¨å¨æ¿
+            -`548`: ææäº¤ææ¯ææ ç°é
+            -`122`: å¿ç«¥æç®¡
+            -`11`:  å¤å¸åæ¢æå¡
+            -`149`: ä»£å®¢æ³è½¦
+            -`158`: æ»éª
+            -`263`: æ¥ç«æå¡
+            -`24`:  æ£çå®¤
+            -`69`:  å¿«éæå¡
+            -`40`:  å»å¡å®¤
+            -`383`: éé¤åº
+            -`349`: æå½±è®¾å¤
+            -`135`: ç¿»è¯æå¡
+            -`681`: åçµè½¦ä½
+            -`22`:  KTV
+            -`137`: å©å®´æå¡
+            -`375`: æ°´ä¸ä¹å­
+            -`30`:  ä¿é¾çåº
+            -`351`: æ°é£ç³»ç»
+            -`579`: å®è´§äº­/ä¾¿å©åº
+            -`578`: å°åå§
+            -`2`:   è¥¿é¤å
+            -`63`:  è¶å®¤
+            -`432`: æ¯è§æ³³æ± 
+            -`377`: æ²æ»©/æ³³æ± é®é³ä¼
+            -`538`: çµå­èº«ä»½è¯å¥ä½
+            -`64`:  è¶³æµ´
+          type: array
+          items:
+            type: integer
+            enum:
+              - 656
+              - 102
+              - 144
+              - 110
+              - 97
+              - 384
+              - 147
+              - 142
+              - 15
+              - 61
+              - 16
+              - 5
+              - 177
+              - 336
+              - 6
+              - 42
+              - 153
+              - 19
+              - 105
+              - 133
+              - 129
+              - 127
+              - 344
+              - 98
+              - 128
+              - 350
+              - 123
+              - 68
+              - 374
+              - 362
+              - 31
+              - 173
+              - 33
+              - 44
+              - 3
+              - 154
+              - 65
+              - 359
+              - 548
+              - 122
+              - 11
+              - 149
+              - 158
+              - 263
+              - 24
+              - 69
+              - 40
+              - 383
+              - 349
+              - 135
+              - 681
+              - 22
+              - 137
+              - 375
+              - 30
+              - 351
+              - 579
+              - 578
+              - 2
+              - 63
+              - 432
+              - 377
+              - 538
+              - 64
+        themeList:
+          title: themeList
+          description: |
+            Hotel theme.The possible values are:
+            -`330`	è¿å°é
+            -`17`	å® ç©åå¥½
+            -`754`	æµ·æ»©æ²¿å²¸
+            -`643`	çªå¤å¥½æ¯
+            -`1172` æ°å¼ä¸
+            -`609`	æ½æ°´ä½éª
+            -`770`	æ°´å²¸é£å
+            -`646`	æ¸©æ³æ³¡æ±¤
+            -`1150` äº²å­éåº
+            -`190`	åå¡åºè¡
+            -`771`	çµç«éåº
+            -`102`	ç½çº¢æ³³æ± 
+            -`696`	å¨äººå¤æ¯
+            -`1187` æµªæ¼«ä¹æ
+            -`619`	ç½çº¢éåº
+            -`1151` é²è¥
+          type: array
+          items:
+            type: inetger
+            enum:
+              - 330
+              - 17
+              - 754
+              - 643
+              - 1172
+              - 609
+              - 770
+              - 646
+              - 1150
+              - 190
+              - 771
+              - 102
+              - 696
+              - 1187
+              - 619
+              - 1151
+        typeList:
+          title: typeList
+          description: |
+            Hotel type.The possible values are:
+            -`493`	æ°å®¿
+            -`940`	åº¦åå«å¢
+            -`494`	ç¹è²åä½å®¿ 
+            -`486`	éåº/åº¦åæ
+            -`487`	éåºå¼å¬å¯
+            -`491`	éå¹´æè
+            -`489`	æ°å®¿
+          type: array
+          items:
+            type: integer
+            enum:
+              - 493
+              - 940
+              - 494
+              - 486
+              - 487
+              - 491
+              - 489
+        originalInput:
+          title: originalInput
+          type: string
+          description: The user's original input
+        originalInputInEnglish:
+          title: originalInputInEnglish
+          type: string
+          description: The user's original input, translate to english.
     HotelQueryResponse:
       title: HotelQueryResponse
       required:
@@ -273,3 +533,85 @@ components:
           type: array
           items:
             type: string
+    ItineraryQueryRequest:
+      title: ItineraryQueryRequest
+      required:
+        - destinationCityName
+        - locale
+        - originalInput
+        - originalInputInEnglish
+      type: object
+      properties:
+        originCityName:
+          title: originCityName
+          type: string
+        destinationCityName:
+          title: destinationCityName
+          type: string
+        locale:
+          title: locale
+          type: string
+        checkIn:
+          title: checkIn
+          type: date
+        days:
+          title: days
+          type: int
+          description: If the user does not have an expected duration for the trip, this field can be omitted. The trip recommendations will be based on the actual circumstances of the destination.
+        originalInput:
+          title: originalInput
+          type: string
+          description: The user's original input
+        originalInputInEnglish:
+          title: originalInputInEnglish
+          type: string
+          description: The user's original input, translate to english.
+    ItineraryQueryResponse:
+      title: ItineraryQueryResponse
+      required:
+        - itineraryList
+      type: object
+      properties:
+        itineraryList:
+          title: itineraryList
+          type: array
+          items:
+            $ref: "#/components/schemas/Itinerary"
+    Itinerary:
+      title: Itinerary
+      type: object
+      properties:
+        numberOfDays:
+          title: numberOfDays
+          type: int
+        touristAttractions:
+          title: touristAttractions
+          type: array
+          items:
+            $ref: "#/components/schemas/TouristAttraction"
+        hotel:
+          title: hotel
+          type: object
+          $ref: "#/components/schemas/Hotel"
+    TouristAttraction:
+      title: TouristAttraction
+      type: object
+      properties:
+        touristAttractionName:
+          title: touristAttractionName
+          type: string
+        businessHours:
+          title: businessHours
+          type: string
+        price:
+          title: price
+          type: string
+        recommendedStayTime:
+          title: recommendedStayTime
+          type: string
+        address:
+          title: address
+          type: string
+        poiUrl:
+          title: touristAttractionUrl
+          type: string

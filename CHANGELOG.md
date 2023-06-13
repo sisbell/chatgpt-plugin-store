@@ -1,4 +1,8 @@
 # Plugin Store Listing Changelog
+## 2023-06-13
+### Delisted
+* [chatgpt.boolio.co.kr](manifests/chatgpt.boolio.co.kr.json)
+* [www.mixerboxnews.com](manifests/www.mixerboxnews.com.json)
 ## 2023-06-12
 ### Delisted
 * [larkbaseagent--tongyao1.repl.co](manifests/larkbaseagent--tongyao1.repl.co.json)

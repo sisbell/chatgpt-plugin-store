@@ -76,7 +76,7 @@
             "name": "title",
             "in": "query",
             "required": false,
-            "description": "The name of the charging station or business name location, e.g. Walmart, Target, etc.",
+            "description": "The name of the charging station or business name, e.g. Walmart, Target, etc. Do not use this parameter for address or city. Use the address and city query parameters instead.",
             "schema": {
               "type": "string"
             }
@@ -91,10 +91,28 @@
             }
           },
           {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "Country for which to query general public charging station information. E.g. Portugal, United States, Mexico, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "countryCode",
+            "in": "query",
+            "required": false,
+            "description": "Two character country code for which to query general public charging station information. E.g. PT, US, MX, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "state",
             "in": "query",
             "required": false,
-            "description": "US State for which to query for general public charging station information. e.g. NV, CA, NY, etc.",
+            "description": "US State abbreviation for which to query for general public charging station information. e.g. NV, CA, NY, etc.",
             "schema": {
               "type": "string"
             }
@@ -103,7 +121,7 @@
             "name": "address",
             "in": "query",
             "required": false,
-            "description": "The address of the charging station, e.g. 123 Main St. For locations, like a restaurant or business, use the title parameter instead.",
+            "description": "The street address of the charging station. Remove the number part of the address if provided to get a general approximation. E.g. If provided, 123 Main St. use only Main St. If city and state are provided, split the string from the address and apply those to the other parameters accordingly, e.g. 123 Main St. Reno, NV would be Main St. for the address, Reno for the city and NV for the state.",
             "schema": {
               "type": "string"
             }
@@ -139,7 +157,7 @@
             "name": "connectorType",
             "in": "query",
             "required": false,
-            "description": "The type of connector to query for, e.g. J1772, CHAdeMO, Tesla, etc.",
+            "description": "The type of connector to query for, e.g. J1772, CHAdeMO, Tesla (NACS), CCS, etc.",
             "schema": {
               "type": "string"
             }
@@ -241,7 +259,7 @@
             "name": "country",
             "in": "query",
             "required": false,
-            "description": "Country for which to retrieve supercharger for non-Tesla vehicles information. E.g. United States, Germany, etc.",
+            "description": "Country for which to retrieve supercharger for non-Tesla vehicles information. E.g. United States, Germany, Portugal, etc.",
             "schema": {
               "type": "string"
             }
@@ -250,7 +268,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Region for which to retrieve supercharger for non-Tesla vehicles information. E.g. North America, Europe, Asia, etc.",
+            "description": "Region (more-or-less continent but not entirely a 1-to-1) for which to retrieve supercharger for non-Tesla vehicles information. E.g. North America, Europe, Asia, etc.",
             "schema": {
               "type": "string"
             }
@@ -348,14 +366,14 @@
             "type": "array",
             "items": {
               "type": "string",
-              "description": "Superchargers by cities relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request especially for larger dataset results like a country or region."
+              "description": "Charging stations by cities relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request especially for larger dataset results."
             }
           },
           "provincesStates": {
             "type": "array",
             "items": {
               "type": "object",
-              "description": "Superchargers by province/state relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request especially for larger dataset results like a country or region.",
+              "description": "Charging stations by province/state relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request.",
               "properties": {
                 "abbr": {
                   "type": "string",
@@ -378,7 +396,7 @@
           },
           "countries": {
             "type": "array",
-            "description": "Superchargers by countries relevant to the request.",
+            "description": "Charging statioons by countries relevant to the request.",
             "items": {
               "type": "string",
               "description": "Name of the country"
@@ -451,7 +469,7 @@
           },
           "connnector_types": {
             "type": "array",
-            "description": "The types of connectors available at the charging station",
+            "description": "The types of connectors available at the charging station, e.g. J1772, CHAdeMO, Tesla (NACS), etc.",
             "items": {
               "type": "string"
             }

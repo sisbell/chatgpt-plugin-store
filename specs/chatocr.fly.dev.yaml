@@ -19,7 +19,7 @@ paths:
               properties:
                 url:
                   type: string
-                  description: The URL of the PDF file
+                  description: The URL of the file
       responses:
         "200":
           description: OK
@@ -27,7 +27,7 @@ paths:
             application/json:
               schema:
                 type: object
-                description: The OCR data for PDF file
+                description: The OCR data for the file
   /feedback:
     post:
       operationId: sendFeedback

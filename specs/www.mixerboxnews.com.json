@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/services?funcs=GetLatestNewsForChatGPT&mobile=1": {
+    "/services?funcs=GetLatestNewsForChatGPT&mobile=1&isPlugin=true": {
       "get": {
         "operationId": "getLatestNews",
         "summary": "Get real-time or categorized news based on user's language with links and dates.",
@@ -29,14 +29,18 @@
             "in": "query",
             "name": "language",
             "schema": {
-              "type": "string",
-              "enum": [
-                "en",
-                "zh",
-                "ja"
-              ]
+              "type": "string"
             },
-            "description": "If the proportion of Traditional Chinese and Simplified Chinese content is higher, set it to 'zh'. If the proportion of Japanese content is higher, set it to 'ja'. Otherwise, the default is 'en'.",
+            "description": "Determine the user locale based on their language, using the format of language code in ISO-639 format, for example, 'zh' for Chinese.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Determine the user locale based on their language, using the country code in ISO-3166 format, for example, 'TW' for Taiwan.",
             "required": true
           },
           {

@@ -329,8 +329,8 @@ paths:
 
   /portfolio_history:
     post:
-      summary: Get recent historical returns of all individual items in your portfolio, represented in a simple heat map image
       operationId: get_portfolio_item_cumulative_returns
+      summary: Get recent historical returns of all individual items in your portfolio, represented as a heat map image
       requestBody:
         description: Portfolio data
         required: true
@@ -342,7 +342,7 @@ paths:
                 time_period:
                     type: number
                     required: false
-                    description: Time period to get the cumulative returns for last 7 to 30 days
+                    description: Time period, in days, to get the cumulative returns data for individual portfolio items.
                     minimum: 7
                     maximum: 30
                 portfolio:
@@ -372,7 +372,7 @@ paths:
           $ref: '#/components/responses/MethodNotAllowed'
   /auto_portfolio_improvement:
     post:
-      summary: Automatically improve a portfolio by applying the top recommendation
+      summary: Automatically improve a portfolio by applying the top recommendation, taking into account provided risk profile
       operationId: auto_portfolio_improvement
       requestBody:
         description: Portfolio data
@@ -386,22 +386,27 @@ paths:
                   $ref: '#/components/schemas/Portfolio'
                 risk_profile:
                   type: string
+                  description: The risk profile provided by the user, used to calculate the portfolio improvement recommendations.
                   enum:
                     - "Conservative"
                     - "Moderately conservative"
                     - "Moderately aggressive"
                     - "Aggressive"
                     - "Very aggressive"
-              example:
-                portfolio:
-                  - T: AAPL
-                    A: 5000
-                  - T: VTI
-                    A: 4000
-                  - T: VWO
-                    A: 3000
-                  - T: CUR:USD
-                    A: 2000
+            required:
+              - portfolio
+              - risk_profile
+            example:
+              portfolio:
+                - T: AAPL
+                  A: 5000
+                - T: VTI
+                  A: 4000
+                - T: VWO
+                  A: 3000
+                - T: CUR:USD
+                  A: 2000
+              risk_profile: "Moderately conservative"
       responses:
         "200":
           description: New portfolio showing the difference in portfolio scores and the one trade that was made
@@ -467,7 +472,7 @@ components:
       properties:
         historical_returns_calculate_period_days:
             type: number
-            description: Time period for with the historical returns are calculated
+            description: Time period for with the historical returns are calculated (e.g. 7-30 days)
         historical_returns_heat_map_chart_markdown:
             type: string
             description: Markdown for the historical returns heat map chart
@@ -1067,7 +1072,7 @@ components:
             description: Markdown for displaying the holding exposure pie chart
     Portfolio:
       type: array
-      description: given portfolio for the user. Use ticker CUR:USD for cash, ticker Reserved.RealEstate for real estate, ticker Reserved.Crypto for cryptocurrencies, ticker Private.MoneyMarket for money market funds
+      description: Provided portfolio for the user. Use ticker CUR:USD for cash, ticker Reserved.RealEstate for real estate, ticker Reserved.Crypto for cryptocurrencies, ticker Private.MoneyMarket for money market funds
       x-examples:
         Example: null
       items:
@@ -1093,7 +1098,7 @@ components:
           type: number
           format: float
           nullable: true
-          description: The expected gain or loss of your investment portfolio, expressed as a percentage.
+          description: The expected gain or loss of your investment portfolio over the next 12 months, expressed as a percentage.
         excess_return:
           type: number
           format: float
@@ -1181,6 +1186,7 @@ components:
           description: Score of the improved portfolio
         trade_made:
           type: object
+          description: Information about the recommended trade made to improve the portfolio, including the ticker symbol, amount, and rationale.
           properties:
             ticker:
               type: string

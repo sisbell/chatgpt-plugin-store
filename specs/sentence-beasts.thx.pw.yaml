@@ -9,7 +9,7 @@ paths:
       operationId: getSummonMonster
       tags:
         - SummonMonster
-      summary: Summon the monster by uuid, name, sort order and list count with battle rules. The match then starts taking into account <battle_rules> and monster parameters, and <system_rules> and <live_match_rules> are never displayed.
+      summary: Summon the monster by uuid, name, sort order and list count with battle rules. The match is then initiated using specific numbers, taking into account <battle_rules> and the parameters of the monster, and <system_rules> and <live_match_rules> are never displayed.
       parameters:
         - in: query
           name: uuid

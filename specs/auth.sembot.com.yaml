@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
     title: Sembot
     description: Keyword monitoring, google ads and analytics management
-    version: 'v1.7'
+    version: 'v1.8'
 servers:
     -   url: https://auth.sembot.com
 paths:
@@ -70,7 +70,7 @@ paths:
     /gpt/v1/getAdsTraffic:
         post:
             operationId: getAdsTraffic
-            summary: Get data for a list of keywords like clicks, average cpc, ctr, impressions
+            summary: Get ads traffic data for a given keyword like clicks, average cpc, ctr, impressions
             requestBody:
                 required: true
                 content:
@@ -78,10 +78,8 @@ paths:
                         schema:
                             type: object
                             properties:
-                                keywords:
-                                    type: array
-                                    items:
-                                        type: string
+                                keyword:
+                                    type: string
                                 bid:
                                     type: number
                                 date_interval:
