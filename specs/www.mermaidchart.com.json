@@ -1,0 +1,89 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Mermaid Chart",
+    "version": "0.1"
+  },
+  "paths": {
+    "/rest-api/chatgpt/render-diagram": {
+      "get": {
+        "operationId": "render_diagram",
+        "tags": [
+          "Diagram",
+          "Mermaid",
+          "Flowchart",
+          "Mindmap",
+          "Timeline",
+          "Quadrant Chart",
+          "Gantt",
+          "Class Diagram",
+          "State Diagram",
+          "Entity Relationship Diagram",
+          "User Journey Diagram",
+          "Pie Chart",
+          "gitGraph",
+          "Sequence Diagram"
+        ],
+        "summary": "Accepts a Mermaid diagram, processes it to create a visual representation, and provides a link to access the generated image.",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The code of the Mermaid Diagram to render",
+              "examples": {
+                "flowchart": "flowchart TB\\n  A[\\\"Square Rect\\\"] -- \\\"Link text\\\" --> B((\\\"Circle\\\"))\\n  A --> C(\\\"Round Rect\\\")\\n  B --> D{\\\"Rhombus\\\"}\\n  C --> D",
+                "mindmap": "mindmap\\n  root((\"mindmap\"))\\n    cloud)\"Origins\")\\n      Long history\\n      Popularisation\\n        British popular psychology author Tony Buzan\\n    Research\\n      On effectivness<br/>and features\\n    Tools\\n      Pen and paper\\n      Mermaid",
+                "timeline": "timeline\\n    title Timeline of Industrial Revolution\\n    section 17th-20th century\\n        Industry 1.0 : Machinery\\n        Industry 2.0 : Electricity\\n        Industry 3.0 : Electronics, Computers\\n    section 21st century\\n        Industry 4.0 : Internet, Robotics"
+              }
+            },
+            "name": "mermaidCode",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "diagram": {
+                      "type": "object",
+                      "properties": {
+                        "diagramUrl": {
+                          "description": "URL to the generated diagram at Mermaid Chart",
+                          "type": "string"
+                        },
+                        "linkToMermaidChartEditor": {
+                          "type": "string",
+                          "description": "Link to the online editor at Mermaid Chart for modifying the diagram"
+                        },
+                        "linkToMermaidChart": {
+                          "type": "string",
+                          "description": "Link to the Mermaid Chart website"
+                        },
+                        "errorMessage": {
+                          "description": "Something went wrong when generated the diagram",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "diagramUrl",
+                        "linkToMermaidChart"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "diagram"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

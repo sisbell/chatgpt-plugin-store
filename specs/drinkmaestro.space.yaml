@@ -1,0 +1,87 @@
+openapi: 3.0.1
+info:
+  title: Drink Maestro API
+  description: An API to search for beverage recipes and get detailed information about drinks and ingredients.
+  version: "v1"
+servers:
+  - url: 'https://drinkmaestro.space'
+paths:
+  /searchDrink:
+    get:
+      operationId: searchDrink
+      summary: Search for a cocktail by name
+      parameters:
+        - name: drink_name
+          in: query
+          description: Name of the cocktail to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A cocktail object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cocktail'
+  /listCocktails:
+    get:
+      operationId: listCocktails
+      summary: List all cocktails by first letter
+      parameters:
+        - name: first_letter
+          in: query
+          description: First letter of the cocktail names to list
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An array of cocktail objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cocktail'
+  /searchIngredient:
+    get:
+      operationId: searchIngredient
+      summary: Search for an ingredient by name
+      parameters:
+        - name: ingredient_name
+          in: query
+          description: Name of the ingredient to search for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An ingredient object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+  /randomCocktail:
+    get:
+      operationId: randomCocktail
+      summary: Get a random cocktail
+      responses:
+        '200':
+          description: A cocktail object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cocktail'
+  /nonAlcoholicList:
+    get:
+      operationId: nonAlcoholicList
+      summary: Get a list of non-alcoholic drinks
+      responses:
+        '200':
+          description: An array of cocktail objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cocktail'
+

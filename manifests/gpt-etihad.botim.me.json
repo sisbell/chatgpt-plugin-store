@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "Etihad_Airline",
+  "name_for_human": "Etihad Airline",
+  "description_for_model": "Search flights, and answer other related questions of flights.",
+  "description_for_human": "Search flights, and answer other related questions of flights.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gpt-etihad.botim.me/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gpt-etihad.botim.me/.well-known/App_icon.png",
+  "contact_email": "songkuan.zheng@algento.com",
+  "legal_info_url": "https://www.etihad.com/en-us/legal/terms-and-conditions"
+}

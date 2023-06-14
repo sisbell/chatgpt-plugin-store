@@ -2,13 +2,13 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Shownotes",
-    "description": "Turns long podcasts into quick summaries, finds specific info, highlights key points, and suggests new episodes.",
+    "description": "extract and summarize podcast transcripts.",
     "version": "v1"
   },
   "paths": {
     "/captions-shownotes.php": {
       "get": {
-        "description": "Returns the transcript from Shownotes of the specified show",
+        "description": "searches shownotes.io with show and returns transcript",
         "operationId": "AudioController_findTranscript",
         "parameters": [
           {
@@ -22,7 +22,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "A JSON object of the transcript",
             "content": {
               "application/json": {
                 "schema": {
@@ -36,7 +36,7 @@
     },
     "/search-youtube.php": {
       "get": {
-        "description": "Returns list of up to 3 candidate YouTube shows related to the specified show. The videoid returned by this endpoint can be used in CaptionController_findTranscript to get the transcript directly from Youtube.",
+        "description": "Search YouTube for podcasts matchng show, returns array of 3 videoids",
         "operationId": "SearchController_findVideos",
         "parameters": [
           {
@@ -50,7 +50,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "A JSON object with an array of 3 video ids",
             "content": {
               "application/json": {
                 "schema": {
@@ -64,7 +64,7 @@
     },
     "/captions-youtube.php": {
       "get": {
-        "description": "Returns transcript of YouTube video using the specified videoid. This endpoint can be used if a videoid is specified either by  the user or another endpoint. If the full URL of a Youtube link is provided, only send the 11-character videoid to this endpoint.",
+        "description": "Returns transcript of YouTube video using videoid",
         "operationId": "CaptionController_findTranscript",
         "parameters": [
           {
@@ -78,7 +78,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "A JSON object of the transcript",
             "content": {
               "application/json": {
                 "schema": {

@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: eSIM Travel Assistant
+  description: The eSIM Travel Assistant is a highly intuitive plugin designed to help users streamline the purchase of eSIM data packages. It utilizes the advanced capabilities of ChatGPT to understand and respond to user inquiries based on input keywords related to eSIM, data usage, SIM cards, or travel networking. By simply inputting a country or region name, coupled with eSIM-related keywords, users can conveniently receive information about available eSIM data packages for their desired destination. This plugin eliminates the hassles of searching for compatible eSIM plans, making it an invaluable tool for frequent travelers and digital nomads. Whether you're planning for a business trip or embarking on a global adventure, the eSIM Travel Assistant has you covered. Discover, compare, and purchase the best eSIM data packages tailored to your travel needs, all in one place. Stay connected, no matter where your journey takes you.
+  version: 'v1'
+servers:
+  - url: https://rtgai.redteago.com
+paths:
+  /api/v1/dataPlan/query:
+    post:
+      summary: Get package list
+      operationId: "queryDataPlan"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryDataPlanReq"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/QueryDataPlanResp"
+
+components:
+  schemas:
+    QueryDataPlanReq:
+      type: "object"
+      properties:
+        area:
+          type: "string"
+          required: true
+          description: the GEC code of area
+    VolumesDTO:
+      name:
+        type: "string"
+        description: package name
+      type: "object"
+      properties:
+        volume:
+          type: "integer"
+          format: "double"
+          description: The amount of usage included in the package, the current unit is GB
+        day:
+          type: "integer"
+          format: "int32"
+          description: The validity period of the package, in days
+        price:
+          type: "integer"
+          format: "double"
+          description: The price of the package, the current unit is USD
+        buyLink:
+            type: "string"
+            description: Package purchase link
+            description_for_model: need to be converted into a hyperlink
+    QueryDataPlanResp:
+      type: "object"
+      description: response content
+      properties:
+        volumes:
+          type: "array"
+          description: The list of volumes.
+          items:
+            $ref: "#/components/schemas/VolumesDTO"

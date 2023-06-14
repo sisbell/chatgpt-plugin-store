@@ -1,15 +1,26 @@
 openapi: 3.0.0
 info:
   title: pluginpedia
-  description: A plugin that recommends ChatGPT plugins, which can recommend plugins from the plugin store that can solve the user's question based on the user's question, and at the same time introduce the user to the usage method, examples, etc. of this plugin. Do not answer plugins that have not been returned in getPlugins. If no suitable plugin is found, tell the user that none was found.
+  description: The first step is to determine which category the plugin the user is looking for belongs to based on the user's question. The second step is to use the determined category to request the /plugins post interface, Only one category can be filled in a single request, obtain the plugin list information belonging to the category to answer the user's question. If the judgement cannot provide an answer, you can re-determine a new category to request the interface, and then provide an answer.
   version: 1.0.0
 servers:
   - url: 'https://pluginpedia.replit.app'
 paths:
   /plugins:
-    get:
+    post:
       operationId: getPlugins
       summary: Retrieve a list of plugins from ChatGPT plugin store
+      requestBody:
+        description: categroy of plugins, Only one category can be filled in a single request e.g. "Finance,Business,SocialNetworking,DeveloperTools,Productivity,Reference,Web,Travel,LocalLife,Shopping,Weather,Navigation,Graphics,Design,News,Newspapers,Utilities,,Education,Sports,Entertainment,Books,Music,Medical,Health,Fitness,Food,Crypto,Kids,Video,Game,Photo"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categroy:
+                  type: string
+                  description: categroy of plugins, Please only enter categories from the list separated by commas, and make sure the characters and capitalization are correct, Only one category can be filled in a single request. categories list "Finance,Business,SocialNetworking,DeveloperTools,Productivity,Reference,Web,Travel,LocalLife,Shopping,Weather,Navigation,Graphics,Design,News,Newspapers,Utilities,,Education,Sports,Entertainment,Books,Music,Medical,Health,Fitness,Food,Crypto,Kids,Video,Game,Photo"
       responses:
         '200':
           description: A list of plugins from ChatGPT plugin store
@@ -40,7 +51,3 @@ components:
         prompt_example:
           type: string
           description: Examples of prompts for using this plugin, different examples will be separated by commas,These examples can help users quickly get started with this plugin, so try to display them in the answer after calling the plugin.
-
-
-
-

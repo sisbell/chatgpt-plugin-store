@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Preply",
+  "name_for_model": "Preply",
+  "description_for_human": "Finding the best language tutors.",
+  "description_for_model": "Finding the best language tutors. Preply is the leading online language learning platform worldwide. You can choose from 14896 English teachers with an average rating of 4.9 out of 5 stars given by 125060 customers. Book a lesson with a private English teacher today and start learning. Not entirely happy with your tutor? No worries, Preply offers free tutor replacement till you're 100% satisfied. Looking for a different way to learn a language? Explore online English classes.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://preply.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://static.preply.com/ds/icons/favicon-ua.ico",
+  "contact_email": "support@preply.com",
+  "legal_info_url": "https://preply.com/en/legal"
+}

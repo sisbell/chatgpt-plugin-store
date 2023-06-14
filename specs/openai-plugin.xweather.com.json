@@ -60,17 +60,17 @@
     },
     "/weather/forecast/{location}": {
       "get": {
-        "summary": "Weather Forecast for the next 5 days",
+        "summary": "Weather Forecast for the next 4 days",
         "description": "Get the weather forecast, including warnings, for the next 4 days. Requires a user-provided location.",
         "operationId": "get_forecast_weather_forecast__location__get",
         "parameters": [
           {
-            "description": "A Valid AerisWeather API Location. The location may be a 'city name, state', 'city name, country', 'latitude, longitude', 'zip code', or 'airport code'",
+            "description": "The location must be a 'city name, state', 'city name, country', 'latitude, longitude', 'zip code', or 'airport code'",
             "required": true,
             "schema": {
               "title": "Location",
               "type": "string",
-              "description": "A Valid AerisWeather API Location. The location may be a 'city name, state', 'city name, country', 'latitude, longitude', 'zip code', or 'airport code'"
+              "description": "The location must be a 'city name, state', 'city name, country', 'latitude, longitude', 'zip code', or 'airport code'"
             },
             "name": "location",
             "in": "path"

@@ -10,7 +10,7 @@
       "get": {
         "operationId": "searchGet",
         "summary": "Search Google and fetch HTML content",
-        "description": "Searches internet using the provided query that is recreated by ChatGPT and returns the search results. Use alternative keywords and increase responseTooLarge if any error occurs.\n",
+        "description": "Searches internet using the provided query that is recreated by ChatGPT and returns the search results. Retry the request by doubling only responsetoolarge x2 and reducing numofpages to 1 when status 503 returns or ResponseTooLarge or application error happens.\n",
         "parameters": [
           {
             "name": "q",

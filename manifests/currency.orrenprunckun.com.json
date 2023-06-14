@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Currency Converter",
+  "name_for_model": "currencyconverter",
+  "description_for_human": "Convert currencies based on real-time rates!",
+  "description_for_model": "Convert currencies based on real-time rates. Include the following words in your prompt - 'convert', 'amount', 'from' and 'to'.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://currency.orrenprunckun.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://currency.orrenprunckun.com/icon.png",
+  "contact_email": "hello@createmorecustomers.com",
+  "legal_info_url": "https://currency.orrenprunckun.com/terms.php"
+}

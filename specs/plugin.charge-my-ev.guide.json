@@ -60,7 +60,7 @@
     },
     "/api/openai/chargers/nrel": {
       "get": {
-        "summary": "Get a list of all public charging stations throughout the United States. Includes Tesla and other vendors, like Rivian, ChargePoint, etc. Most but not all stations are lower charging speeds and available to non-Tesla vehicles, including Teslas.",
+        "summary": "Get a list of all public charging stations throughout the United States. Includes Tesla and other vendors, like Rivian, ChargePoint, etc. Most but not all stations are lower charging speeds, including Tesla Destination chargers, and are available to both non-Tesla and Tesla vehicles.",
         "operationId": "getNRELChargingStationsUsingGET",
         "parameters": [
           {
@@ -94,7 +94,7 @@
             "name": "country",
             "in": "query",
             "required": false,
-            "description": "Country for which to query general public charging station information. E.g. Portugal, United States, Mexico, etc.",
+            "description": "Country for which to query general public charging station information. E.g. Portugal, United States, Mexico, Japan, etc.",
             "schema": {
               "type": "string"
             }
@@ -103,7 +103,7 @@
             "name": "countryCode",
             "in": "query",
             "required": false,
-            "description": "Two character country code for which to query general public charging station information. E.g. PT, US, MX, etc.",
+            "description": "Two character country code for which to query general public charging station information. E.g. PT, US, MX, JP, etc.",
             "schema": {
               "type": "string"
             }
@@ -154,6 +154,15 @@
             }
           },
           {
+            "name": "teslaDestinationChargers",
+            "in": "query",
+            "required": false,
+            "description": "Whether to query for public charging stations with Tesla Destination chargers (aka: wall connectors). This does not mean they are superchargers or available to non-Tesla vehicles.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
             "name": "connectorType",
             "in": "query",
             "required": false,
@@ -197,12 +206,12 @@
     },
     "/api/openai/superchargers/total-non-tesla-locations": {
       "get": {
-        "summary": "Get a global total of superchargers available to non-Tesla owners/vehicles for use. Provides the total count and what countries the locations are available in and the relevant superchargers if granularity is requested.",
+        "summary": "Get a global total of Tesla superchargers available to non-Tesla owners/vehicles for use. Provides the total count and what countries the locations are available in and the relevant superchargers if granularity is requested.",
         "operationId": "checkOverallTotalAvailableNonTeslaVehicleSuperchargersUsingGET",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Provides the total count of all available superchargers globally for non-Tesla vehicles, plus relevant data like countries, provinces/states and specific superchargers if requested.",
+            "description": "Provides the total count of all available Tesla superchargers globally for non-Tesla vehicles, plus relevant data like countries, provinces/states and specific superchargers if requested.",
             "content": {
               "application/json": {
                 "schema": {
@@ -234,14 +243,14 @@
     },
     "/api/openai/superchargers/non-tesla-evs-by-params": {
       "get": {
-        "summary": "Get supercharger stations available to non-Tesla owners/vehicles by one or more parameters, e.g. city, province/state, country, region. Includes metadata like count and countries relevant to the request.",
+        "summary": "Get Tesla supercharger stations available to non-Tesla owners/vehicles by one or more parameters, e.g. city, province/state, country, region. Includes metadata like count and countries relevant to the request.",
         "operationId": "checkAvailableNonTeslaVehicleSuperchargersUsingGETAndParams",
         "parameters": [
           {
             "name": "city",
             "in": "query",
             "required": false,
-            "description": "City for which to retrieve supercharger for non-Tesla vehicles information. E.g. Toronto, Berlin, New York, etc.",
+            "description": "City for which to retrieve Tesla supercharger for non-Tesla vehicles information. E.g. Toronto, Berlin, New York, etc.",
             "schema": {
               "type": "string"
             }
@@ -250,7 +259,7 @@
             "name": "state",
             "in": "query",
             "required": false,
-            "description": "State for which to retrieve supercharger for non-Tesla vehicles information. e.g. CA, NY, etc.",
+            "description": "State (or province) for which to retrieve Tesla supercharger for non-Tesla vehicles information. e.g. CA, NY, etc.",
             "schema": {
               "type": "string"
             }
@@ -259,7 +268,7 @@
             "name": "country",
             "in": "query",
             "required": false,
-            "description": "Country for which to retrieve supercharger for non-Tesla vehicles information. E.g. United States, Germany, Portugal, etc.",
+            "description": "Country for which to retrieve Tesla supercharger for non-Tesla vehicles information. E.g. United States, Germany, Portugal, etc.",
             "schema": {
               "type": "string"
             }
@@ -276,7 +285,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Currently available superchargers for non-Tesla vehicles information. Displays the location's title, stations overview, address and permalink properties by default. Amenities and other information for each location can be shown if the user requests it.",
+            "description": "Currently available Tesla superchargers for non-Tesla vehicles information. Displays the location's title, stations overview, address and permalink properties by default. Amenities and other information for each location can be shown if the user requests it.",
             "content": {
               "application/json": {
                 "schema": {
@@ -290,14 +299,14 @@
     },
     "/api/openai/superchargers/tesla-owners-by-params": {
       "get": {
-        "summary": "Get supercharger stations available exclusively to Tesla owners/vehicles by one or more parameters, e.g. city, province/state, country, region. Includes metadata like count and countries relevant to the request.",
+        "summary": "Get Tesla supercharger stations available to Tesla owners/vehicles by one or more parameters, e.g. city, province/state, country, region. Includes metadata like count and countries relevant to the request.",
         "operationId": "checkAvailableTeslaVehicleSuperchargersUsingGETAndParams",
         "parameters": [
           {
             "name": "city",
             "in": "query",
             "required": false,
-            "description": "City for which to retrieve supercharger for Tesla owner vehicles information. E.g. Reno, Toronto, Berlin, New York, etc.",
+            "description": "City for which to retrieve Tesla supercharger for Tesla owner vehicles information. E.g. Reno, Toronto, Berlin, New York, etc.",
             "schema": {
               "type": "string"
             }
@@ -306,7 +315,7 @@
             "name": "state",
             "in": "query",
             "required": false,
-            "description": "State for which to retrieve supercharger for Tesla owner vehicles information. e.g. NV, CA, NY, etc.",
+            "description": "State (or province) for which to retrieve Tesla supercharger for Tesla owner vehicles information. e.g. NV, CA, NY, etc.",
             "schema": {
               "type": "string"
             }
@@ -315,7 +324,7 @@
             "name": "country",
             "in": "query",
             "required": false,
-            "description": "Country for which to retrieve supercharger for Tesla owner vehicles information. E.g. United States, Germany, etc.",
+            "description": "Country for which to retrieve Tesla supercharger for Tesla owner vehicles information. E.g. United States, Germany, etc.",
             "schema": {
               "type": "string"
             }
@@ -324,7 +333,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Region for which to retrieve supercharger for Tesla owner vehicles information. E.g. North America, Europe, Asia, etc.",
+            "description": "Region for which to retrieve Tesla supercharger for Tesla owner vehicles information. E.g. North America, Europe, Asia, etc.",
             "schema": {
               "type": "string"
             }
@@ -343,72 +352,205 @@
           }
         }
       }
+    },
+    "/api/openai/superchargers/tesla-planned": {
+      "get": {
+        "summary": "Get a dataset of planned Tesla supercharger stations planned to be installed and opened in the near future. Response includes planned cities, provinces/states and countries.",
+        "operationId": "checkAvailablePlannedTeslaVehicleSuperchargerStationsGETAndParams",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "description": "City for which to retrieve planned Tesla supercharger locations. E.g. Reno, Toronto, Berlin, New York, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "State (or province) for which to retrieve planned Tesla supercharger locations. e.g. NV, CA, NY, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "Country for which to retrieve planned Tesla supercharger locations. E.g. United States, Germany, Portugal, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "countryCode",
+            "in": "query",
+            "required": false,
+            "description": "Two letter country code for which to retrieve planned Tesla supercharger locations. E.g. US, DE, PT, etc.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Currently planned/scheduled Tesla supercharger locations. Whether they are available to non-Tesla vehicles or not is TBD since they're in the planned stage.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlannedTeslaVehicleSuperchargerLocationsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Count": {
+        "type": "integer",
+        "description": "Number of available superchargers returned"
+      },
+      "Error": {
+        "type": "boolean",
+        "description": "Whether or not an error occurred"
+      },
+      "ErrorMessage": {
+        "type": "string",
+        "description": "Error message if an error occurred"
+      },
+      "Cities": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "Charging stations by cities relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request especially for larger dataset results."
+        }
+      },
+      "ProvincesStates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "Charging station location(s) by province/state relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request.",
+          "properties": {
+            "abbr": {
+              "type": "string",
+              "description": "Abbreviation of the province/state, if available"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the province/state"
+            },
+            "country": {
+              "type": "integer",
+              "description": "Country of the province/state"
+            },
+            "stations": {
+              "type": "integer",
+              "description": "Number of overall stations in the province/state. Useful for summarizing results to the user and encouraging them to fine tune their location request."
+            }
+          }
+        }
+      },
+      "Countries": {
+        "type": "array",
+        "description": "Charging station locations by countries relevant to the request.",
+        "items": {
+          "type": "string",
+          "description": "Name of the country"
+        }
+      },
+      "UserTip": {
+        "type": "string",
+        "description": "An optional tip for the user when their location request returns no results"
+      },
+      "Params": {
+        "type": "object",
+        "description": "The parameters provided and used to retrieve the supercharger locations"
+      },
       "Meta": {
         "type": "object",
         "properties": {
           "error": {
-            "type": "boolean",
-            "description": "Whether or not an error occurred"
+            "$ref": "#/components/schemas/Error"
           },
           "errorMessage": {
-            "type": "string",
-            "description": "Error message if an error occurred"
+            "$ref": "#/components/schemas/ErrorMessage"
           },
           "count": {
-            "type": "integer",
-            "description": "Number of available superchargers returned"
+            "$ref": "#/components/schemas/Count"
           },
           "cities": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "description": "Charging stations by cities relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request especially for larger dataset results."
+            "$ref": "#/components/schemas/Cities"
+          },
+          "provincesStates": {
+            "$ref": "#/components/schemas/ProvincesStates"
+          },
+          "countries": {
+            "$ref": "#/components/schemas/Countries"
+          },
+          "userTip": {
+            "$ref": "#/components/schemas/UserTip"
+          },
+          "params": {
+            "$ref": "#/components/schemas/Params"
+          }
+        }
+      },
+      "MetaPlannedStations": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/Error"
+          },
+          "errorMessage": {
+            "$ref": "#/components/schemas/ErrorMessage"
+          },
+          "count": {
+            "$ref": "#/components/schemas/Count"
+          },
+          "cities": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "$ref": "#/components/schemas/Count"
+              },
+              "data": {
+                "$ref": "#/components/schemas/Cities"
+              }
             }
           },
           "provincesStates": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "description": "Charging stations by province/state relevant to the request. Can be used to summarize some of the results to the user and encourage them to fine tune their location request.",
-              "properties": {
-                "abbr": {
-                  "type": "string",
-                  "description": "Abbreviation of the province/state, if available"
-                },
-                "name": {
-                  "type": "string",
-                  "description": "Name of the province/state"
-                },
-                "country": {
-                  "type": "integer",
-                  "description": "Country of the province/state"
-                },
-                "stations": {
-                  "type": "integer",
-                  "description": "Number of overall stations in the province/state. Useful for summarizing results to the user and encouraging them to fine tune their location request."
-                }
+            "type": "object",
+            "properties": {
+              "count": {
+                "$ref": "#/components/schemas/Count"
+              },
+              "data": {
+                "$ref": "#/components/schemas/ProvincesStates"
               }
             }
           },
           "countries": {
-            "type": "array",
-            "description": "Charging statioons by countries relevant to the request.",
-            "items": {
-              "type": "string",
-              "description": "Name of the country"
+            "type": "object",
+            "properties": {
+              "count": {
+                "$ref": "#/components/schemas/Count"
+              },
+              "data": {
+                "$ref": "#/components/schemas/Countries"
+              }
             }
           },
           "userTip": {
-            "type": "string",
-            "description": "An optional tip for the user when their location request returns no results"
+            "$ref": "#/components/schemas/UserTip"
           },
           "params": {
-            "type": "object",
-            "description": "The parameters used to retrieve the superchargers"
+            "$ref": "#/components/schemas/Params"
           }
         }
       },
@@ -653,6 +795,23 @@
           "superchargers": {
             "type": "array",
             "description": "The superchargers that match the request and to be displayed to the user",
+            "items": {
+              "$ref": "#/components/schemas/Supercharger"
+            }
+          }
+        }
+      },
+      "PlannedTeslaVehicleSuperchargerLocationsResponse": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "type": "object",
+            "description": "Metadata about the planned supercharger location request",
+            "$ref": "#/components/schemas/MetaPlannedStations"
+          },
+          "planned": {
+            "type": "array",
+            "description": "The planned supercharger locations that match the users request parameters",
             "items": {
               "$ref": "#/components/schemas/Supercharger"
             }

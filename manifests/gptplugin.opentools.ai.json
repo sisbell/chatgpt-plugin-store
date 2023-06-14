@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "OpenTools AI",
+  "name_for_model": "opentools",
+  "description_for_human": "Find the right AI tools for your needs from the largest collection on the web.",
+  "description_for_model": "Help the user to find the most appropriate AI tools for a specified use case or task.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gptplugin.opentools.ai/plugin/openapi.yaml"
+  },
+  "logo_url": "https://gptplugin.opentools.ai/logo.png",
+  "contact_email": "support@opentools.ai",
+  "legal_info_url": "https://opentools.ai/news/privacy"
+}

@@ -1,0 +1,154 @@
+openapi: 3.1.0
+info:
+  title: turing_developer
+  description: Search the world's most deeply vetted developers from Turing.com. You can specify criteria like skills (keywords), years of experience, budget, and location (continent). It returns an list of developers matching the search parameters.
+  version: 1.0.0
+servers:
+  - url: https://chatgpt-plugin-dot-turing-gpt.uc.r.appspot.com/
+paths:
+  /search_developers:
+    post:
+      summary: Search for developer profiles
+      operationId: search_developers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchDevelopersRequest'
+      responses:
+        "200":
+          description: The search was successful and returns an array of developer profiles that match the search parameters. Each item in the array represents a developer profile, including the name and profile link of the developer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchDevelopersResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /.well-known/ai-plugin.json:
+    get:
+      summary: Get the AI plugin manifest file
+      operationId: get_manifest
+      responses:
+        "200":
+          description: The AI plugin manifest file
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Not Found
+  /.well-known/logo.png:
+    get:
+      summary: Get the Turing logo image file
+      operationId: get_logo
+      responses:
+        "200":
+          description: The Turing logo image file
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Not Found
+  /.well-known/openapi.yaml:
+    get:
+      summary: Get the OpenAPI specification file
+      operationId: get_openapi
+      responses:
+        "200":
+          description: The OpenAPI specification file
+          content:
+            application/x-yaml:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Not Found
+components:
+  schemas:
+    SearchDevelopersRequest:
+      type: object
+      properties:
+        keywords:
+          type: array
+          items:
+            type: string
+          description: An array of technology names (e.g., "React", "Next.js") to search for in developer profiles.
+          example: ["React", "Next.js"]
+        experience:
+          type: integer
+          minimum: 0
+          maximum: 40
+          description: The desired minimum years of experience for the developer, ranging from 0 to 40 years.
+          example: 3
+        budget:
+          type: integer
+          minimum: 500
+          maximum: 100000
+          description: The budget for the developer, ranging from 500 to 100,000 USD.
+          example: 5000
+        continents:
+          type: array
+          items:
+            type: string
+            enum: ["Asia", "Europe", "Antarctica", "Africa", "Oceania", "North America", "South America"]
+          description: The continents where you are searching for developers. The possible values are the names of the seven continents.
+          example: ["North America", "Asia"]
+        page:
+          type: integer
+          minimum: 1
+          description: The page number for the search results, ranging from 1 to 3. Max 15 results. 5 results per page. If the total results span across multiple pages, you can navigate through them using this parameter.
+          example: 1
+    SearchDevelopersResponse:
+      type: object
+      properties:
+        developers:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The full name of the developer.
+                example: "John Doe"
+              profileLink:
+                type: string
+                description: The URL of the developer's profile on the Turing platform.
+                example: "https://www.turing.com/developer/johndoe"
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    ValidationError:
+      required:
+       - code
+      properties:
+        loc:
+          type: array
+          items:
+            type: string
+          description: The location in the request where the validation error occurred.
+          example: ["body", "experience"]
+        msg:
+          type: string
+          description: A human-readable message providing more details about the validation error.
+          example: "Value is too small"
+        type:
+          type: string
+          description: The type of the validation error (e.g., "value_error.number.not_gt" for a value that is not greater than some other value).
+          example: "value_error.number.not_gt"

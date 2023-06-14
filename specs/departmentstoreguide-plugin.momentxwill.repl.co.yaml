@@ -1,0 +1,203 @@
+openapi: 3.0.1
+info:
+  title: Department Store Brand Locator Plugin
+  description: Experience MomentX with our AI plugin. This tool interfaces with Azure Storage, providing real-time store details, from brand locations to latest promotions. Your guide to MomentX, all in one place..
+  version: 'v1'
+servers:
+  - url: https://departmentstoreguide-plugin.momentxwill.repl.co/
+
+paths:
+#--- GetCounterInfo Start ---
+  /GetCounterInfo/{name}:
+    get:
+      # $ref: './paths/getCounterInfo.yaml'      
+      operationId: getBrandLocation
+      summary: Get the location of a specific brand in the department store
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Name of the brand to locate.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BrandLocation'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+#--- GetCounterInfo End ---
+
+#--- GetToiletInfoByArea Start ---
+  /GetToiletInfoByArea/{floor}/{area}:
+    get:
+      operationId: getToiletInfoByArea
+      summary: Get the location details of a toilet based on the provided floor and area
+      parameters:
+        - in: path
+          name: floor
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 12
+          description: The floor where the toilet is located. The floor number ranges from 1 to 12.
+        - in: path
+          name: area
+          required: true
+          schema:
+            type: string
+            enum: ['A', 'B', 'C', 'D', 'E']
+          description: The area where the toilet is located.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ToiletLocation'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+#--- GetToiletInfoByArea End ---
+
+#--- GetToiletInfoByBrand Start ---
+  /GetToiletInfoByBrand/{floor}/{brand}:
+    get:
+      operationId: getToiletInfoByBrand
+      summary: Get the location details of a toilet based on the provided floor and nearby brand
+      parameters:
+        - in: path
+          name: floor
+          required: true
+          schema:
+            type: integer
+            format: int32
+          description: The floor where the toilet is located.
+        - in: path
+          name: brand
+          required: true
+          schema:
+            type: string
+          description: The brand that is nearby the toilet.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ToiletLocation'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+#--- GetToiletInfoByBrand End ---
+
+#--- GetEventByBrand Start ---
+  /GetEventByBrand/{name}:
+    get:
+      operationId: getBrandEvent
+      summary: Get the promotional events of a specific brand in the department store
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Name of the brand to retrieve promotional events.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BrandEvent'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+#--- GetEventByBrand End ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+components:
+  schemas:  
+#--- GetToiletInfoByArea & GetToiletInfoByBrand Start ---
+    ToiletLocation:
+      type: object
+      properties:
+        LocationDetails:
+          type: string
+          description: The detailed location of the toilet.  
+#--- GetToiletInfoByArea & GetToiletInfoByBrand End ---
+
+#--- GetCounterInfo Start ---
+    BrandLocation:
+      type: object
+      properties:
+        Area:
+          type: string
+          description: The area where the brand is located.
+        Floor:
+          type: integer
+          format: int32
+          description: The floor where the brand is located.
+#--- GetCounterInfo End ---
+
+
+#--- GetEventByBrand Start ---
+  BrandEvent:
+    type: object
+    properties:
+      Event:
+        type: string
+        description: The details of the promotional event for the brand.
+#--- GetEventByBrand End ---
+
+#--- Error Start ---
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: The error message.
+#--- Error End ---
+
+
+
+
+
+

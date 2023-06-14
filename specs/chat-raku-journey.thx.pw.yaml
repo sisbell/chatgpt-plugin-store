@@ -1,0 +1,795 @@
+openapi: 3.0.0
+info:
+  title: Chat Raku Journey
+  description: Plugin for navigating Rakuten services in Japan via chat. It provides an easy way to search for products, accommodations, and more. Supported by Rakuten Developers.
+  version: v1.0.0
+paths:
+  /IchibaItem/Search:
+    get:
+      operationId: getIchibaItemSearch
+      tags:
+        - IchibaItemSearch
+      summary: Search for items on Rakuten Ichiba. If the user's language is not Japanese, set shipOverseasFlag to 1 and select the appropriate shipOverseasArea.
+      parameters:
+        - name: keyword
+          in: query
+          description: Search by keyword in Japanese translation.
+          required: true
+          schema:
+            type: string
+        - name: hits
+          in: query
+          description: Number of items per page.
+          required: true
+          schema:
+            type: integer
+            default: 3
+            minimum: 1
+            maximum: 30
+        - name: page
+          in: query
+          description: Page number.
+          required: true
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 100
+        - name: sort
+          in: query
+          description: Sort order.
+          required: true
+          schema:
+            type: string
+            enum:
+              [
+                +reviewCount,
+                -reviewCount,
+                +reviewAverage,
+                -reviewAverage,
+                +itemPrice,
+                -itemPrice,
+                +updateTimestamp,
+                -updateTimestamp,
+                standard,
+              ]
+            default: standard
+        - name: shipOverseasFlag
+          in: query
+          description: |
+            0: all items
+            1: items that can be shipped overseas only
+          required: true
+          schema:
+            type: integer
+            default: 1
+        - name: shipOverseasArea
+          in: query
+          description: Area for overseas shipping
+          schema:
+            type: string
+            enum:
+              [
+                ALL,
+                US,
+                AR,
+                BR,
+                CA,
+                MX,
+                AT,
+                BE,
+                DK,
+                FR,
+                DE,
+                GR,
+                IT,
+                MA,
+                NL,
+                PL,
+                PT,
+                RU,
+                ES,
+                SE,
+                CH,
+                TR,
+                GB,
+                AU,
+                CN,
+                HK,
+                IN,
+                ID,
+                KR,
+                MY,
+                NZ,
+                PH,
+                SG,
+                TW,
+                TH,
+                VN,
+              ]
+            default: ALL
+        - name: minPrice
+          in: query
+          description: Minimum price.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 999999999
+        - name: maxPrice
+          in: query
+          description: Maximum price.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 999999999
+        - name: imageFlag
+          in: query
+          description: |
+            0: Search all products
+            1: Search only products with images
+          schema:
+            type: integer
+            default: 0
+        - name: orFlag
+          in: query
+          description: |
+            0: AND search
+            1: OR search
+          schema:
+            type: integer
+            default: 0
+        - name: NGKeyword
+          in: query
+          description: Keywords to exclude from search results.
+          schema:
+            type: string
+        - name: postageFlag
+          in: query
+          description: |
+            0: All products
+            1: Only items with postage included/free shipping
+          schema:
+            type: integer
+            default: 0
+        - name: creditCardFlag
+          in: query
+          description: |
+            0: All products
+            1: Only products purchaseable with credit cards
+          schema:
+            type: integer
+            default: 0
+      responses:
+        200:
+          description: Successful operation
+        400:
+          description: Parameter error (or required parameters were insufficient)
+        404:
+          description: If data not found.
+        429:
+          description: Too many requests
+        500:
+          description: Internal error in Rakuten Web Service
+        503:
+          description: Unavailable due to maintenance or overloaded
+
+  /IchibaItem/Ranking:
+    get:
+      operationId: getIchibaItemRanking
+      tags:
+        - IchibaItemRanking
+      summary: For Japanese, ranking information is obtained from the Ranking Market of Rakuten Ichiba.
+      parameters:
+        - name: hits
+          in: query
+          description: Number of items per page.
+          required: true
+          schema:
+            type: integer
+            default: 3
+            minimum: 1
+            maximum: 30
+        - name: page
+          in: query
+          description: Page number.
+          required: true
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 100
+        - name: age
+          in: query
+          description: |
+            Age group for the ranking.
+            10: 10-19
+            20: 20-29
+            30: 30-39
+            40: 40-49
+            50: 50 and up
+          schema:
+            type: integer
+            enum: [10, 20, 30, 40, 50]
+        - name: sex
+          in: query
+          description: |
+            Gender for the ranking.
+            0: Male
+            1: Female
+          schema:
+            type: integer
+            enum: [0, 1]
+            default: 0
+        - name: period
+          in: query
+          description: |
+            realtime: retrieve data in real time
+          schema:
+            type: string
+            default: realtime
+      responses:
+        200:
+          description: Successful operation
+        400:
+          description: Parameter error (or required parameters were insufficient)
+        404:
+          description: If data not found.
+        429:
+          description: Too many requests
+        500:
+          description: Internal error in Rakuten Web Service
+        503:
+          description: Unavailable due to maintenance or overloaded
+
+  /BooksTotal/Search:
+    get:
+      operationId: getBooksTotalSearch
+      tags:
+        - BooksTotalSearch
+      summary: Find product information on Rakuten Books.
+      parameters:
+        - name: keyword
+          in: query
+          description: Search by keyword in Japanese translation.
+          required: true
+          schema:
+            type: string
+        - name: hits
+          in: query
+          description: Number of items per page.
+          required: true
+          schema:
+            type: integer
+            default: 3
+            minimum: 1
+            maximum: 30
+        - name: page
+          in: query
+          description: Page number.
+          required: true
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 100
+        - name: sort
+          in: query
+          description: |
+            standard: Standard
+            sales: Selling well
+            +releaseDate: Release date (old)
+            -releaseDate: Release date (new)
+            +itemPrice: Low price
+            -itemPrice: High price
+            reviewCount: Many reviews
+            reviewAverage: High review rating (average)
+          required: true
+          schema:
+            type: string
+            enum:
+              [
+                standard,
+                sales,
+                +releaseDate,
+                -releaseDate,
+                +itemPrice,
+                -itemPrice,
+                reviewCount,
+                reviewAverage,
+              ]
+        - name: orFlag
+          in: query
+          description: |
+            0: AND search
+            1: OR search
+          schema:
+            type: integer
+            enum: [0, 1]
+        - name: NGKeyword
+          in: query
+          description: Keywords to exclude from search results.
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: Parameter error (or required parameters were insufficient)
+        404:
+          description: If data not found.
+        429:
+          description: Too many requests
+        500:
+          description: Internal error in Rakuten Web Service
+        503:
+          description: Unavailable due to maintenance or overloaded
+
+  /Travel/KeywordHotelSearch:
+    get:
+      operationId: getTravelKeywordHotelSearch
+      tags:
+        - TravelKeywordHotelSearch
+      summary: Search for hotels on Rakuten Travel by keyword in Japanese.
+      parameters:
+        - name: hits
+          in: query
+          description: Number of items per page.
+          required: true
+          schema:
+            type: integer
+            default: 3
+            minimum: 1
+            maximum: 30
+        - name: page
+          in: query
+          description: Page number.
+          required: true
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 100
+        - name: keyword
+          in: query
+          description: Search by keyword in Japanese translation.
+          required: true
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: |
+            standard: Order of the highest keyword search rate
+            +roomCharge: Lowest price
+            -roomCharge: High to Low
+          required: true
+          schema:
+            type: string
+            enum: [standard, +roomCharge, -roomCharge]
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: Parameter error (or required parameters were insufficient)
+        404:
+          description: If data not found.
+        429:
+          description: Too many requests
+        500:
+          description: Internal error in Rakuten Web Service
+        503:
+          description: Unavailable due to maintenance or overloaded
+
+  /Travel/HotelRanking:
+    get:
+      operationId: getTravelHotelRanking
+      tags:
+        - TravelHotelRanking
+      summary: Get Hotel/Inn Ranking from Rakuten Travel.
+      parameters:
+        - name: genre
+          in: query
+          description: |
+            all : Overall ranking
+            onsen : Ranking of hot spring resorts
+            premium : Luxury hotel/inn ranking
+          required: true
+          schema:
+            type: string
+            default: all
+            enum: [all, onsen, premium]
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: Parameter error (or required parameters were insufficient)
+        404:
+          description: If data not found.
+        429:
+          description: Too many requests
+        500:
+          description: Internal error in Rakuten Web Service
+        503:
+          description: Unavailable due to maintenance or overloaded
+
+  /Recipe/CategoryRanking:
+    get:
+      operationId: getRecipeCategoryRanking
+      tags:
+        - RecipeCategoryRanking
+      summary: Get the ranking of Rakuten Recipes.
+      parameters:
+        - name: keyword
+          in: query
+          description: Search by keyword in Japanese translation.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: Parameter error (or required parameters were insufficient)
+        404:
+          description: If data not found.
+        429:
+          description: Too many requests
+        500:
+          description: Internal error in Rakuten Web Service
+        503:
+          description: Unavailable due to maintenance or overloaded
+
+  /Kobo/EbookSearch:
+    get:
+      operationId: getKoboEbookSearch
+      tags:
+        - KoboEbookSearch
+      summary: Search Rakuten Kobo eBooks..
+      parameters:
+        - name: keyword
+          in: query
+          description: Search by keyword in Japanese translation.
+          required: true
+          schema:
+            type: string
+        - name: language
+          in: query
+          description: Specifies the language.
+          schema:
+            type: string
+            enum:
+              [
+                EN,
+                FR,
+                DE,
+                ES,
+                ZH,
+                JA,
+                AB,
+                AA,
+                AF,
+                SQ,
+                AM,
+                AR,
+                AN,
+                HY,
+                AS,
+                AY,
+                AZ,
+                BA,
+                EU,
+                BN,
+                DZ,
+                BH,
+                BI,
+                BR,
+                BG,
+                MY,
+                BE,
+                KM,
+                CA,
+                CO,
+                HR,
+                CS,
+                DA,
+                NL,
+                EN,
+                EO,
+                ET,
+                FO,
+                FJ,
+                FI,
+                FY,
+                GD,
+                GL,
+                KA,
+                EL,
+                KL,
+                GN,
+                GU,
+                HT,
+                HA,
+                IW,
+                HI,
+                HU,
+                IS,
+                IO,
+                IN,
+                IA,
+                IE,
+                IK,
+                GA,
+                IT,
+                JW,
+                KN,
+                KS,
+                KK,
+                RW,
+                KY,
+                RN,
+                KO,
+                KU,
+                LO,
+                LA,
+                LV,
+                LI,
+                LN,
+                LT,
+                MK,
+                MG,
+                MS,
+                ML,
+                MT,
+                MI,
+                MR,
+                MO,
+                MN,
+                NA,
+                NE,
+                NO,
+                OC,
+                OR,
+                OM,
+                PS,
+                FA,
+                PL,
+                PT,
+                PA,
+                QU,
+                RM,
+                RO,
+                RU,
+                SM,
+                SG,
+                SA,
+                SR,
+                SH,
+                ST,
+                TN,
+                SN,
+                II,
+                SD,
+                SI,
+                SS,
+                SK,
+                SL,
+                SO,
+                SU,
+                SW,
+                SV,
+                TL,
+                TG,
+                TA,
+                TT,
+                TE,
+                TH,
+                BO,
+                TI,
+                TO,
+                TS,
+                TR,
+                TK,
+                TW,
+                UK,
+                UR,
+                UZ,
+                VI,
+                VO,
+                WA,
+                CY,
+                WO,
+                XH,
+                JI,
+                YO,
+                ZU,
+              ]
+        - name: hits
+          in: query
+          description: Number of items per page.
+          required: true
+          schema:
+            type: integer
+            default: 3
+            minimum: 1
+            maximum: 30
+        - name: page
+          in: query
+          description: Page number.
+          required: true
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 100
+        - name: sort
+          in: query
+          description: |
+            standard: Standard
+            sales: Selling well
+            +releaseDate: Release date (old)
+            -releaseDate: Release date (new)
+            +itemPrice: Low price
+            -itemPrice: High price
+            reviewCount: Many reviews
+            reviewAverage: High review rating (average)
+          required: true
+          schema:
+            type: string
+            enum:
+              [
+                standard,
+                sales,
+                +releaseDate,
+                -releaseDate,
+                +itemPrice,
+                -itemPrice,
+                reviewCount,
+                reviewAverage,
+              ]
+        - name: orFlag
+          in: query
+          description: |
+            0: AND search
+            1: OR search
+          schema:
+            type: integer
+            enum: [0, 1]
+        - name: NGKeyword
+          in: query
+          description: Keywords to exclude from search results.
+          schema:
+            type: string
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: Parameter error (or required parameters were insufficient)
+        404:
+          description: If data not found.
+        429:
+          description: Too many requests
+        500:
+          description: Internal error in Rakuten Web Service
+        503:
+          description: Unavailable due to maintenance or overloaded
+
+  /Gora/GoraGolfCourseSearch:
+    get:
+      operationId: getGoraGoraGolfCourseSearch
+      tags:
+        - GoraGoraGolfCourseSearch
+      summary: Search Rakuten GORA golf courses by keyword.
+      parameters:
+        - name: keyword
+          in: query
+          description: Search by keyword in Japanese translation.
+          required: true
+          schema:
+            type: string
+        - name: hits
+          in: query
+          description: Number of items per page.
+          required: true
+          schema:
+            type: integer
+            default: 3
+            minimum: 1
+            maximum: 30
+        - name: page
+          in: query
+          description: Page number.
+          required: true
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 100
+        - name: sort
+          in: query
+          description: |
+            rating: Order by number of reviews
+            50on: Order by Japanese syllabary
+            prefecture: Order by prefecture
+            highway: Order by highway
+            reservation: Order by number of reservations
+            evaluation: Overall evaluation
+            staff: Staff service
+            facility: Facility richness
+            meal: Delicious meal
+            course: Course/strategy
+            costperformance: Cost performance
+            distance: Long distance
+            fairway: Wide fairway
+            friends: Enjoy/Casual
+            entertainment: Entertainment/Luxury
+            couple: Couple
+            athlete: Athlete
+            beginner: Beginner
+            normal: Intermediate
+            senior: Advanced
+            woman: Woman
+          required: true
+          schema:
+            type: string
+            enum:
+              [
+                rating,
+                50on,
+                prefecture,
+                highway,
+                reservation,
+                evaluation,
+                staff,
+                facility,
+                meal,
+                course,
+                costperformance,
+                distance,
+                fairway,
+                friends,
+                entertainment,
+                couple,
+                athlete,
+                beginner,
+                normal,
+                senior,
+                woman,
+              ]
+
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: Parameter error (or required parameters were insufficient)
+        404:
+          description: If data not found.
+        429:
+          description: Too many requests
+        500:
+          description: Internal error in Rakuten Web Service
+        503:
+          description: Unavailable due to maintenance or overloaded

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Shopping tools",
+  "name_for_model": "ShoppingTools",
+  "description_for_human": "Shopping tools let you search for products to buy in AliExpress and eBay.",
+  "description_for_model": "ShoppingTools let you search for products to buy in AliExpress and eBay.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://shoppingtools.biz/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://shoppingtools.biz/.well-known/logo.png",
+  "contact_email": "topdroidapps@gmail.com",
+  "legal_info_url": "https://www.privacypolicygenerator.info/live.php?token=KskRU3nhCHlqwAdPouBj0L6ponFujjKE"
+}

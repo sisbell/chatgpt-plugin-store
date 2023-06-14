@@ -283,6 +283,46 @@ paths:
             required: false
             schema:
               type: string
+          - in: query
+            name: category
+            schema:
+              type: string
+              enum: 
+                - "liquid staking"
+                - "dexes"
+                - "lending"
+                - "bridge"
+                - "CDP"
+                - "yield"
+                - "services"
+                - "derivatives"
+                - "yield aggregator"
+                - "cross chain"
+                - "launchpad"
+                - "indexes"
+                - "synthetics"
+                - "RWA"
+                - "liquidity manager"
+                - "nft lending"
+                - "insurance"
+                - "algo-stables"
+                - "privacy"
+                - "payments"
+                - "leveraged farming"
+                - "nft marketplace"
+                - "options"
+                - "options vault"
+                - "staking pool"
+                - "prediction market"
+                - "farm"
+                - "uncollateralized lending"
+                - "reserve currency"
+                - "RWA lending"
+                - "gaming"
+                - "oracle"              
+              example: liquid staking
+            required: false
+            description: Category to filter protocols by.                
         responses:
           "200":
             description: OK
@@ -363,6 +403,46 @@ paths:
             required: false
             schema:
               type: string
+          - in: query
+            name: category
+            schema:
+              type: string
+              enum: 
+                - "liquid staking"
+                - "dexes"
+                - "lending"
+                - "bridge"
+                - "CDP"
+                - "yield"
+                - "services"
+                - "derivatives"
+                - "yield aggregator"
+                - "cross chain"
+                - "launchpad"
+                - "indexes"
+                - "synthetics"
+                - "RWA"
+                - "liquidity manager"
+                - "nft lending"
+                - "insurance"
+                - "algo-stables"
+                - "privacy"
+                - "payments"
+                - "leveraged farming"
+                - "nft marketplace"
+                - "options"
+                - "options vault"
+                - "staking pool"
+                - "prediction market"
+                - "farm"
+                - "uncollateralized lending"
+                - "reserve currency"
+                - "RWA lending"
+                - "gaming"
+                - "oracle"              
+              example: liquid staking
+            required: false
+            description: Category to filter protocols by.                
         responses:
           "200":
             description: OK
@@ -490,7 +570,6 @@ paths:
             required: false
             schema:
               type: boolean
-              example: true
           - name: token
             in: query
             description: Token or token pair to filter pools by.
@@ -506,7 +585,13 @@ paths:
                 summary: Two tokens separated by a dash
               dualTokenSlash:
                 value: 'ETH/XVS'
-                summary: Two tokens separated by a slash           
+                summary: Two tokens separated by a slash   
+          - name: single_sided
+            in: query
+            description: Flag indicating whether to filter for single-sided yield pools.
+            required: false
+            schema:
+              type: boolean               
         responses:
           '200':
             description: OK

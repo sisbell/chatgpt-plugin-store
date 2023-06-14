@@ -1,0 +1,3307 @@
+openapi: 3.0.1
+info:
+  title: Staypia
+  description: Recommend Travel Destinations & Search Cheapest Hotel in the world.
+  version: 'v1'
+paths:
+
+  /finder/multiple:
+    post:
+      operationId: getMultiKeywordFinder
+      summary: assist users in discovering and evaluating travel destinations based on a broad range of criteria.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/getKeyWord"
+
+  /hotels:
+    get:
+      operationId: getSerchHotels
+      summary: Recommend hotels that match your search criteria.
+      parameters:
+        - in: query
+          name: destination
+          schema:
+            type: string
+          required: true
+          description: Destination information.
+        - in: query
+          name: checkin_date
+          schema:
+            type: string
+          required: false
+          description: A single date in 'YYYY-MM-DD' format.
+        - in: query
+          name: checkout_date
+          schema:
+            type: string
+          required: false
+          description: A single date in 'YYYY-MM-DD' format.
+
+components:
+  schemas:
+    getKeyWord:          
+      type: object
+      properties:
+        region:
+          required: false
+          description: Find location to where the user wants to search.
+          schema:
+            type: string
+        keywords:
+          required: true
+          in: query
+          description: Get a list of any and all travel preferences that match user inquries in English.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - enjoyable
+                - for relaxation
+                - surprising
+                - recommended
+                - highly recommended
+                - great
+                - must visit
+                - filled with loving moments
+                - breathtaking view
+                - favorite destination
+                - attractive
+                - 5 stars
+                - favorite place
+                - nice
+                - must visit in your lifetime
+                - delicious food
+                - for taking wedding photos
+                - crystal clear water
+                - for a photoshoot
+                - thrilling
+                - watching the sunset
+                - dream city to get married
+                - enchanting
+                - watching the sunrise
+                - breath of fresh air
+                - escape from the city
+                - impressive
+                - pleasantly surprising
+                - glad
+                - for photographers
+                - mind blowing
+                - charming
+                - exciting
+                - well-groomed territory
+                - stunning view
+                - would go back soon
+                - lively
+                - shocking
+                - 100% recommendable
+                - world heritage
+                - spectacular view
+                - wonderful
+                - unlike other cities
+                - calm
+                - dog-friendly
+                - pet-friendly
+                - steep climbs
+                - listening to the sound of the waves
+                - escape from the hustle
+                - historically famous
+                - perfect
+                - historical
+                - fascinating
+                - really enjoyed the trip
+                - thumbs up
+                - busy
+                - nostalgic
+                - worth the money
+                - fully enjoyable
+                - loved by grandkids
+                - chill
+                - filled with interesting moments
+                - for people who enjoy photography
+                - a bit crowded
+                - beloved
+                - oasis in the city
+                - absolute must
+                - eco-friendly
+                - pleasure for the eyes
+                - magnificent view
+                - the kingdom of heaven 
+                - worth checking out
+                - worth the detour
+                - source of the nation's pride
+                - high rated accommodations
+                - an obligatory visit
+                - paradise on earth
+                - happy
+                - a real pleasure to visit
+                - learning about history
+                - refreshing
+                - amazing
+                - like a fairytale
+                - neat accommodations
+                - would not hesitate in recommending
+                - refreshing cold beer
+                - for a birthday party
+                - romantic
+                - 4 stars
+                - sunbathing in the hot sun
+                - unforgettable experience
+                - awe inspiring
+                - disabled-accessible
+                - suitable for families
+                - worth stopping by
+                - definitely worth checking out
+                - close to mother nature
+                - overwhelming
+                - eye opening
+                - the perfect place to hang out
+                - for inquisitive people
+                - where you will fall in love
+                - fun
+                - enlightening
+                - historically interesting
+                - truly appreciated
+                - loved by kids
+                - visiting famous tourist attractions
+                - healing
+                - rejuvenating
+                - wheelchair-friendly
+                - attentive locals
+                - Instagrammable
+                - historical landmark
+                - heart touching
+                - positively surprising
+                - unwinding the mind
+                - nature in the purest state
+                - open minded
+                - with plenty of photo spots
+                - not too busy
+                - filled with tourist attractions
+                - the highlight of the trip
+                - short hikes
+                - a definite must-see
+                - particularly impressive
+                - would definitely go back
+                - appreciated
+                - once in a lifetime experience
+                - playing Pokémon GO
+                - absolute must see
+                - wheelchair accessible
+                - nicely laid out landscape
+                - on bucket list
+                - cost effective
+                - cute
+                - intense
+                - escape from crowds
+                - for family outings
+                - famous landmarks
+                - quite busy
+                - breath of clean air
+                - unique architecture
+                - reading books
+                - getting in touch with nature
+                - never a moment of boredom
+                - where the pictures speak for themselves
+                - touching
+                - family-friendly
+                - where exotic animals live
+                - suitable for children
+                - colorful
+                - family hangout spot
+                - must visit at least once
+                - for art lovers
+                - swimming in limpid water
+                - hidden treasure
+                - less busy
+                - lots of fun
+                - dreamlike
+                - for baptism
+                - relaxing
+                - feeling at home
+                - deserving of a visit
+                - escape from reality
+                - with fresh air
+                - grandeur
+                - never a disappointment
+                - breath of untainted air
+                - clear turquoise water
+                - diverse vegetation
+                - feeling welcomed
+                - pretty
+                - worth climbing to the top
+                - famous mosques
+                - eye catching
+                - challenging hikes
+                - breathtaking
+                - ideal for family outings
+                - heartwarming
+                - perfect for hanging out with friends
+                - breathes peace
+                - resting the soul
+                - where you become more curious
+                - historic buildings
+                - astonishing
+                - great day out
+                - cozy
+                - breathes tranquility
+                - the perfect place for leisure
+                - brings a smile to the face
+                - extremely busy
+                - historical monuments
+                - historic center
+                - untouchable peace
+                - with tourists from all over the world
+                - well-designed landscape
+                - for leisure
+                - perfect for long walks
+                - perfect to enjoy the nature
+                - immersed in nature
+                - admiring the nature
+                - nicely designed landscape
+                - wonders of nature
+                - appetizing seafood
+                - easy
+                - nicely done landscape
+                - daring
+                - convenient transportation
+                - for commemorative photos
+                - greatly improved infrastructure
+                - for people interested in science
+                - visiting nice museums
+                - quiet
+                - achieved peace of mind
+                - large green area
+                - nice place to hang out
+                - with historical value
+                - architecturally interesting
+                - suitable for leisure
+                - fine sand
+                - one of the highlights of the trip
+                - beautiful cathedrals
+                - spiritual aura
+                - filled with great photo opportunities
+                - off the beaten path
+                - the city that stands out
+                - worth a second visit
+                - well-known destination
+                - full of festivity
+                - famous temples
+                - lots of greenery
+                - left with an impression
+                - for solo travelers
+                - unforgettable
+                - super recommended
+                - never get tired of
+                - for people interested in history
+                - worth visiting for anyone
+                - carrying historical significance
+                - particularly interesting
+                - an essential visit
+                - tons of fun
+                - for people interested in ecology
+                - listening to the sound of the sea
+                - rich ecosystem
+                - like a maze
+                - had a blast
+                - feeling safe
+                - more than wonderful
+                - surrounded by lush greenery
+                - looking back at yourself
+                - safe
+                - important tourist attractions
+                - absolutely breathtaking
+                - fancy
+                - full of greenery
+                - feasting on yummy foods
+                - perfect holiday destination
+                - nicely arranged accommodations
+                - chilling with friends
+                - breathtaking landscape
+                - feeling blessed
+                - reminiscent
+                - friendly atmosphere
+                - scenic beauty
+                - challenging
+                - on the verge of tears
+                - a feeling never before felt
+                - perfect waves for surfing
+                - personal favorite
+                - relaxing the mind
+                - for a day trip
+                - a mandatory visit
+                - roaming around fresh seafood markets
+                - close look at animals
+                - small charming town
+                - filled with magic
+                - blowing sea breeze
+                - visiting well-displayed museums
+                - mellow
+                - beautiful sunset
+                - perfect for a fun day out
+                - strong emotions
+                - surprised at the size
+                - truly breathtaking
+                - with tour guides with a sense of humor
+                - should definitely visit
+                - wonderous
+                - beautifully designed landscape
+                - like a time warp
+                - perfect for hanging out with family
+                - blown away
+                - chilling out
+                - magnificent
+                - rest assured
+                - perfect for casual walks
+                - breath of pure air
+                - totally worth visiting
+                - where kids can enjoy themselves
+                - high prices
+                - long strip of sandy beach
+                - for grandparents traveling with grandchildren
+                - natural paradise
+                - like a journey into the past
+                - cozy cafes
+                - representing an important part of history
+                - delightful
+                - totally recommended
+                - thrill-seeking
+                - full of positivity
+                - high standard accommodations
+                - sight to behold
+                - for photo sessions
+                - would definitely visit
+                - melancholic
+                - treat to the eyes
+                - for traveling together
+                - hot spot
+                - easy trails
+                - for family vacations
+                - worth the trip
+                - awed at the sheer size
+                - devotional
+                - with urban greeneries
+                - good looking
+                - overwhelmed by the power
+                - plenty of greenery
+                - with historical relics
+                - unspoiled nature
+                - crystal clear sea
+                - where the heart pounds stronger
+                - absolute blast
+                - exhilarating
+                - for lovebirds
+                - 10 stars
+                - for honeymoon
+                - burning off energy
+                - for special events
+                - true gem
+                - selfie spot
+                - full of vigor
+                - rejoicing
+                - unbeatable
+                - unmissable
+                - well-preserved castles
+                - vibrant
+                - where you can feel the spirit
+                - proud
+                - experiencing adventurous activities
+                - appreciating the beauty
+                - always discovering something new
+                - taking snapshots
+                - cooling off
+                - environmentally friendly
+                - feeling at ease
+                - stunning architecture
+                - relaxing from the hustle
+                - newly developed infrastructure
+                - convenient
+                - content destination
+                - invincible sea view
+                - loved by daughter
+                - for super skiers
+                - beautiful churches
+                - energetic
+                - always a happy visit
+                - perfect for a brisk walk
+                - with historical sites
+                - for people seeking Zen
+                - sobering experience
+                - blissful
+                - graced by a divine presence
+                - surrounded by vibrant colors
+                - strong waves
+                - Neo-Gothic aesthetic 
+                - feast for the eyes
+                - courteous locals
+                - challenging course
+                - uniquely designed architecture
+                - cherished
+                - absolute delight
+                - sacred temples
+                - refreshing the mind
+                - where children are overjoyed
+                - remains in your memories
+                - won't ever forget
+                - finding spiritual peace
+                - worth trekking
+                - feeling inner comfort
+                - the world's greatest feat of engineering
+                - for a short break
+                - chill vibes
+                - satisfying
+                - revamped accommodations
+                - creating long lasting memories
+                - with a special touch
+                - winter wonderland
+                - picturesque village
+                - for aviation enthusiasts
+                - beloved destination
+                - creative
+                - ideal for snorkeling
+                - sense of accomplishment
+                - for foodies
+                - witty tours
+                - inspired by the natural beauty
+                - transporting back to the past
+                - isolated
+                - neatly maintained sites
+                - with photographic opportunities
+                - exotic plants
+                - timeless
+                - iconic buildings
+                - filled with new discoveries
+                - glowing
+                - pleasant atmosphere
+                - crystal blue water
+                - urban oasis
+                - for a getaway
+                - historical heritage
+                - delicious coffee
+                - extremely helpful locals
+                - splendid view
+                - attention deserving
+                - for modern art lovers
+                - beautifully lit up
+                - disconnecting from the city
+                - for a journey with your loved ones
+                - perfect for retail therapy
+                - perfect for relaxing strolls
+                - for people interested in architecture
+                - for pre-wedding shoots
+                - crazy golf courses
+                - a plunge into history
+                - nicely decorated landscape
+                - impressed by the size
+                - for people interested in art
+                - strong sensations
+                - diverse species
+                - fabulous day out
+                - scenic view from every angle
+                - absorbing tons of information
+                - revitalizing
+                - exotic
+                - considered as sacred land
+                - frequently changed since
+                - cheerful
+                - escape from noise
+                - joyful
+                - beautiful sunrise
+                - with a special charm
+                - recommended to everybody
+                - pride of the nation
+                - pleasantly impressive
+                - true masterpiece
+                - charged with positivity
+                - sincerely recommended
+                - enjoyable day out
+                - challenging trails
+                - fairly well-maintained sites
+                - for a long term stay
+                - popular destination
+                - getting real feels
+                - mesmerizing view
+                - immersed in greenery
+                - escape from the bustle
+                - feeling relieved
+                - would surely go back
+                - truly amazing
+                - with a certain charm
+                - gorgeous
+                - lazy afternoon
+                - for the perfect proposal
+                - well-marked trails
+                - sense of passion
+                - with intricately designed statues
+                - ideal for exercising
+                - would definitely return
+                - diverse flora
+                - oasis of silence
+                - exotic flowers
+                - with only positive things to say
+                - dope
+                - left with a lasting impression
+                - unspoiled beach
+                - pollution-free
+                - national treasure
+                - worthwhile visit
+                - neatly organized accommodations
+                - for selfies
+                - positive vibes
+                - unlike anything else
+                - uplifting
+                - forever remembered
+                - practicing yoga
+                - lovely experience
+                - further improved infrastructure
+                - ideal for families with children
+                - cosplaying
+                - suitable for riding bicycles
+                - where the city moves in a slow pace
+                - where the city moves at a slow pace
+                - would go back again next time
+                - iconic landmarks
+                - crystalline sea
+                - in harmony with nature
+                - raising a big smile
+                - diving into the past
+                - super panorama
+                - enchanted forest
+                - for recharging yourself
+                - cleanly maintained area
+                - hidden gem
+                - endless seascape
+                - lots of flowers
+                - challenging climbs
+                - a surfers' paradise
+                - creating a photographic essay
+                - moderate hikes
+                - getting a glimpse into the  past
+                - spiritual destination
+                - sense of security
+                - excellently preserved sites
+                - the green lung
+                - connecting with God
+                - for newlyweds
+                - frequently visited destination
+                - exceeds expectations
+                - dreamlike landscape
+                - tasteful cuisine
+                - pretty crowded
+                - favorite getaway destination
+                - getting a real glimpse of life
+                - ideal for surfing
+                - clean
+                - for celebrations
+                - amazing experience
+                - full of history
+                - treasure
+                - for a unique experience
+                - a piece of paradise
+                - incredible view
+                - jolly
+                - lovely time spent
+                - high quality accommodations
+                - absolutely lovable
+                - ambient
+                - stretch of white sand
+                - the ideal natural environment
+                - high level accommodations
+                - still retains its charm
+                - getting in contact with nature
+                - perfect for pleasant walks
+                - perfect for morning walks
+                - well-laid out landscape
+                - deep diving
+                - for lonely people
+                - always pleasurable
+                - good value for money
+                - for a family holiday
+                - accommodations with excellently attentive staff
+                - super friendly locals
+                - superb view
+                - cultural heritage
+                - the perfect place for the weekend
+                - powerful sightseeing spots
+                - first class
+                - incredible experience
+                - filled with tasty foods
+                - cozy Christmas market
+                - swimming in calm waters
+                - scenic spot
+                - top notch
+                - pleasant
+                - enjoying art pieces
+                - marveling with awe
+                - excellent
+                - filled with interesting facts
+                - feeling the greatness
+                - too busy
+                - beautiful natural landscape
+                - for a family vacation
+                - rich in history
+                - feeling comfortable
+                - quiet atmosphere
+                - full of life
+                - for a short visit
+                - for a party
+                - easy hikes
+                - kept in excellent condition
+                - beautiful natural scenery
+                - relaxed atmosphere
+                - for an untroubled state of mind
+                - for a quick visit
+                - loved by son
+                - for a history lesson
+                - simply wonderful
+                - surrounded by nature
+                - high-end boutiques
+                - steep into history
+                - with new attractions
+                - ideal for family experiences
+                - fun for kids
+                - nicely maintained sites
+                - did not disappoint
+                - for summer vacation
+                - for a short trip
+                - modern buildings
+                - hilarious tours
+                - world famous
+                - calm sea
+                - fab
+                - perfect for relaxing walks
+                - peaceful atmosphere
+                - power spot
+                - the perfect spot
+                - finding interesting expositions
+                - with modern architectures
+                - heavenly
+                - really appreciated
+                - overcoming your fear of heights
+                - where animals are well-looked after
+                - confusing
+                - cultural space
+                - elegant
+                - stunning scenery
+                - little gem
+                - with a group of friends
+                - thoroughly recommended
+                - chilling at an urban park
+                - definitely worth the trip
+                - ancient architecture
+                - crowded
+                - architecturally beautiful
+                - much fun
+                - experiencing different cultures
+                - valuable heritage sites
+                - architectural monuments
+                - full of charm
+                - like heaven
+                - perfect place to spend the holidays
+                - oasis of peace
+                - lovely day out
+                - interesting excursion
+                - transmitting peace
+                - accommodations with eagerly helping staff
+                - beautiful
+                - relatively clean
+                - kept in perfect condition
+                - heaven of peace
+                - admiring the beauty
+                - lots of vegetation
+                - the perfect first stop
+                - certainly worth the visit
+                - architectural masterpiece
+                - loads of fun
+                - leisure activities
+                - absolutely worth the visit
+                - feeling peace
+                - superior destination
+                - super crowded
+                - comfortable
+                - abundant wildlife
+                - relaxing activities for the whole family
+                - fantastic day out
+                - filled with pleasant moments
+                - home to historical figures
+                - real gem
+                - busy streets
+                - unique landscape
+                - leisurely walks
+                - long hikes
+                - nothing but peace
+                - extremely friendly locals
+                - crystal clear skies
+                - solid amount of history
+                - offering different perspectives
+                - accommodations offering a privileged view
+                - Gothic architecture
+                - incredible beauty
+                - educational tours
+                - wonderful panorama
+                - real treat
+                - real pleasure
+                - pretty neat
+                - perfect for evening strolls
+                - fully recommended
+                - serene environment
+                - switching off the mind
+                - lovingly designed landscape
+                - learning something new everyday
+                - perfect to enjoy outdoors
+                - spiritual experience
+                - high class accommodations
+                - clearing the mind
+                - top class
+                - plenty of activities
+                - just relaxing for a while
+                - with great potential
+                - favorable
+                - left speechless
+                - a piece of heaven on earth
+                - really impressive
+                - natural setting
+                - the center of entertainment
+                - high waves
+                - hipster
+                - perfectly preserved sites
+                - for couples
+                - glistening pure water
+                - suitable for swimming
+                - stunning location
+                - storm of positive emotions
+                - enjoyable accommodations
+                - suitable for the holidays
+                - full of surprises
+                - safe environment
+                - colorful fish
+                - spectacular natural phenomenon
+                - the top location
+                - excellently organized tours
+                - kept in good condition
+                - surrounded by all manners of peace
+                - steep hikes
+                - imposing buildings
+                - for a retreat
+                - concrete jungle
+                - suitable for sports
+                - breathes history
+                - untouched nature
+                - for contemporary art lovers
+                - epic
+                - positive experience
+                - contemporarily designed buildings
+                - absolute highlight of the trip
+                - nice beach to chill
+                - dense forest
+                - hopping around popular attractions
+                - for an excursion
+                - should see with own eyes
+                - serene
+                - artistically designed landscape
+                - diverse plants
+                - feeling anxious
+                - excellent value for money
+                - awed at sacred artwork
+                - laying in the power of nature
+                - accommodations with a new look
+                - colorful flowers
+                - wide range of activities
+                - green environment
+                - loved by most
+                - with fine white sand
+                - important cultural site
+                - unbeatable view
+                - creating unforgettable memories
+                - spending time with friends
+                - grand waves in rough sea
+                - captivating
+                - diverse animals
+                - culturally valuable
+                - walking barefoot
+                - natural forest
+                - knowledgeable experience
+                - nicely restored sites
+                - with high expectations
+                - parent-child activities
+                - awestruck
+                - a dream come true
+                - gazing at an unobstructed view
+                - excellent cuisines
+                - motivating
+                - facilities that meets needs
+                - for a  half day trip
+                - did not bore
+                - exuberant
+                - with fond memories
+                - gazing at a natural spectacle
+                - for environmental education
+                - nice sandy beach
+                - traditional village
+                - perfect to enjoy the breeze
+                - spiritual atmosphere
+                - rare form of beauty
+                - designed with great attention to detail
+                - indescribable beauty
+                - glorious
+                - kind locals
+                - many selfie spots
+                - the top spot
+                - perfect for fine dining
+                - with works of art
+                - pristine
+                - sexy
+                - accommodations that meets expectations
+                - with important monuments
+                - undisturbed tranquility
+                - full of recreation
+                - accommodations offering a pleasant stay
+                - awed at the spectacle of nature
+                - perfectly maintained sites
+                - once completely destroyed
+                - architectural wonders
+                - left with a pleasant impression
+                - great learning experience
+                - stunning landscape
+                - should be the first destination
+                - reasonably well-maintained sites
+                - extraordinary beauty
+                - creatively designed landscape
+                - magnificent panorama
+                - for catching a breath
+                - perfect for window shopping
+                - delicious wine
+                - for parents traveling with children
+                - plenty of historical scriptures
+                - clear recommendation
+                - for a child's party
+                - calm waves
+                - for an immersive experience
+                - magnificent architecture
+                - tours filled with knowledge
+                - oasis of tranquility
+                - properly maintained sites
+                - delicious lunch
+                - exuberant nature
+                - green area in the city center
+                - left with a positive impression
+                - mankind's greatest accomplishment
+                - imposing structures
+                - with witty tour guides
+                - walking through narrow alleys
+                - with a love story
+                - ancient town
+                - spending a lazy Sunday
+                - ideal for picnics
+                - surrounded by vivid colors
+                - with its own charm
+                - feeling Christmas in the air
+                - absolute discovery
+                - nature in the middle of the city
+                - admiring the landscape
+                - delicious seafood
+                - full of emotions
+                - going on a scenic drive
+                - astonishing view
+                - perfect for exercising outdoors
+                - for botanists
+                - big surprises waiting
+                - activities for the whole family
+                - worth the time spent
+                - experience of a lifetime
+                - scenic location
+                - where time flies
+                - contemplating mother nature
+                - for a quick trip
+                - inescapable
+                - oasis of greenery
+                - gave a round of applause
+                - stepping back in time
+                - healthy recreations
+                - with unique features
+                - fantastic panorama
+                - crazy busy
+                - the real highlight of the trip
+                - charismatic
+                - unique aesthetic
+                - first-rate
+                - unparalleled view
+                - nice palaces
+                - rich heritage
+                - pure beauty
+                - excellent day out
+                - stress-relieving
+                - real treasure
+                - nicely built landscape
+                - genuinely interesting
+                - heaven on earth
+                - for hiking
+                - getting an insight into history
+                - oasis of calmness
+                - artistically valuable
+                - delicious chocolates
+                - roaming around great parks
+                - fantastic
+                - steep cliffs
+                - nicely preserved sites
+                - great museums
+                - rich in culture
+                - folk village
+                - loaded with history
+                - large variety of animals
+                - easy climbs
+                - fine wine
+                - the perfect place to spend the vacation
+                - jam packed
+                - roaming around lively markets
+                - walking through a scenic route
+                - for family holidays
+                - great options for recreation
+                - steep descent
+                - truly beautiful
+                - with different aspects to history
+                - for young couples
+                - worth the trouble
+                - real paradise
+                - iconic bridges
+                - good sandy beach
+                - for a romantic date
+                - destination for the youth
+                - atypical
+                - entertaining regardless of age
+                - full of laughter
+                - with an exciting behind story
+                - impressive cathedrals
+                - with a fascinating behind story
+                - well-renovated accommodations
+                - worth a quick visit
+                - for actively resting
+                - pristine beach
+                - feasting on tasty snacks
+                - strange feels
+                - historical district
+                - surreal experience
+                - reminded of childhood
+                - always a treat
+                - sense of peace
+                - absolutely recommended
+                - valuable experience
+                - introduction to history
+                - suitable for jogging
+                - surrounded by various colors
+                - cheap goods
+                - rich in content
+                - dangerous
+                - secret garden
+                - strip of clear sand
+                - where animals seem happy
+                - the miracles of nature
+                - Neo-Classical aesthetic
+                - popular destination for the locals
+                - filled with elegance
+                - originally designed structures
+                - charming view
+                - perfect to enjoy the sea breeze
+                - ideal destination
+                - connecting with nature
+                - breathtaking experience
+                - feeling the fresh breeze
+                - utmost tranquility in nature
+                - with chill spots
+                - with enough shade
+                - worthy of attention
+                - for people seeking peace
+                - feeling the breeze
+                - filled with true art works
+                - eye candy
+                - lovely strip of beach
+                - rich in detail
+                - where you can meet God
+                - humbling experience
+                - widely recommended
+                - true paradise
+                - for a Christmas party
+                - containing historical datum
+                - architectural heritage
+                - perfect romantic evening
+                - phenomenal
+                - perfect for lying down on the grass
+                - for an emotional experience
+                - iconic monuments
+                - long climbs
+                - delicious desserts
+                - ensured safety
+                - decent cafes
+                - great leisure options
+                - religious center
+                - enticing
+                - picturesque landscape
+                - worthwhile trip
+                - absolute gem
+                - robust
+                - supernatural scenery
+                - for people with a taste for ancient things
+                - a cat lover's heaven
+                - important cultural property
+                - educational yet entertaining
+                - fully restored sites
+                - perfect for pleasant strolls
+                - hard climbs
+                - full of vegetation
+                - religious activities
+                - stress-releasing
+                - smiling throughout the trip
+                - encountering with nature
+                - tiring
+                - left with raised spirits
+                - specially designed landscape
+                - filled with magical moments
+                - enjoying the sunshine
+                - fine sandy beach
+                - the real deal
+                - with a fragrant history
+                - with a unique charm
+                - for advanced hikers
+                - enjoying a superb collection of paintings
+                - plenty of tasty meals
+                - compassionate locals
+                - enriching experience
+                - nice Christmas market
+                - Roman architectures
+                - with charming corners
+                - rocky shores
+                - picturesquely located
+                - soaking up the sun
+                - admirable
+                - delicious cuisine
+                - sweeping vista
+                - for restless people
+                - secret spot
+                - frenzy atmosphere
+                - awed by pure magic
+                - imposing monuments
+                - deeply moving
+                - ideal for playing sports
+                - worth the walk
+                - beautifully displayed exhibitions
+                - above expectations
+                - great walking trails
+                - imposing churches
+                - for people interested in different cultures
+                - getting a fascinating insight
+                - plenty of wildlife
+                - stroller-friendly
+                - for book lovers
+                - remembering the past
+                - well-conserved nature
+                - delving into interesting topics
+                - nicely organized accommodations
+                - urban environment
+                - divine
+                - for family recreation
+                - filled with mysteries
+                - iconic sites
+                - great beach
+                - full of natural beauty
+                - lovingly restored ruins
+                - heaps of fun
+                - holy experience
+                - sense of respect for nature
+                - sipping on tasty cups of coffee
+                - peaceful setting
+                - extremely well-maintained sites
+                - upbeat
+                - for cultural tourism
+                - filled with hiking opportunities
+                - incredibly friendly locals
+                - admiring the sunset
+                - with a glorious history
+                - natural heritage
+                - visited out of curiosity
+                - rare trees
+                - suitable for photography
+                - enjoyable regardless of age
+                - breathtaking scenery
+                - spotlessly clean
+                - super exciting
+                - urban forest
+                - for art enthusiasts
+                - deserted beach
+                - entertaining
+                - sea of positive emotions
+                - stretch of soft white sand
+                - kid-friendly
+                - good view
+                - wonderful regardless of the season
+                - fairly busy
+                - crazy
+                - full of incredible energy
+                - greatly appreciated
+                - visiting a recreational forest
+                - large sandy beach
+                - accommodations with nice staff
+                - where your eyes are kept open
+                - lots of history behind
+                - for a wedding
+                - rewarding experience
+                - iconic setting
+                - classic
+                - perfect for relaxation
+                - suitable for cycling
+                - magnificent cathedrals
+                - mysterious
+                - true wonders
+                - indigenous cultures
+                - absolutely superb
+                - exotic species
+                - familiar atmosphere
+                - short climbs
+                - antique architecture
+                - urban jungle
+                - 100 points
+                - picturesque town
+                - fairytale-like castles
+                - filled with unique gifts
+                - rocky cliffs
+                - cheap seafoods
+                - real adventure
+                - unusual architecture
+                - for a visual-oriented trip
+                - beautiful skyline
+                - wonderfully preserved sites
+                - wandering around in music
+                - for a family getaway
+                - suitable for camping
+                - fresh oysters
+                - absolute beauty
+                - plenty of tasty dishes
+                - painted with Colonial history
+                - culinary delight
+                - artistically interesting
+                - with ancient relics
+                - full of real surprises
+                - way too many people
+                - lives up to the hype
+                - historically valuable
+                - optimistic
+                - Baroque style churches
+                - the top destination
+                - industrial history
+                - artistic atmosphere
+                - gentle waves
+                - worthy of its name
+                - barely difficult hikes
+                - for adventure lovers
+                - swimming in warm waters
+                - comfortable atmosphere to worship
+                - where the mind comes to peace
+                - healthy options
+                - real jewel
+                - idyllic setting
+                - interesting rock formations
+                - for people who enjoy adventures
+                - with iconic structures
+                - green space in the middle of the city
+                - visual treat
+                - contemporary architecture
+                - perfect to enjoy the afternoon
+                - never regret visiting
+                - the perfect getaway
+                - great variety of species
+                - everything that heart desires
+                - sensory experience
+                - perfect for snorkeling
+                - total beauty
+                - imposing cathedrals
+                - pleasant ambience
+                - perfectly restored ruins
+                - for passionate hikers
+                - green open space in the city
+                - with entertainment for taste
+                - perfect for romantic strolls
+                - tough climbs
+                - simply spectacular
+                - archaeological mosques
+                - absolute tranquility
+                - for a brief visit
+                - splendid panorama
+                - historical treasure
+                - budget friendly
+                - carefully maintained sites
+                - graced by the presence of God
+                - romantic dining experience
+                - unparalleled beauty
+                - getting a glimpse into the urban life
+                - guaranteed fun
+                - resting the mind
+                - with historical meaning
+                - soothing
+                - truly unique experience
+                - discrete setting
+                - great sandy beach
+                - with spiritual value
+                - feeling relaxed
+                - tough hikes
+                - classic architecture
+                - with historic setting
+                - definitely worth driving by
+                - magical
+                - with iconic spots
+                - suitable for bathing
+                - thoroughly enjoyed the time spent
+                - understanding the history
+                - fun-filled
+                - culturally wealthy
+                - for dates
+                - unexpectedly surprising
+                - where you can relive history
+                - large variety of plants
+                - totally worth the money
+                - freshly baked bread
+                - Roman aesthetic
+                - left with memorable photos
+                - absolute must visit
+                - pleasant time spent
+                - true oasis
+                - for challenging yourself
+                - vibrant atmosphere
+                - conversation with God
+                - imposing architecture
+                - major attractions
+                - high grade accommodations
+                - joyous
+                - where history comes alive
+                - left with expanded knowledge
+                - ideal for hiking
+                - participating in artistic activities
+                - peaceful ambience
+                - spiritual tourism
+                - marvelous reflection in the pond
+                - perfect as the final destination
+                - for a slow journey
+                - rough terrain
+                - suitable for everyone
+                - forest bathing
+                - with creative idea
+                - where you can feel the magic
+                - an indispensable visit
+                - oasis in the city center
+                - fresh strawberries
+                - lovingly maintained sites
+                - unrepeatable experience
+                - unparalleled experience
+                - delicious dinner experience
+                - natural treasure
+                - prominent landmark
+                - regularly changing
+                - with high historic value
+                - sea of unique emotions
+                - where you might see fairies
+                - completely changed since
+                - surely enjoyed the trip
+                - incomparable beauty
+                - spiritual center
+                - commercial atmosphere
+                - way too busy
+                - heritage of humanity
+                - filled with excitement
+                - a compulsory visit
+                - architectural landmark
+                - flow of powerful waterfall
+                - clear blue skies
+                - left with enriched knowledge
+                - clear blue sea
+                - strenuous hikes
+                - remembering the struggle for independence
+                - carrying educational significance
+                - wholesome exploration
+                - out of the world experience
+                - overwhelmed by the greatness
+                - in high demand
+                - complete relaxation
+                - drinking tasty beers
+                - wild forest
+                - left with only positive emotions
+                - nature's finest charm
+                - where cute monkeys live
+                - exceptional setting
+                - pure pleasure
+                - tearing in eyes
+                - feeling the love of God
+                - carrying religious significance
+                - exotic trees
+                - left with a strong impression
+                - tons of activities
+                - for people interested in military
+                - quite impressive
+                - conveying peace everywhere
+                - serene beauty
+                - for a half day visit
+                - capturing the beauty
+                - grand scale
+                - worth trying for anyone
+                - with never a dull moment
+                - golden autumn
+                - feeling dumbfounded
+                - for getting out of your routine
+                - historic old town
+                - wonderfully maintained sites
+                - uniquely shaped architecture
+                - breathtaking beauty
+                - with your beloved ones
+                - catching up with a friend
+                - oasis of relaxation
+                - giant waves
+                - worth experiencing for anyone
+                - worth a careful observation
+                - with famous sightseeing spots
+                - pristine nature
+                - true hidden gem
+                - natural wonders of the world
+                - undiscovered
+                - endearing
+                - idyllic location
+                - gobbling down every meal
+                - should respect the rules
+                - aesthetically pleasing
+                - tropical paradise
+                - strolling through vibrant markets
+                - unforgettable landscape
+                - thick forests
+                - kept in top condition
+                - stone jungle
+                - positive history of modernization
+                - delicious cheese
+                - remains in your heart
+                - with the story of an important figure
+                - romantic setting
+                - with iconic statues
+                - tasty ice cream
+                - hassle-free
+                - clearing your conscience
+                - fascinating look into history
+                - glistening pure gold
+                - thought provoking
+                - breathtaking panorama
+                - carrying religious importance
+                - parent-child interactions
+                - inspiring
+                - stayed in memories for a long time
+                - for a special treat
+                - where kids can have fun playing
+                - where words can't describe the feelings
+                - culturally rich
+                - where wishes are fulfilled
+                - picturesque
+                - ideal for whole families
+                - for married couples
+                - immersed in history
+                - feeling the sea breeze
+                - surpassing expectations
+                - deep forest
+                - pleasantly familiar
+                - artistically beautiful
+                - exciting adventure
+                - sea of positivity
+                - wonderfully restored ruins
+                - dramatically changed since
+                - sites in need of restoration
+                - accommodations with amicable staff
+                - where wishes come true
+                - visual feast
+                - always a blast
+                - developed infrastructure
+                - artistic heritage
+                - surrounded by lush vegetation
+                - true jewel
+                - unusual plants
+                - popular meeting point
+                - communicating with nature
+                - cultural treasure
+                - two thumbs up
+                - excellently maintained sites
+                - perfect for wine tasting
+                - where you can feel the alive
+                - full of street vendors
+                - appreciating art with rich details
+                - continuously improving convenience
+                - full of enthusiasm
+                - hidden paradise
+                - chilling at an uncrowded beach
+                - truly loved
+                - perfect culinary experience
+                - worth a quick stop
+                - completely gratifying
+                - reasonably clean facilities
+                - modern landscape
+                - industrial heritage
+                - greatest Metropolitan city
+                - amazed by the beauty
+                - fantasy world
+                - totally thrilling
+                - worth the hassle
+                - created with love
+                - deserving of respect
+                - physically demanding
+                - sea of people
+                - pure culture
+                - taking panoramic pictures
+                - for brightening up
+                - getting lost in the city
+                - kept clean
+                - remarkable architecture
+                - casual atmosphere
+                - abundant vegetation
+                - easy-going
+                - tastefully decorated architecture
+                - attention catching
+                - with relics of a Saint
+                - simply mesmerizing
+                - contemplating the landscape
+                - delicious sweets
+                - great artistic creation
+                - for a child's birthday party
+                - extremely enjoyable
+                - full of iconic symbols
+                - for family picnics
+                - worthy of appreciation
+                - considerate locals
+                - awed by indescribable beauty
+                - dense vegetation
+                - cultural landmark
+                - feeling free
+                - perfect for gathering thoughts
+                - with a personal touch
+                - remarkable sites
+                - highly spiritual atmosphere
+                - architecture built upon a unique concept
+                - special terrain
+                - feasting on sweet treats
+                - contemplating the sea
+                - ingenious
+                - amazing architecture
+                - classic aesthetic
+                - particularly attractive
+                - memorable trip
+                - constantly flowing streams
+                - better than expected
+                - historically rich
+                - an essential stop
+                - breathtaking view of the city
+                - monumental churches
+                - enriching
+                - for people who love taking pictures
+                - where you can feel the warmth
+                - incredibly crowded
+                - exquisite architecture
+                - pristine water
+                - nicely displayed landscape
+                - great variety of street foods
+                - naturally wealthy
+                - heritage village
+                - watching the tides
+                - carefully preserved sites
+                - for people with disabilities
+                - strongly suggested to visit
+                - filled with pleasant discoveries
+                - exceptional panorama
+                - full of vitality
+                - one of the most iconic cities
+                - worth exploring
+                - haven of international art
+                - forgetting worries
+                - on peoples' bucket lists
+                - with a modern touch
+                - trekking on difficult terrains
+                - would visit again in heartbeat
+                - extremely charming
+                - perfect to enjoy seasonal flowers
+                - culturally significant
+                - for people seeking tranquility
+                - well-kept green areas
+                - delicious bread
+                - for educating yourself
+                - with a risk of falling
+                - sheer beauty
+                - soothing for the eyes
+                - birthplace of a national symbol
+                - relatively calm
+                - important landmarks
+                - true treasure
+                - stunning setting
+                - for a quick swim
+                - experiencing diverse cultures
+                - historically wealthy
+                - inner peace
+                - full of nostalgia
+                - clear water cliff
+                - creative art
+                - enjoying remarkable art collections
+                - for a totally different experience
+                - nice temples
+                - good ubication
+                - refreshing feeling
+                - filled with adventurous rides
+                - delightful to the eye
+                - snorkeling with fish
+                - strenuous climbs
+                - perfect for evening hangouts
+                - far exceeding expectations
+                - sense of freedom
+                - continuum of a historical legacy
+                - with sacred objects
+                - rich vegetation
+                - filled with romantic moments
+                - interestingly designed landscape
+                - spending a relaxed afternoon
+                - stress-forgetting
+                - kept in pristine condition
+                - looking back at historic milestones
+                - feeling the greatness of nature
+                - with religious value
+                - naturally formed landscape
+                - holy energy
+                - for the ultimate experience
+                - Instagram worthy
+                - unhurried
+                - always crowded with tourists
+                - with valuable exhibits
+                - ideal for hikes
+                - the land of tasty treats
+                - great bird's eye view
+                - pure happiness
+                - physically challenging
+                - superbly maintained sites
+                - feeling secure
+                - forgetting troubles
+                - appreciating the grace of nature
+                - learning about environmental preservation
+                - saddening
+                - above average
+                - with happy animals
+                - perfect for walking outdoors
+                - immense peace
+                - easy trekking courses
+                - relaxed vibes
+                - ideal for relaxation
+                - extensive green area
+                - surrounded by historic buildings
+                - splendid example
+                - unforgettable adventure
+                - sense of endearment
+                - seeing masterpieces in person
+                - far from the noise
+                - deserving of a detour
+                - sense of tranquility
+                - ideal for family walks
+                - industrial culture
+                - excellent leisure options
+                - splendid
+                - appreciating green vegetation
+                - roaming around vibrant markets
+                - landscape built with love
+                - almost untouched nature
+                - military architecture
+                - leisurely yet entertaining
+                - large boulders
+                - sense of connection
+                - nicely constructed landscape
+                - well-kept landscape
+                - extreme beauty
+                - wonderfully designed landscape
+                - particularly charming
+                - completely different world
+                - contemplating the sunset
+                - soothing atmosphere
+                - peaceful oasis
+                - surrounded by powerful energy
+                - completely preserved ruins
+                - learning extensive knowledge
+                - densely populated
+                - the perfect place to spend time outdoors
+                - top tier
+                - for advanced skiers
+                - an obligatory stop
+                - a photographer's paradise
+                - suitable for leisurely travels
+                - big thumbs up
+                - comfort zone
+                - with natural elements
+                - disconnecting from the world
+                - with much less people
+                - worth the extra money
+                - for movie fans
+                - noisy
+                - beautifully kept gardens
+                - super chill
+                - sense of respect
+                - observing natural rock formations
+                - absolute dream
+                - ideal for cycling
+                - for a healthy lifestyle
+                - absolute masterpiece
+                - special geological landscape
+                - for a romantic getaway
+                - with happy face
+                - great view
+                - worth popping in
+                - thoughtfully designed landscape
+                - long descents
+                - purifying the soul
+                - fully satisfying
+                - pram-friendly
+                - look forward to future
+                - wholesome
+                - carefully restored sites
+                - soaking in a natural oasis
+                - sense of respect for the environment
+                - sense of openness
+                - conducive to relaxation
+                - with beautifully set up tours
+                - in unity with nature
+                - active leisure
+                - complete delight
+                - for family gatherings
+                - surrounded by serenity
+                - picturesque setting
+                - remarkable monuments
+                - a definite must-visit
+                - where a successful trip is guaranteed
+                - viewing a large collection of paintings
+                - spruced up accommodations
+                - lovely walks
+                - breath of healthy air
+                - roaming around lively night markets
+                - symbol of freedom
+                - great interactive activities
+                - rich cultural heritage
+                - for people interested in interested in technology
+                - for a total change of scenery
+                - stumbling on thorny bushes
+                - family-oriented
+                - grew attached
+                - home to important cultural assets
+                - idyllic landscape
+                - carefully designed landscape
+                - filled with nostalgic memories
+                - eclectic aesthetic
+                - taking a deep breath
+                - absolute pleasure
+                - good vibes only
+                - immaculately maintained sites
+                - magical touch to the trip
+                - Neo-Classical architecture
+                - further developed infrastructure
+                - entertained by innovative ideas
+                - must see
+                - beautifully decorated
+                - old-fashioned atmosphere
+                - kept immaculately clean
+                - spacious accommodations
+                - cheap alternative
+                - accommodations that meets requirements
+                - fashionable shops
+                - historical testimony
+                - intimate atmosphere
+                - part of spiritual journey
+                - where peace is provided
+                - left with regained strength
+                - a photo zone at every corner
+                - certainly worth the effort
+                - euphoric
+                - carefully planned landscape
+                - real joy
+                - for expanding your horizons
+                - quaint little town
+                - symbolic monuments
+                - soaking up the history
+                - internationally renowned sites
+                - relaxing under the tree
+                - absolute relaxation
+                - famous monuments
+                - eliminating fatigue
+                - for soothing the soul
+                - intellectual journey
+                - for people with a taste for traditional things
+                - sense of pride
+                - gem in the heart of the city
+                - accommodations with impeccable cleanliness
+                - decently maintained sites
+                - where animals are treated with respect
+                - sorrows of a dark past
+                - accommodations that meets demands
+                - filled with cultural traditions
+                - with an ancient flavor
+                - good transportation links
+                - energy-replenishing
+                - a bit overwhelming
+                - for a spiritual retreat
+                - highly enjoyable
+                - famously scenic spots
+                - a trip down the memory lane
+                - exceptionally clean
+                - feeling privileged to visit
+                - utmost cleanliness
+                - attractive destination
+                - for experienced skiers
+                - strongly recommended
+                - stretched out shopping streets
+                - leisurely yet recreational
+                - incomparable setting
+                - deeply impressive
+                - relatively well-maintained sites
+                - melodious
+                - where words can't express its beauty
+                - real delight
+                - for a fascinating journey
+                - satisfying taste buds
+                - satisfying curiosities
+                - deep blue sea
+                - nicely developed landscape
+                - great fun
+                - immense beauty
+                - mysterious vibes
+                - endless stream
+                - well-preserved fortress
+                - warm waves of water
+                - creative workshop
+                - would visit again in the future
+                - pure joy
+                - worthy of a close observation
+                - suitable for surfing
+                - for a side trip
+                - surrounded by fragrant flowers
+                - retracing the steps of history
+                - extremely impressive
+                - well-lighted at night
+                - totally exciting
+                - perfectly designed landscape
+                - sea of positive impressions
+                - ideal starting point of the trip
+                - creating everlasting memories
+                - full of adrenaline
+                - for daredevils
+                - great to get acquainted with history
+                - for a relaxing break
+                - with the risk of slipping
+                - beautiful waterfall
+                - never too busy
+                - beautifully created landscape
+                - exceptionally friendly locals
+                - restored to its former glory
+                - the classic example
+                - exploring into the unknown
+                - newly established facilities
+                - slowly appreciating the beauty
+                - something to behold
+                - hidden beauty on earth
+                - unforgettable sight
+                - crossed a threshold
+                - for innocent souls
+                - deepening knowledge
+                - tasty cakes
+                - breathes culture
+                - monumental architecture
+                - vast forest
+                - pure bliss
+                - with shout-out-worthy tour guides
+                - smoothly paved paths
+                - suitable for outdoor activities
+                - would personally recommend
+                - flooded with tourists
+                - getting real insight into history
+                - tasty cuisine
+                - relatively easy hikes
+                - source of pride
+                - for meditation
+                - with a story of a legend
+                - absolutely fabulous
+                - unique spectacle
+                - actively spending time
+                - for people seeking nostalgia
+                - sea of unforgettable emotions
+                - as a birthday treat
+                - rural atmosphere
+                - filled with authenticity
+                - real oasis
+                - conducive to meditation
+                - delicious treats
+                - resonating
+                - diving in deep waters
+                - popular landmark
+                - spiritual vibes
+                - for environmentalists
+                - where loud music blasts
+                - strenuous walks
+                - parent-child playtime
+                - unbeatable location
+                - stimulates imagination
+                - great heritage value
+                - consuming physical strength
+                - chic
+                - hammering view
+                - extremely well-preserved sites
+                - plenty of picnic areas
+                - beautiful sea view
+                - green oasis in the middle of the city
+                - sense of belonging
+                - prime example
+                - for a nice change of pace
+                - surprised at the considerable size
+                - incredibly well-preserved sites
+                - for a company retreat
+                - one of the most beloved cities
+                - lovers' paradise
+                - tranquil spot
+                - unusually designed architecture
+                - carrying cultural importance
+                - breathtaking sight
+                - with truly caring tour guides
+                - filled with unique discoveries
+                - full of mysticism
+                - should take a look around
+                - stunning vista
+                - well-preserved ruins
+                - with Buddhist relics
+                - filled with the glamor of gold
+                - fascinating beauty
+                - awed at the sheer volume
+                - insanely busy
+                - a mandatory stop
+                - with characteristic points
+                - deserving of its praise
+                - breath of fresh oxygen
+                - assured relaxation
+                - teeming with life
+                - recalling memories
+                - symbol of love
+                - gained more tourist interest
+                - deserving of a stop
+                - oozing history
+                - the perfect place to spend time slowly
+                - arouses deep emotions
+                - should see firsthand
+                - with greenness
+                - sublime landscape
+                - experiencing interactive content
+                - worth a thorough visit
+                - accommodations with well-trained staff
+                - with important historical monuments
+                - moral imperative
+                - the perfect picnic spot
+                - with relics from the past
+                - confident in safety
+                - with recreational value
+                - unreal beauty
+                - with impeccable facilities
+                - great food
+                - silent
+                - should see with the naked eye
+                - delicious strawberries
+                - for taking engagement photos
+                - full of humor
+                - beautifully preserved castles
+                - where desires are fulfilled
+                - an unmissable stop
+                - for people interested in topography
+                - nice churches
+                - definitely worthwhile
+                - carrying the weight of history
+                - getting the chills
+                - arouses interest
+                - rural village
+                - where the magic of Christmas exists
+                - relaxing stays
+                - the perfect backdrop
+                - a chocolate lovers' heaven
+                - relaxing mood
+                - for education on climate change
+                - different ecosystem
+                - accommodations that pay cordial attention
+                - for religious rituals
+                - sense of adventure
+                - tons of wildlife
+                - perfect for cheese tasting
+                - ecologically conserved
+                - filled with contemporary designs
+                - homely
+                - fulfilling purposes
+                - stunning natural beauty
+                - fairly easy hikes
+                - city of complete silence
+                - feeling all four seasons
+                - with precious treasures
+                - seeing religious images in person
+                - trip to find yourself
+                - with special meaning
+                - serene setting
+                - isolated beach
+                - haven of tranquility
+                - immensely pleasurable
+                - surrounded by positivity
+                - great architectural feat
+                - no hesitation needed
+                - for curious minds
+                - cheap eats
+                - crowded during the holidays
+                - where time passes quickly
+                - rock formations like a natural arch
+                - scene out of a fairytale
+                - busy during the high season
+                - world's natural lung
+                - invincible beauty
+                - raw nature
+                - oasis in the heart of city
+                - super yummy meals
+                - rustic atmosphere
+                - perfect for feeding the soul
+                - a break from everyday life
+                - delicious hot chocolate
+                - unmissable destination
+                - with many historical relics
+                - creating awareness about the environment
+                - gasping
+                - absolutely thrilling
+                - with a painful history
+                - sheer cliff
+                - with historical vestige
+                - pursues sustainable development
+                - magnificently beautiful
+                - overwhelmed by the grandeur
+                - dining at upscale restaurants
+                - unrepeatable beauty
+                - indigenous plants
+                - remembering the heroes
+                - achieved clear comprehension
+                - unique sensations
+                - for healing your heart
+                - newly designed landscape
+                - would go back with pleasure
+                - with iconic venues
+                - starry night skies
+                - overwhelmed by the vastness
+                - heartily recommended
+                - for renewing your faith
+                - superb setting
+                - super nice
+                - maximum relaxation
+                - worth buying a magnet from
+                - easily accessible by public transport
+                - visual delight
+                - with a strong cultural identity
+                - sense of cleanliness
+                - accommodations with cordial staff
+                - striking
+                - for elderly people
+                - promising sites
+                - innovatively designed landscape
+                - highly spiritual sites
+                - for history nerds
+                - artistic treasure
+                - hidden jewel
+                - splendid setting
+                - delicious soup
+                - structurally designed landscape
+                - unique rock formations
+                - escape from everyday
+                - left with cherished memories
+                - with enormous potential
+                - locals with warm hospitality
+                - well-conserved sites
+                - wisely chosen destination
+                - far from the hustle
+                - truly awe inspiring
+                - the forbidden city
+                - rare gem
+                - with educational content
+                - home to a valued cultural figure
+                - pleasant gastronomic experience
+                - for a child's learning experience
+                - authentic wonders
+                - definitely worth stopping by
+                - nature's greatest creation
+                - sparkly clean
+                - for fitness enthusiasts
+                - feeling cool air
+                - fine cuisine
+                - creating precious memories
+                - visiting comprehensive exhibitions
+                - significant monuments
+                - in communion with nature
+                - architecture beautifully designed on the inside
+                - not for the faint-hearted
+                - where you forget the hustle of the city
+                - for releasing the tension
+                - silent as a sign of respect
+                - with high artistic value
+                - truly world class
+                - filled with archaeological discoveries
+                - chillaxing
+                - worth a quick look
+                - filled with precious jewels
+                - stress-reducing
+                - feeling open-hearted
+                - God's gift to nature
+                - for taking slow motion imagery
+                - exquisite
+                - for shopaholics
+                - conveying beauty everywhere
+                - for a peaceful retreat
+                - industrial architecture
+                - touristy
+                - enthralling
+                - with religious relics
+                - excellently conserved sites
+                - worth the hype
+                - fine pebbles
+                - important archaeological site
+                - totally worth the effort
+                - highly praised
+                - well-groomed slopes
+                - greenery all around
+                - wonderfully decorated landscape
+                - enchanting nature
+                - mouth watering dishes
+                - refreshing the body
+                - symbol of power
+                - purely enjoyable
+                - magnificently designed landscape
+                - ideal for jogs
+                - lush green forests
+                - for beginner surfers
+                - outstanding natural beauty
+                - where culture began
+                - nicely maintained gardens
+                - for people interested in archaeology
+                - for a theatrical experience
+                - fantasizing
+                - conducive learning environment
+                - gathering knowledge
+                - like a futuristic world
+                - filled with superb discoveries
+                - well-preserved culture
+                - fairytale landscape
+                - where animals are well-cared for
+                - top rated
+                - where you recall your childhood
+                - overly crowded
+                - beautiful afterglow
+                - with a heroic history
+                - important historical landmarks
+                - pristine beauty
+                - worth a subsequent visit
+                - full of pure energy
+                - grandiose landscape
+                - for people with adventurous spirits
+                - one of the best cities
+                - where your son will have a blast
+                - simply breathtaking
+                - lovingly cared for sites
+                - neatly kept landscape
+                - with worldwide fame
+                - amazingly well-preserved sites
+                - the top tourist destination
+                - super duper
+                - accommodations with impeccable organization
+                - a slice of paradise
+                - rewarding visit
+                - a bit isolated
+                - for people with an exquisite taste
+                - hopping around trendy bars
+                - novel experience
+                - rugged terrain
+                - soothing environment
+                - worth the journey
+                - Global scale
+                - accommodations providing comfort
+                - spending time alone
+                - systematic atmosphere
+                - shines bright
+                - with a natural nuance
+                - sense of achievement
+                - haven of famous paintings
+                - par excellence
+                - mesmerizing beauty
+                - with incalculable value
+                - ideal for strolls
+                - a slice of heaven
+                - stunning evening glow
+                - rare artifacts
+                - oasis in the middle of the desert
+                - bang for the buck
+                - provided with safety measures
+                - absolute wonder
+                - spirit capturing
+                - strong surfing
+                - enhancing knowledge
+                - where you can meet like-minded people
+                - mysterious caves
+                - with a hive of activities
+                - soothing the mind
+                - interesting artistic installations
+                - super packed
+                - like the Garden of Eden
+                - particularly striking
+                - crash of powerful waves
+                - great resting spot
+                - for people seeking an adrenaline rush
+                - changing perspectives
+                - getting a dose of adrenaline
+                - pleasure for the senses
+                - for a traditional wedding
+                - tasting culinary specialties
+                - up to par
+                - futuristic buildings
+                - absolutely stunning
+                - colorfully lit up
+                - unrivaled view
+                - for a half day excursion
+                - landscape of an urban design
+                - elaborately designed landscape
+                - absolutely mesmerizing
+                - feast for the senses
+                - steep coastline
+                - wonders to behold
+                - refreshing the soul
+                - should be preserved for future generations
+                - laying in soft grass
+                - deep blue water
+                - reestablished sites
+                - a photographer's dream
+                - astounding
+                - feeling immersed
+                - romantic mood
+                - remembering for a lifetime
+                - kept impeccably clean
+                - where you can find latest trends
+                - nicely illuminated
+                - one of the most seeked
+                - unexpected gem
+                - absolute favorite
+                - for religious functions
+                - left only positive impressions
+                - truly magical experience
+                - experiencing the local culture
+                - distinctive mosques
+                - Neo-Gothic architecture
+                - spectacular bay view
+                - uncontaminated nature
+                - learning about culture
+                - sense of unity
+                - insanely crowded
+                - fairly easy trails
+                - relatively easy walks
+                - the real hidden gem
+                - appreciating the nature
+                - escape from stress
+                - for people who enjoy tranquility
+                - absolute treat
+                - location of an iconic image
+                - constantly changing
+                - practicing meditation
+                - Victorian architecture
+                - for the first kiss
+                - windfall of tranquility
+                - internationally recognized attractions
+                - underappreciated
+                - dense jungle
+                - feeling the city everywhere
+                - truly delightful
+                - orderly environment
+                - guaranteed relaxation
+                - for a refreshing change
+                - surrounded by artistic talent
+                - totally relaxing
+                - cozy square
+                - newly refurbished accommodations
+                - beautifully groomed landscape
+                - spoken highly of
+                - exuberant beauty
+                - staggering
+                - still amazed
+                - absolute treasure
+                - chilling on the grass
+                - the city that never sleeps
+                - with precious artifacts
+                - breathtaking view of the sea
+                - standing ovation
+                - challenging enough activities
+                - with cultural elements
+                - certainly worth looking around
+                - exquisite dishes
+                - for beginner skiers
+                - real asset
+                - clean sandy beach
+                - for people who enjoy quietness
+                - architecture with stunning stained glass
+                - merry
+                - nicely repaired ruins
+                - smell of wood
+                - for graduation photos
+                - rich flora
+                - exotic dishes
+                - for religious celebrations
+                - where you can touch the clouds
+                - a definite must-see
+                - indulging in tasty burgers
+                - fairly well-preserved sites
+                - extraordinary panorama
+                - solemn feeling
+                - for slow travels
+                - healing the soul
+                - with walkable attractions
+                - visiting a retro amusement park
+                - million dollar view
+                - capturing memories on film
+                - for intermediate skiers
+                - for experiencing something new
+                - getting real thrills
+                - filled with complicity
+                - tasty pancakes
+                - kept in immaculate condition
+                - busy shopping streets
+                - surrounded by palm trees
+                - religious symbol
+                - mood refreshing
+                - worth a stroll
+                - soul-cleansing
+                - accommodations with exquisitely trained staff
+                - eye popping
+                - artistic masterpiece
+                - accommodations offering impeccable attention
+                - perfect for early morning walks
+                - for people with a creative mind
+                - feeling the power of divinity
+                - pretty easy hikes
+                - easily overlooked
+                - hands-on learning
+                - delicious apple pies
+                - the wonder of wonders
+                - emotionally impacted
+                - absolute joy
+                - superbly restored sites
+                - warm-hearted locals
+                - priceless artifacts
+                - with really passionate tour guides
+                - heavy climbs
+                - quality foods
+                - roaming around night markets
+                - highlight of the vacation
+                - major tourist spots
+                - left with a new appreciation
+                - excellent panorama
+                - fascinating piece of history
+                - for bookworms
+                - plenty of photo opps
+                - getting a dose of history
+                - home to prominent figures
+                - filled with modern skyscrapers
+                - lively square
+                - practicing religious activities
+                - business hub
+                - for a major upgrade
+                - pleasantly busy
+                - practically the desert
+                - where words can't describe the emotions felt
+                - with precious gems
+                - truly unforgettable experience
+                - nice mosques
+                - carefully cared for landscape
+                - dazzling spectacles
+                - futuristic architecture
+                - dramatic scenery
+                - far from civilization
+                - wonderfully laid out landscape
+                - deeply touching
+                - worth the visit
+                - remembering the victims
+                - for spiritual growth
+                - for a short term stay
+                - plenty of tasty street foods
+                - escape from negativity
+                - visiting fascinating museums
+                - picturesque surroundings
+                - extravagant
+                - attracts interest
+                - filled with unexpected discoveries
+                - short walks
+                - cleverly designed landscape
+                - absolutely blown away
+                - purely delightful
+                - with historically famous sites
+                - for a moment of relaxation
+                - classy
+                - eclectic architecture
+                - incredibly helpful locals
+                - absolutely mind blowing
+                - laying in the power of ocean
+                - with the labor of love
+                - haven of cherry blossoms
+                - impressed by the dimension
+                - gazing at an uninterrupted view
+                - filled with emotional moments
+                - high quality wine
+                - sense of enormity
+                - like a plunge into childhood
+                - undemanding walks
+                - a real must visit
+                - the definite highlight of the trip
+                - maximum satisfaction
+                - with passionate tour guides
+                - full of symbols
+                - where knowledge grows
+                - surrounded by skyscrapers
+                - sense of awe
+                - delight for senses
+                - always fascinating
+                - where the heart beats faster
+                - for an unforgettable vacation
+                - where history lays at your fingertips
+                - cool
+                - haven of serenity
+                - haven of greenery
+                - challenging routes
+                - upscale shopping
+                - Caribbean feels
+                - where your imaginations fly
+                - remembering the struggle for freedom
+                - pristine forest
+                - for the younger generation
+                - holy
+                - rocky peaks
+                - archaeological treasure
+                - joy for the eyes
+                - home to a religious icon
+                - waves of light blue water
+                - unforgettable journey
+                - completely deserted
+                - for otakus
+                - for a cognitive excursion
+                - fantasy land
+                - real bonus
+                - gained increased interest
+                - eternal glory
+                - getting a glimpse into the industrial past
+                - easy to cope
+                - Colonial style architecture
+                - one of the most memorable experiences
+                - absolutely adored
+                - usually quite busy
+                - satisfying experience
+                - gradually improved infrastructure
+                - carrying spiritual significance
+                - attractively designed landscape
+                - surrounded by great aura
+                - where you can hear a powerful roar
+                - modern feels
+                - pleasant resting place
+                - sense of calmness
+                - resting peacefully
+                - eerie vibes
+                - with sentimental value
+                - exuberant vegetation
+                - capturing imaginations
+                - periodically changing
+                - ethereal
+                - diverse faunas
+                - for people with an aesthetic sense
+                - like a movie set
+                - sense of affection
+                - spiritually connecting with God
+                - feeling spiritual support
+                - where animals roam freely
+                - educational workshop
+                - burst of patriotism
+                - enjoying unique pieces of art
+                - sense of admiration
+                - short but intense activities
+                - loads of wildlife
+                - completely transformed
+                - sense of serenity
+                - flawless
+                - highly encouraged to visit
+                - enchanting setting
+                - quirky shops
+                - continuously developing infrastructure
+                - proper security
+                - nice castles
+                - majestically decorated for Christmas
+                - haven of peace
+                - rugged coastlines
+                - evoking memories
+                - intriguing
+                - for people interested in contemporary arts
+                - cement jungle
+                - left with improved patience
+                - enamored with
+                - preserved to its original form
+                - mutual respect among religions
+                - left with strengthened faith
+                - for people who favor operas
+                - great up-close experience
+                - where you need warm clothes
+                - feeling closer to God
+                - unlike the ordinary
+                - monuments erected in the memory of
+                - kept in impeccable condition
+                - energy consuming
+                - green oasis in the city center
+                - experiencing the beauty of nature
+                - where expectations are fulfilled
+                - visually appealing
+                - stunning backdrop
+                - for beginner hikers
+                - spiritual practice
+                - really successful visit
+                - where a picture is worth a thousand words
+                - deserving of support
+                - escape from daily routine
+                - a break from the bustle of the city
+                - totally blown away
+                - rare species of plants
+                - perfectly groomed ski slopes
+                - following religious traditions
+                - for classical music lovers
+                - imposing majesty
+                - delicious delicacies
+                - tranquil
+                - laughed so much
+                - where you can see various architectural styles
+                - absolute calm
+                - nice campsite
+                - pretty dope
+                - cultural heritage of humanity
+                - watching the waves crash
+                - where you can shake off the stress
+                - majestic cultural monuments
+                - aesthetically beautiful
+                - always enjoyable
+                - well-developed infrastructure
+                - nostalgic aesthetic
+                - unique blend of cultures
+                - with carefully crafted art pieces
+                - participating in healing courses
+                - divinely blessed
+                - healthy
+                - loved by older daughter
+                - recommended without hesitation
+                - finding solace
+                - walking with your pet
+                - infinite beauty
+                - experiencing considerable heights
+                - bonding time with nephews
+                - worth a look
+                - for people interested in modern arts
+                - completely redone accommodations
+                - ebb & flow
+                - where true heroes rest
+                - complete freedom
+                - nostalgic feels
+                - with an aesthetical point
+                - tons of vendors
+                - wonderful regardless of the time of year
+                - listening to the  sound of nature
+                - Gothic cathedrals
+                - reminder of the sorrow
+                - a mandatory point on map
+                - relatively peaceful
+                - exquisite wine
+                - overall great
+                - reminder of the past
+                - perfect place to express your love
+                - eyeful
+                - paying your respects to the ancestors
+                - for kickbacks
+                - beautifully decorated for Christmas
+                - fashionable cafes
+                - filled with impressive natural spectacles
+                - parent-child leisure
+                - where the soul rejoices in the beauty
+                - pure romance
+                - blood-pumping
+                - urban bustle
+                - significant landmark
+                - thrilling highline experience
+                - green space in the city center
+                - with a checkered past
+                - rustic feels
+                - where you can relive famous stories
+                - marveling at the beauty
+                - spending time with loved ones
+                - where every second is enjoyable
+                - where you can hear a roaring echo
+                - like a cordial invitation
+                - perfect for a romantic outing
+                - international landmarks
+                - true marvel
+                - extremely knowledgeable tours
+                - accommodations with much appreciated staff
+                - colorful leaves
+                - for people seeking a blessing
+                - religious harmony
+                - where you can relive the great moments of the past
+                - truly blessed to have visited
+                - sense of positivity
+                - rest from the hustle
+                - real hit
+                - significantly changed since
+                - fresh shrimps
+                - remembering the sacrifice
+                - beautiful sight
+                - considerably changed since
+                - extraordinary
+                - worth every drop of sweat
+                - primitive forest
+                - totally amazing
+                - totally worth the drive
+                - religious heritage
+                - remembering important historical events
+                - with tour guides with a touch of humor
+                - enriched culture
+                - leisurely hikes
+                - modern architecture
+                - delightful for everyone
+                - astonishing architecture
+                - worthy of worldwide recognition
+                - left with a deepened understanding
+                - fantastic location
+                - filled with street musicians
+                - enrapturing
+                - soaked in European feels
+                - truly memorable experience
+                - admiring the greatness of nature
+                - incomparable landscape
+                - deserving of its reputation
+                - evergreen forest
+                - green lung in the middle of the city
+                - delicious apples
+                - with important features
+                - simply astonishing
+                - for absorbing knowledge
+                - filled with trendy crowds
+                - in the shade of palm trees
+                - deeply appreciated
+                - like a postcard
+                - time traveling
+                - spending time with family
+                - historically relevant
+                - highly revered  sites
+                - emotionally moving experience
+                - for a celebration party
+                - filled with comeliness
+                - admiring the splendor
+                - feeling spiritual comfort
+                - matchless
+                - archaeological heritage
+                - aimed for tourists
+                - dignified atmosphere
+                - popular destination for tourists
+                - finger-licking good
+                - lasting experience
+                - booming cultural industry
+                - long stretch of sand
+                - delicious empanadas
+                - where the city moves at its own pace
+                - stunning coastline
+                - left with an indelible impression
+                - strong flow of water
+                - breath of crisp air
+                - a beauty to behold
+                - sense of community
+                - spiritual reflection
+                - for people seeking inspiration
+                - watching religious rites
+                - the land of yummy chocolates
+                - unparalleled landscape
+                - for a spontaneous visit
+                - heart-pumping
+                - enjoying valuable works of art
+                - literary atmosphere
+                - superbly preserved sites
+                - treasure trove of information
+                - futuristically designed buildings
+                - ideal waves
+                - almost an obligatory visit
+                - informal atmosphere
+                - magnificent city panorama
+                - where the city moves at a relaxed pace
+                - greatly changed since
+                - popular holiday destination
+                - restored to its former splendor
+                - botanically diverse
+                - healing the mind
+                - landscape with Gothic design
+                - world cultural heritage
+                - popular photo spot
+                - like a time slip
+                - native plants
+                - distinctive landmark
+                - for prayers
+                - perfect for romantic walks
+                - less intense
+                - for absorbing information
+                - escape from chaos
+                - feeling liberated
+                - engaging
+                - arduous climbs
+                - deserving of its recognition
+                - targeted towards tourists
+                - sense of danger
+                - adequate infrastructure
+                - untouched beauty
+                - swarming with tourists
+                - ideal for family picnics
+                - subtropical plants
+                - left with an unforgettable impression
+                - stimulates the senses
+                - high-spirited
+                - God's wonders
+                - decent snorkeling
+                - typical tourist destination
+                - relaxing feels
+                - rich biodiversity
+                - with a rustic charm
+                - recollection of the past
+                - for archeology lovers
+                - man made wonders
+                - for people seeking relaxation
+                - Manueline architecture
+                - learning about religious pilgrimage
+                - precious heritage
+                - shedding light on history
+                - for a Sunday getaway
+                - disconnecting from noise
+                - highly impressive
+                - visually enjoyable
+                - remembering the industrial development
+                - total blast
+                - with highly regarded sites
+                - amazing feat of engineering
+                - breath of fresh air in the middle of the city
+                - amazingly designed landscape
+                - deliciously fresh seafood
+                - therapeutic
+                - an obligatory destination
+                - low pressure
+                - for a nostalgic journey
+                - with plenty of informational plaques
+                - where you should bring your camera
+                - architecturally rich
+                - where the name speaks for itself
+                - soaking up the culture
+                - perfect ending to the trip
+                - dazzling
+                - like an oasis in the desert
+                - for party goers
+                - a fundamental stop
+                - iconic
+                - sightseeing with a historical narrative
+                - for a certification shot
+                - geographical wonders
+                - escape from daily duties
+                - learning about industrial archeology
+                - highly evaluated accommodations
+                - precious material for the mind
+                - commemoratively valuable
+                - remembering the fight for independence
+                - positively impacted
+                - perfect fit
+                - constantly developing infrastructure
+                - rugged landscape
+                - joy to behold
+                - real sense of history
+                - with tour guides transmitting knowledge
+                - conveying a message everywhere
+                - for a mini vacation
+                - with a view worthy of a postcard
+                - sea of pleasure
+                - hidden oasis
+                - for people with an artistic sense
+                - definitely recommended
+                - for surfers
+                - divine energy
+                - delicious kebabs
+                - deeply rooted traditions
+                - slow walks
+                - for people who care about the environment
+                - rustic aesthetic
+                - great monuments
+                - oriental architecture
+                - diverse ecosystem
+                - with an artistic touch
+                - for spiritual healing
+                - healthy distractions
+                - dramatic landscape
+                - completely isolated
+                - totally surprising
+                - made from tremendous effort
+                - real green lung
+                - where time flows slowly
+                - where mother nature embraces you
+                - nice sea view
+                - resting place for the whole family
+                - for art connoisseurs
+                - awed at the massive scale
+                - scenic backdrop
+                - a bit of a shocker
+                - dream city to get engaged
+                - gem in the middle of city
+                - a mandatory tourist spot
+                - delightfully surprising
+                - soothing effect on the mind
+                - admiring the panorama of the city
+                - enjoying a world-class performance
+                - drastically changed since
+                - unmatched beauty
+                - participating in cultural events
+                - sound of birds chirping
+                - venerable shrines
+                - for people interested in astronomy
+                - for people seeking knowledge
+                - with the story of a iconic figure
+                - reinvigorating
+                - loved by older son
+                - tranquility in the middle of the city
+                - idyllic
+                - beautiful 360° view
+                - unlike the usual
+                - popular picnic spot
+                - must not miss
+                - absolute bargain
+                - sleeping peacefully
+                - classic tourist spots
+                - exhausting climbs
+                - surrounded by fragrant roses
+                - commercial hub
+                - retained its original appearance
+                - painted with Caribbean colors
+                - remembering the fight for freedom
+                - architectural pearl
+                - conveying an important message
+                - considerably maintained sites
+                - spent an absolutely fantastic day out
+                - true haven
+                - timeless beauty
+                - for a real change of scenery
+                - worthwhile goal to visit
+                - sense of nostalgia
+                - sense of comfort
+                - superbly designed landscape
+                - experiencing cultural activities
+                - invincible scenery
+                - a trip to last a lifetime
+                - gazing at narrow canyons
+                - somewhat reminiscent
+                - great for kids
+                - with tremendous potential
+                - sacred vibes
+                - luminescent
+                - architecture with Gothic design elements
+                - for people interested in botany
+                - tribal village
+                - architectural genius
+                - visually pleasing
+                - for strengthening parent-child relationship
+                - breathtaking spectacle
+                - rare species of animals
+                - look forward to return
+                - an inevitable stop
+                - distinctive architecture
+                - specifically designed landscape
+                - for people who want contact with nature
+                - great experience
+                - Avant Garde art
+                - overwhelmed by intense emotions
+                - like a second home
+                - totally worth waiting in lines
+                - feeling of liberation
+                - shopping for rare antiques
+                - where you feel like a princess
+                - keeping eyes wide open
+                - perfect for casual outings
+                - for mental rest
+                - accommodations that serve unbeatable treatment
+                - surreal feels
+                - perfect for early morning jogs
+                - transmitting tranquility
+                - for people who want to overcome their weaknesses
+                - stretch of sandy beaches
+                - well-maintained gardens
+                - excellent architecture
+                - tastefully designed landscape
+                - singing all around
+                - great city layout
+                - clever
+                - gradually developed infrastructure
+                - happy ending to your trip
+                - conveying a historic allusion
+                - generously designed landscape
+                - poetic scenery
+                - satisfying desires
+                - world's natural cooler
+                - kept its authenticity
+                - for health-conscious people
+                - nice waterfall
+                - little isolated
+                - true spectacle of nature
+                - greatly preserved sites
+                - fits the bill
+                - lovingly preserved ruins
+                - embedded with historical trajectory
+                - truly satisfying
+                - exceptionally well-maintained sites
+                - perfectly situated
+                - dignity in the air
+                - unity within diversity
+                - learning about the local culture
+                - accommodations with unbeatable attention
+                - humble
+                - semi-natural location
+                - wholeheartedly recommended
+                - accommodations with highly motivated staff
+                - playful atmosphere
+                - carrying a strong influence
+                - for sustainable tourism
+                - for extreme sports fans
+                - excellently presented landscape
+                - ambient atmosphere
+                - rare treat
+                - enchanting panorama
+                - tiring climbs
+                - worthy of the recognition
+                - where words can't express the sensation
+                - sense of satisfaction
+                - full of exoticism
+                - Avant Garde architecture
+                - maintained to high standards
+                - vivacious
+                - fitness training
+                - conveying a powerful message
+                - the perfect place for a leisurely afternoon
+                - seeing from a naturalistic point of view
+                - adventurous journey
+                - maximum enjoyment
+                - beautifully maintained sites
+                - excellently restored ruins
+                - spell binding
+                - low impact activities
+                - fully engaging
+                - eagerly waiting to go
+                - well-groomed alley ways
+                - paying your respects at a powerful memorial
+                - evergreen trees
+                - extremely well-presented landscape
+                - got a little distracted from stress
+                - in coexistence with nature
+                - cherishing forever
+                - with precious relics
+                - where you can renew your spirit
+                - sense of divinity
+                - moderate climbs
+                - conveying a strong message
+                - truly a sight to behold
+                - newly decorated accommodations
+                - staying in thatched houses
+                - gentle climbs
+                - archaeologically important
+                - adventurous
+                - based on an innovative concept
+                - cute little town
+                - rapidly developed infrastructure
+                - source of joy
+                - crystalline water
+                - for people with an active lifestyle
+                - indigenous village
+                - for people suffering from stress
+                - symbol of independence
+                - well-manicured gardens
+                - for wedding photography
+                - for religious tourism
+                - wide variety of vegetation
+                - causes delight
+                - carrying national significance
+                - totally worth every penny
+                - positive aura
+                - watching a nice sunset
+                - praiseworthy
+                - far beyond expectations
+                - offers various points of interests
+                - the cream of the crop
+                - great ambience
+                - sobering reminder of the past
+                - filled with serendipity
+                - with high cultural value
+                - brilliantly designed landscape
+                - worth the price
+                - left with an deep impression
+                - one of the most popular spots
+                - lively shopping streets
+                - steady climbs
+                - would gladly go back
+                - for people interested in Buddhism
+                - like the jungle
+                - singing high praise
+                - cheers to delicious cocktails
+                - top pick
+                - worth a close up view
+                - stunning visual
+                - shines beautifully
+                - feeling the holy spirit
+                - Sacral architecture
+                - appreciating the majesty
+                - for a close encounter with animals
+                - roaming around great galleries
+                - neatly decorated landscape
+                - particular favorite
+                - beach with a narrow strip of sand
+                - industrially competitive
+                - completely satisfying
+                - conducive to prayers
+                - fun exploration
+                - stood in awe
+                - an unexpected bonus to the trip
+                - sparks interests
+                - getting a well-deserved rest
+                - surrounded by religious fervor
+                - booming creative industry
+                - sense of spirituality
+                - with great tourist packages
+                - diverse cuisines
+                - ideal for walks
+                - the marine kingdom
+                - nicely crafted sites
+                - real treat for the eyes
+                - for people interested in technology
+                - sense of responsibility
+                - like a phoenix that rose from the ashes
+                - wonderful beach
+                - mysterious yet wonderful nature
+                - casually hanging out
+                - symbol of faith
+                - great atmosphere
+                - where the view compensates for the effort
+                - a pastry lovers' heaven
+                - chipper
+                - exceptional
+                - putting your hands up on thrilling rides
+                - child-friendly
+                - perfect for lazy strolls
+                - with much inspiration
+                - unexpected delight
+                - collecting great photos
+                - quaint little shops
+                - vividly designed landscape
+                - kept in excellent state of preservation
+                - holy grail
+                - forgetting fatigue
+                - a compulsory stop
+                - national heritage
+                - where words can't express the emotions
+                - soul searching
+                - green lung at the heart of the city
+                - relatively untouched nature
+                - quite pleasant
+                - a shopping heaven
+                - burning fat
+                - for literature lovers
+                - gradually expanded territory
+                - lovingly presented landscape
+                - remnants of the past
+                - tidy
+                - soul-enriching
+                - the best ski slopes
+                - immediately falling in love
+                - mankind's marvelous creations
+                - worth a repeated visit
+                - smell of pine trees
+                - with a strong human touch
+                - truly mesmerizing
+                - far from mad crowds
+                - an obligatory point of trip
+                - important cultural center
+                - golden glow
+                - with a risk of collapsing
+                - spent an absolutely brilliant day out
+                - spreading awareness on sustainability
+                - admiring the majesty
+                - for a quick stopover
+                - reminder of the horror
+                - ideal for photoshoots
+                - kind of crowded
+                - true wonders of nature
+                - Gothic Revival architecture
+                - perfect for skiing
+                - purifying the body
+                - large selection of dishes
+                - once completely demolished
+                - out of the hustle
+                - cosmopolitan
+                - sauna crawling
+                - ecologically balanced
+                - interesting architectural solutions
+                - appreciating the greatness
+                - full of happy surprises
+                - unexpected treasure
+                - perfect for evening jogs
+                - sense of solemnity
+                - accommodations offering cordial treatment
+                - rejuvenating the soul
+                - artistically wealthy
+                - pleasantly surprised by the quality of goods
+                - cleansing the mind
+                - nicely lit up at night
+                - golden sandy beach
+                - panoramic view
+                - aboriginal cuisine
+                - for alone or with family
+                - getting in contact with nature in the middle of city
+                - morning glow
+                - dense woods
+                - adequate signages
+                - for light travelers
+                - self reflection
+                - rewarding hikes
+                - where the city moves at a reasonable pace
+                - where you feel like royalty
+                - somewhat high prices
+                - the perfect place to spend time peacefully
+                - sociable locals
+                - where people pay their respects
+                - where the mind fills with positive thoughts
+                - gradually restored ruins
+                - with healthy animals
+                - disconnecting from stress
+                - nostalgia for childhood
+                - genuinely happy locals
+                - venerable temples
+                - for aircraft enthusiasts
+                - filled with classical antiquity
+                - filled with surprising discoveries
+                - sublime panorama
+                - stimulates curiosity
+                - futuristic
+                - with priceless artifacts
+                - magnificently restored sites
+                - nice secluded beach
+                - unexpected treat
+                - rugged cliffs
+                - abundant flora
+                - sense of rejuvenation
+                - creating happy memories
+                - for people seeking peace of mind
+                - Corinthian style
+                - an indispensable destination
+                - wide variety of cuisines
+                - with unexpected finds
+                - extensively restored ruins
+                - away from mass tourism
+                - emotionally charging experience
+                - remarkably well-preserved sites
+                - heart's content
+                - gained a lot of publicity
+                - for people interested in geology
+                - diverse trees
+                - environmentally clean
+                - retrace the story of life
+                - requiring physical strength
+                - glowing sunset
+                - ennobled
+                - exercising in fresh air
+                - great ocean
+                - packed like sardines
+                - nicely executed tours
+                - thoughtfully laid out landscape
+                - one of the top ten scenic spots
+                - too touristy for taste
+                - for family bonding time
+                - paradise for nature lovers
+                - with the charm of yesteryear
+                - surrounded by creativity
+                - Neo-Renaissance aesthetic 
+                - with a touch of modernity
+                - sense of fulfillment
+                - self retrospection
+                - interacting with spirits
+                - absolute bliss
+                - snapping a few photos
+                - with important historical value
+                - gaining historical comprehension
+                - madly in love
+                - privileged enclave
+                - great nature
+                - like nowhere else in the world
+                - delicious marquessates
+                - Caribbean aesthetic
+                - fun factors all around
+                - sheer magnitude
+                - sun kissed
+                - for a lifelong memory
+                - trailing considerable slopes
+                - detailed insight into history
+                - left with spiritual enlightenment
+                - where you can see rare things
+                - full of unconditional love
+                - freshly restored sites
+                - heaven in the middle of the city
+                - where your mouth is kept open
+                - gave an impressive full mark
+                - focused on conservation
+                - calming down the mind
+                - water mirroring the sky
+                - water of pure clarity
+                - with tour guides transmitting passion
+                - lovingly arranged landscape
+                - hopping around key landmarks
+                - with elaborately carved statues
+                - satisfying food cravings
+                - great castles
+                - for rural tourism
+                - absolute marvel
+                - for renewing wedding vows
+                - for military history lovers
+                - fulfilling promises
+                - religiously devoted
+                - visually attractive
+                - limpid body of water
+                - breathes spirituality
+                - sheer delight
+                - beautiful hilly regions
+                - classic sightseeing
+                - exquisitely designed landscape
+                - completely redesigned landscape
+                - sheer pleasure
+                - practiced a reasonable level of fitness
+                - a shoppers' paradise
+                - conveying knowledge everywhere
+                - for airplane enthusiasts
+                - recharging the soul
+                - above average costs
+                - healing fatigue
+                - spiritual nourishment
+                - Gothic masterpiece
+                - for people with interested in WWII
+                - cathartic
+                - never stopped laughing
+                - incandescent
+                - hyped up
+                - nicely paved roads
+                - undiscovered gem
+                - carrying worldwide importance
+                - gazing at endless rice fields
+                - stretch of powdery white sand
+                - historical heritage of humanity
+                - for an inner retreat
+                - taking walks at the sea shore
+                - the land of yummy cakes
+                - patriotic symbol
+                - terrific experience
+                - for quick a escape
+                - world class standard
+                - never feeling rushed
+                - where you are treated like royalty
+                - faithfully restored ruins
+                - short but steep hikes
+                - parent-child education
+                - totally breathtaking
+                - overwhelming sea of emotions
+                - for tensed up people
+                - unwinding from the hustle
+                - superbly decorated architecture
+                - unconditionally recommended
+                - absolutely eye catching
+                - whoopee
+                - pure poetry of nature
+                - shimmering beauty
+                - warms the soul
+                - watching sports events
+                - little known gem
+                - partying in loud music
+                - for celebrating marriage
+                - worth wandering around
+                - overwhelmed by spiritual transcendence
+                - unearthly beauty
+                - rest-easy
+                - smell of eucalyptus
+                - filled with pleasant moments of relaxation
+                - undemanding trail routes
+                - with dramatic tour guides
+                - hanging out
+                - noble
+                - absolute hit
+                - elaborately restored sites
+                - oasis in the concrete jungle
+                - architecturally important
+                - impressively designed landscape
+                - excellently designed landscape
+                - sense of liberation
+                - energizing
+                - super delicious meals
+                - unique architectural masterpiece
+                - fairyland on earth
+                - for a cognitive exposition
+                - the perfect finishing touch to the trip
+                - sense of grandeur
+                - where you feel like an aristocrat
+                - for travel photography
+                - getting the goosebumps
+                - elegantly designed landscape
+                - where hours fly by
+                - great to go alone or with company
+                - green oasis in the heart of the city
+                - intangible cultural heritages
+                - wildly romantic
+                - causes admiration
+                - to be consumed without moderation
+                - would certainly return
+                - sitting in the lap of mother nature
+                - picturesque ruins
+                - zero pollution
+                - stress-eliminating
+                - should remain vigilant
+                - challenging terrain
+                - utmost magnificence
+                - oppressive vibes
+                - gastronomic diversity
+                - oasis of freshness
+                - favorite holiday destination
+                - greatly enriching tours
+                - a little corner of paradise
+                - stimulates the mind
+                - easily spent the entire day
+                - immediately eye catching
+                - exhibitions put together with love
+                - natural recreational forest
+                - retro feels
+                - continuously flowing streams
+                - for kids in school
+                - where the heart skips a beat
+                - for adrenaline seekers
+                - where you can relive your childhood memories
+                - snug atmosphere
+                - miraculously preserved sites
+                - symbol of unity
+                - underrated gem
+                - actively engaging
+                - where flowers bloom beautifully
+                - deserving of a high rating
+                - where you stop to smell the roses
+                - great setup
+                - trendy
+                - national scenic spot
+                - gratifying geological curiosities
+                - endorphin rush
+                - worthy of an honorable mention
+                - for fashionistas
+                - total connection with nature
+                - would go back repeatedly
+                - important cultural heritage
+                - touristique
+                - discovering new details
+                - for childish souls
+                - for people who want to fly
+                - beautiful view
+                - royal vibes
+                - relaxing the body
+                - sense of freshness

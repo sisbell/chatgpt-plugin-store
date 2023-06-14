@@ -1,0 +1,138 @@
+openapi: 3.0.3
+info:
+  title: 날씨, 열차 정보
+  version: 1.0.0
+  description: 날씨, 열차 정보를 제공하는 API
+
+servers:
+  - url: https://plugin.0rich.com
+
+paths:
+  /weather_now/{city}:
+    get:
+      operationId: getCurrentWeatherOfCity
+      summary: get current temperature of the given city (주어진 도시의 현재 온도)
+      parameters:
+        - in: path
+          name: city
+          schema:
+            type: string
+          required: true
+          description: name of city. should be korean name (도시의 이름, 한국어로 작성)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherResponse'
+  /weather_forecast/{city}:
+    get:
+      operationId: getFutureWeatherOfCity
+      summary: get future weather of the given city (주어진 도시의 미래 날씨, 내일 모레 글피를 제공)
+      parameters:
+        - in: path
+          name: city
+          schema:
+            type: string
+          required: true
+          description: name of city. should be korean name (도시의 이름, 한국어로 작성)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherResponse'
+
+  /train:
+    get:
+      operationId: getTrainLocation
+      summary: 현재 열차 위치 확인
+      parameters:
+        - in: query
+          name: line_info
+          required: true
+          schema:
+            type: string
+          example:
+            line_info: "1호선"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainResponse'
+
+  /emotion:
+    get:
+      operationId: getKakaotalkEmotionAnalysis
+      summary: 연인 카카오톡 채팅 데이터로 잘될 확률 계산
+      parameters:
+        - in: query
+          name: chats
+          required: true
+          schema:
+            type: string
+          example:
+            chats: "홍길동 님과 카카오톡 대화"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+
+components:
+  schemas:
+    Weather:
+      type: object
+      properties:
+        city:
+          type: string
+          example: 서울
+        date:
+          type: string
+          example: '2023.5.14'
+        time:
+          type: string
+          example: '12:44'
+        temperature:
+          type: string
+          example: '22'
+
+    WeatherResponse:
+      type: object
+      properties:
+        weather:
+          $ref: '#/components/schemas/Weather'
+
+
+
+    Train:
+      type: object
+      properties:
+        statnTnm:
+          type: string
+          example: 광교
+        trainNo:
+          type: string
+          example: '9'
+        statnNm:
+          type: string
+          example: 성복
+
+    TrainResponse:
+      type: object
+      properties:
+        train:
+          $ref: '#/components/schemas/Train'
+
+
+
+
+

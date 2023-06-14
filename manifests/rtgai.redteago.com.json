@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "eSIM Travel Asst",
+  "name_for_model": "eSIM_Data_Package_Assistant",
+  "description_for_human": "Find eSIM data plans easily! Enter location and eSIM keywords to get apt package suggestions. Ideal for travelers.",
+  "description_for_model": "This model is specifically trained to respond to queries regarding eSIM data package purchases. It recognizes inputs composed of a country or region name, combined with keywords related to eSIM, data, SIM cards, or travel internet. Given these inputs, the model retrieves and presents suggestions for available eSIM data packages in the specified location. Its primary purpose is to facilitate the user's eSIM purchase process, providing a comprehensive guide to available data packages and ensuring a seamless travel experience with reliable internet connectivity.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://rtgai.redteago.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://rtgai.redteago.com/logo.png",
+  "contact_email": "joseph.tian@redteamobile.com",
+  "legal_info_url": "https://redteago.com/terms-of-use-openai"
+}

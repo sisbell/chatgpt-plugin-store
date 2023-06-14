@@ -2,8 +2,7 @@
   "schema_version": "v1",
   "name_for_human": "Uniket",
   "name_for_model": "uniket",
-  "description_for_human": "Elevate your shopping experience with Uniket.",
-  "description_for_model": "This tool enables you to search for products, manage your cart, and display QR code for easy cart sharing within Uniket's marketplace.",
+  "description_for_model": "This tool enables you to search for products, manage your cart, and display QR code for easy cart sharing within Uniket's marketplace. undefined",
   "auth": {
     "type": "none"
   },

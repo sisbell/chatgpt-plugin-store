@@ -1,8 +1,8 @@
 {
   "schema_version": "v1",
-  "name_for_human": "Tax Calculator",
-  "name_for_model": "Tax_Calculator",
-  "description_for_human": "Calculate sales tax given a U.S. address (or just a city) and an amount. Powered by Avalara.",
+  "name_for_human": "Avalara",
+  "name_for_model": "Avalara",
+  "description_for_human": "Calculate sales tax or lookup tax rates for any address in the U.S.",
   "description_for_model": "Given an address in the United States and an amount, the system will calculate the sales tax. The system can also provide the sales tax given a city, or both a city and state. The total sales tax is the sum of state, county, city and special jurisdiction sales taxes.",
   "auth": {
     "type": "none"
@@ -12,7 +12,7 @@
     "url": "https://plugins.midgard.avalara.io/openapi.json",
     "is_user_authenticated": false
   },
-  "logo_url": "https://www.avalara.com/etc.clientlibs/avalara/clientlibs/avalara/resources/images/corporate_home_2_u15612.svg",
+  "logo_url": "https://plugins.midgard.avalara.io/favicon.png",
   "contact_email": "support@avalara.com",
   "legal_info_url": "https://www.avalara.com/us/en/legal.html"
 }

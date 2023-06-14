@@ -1,0 +1,216 @@
+openapi: 3.0.0
+info:
+  title: Comprehensive Shopping Tools
+  version: 1.0.0
+servers:
+  - url: 'https://shoppingtools.biz'
+paths:
+  /get-ebay-product:
+    get:
+      operationId: retrieveEbayProducts
+      summary: Fetches items listed on eBay based on specified criteria.
+      description: This endpoint allows users to fetch items listed on eBay based on specified criteria such as site ID, sorting parameters, keywords, maximum price, and filters such as free shipping and no bid.
+      parameters:
+        - name: siteId
+          in: query
+          description: >
+            Specifies the eBay site to search from based on geographic location. The available options are:
+            - 'EBAY_US' => 'United States'
+            - 'EBAY_CA' => 'Canada'
+            - 'EBAY_GB' => 'Great Britain'
+            - 'EBAY_AU' => 'Australia'
+            - 'EBAY_DE' => 'Germany'
+            - 'EBAY_ES' => 'Spain'
+            - 'EBAY_FR' => 'France'
+            - 'EBAY_IT' => 'Italy'
+          required: true
+          schema:
+            type: string
+            default: 'EBAY_US'
+            enum: ['EBAY_US', 'EBAY_CA', 'EBAY_GB', 'EBAY_AU', 'EBAY_DE', 'EBAY_ES', 'EBAY_FR', 'EBAY_IT']
+        - name: sortId
+          in: query
+          description: >
+            Specifies the sorting criteria for the search results. The available options are:
+            - 'BestMatch' => 'Best Match'
+            - 'price' => 'Current Price Lowest'
+            - '-price' => 'Current Price Highest'
+            - 'newlyListed' => 'Newest Items First'
+            - 'endingSoonest' => 'End Time Soonest'
+          required: false
+          schema:
+            type: string
+            enum: ['BestMatch', 'price', '-price', 'newlyListed', 'endingSoonest']
+        - name: keywords
+          in: query
+          description: Specifies the keywords to be used in the search query.
+          required: false
+          schema:
+            type: string
+        - name: maxPrice
+          in: query
+          description: Sets an upper limit for the price of the items in the search results.
+          required: false
+          schema:
+            type: string
+        - name: freeShipping
+          in: query
+          description: Filters search results to only include items that offer free shipping.
+          required: false
+          schema:
+            type: boolean
+        - name: isNoBid
+          in: query
+          description: Filters search results to only include items that have not received any bids.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: The search operation was successful and a list of items has been returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+  /get-ali-product:
+    get:
+      operationId: retrieveAliexpressProducts
+      summary: Fetches items listed on AliExpress based on specified criteria.
+      description: This endpoint enables users to fetch items listed on AliExpress by setting specific parameters like page number, currency ID, language ID, sorting options, and keywords.
+      parameters:
+        - name: pageNumber
+          in: query
+          description: Specifies the page number of the search results to return. Defaults to the first page if not specified.
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: currencyId
+          in: query
+          description: >
+            Specifies the currency to be used in the search results. Available options include 'USD' for United States Dollar, 'EUR' for Euro, and 'GBP' for British Pound. Defaults to 'USD' if not specified.
+            Currency options:
+            - '0' => 'USD'
+            - '1' => 'GBP'
+            - '2' => 'CAD'
+            - '3' => 'EUR'
+            - '4' => 'UAH'
+            - '5' => 'MXN'
+            - '6' => 'TRY'
+            - '7' => 'RUB'
+            - '8' => 'BRL'
+            - '9' => 'AUD'
+            - '10' => 'INR'
+            - '11' => 'JPY'
+            - '12' => 'IDR'
+            - '13' => 'SEK'
+            - '14' => 'KRW'
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: languageId
+          in: query
+          description: >
+            Language options:
+            - '0' => 'EN'
+            - '1' => 'RU'
+            - '2' => 'PT'
+            - '3' => 'ES'
+            - '4' => 'FR'
+            - '5' => 'ID'
+            - '6' => 'IT'
+            - '7' => 'TH'
+            - '8' => 'JA'
+            - '9' => 'AR'
+            - '10' => 'VI'
+            - '11' => 'TR'
+            - '12' => 'DE'
+            - '13' => 'HE'
+            - '14' => 'KO'
+            - '15' => 'NL'
+            - '16' => 'PL'
+            - '17' => 'MX'
+            - '18' => 'CL'
+            - '19' => 'IW'
+            - '20' => 'IN'
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: sortId
+          in: query
+          description: >
+            Sort options:
+            - '0' => 'SALE_PRICE_ASC'
+            - '1' => 'SALE_PRICE_DESC'
+            - '2' => 'DISCOUNT_ASC'
+            - '3' => 'DISCOUNT_DESC'
+            - '4' => 'LAST_VOLUME_ASC'
+            - '5' => 'LAST_VOLUME_DESC'
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: keywords
+          in: query
+          description: Specifies the keywords to be used in the search query.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully returned a list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    pictures:
+                      type: string
+                      description: URL to the product image
+                    price:
+                      type: string
+                      description: Current price of the product
+                    oldPrice:
+                      type: string
+                      description: Old price of the product
+                    bought:
+                      type: integer
+                      description: Number of products bought
+                    link:
+                      type: string
+                      description: URL to view the product
+                    title:
+                      type: string
+                      description: Title of the product
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the item
+        galleryURL:
+          type: string
+          description: URL to the gallery image
+        viewItemURL:
+          type: string
+          description: URL to view the item
+        itemId:
+          type: string
+          description: Item's ID
+        currentPrice:
+          type: string
+          description: Current price of the item
+        originalPrice:
+          type: string
+          description: Original price of the item
+        discountPercentage:
+          type: string
+          description: Discount percentage

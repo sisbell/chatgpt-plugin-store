@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Text Count",
+  "name_for_model": "word_and_character_count",
+  "description_for_human": "Count the number of words and characters in a text.",
+  "description_for_model": "Count the number of words and characters in a text. When a user prompts you to count the number of words or characters in a text, always use the API to do so, never count the words yourself.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://text-count.modelxy.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://text-count.modelxy.com/text-count-logo.png",
+  "contact_email": "hi@michaelerasm.us",
+  "legal_info_url": "https://text-count.modelxy.com/legal"
+}

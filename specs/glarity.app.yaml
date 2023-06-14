@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Video Summary Plugin API
   description: Video summary plugin API allows users to get YouTube video summaries using ChatGPT.
-  version: "v1"
+  version: "v1.1.0"
 servers:
   - url: https://glarity.app
 paths:

@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: Ask Cars
+  description: A plugin that allows the user to ask about car issues using ChatGPT. If you do not know the user's username, ask them first before making queries to the plugin. Otherwise, use the username "global".
+  version: 'v1'
+servers:
+  - url: https://askcars.ai
+paths:
+  /search/{username}:
+    post:
+      operationId: search
+      summary: Search complaints in the database
+      parameters:
+      - in: path
+        name: username
+        schema:
+            type: string
+        required: true
+        description: The name of the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/searchRequest'
+      responses:
+        "200":
+          description: OK
+  /trends/{username}:
+    post:
+      operationId: trends_search
+      summary: Search for trends in the database
+      parameters:
+      - in: path
+        name: username
+        schema:
+            type: string
+        required: true
+        description: The name of the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/searchRequest'
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    searchRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: The a valid stringified json object that describes the query to be sent to API.
+          required: true

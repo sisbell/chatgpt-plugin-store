@@ -1,0 +1,1001 @@
+openapi: 3.0.1
+info:
+  title: OpenAI Owler Integration
+  description: Data Source for OpenAI Plugin
+  version: "0.1"
+servers:
+- url: http://localhost:15016
+  description: Development Server URL
+- url: https://pluginowler.owler.com
+  description: Production Server URL
+- url: https://pluginowler-qe.owler.com
+  description: QE Server URL
+paths:
+  /openai/savedlist/update:
+    post:
+      tags:
+      - open-ai-controller
+      summary: Allows user to modify their saved List in owler. Users can add or remove
+        the companies to the saved List created at owler. Lists are identified by exact name or the savedListId 
+        returned from getSavedListForUser.
+      operationId: updateWatchlist
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSavedListForUserRequest'
+        required: true
+      responses:
+        "404":
+          description: Saved List not found
+        "400":
+          description: Invalid Request
+        "200":
+          description: Saved List created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedListMetadataResponse'
+  /openai/savedlist/create:
+    post:
+      tags:
+      - open-ai-controller
+      summary: Allows user to create a saved List in owler with companies they want
+        to follow. Users can also set flags if they want to receive daily snapshot
+        and instant insight on key events news
+      operationId: createWatchlist
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSavedListRequest'
+        required: true
+      responses:
+        "400":
+          description: Invalid Request
+        "200":
+          description: saved List created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedListMetadataResponse'
+        "404":
+          description: saved list not found
+  /openai/news:
+    post:
+      tags:
+      - open-ai-controller
+      summary: Get data about news article by id and url of the article. The response
+        will have the details about the news article and the details about the company
+        mentioned in the news
+      operationId: getNewsData
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedSearchRequest'
+        required: true
+      responses:
+        "404":
+          description: Company not found
+        "400":
+          description: Invalid company name
+        "200":
+          description: Details about the Article
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedDataResponse'
+  /openai/news/company:
+    post:
+      tags:
+      - open-ai-controller
+      summary: Get latest news for the company or the watchlist created by user on
+        Owler product by watchlist id. Users can also filter news by category.
+      operationId: getLatestNewsForCompany
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LatestCompanyFeedSearchRequest'
+        required: true
+      responses:
+        "404":
+          description: Company not found
+        "200":
+          description: Details about the Article
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LatestCompanyFeedResponse'
+        "400":
+          description: Invalid company name
+  /openai/crm/push/company:
+    post:
+      tags:
+      - open-ai-controller
+      summary: Pushes the company to the CRM for the user if it is synced. The company is identified by the companyId 
+         returned from getCompanyDetails or from a list of competitors or news.
+         This feature is only available to OwlerMax subscribers.
+      operationId: pushCompanyToCRM
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushCompanyToCRMRequest'
+        required: true
+      responses:
+        "400":
+          description: Invalid Company id
+        "404":
+          description: Company not found
+        "200":
+          description: Pushed Company
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleStringResponse'
+  /openai/company:
+    post:
+      tags:
+      - open-ai-controller
+      summary: "Get company details by the company name or website of the company.\
+        \ The response will contain the company's overview and key data points like\
+        \ revenue chart, list of key people in leadership position ,10 latest news,\
+        \ Key events,Company data about top 3 competitors for the company"
+      operationId: getCompanyDetails
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanySearchRequest'
+        required: true
+      responses:
+        "404":
+          description: Company not found
+        "400":
+          description: Invalid company name
+        "200":
+          description: Found details about the company
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyDataResponse'
+  /openai/company/relatedCompanies:
+    post:
+      tags:
+      - open-ai-controller
+      summary: Get owler search links for the list of related companies for the company
+        requested by user
+      operationId: getRelatedCompanies
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanySearchRequest'
+        required: true
+      responses:
+        "404":
+          description: Saved List not found
+        "400":
+          description: Invalid Request
+        "200":
+          description: List of search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RelatedCompaniesResponse'
+  /openai/company/competitor:
+    post:
+      tags:
+      - open-ai-controller
+      summary: "Get competitor list for the company by the company name or website\
+        \ of the company. The response will contain the competitor's overview and\
+        \ key data points like revenue chart, list of key people in leadership position\
+        \ ,10 latest news, Key events."
+      operationId: getCompetitors
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanySearchRequest'
+        required: true
+      responses:
+        "200":
+          description: Found list of competitors for given company
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyListDataResponse'
+        "404":
+          description: Company not found
+        "400":
+          description: Invalid company name
+  /openai/company/advanceSearch:
+    post:
+      tags:
+      - open-ai-controller
+      summary: "Get data for list of top 3 companies in the same industry, sector\
+        \ or location. Location can be city state or country"
+      operationId: findCompaniesByAdvanceSearch
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyAdvanceSearchRequest'
+        required: true
+      responses:
+        "404":
+          description: No data match the request
+        "400":
+          description: Invalid Search request
+        "200":
+          description: found List of company
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvanceSearchResponse'
+  /openai/user:
+    get:
+      tags:
+      - open-ai-controller
+      summary: Get user details
+      operationId: getuserData
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Details about the User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserData'
+        "400":
+          description: Invalid company name
+        "404":
+          description: USer not found
+  /openai/user/emailGuidelines:
+    get:
+      tags:
+      - open-ai-controller
+      summary: Get the guidelines and framework to write email when user request to
+        compose the email
+      operationId: getEmailWritingGuidelines
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      responses:
+        "400":
+          description: Invalid Request
+        "404":
+          description: guidelines not available
+        "200":
+          description: Returns the prompt and guidelines to write email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RelatedCompaniesResponse'
+  /openai/savedlist:
+    get:
+      tags:
+      - open-ai-controller
+      summary: Get a list of saved lists that user created on owler. The saved List will
+        contains the list of companies the user is interested in as well as a list type, list name, savedListId and the 
+        total count of companies.
+      operationId: getSavedListForUser
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: withCompanies
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: Include 5 companies per list with the response (false reduces size if not needed)
+      responses:
+        "404":
+          description: saved List not found
+        "200":
+          description: List of saved lists of companies created by user on owler platform. It includes a default list for the user called "Your followed companies."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedListMetadataResponse'
+        "400":
+          description: Invalid member id
+components:
+  schemas:
+    UpdateSavedListForUserRequest:
+      type: object
+      properties:
+        savedListName:
+          type: string
+          description: Name for the saved list that user wants to create. Get the
+            name of saved list from user
+        companyIds:
+          type: array
+          description: List of companyId (the Owler companyId field returned from other calls) the user want to add to or remove from the saved list
+          items:
+            type: integer
+            description: Unique Owler companyId the user wants to change -- Must be a companyId returned for a search, 
+                competitor list, or news article from Owler
+            format: int64
+        action:
+          type: string
+          description: Users can add or remove companies
+          enum:
+          - add
+          - remove
+        savedListId:
+          type: string
+          description: Unique id of the saved list the users wants to update. This must be obtained from the getSavedListForUser call and is user specific.
+        type:
+          type: string
+          description: Type of saved list user wants to update. Users can update only
+            list with type custom_list or default_list. The list type should always
+            match the list type from the getSavedListForUser request
+          enum:
+          - custom_list
+          - default_list
+        userQuery:
+          type: string
+          description: Entire prompt entered by the user in the Chat UI
+      description: Request to create a saved List for the user
+    CeoDetail:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First name of the CEO
+        lastName:
+          type: string
+          description: Last name of the CEO
+        designation:
+          type: string
+          description: Designation of the CEO
+        ceoRating:
+          type: integer
+          description: Rating for the CEO
+          format: int32
+        ceoPic:
+          type: string
+          description: Picture of the CEO
+        linkedIn:
+          type: string
+          description: Linkedin of the CEO
+        twitter:
+          type: string
+          description: Twitter of the CEO
+      description: Details about the CEO of the company
+    Company:
+      type: object
+      properties:
+        companyId:
+          type: integer
+          description: Unique Owler companyId of the company. Dont display this data to
+            user but retain for use in future calls.
+          format: int64
+        companyName:
+          type: string
+          description: Name of the company
+        description:
+          type: string
+          description: Description of the company
+        shortName:
+          type: string
+          description: Short Name of the company
+        domainName:
+          type: string
+          description: Domain of the company
+        logo:
+          type: string
+          description: Logo of the company
+        founded:
+          type: string
+          description: Founded date of the company
+        ownership:
+          type: string
+          description: Ownership status of the company
+        revenueString:
+          type: string
+          description: Revenue of the company in USD
+        employeeString:
+          type: string
+          description: Employee count of the company
+        industrySectors:
+          type: array
+          description: Sectors the company belongs to
+          items:
+            type: string
+            description: Sectors the company belongs to
+        links:
+          type: array
+          description: Social links of the company
+          items:
+            $ref: '#/components/schemas/Link'
+        ceoDetail:
+          $ref: '#/components/schemas/CeoDetail'
+        city:
+          type: string
+          description: City of the company Headquarters
+        state:
+          type: string
+          description: State of the company Headquarters
+        country:
+          type: string
+          description: Country of the company Headquarters
+        statusInfo:
+          $ref: '#/components/schemas/StatusInfo'
+        cpLink:
+          type: string
+          description: Company profile link to vew more details
+        exchange:
+          type: string
+          description: Stock exchange of the company
+        ticker:
+          type: string
+          description: Ticker symbol of the company
+        totalFunding:
+          type: integer
+          description: Total funding raised by the company
+          format: int64
+        street1Address:
+          type: string
+          description: Street address 1 of the company Headquarters
+        street2Address:
+          type: string
+          description: Street address 2 of the company Headquarters
+        zipcode:
+          type: string
+          description: Zipcode of the company Headquarters
+        phoneNumber:
+          type: string
+          description: Phone number of the company Headquarters
+        leaderShipDetails:
+          type: array
+          description: List of key leadership in the company
+          items:
+            $ref: '#/components/schemas/LeaderShipDetail'
+        sicCode:
+          type: array
+          description: SIC Code of the company
+          items:
+            type: string
+            description: SIC Code of the company
+        website:
+          type: string
+          description: Website of the company
+        industries:
+          type: array
+          description: Industries the company belongs to
+          items:
+            type: string
+            description: Industries the company belongs to
+        investmentCount:
+          type: integer
+          description: Total number of investment made by the company
+          format: int32
+        acquisitionCount:
+          type: integer
+          description: Total number of acquisition of the company
+          format: int32
+        revenueChartData:
+          type: array
+          description: Revenue chart data for the company
+          items:
+            $ref: '#/components/schemas/RevenueChartDatum'
+        competitorData:
+          type: array
+          description: Competitor data of the searched company
+          items:
+            $ref: '#/components/schemas/Company'
+        latestCompanyNews:
+          type: array
+          description: "Latest news articles,press release,blog and videos published\
+            \ by or about the company "
+          items:
+            $ref: '#/components/schemas/FeedData'
+        topEvents:
+          type: array
+          description: Top events happened for the company with event category
+          items:
+            $ref: '#/components/schemas/FeedData'
+      description: Top 5 Companies in  saved list created by the user
+    FeedData:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the news
+        source:
+          type: string
+          description: Publisher Source of the news
+        description:
+          type: string
+          description: Short description of the news
+        feedPublishDate:
+          type: integer
+          description: Publish date of the news
+          format: int64
+        url:
+          type: string
+          description: Source URL news
+        companyName:
+          type: string
+          description: Name of the company mentioned in the article
+        companyPageURL:
+          type: string
+          description: Url to see more information about the company at owler
+        category:
+          type: string
+          description: Category of the news (also called event type)
+          enum:
+          - corona_virus
+          - FUNDING
+          - ACQUISITION
+          - PEOPLE
+          - product_launch
+          - info_leak
+          - partnership
+          - joint_venture
+          - awards
+          - conference_presentation
+          - rebrand
+          - restructuring
+          - layoffs
+          - regulatory
+          - new_office
+          - ipo_announcement
+          - hiring
+          - esg
+          - employee
+          - bankruptcy
+          - fraud
+          - cyber_attack
+          - revenue
+          - NEWS
+          - PRESS
+          - BLOG
+          - VIDEOS
+        companyId:
+          type: integer
+          format: int64
+          description: The Owler uniqueId for the company the news relates to
+      description: Top recent events for the company with event category (also called event type)
+    LeaderShipDetail:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First name of the Leader
+        lastName:
+          type: string
+          description: Last name of the Leader
+        designation:
+          type: string
+          description: Designation of the Leader
+        ceoPic:
+          type: string
+          description: Rating for the Leader
+        linkedIn:
+          type: string
+          description: Linkedin of the Leader
+        twitter:
+          type: string
+          description: Twitter of the Leader
+      description: List of key leadership in the company
+    Link:
+      type: object
+      properties:
+        linkType:
+          type: string
+        link:
+          type: string
+      description: Social links of the company
+    RevenueChartDatum:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Revenue Quarter date
+        value:
+          type: string
+          description: Revenue value
+      description: Revenue chart data for the company
+    SavedListMetadata:
+      type: object
+      properties:
+        savedListId:
+          type: string
+          description: Unique id for the saved list created by the user. This must be saved and used in future calls to 
+              update the list or get news for the list
+        listName:
+          type: string
+          description: Name for the saved list created by the user
+        listType:
+          type: string
+          description: Type of  saved list created by the user  -- external_companies means a list copied from the CRM system
+        companies:
+          type: array
+          description: Top 5 Companies in  saved list created by the user
+          items:
+            $ref: '#/components/schemas/Company'
+        count:
+          type: integer
+          description: Total number of companies in the list
+          format: int32
+      description: List of watchlist created by user along with its name and additional
+        details
+    SavedListMetadataResponse:
+      type: object
+      properties:
+        savedListMetadataList:
+          type: array
+          description: The set of saved lists created by user along with a savedListId, name, and additional details
+          items:
+            $ref: '#/components/schemas/SavedListMetadata'
+        Details about user for the assistant for personalization:
+          $ref: '#/components/schemas/UserData'
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+    StatusInfo:
+      type: object
+      properties:
+        parent_date:
+          type: string
+          description: Parent acquisition date for company
+        parent_name:
+          type: string
+          description: Parent company name
+        parent_website:
+          type: string
+          description: Parent website of the company
+        status:
+          type: string
+          description: Status of the company
+      description: Status Info about the company
+    UserData:
+      type: object
+      properties:
+        name:
+          type: string
+          description: User Name
+        aboutCompany:
+          type: string
+          description: details about the company user work for
+        productDescription:
+          type: string
+          description: Product details of the company offering
+        memberId:
+          type: integer
+          description: Owler's Internal unique id for the user (this is normally not shown to users)
+          format: int64
+        competitor:
+          type: integer
+          format: int32
+        shouldHideData:
+          type: boolean
+    CreateSavedListRequest:
+      type: object
+      properties:
+        savedListName:
+          type: string
+          description: Name for the saved list that user wants to create. Get the
+            name of saved list from user
+        companyIds:
+          type: array
+          description: List of companyId (the unique Owler Id) the user want to add to the saved list
+          items:
+            type: integer
+            description: List companyId the user wants to add to the saved list
+            format: int64
+        flagToTurnOnInsightNotification:
+          type: boolean
+          description: Users can use this flag to if they want to receive email notification
+            when a event news happens for the company; by default set to true
+        flagToTurnOnDailySnapshot:
+          type: boolean
+          description: Users can use this flag to if they want to receive snapshot
+            of the news everyday. by default set to true.
+        userQuery:
+          type: string
+          description: Entire prompt entered by the user in the Chat UI
+      description: Request to create a saved list for the user
+    FeedSearchRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique id of the news or feed
+        url:
+          type: string
+          description: URL of the news article
+        userQuery:
+          type: string
+          description: Entire prompt entered by the user in the Chat UI
+      description: Details about the News article.
+    FeedDataResponse:
+      type: object
+      properties:
+        feedData:
+          $ref: '#/components/schemas/FeedData'
+        company:
+          $ref: '#/components/schemas/Company'
+        Details about user for the assistant for personalization:
+          $ref: '#/components/schemas/UserData'
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+    LatestCompanyFeedSearchRequest:
+      type: object
+      properties:
+        savedListId:
+          type: string
+          description: Owler unique ID for a list of companies to get news for -- must be a savedListId from a call to getSavedListForUser
+        name:
+          type: string
+          description: Name of the company
+        domain:
+          type: string
+          description: website url of the company
+        filter:
+          type: array
+          description: List of news category to filter. This must be an array even if there is only one filter.
+          items:
+            description: List of news category to filter (also called events -- use all_events to get all event types but not general news)
+            type: string
+            enum:
+              - all_events
+              - corona_virus
+              - FUNDING
+              - ACQUISITION
+              - PEOPLE
+              - product_launch
+              - info_leak
+              - partnership
+              - joint_venture
+              - awards
+              - conference_presentation
+              - rebrand
+              - restructuring
+              - layoffs
+              - regulatory
+              - new_office
+              - ipo_announcement
+              - hiring
+              - esg
+              - employee
+              - bankruptcy
+              - fraud
+              - cyber_attack
+              - revenue
+              - NEWS
+              - PRESS
+              - BLOG
+              - VIDEOS
+        userQuery:
+          type: string
+          description: Entire prompt entered by the user in the Chat UI
+      description: Search request to get news by company name or website
+    LatestCompanyFeedResponse:
+      type: object
+      properties:
+        feedDataList:
+          type: array
+          description: Array of news articles and its details
+          items:
+            $ref: '#/components/schemas/FeedData'
+        company:
+          $ref: '#/components/schemas/Company'
+        Details about user for the assistant for personalization:
+          $ref: '#/components/schemas/UserData'
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+    PushCompanyToCRMRequest:
+      type: object
+      properties:
+        companyId:
+          type: integer
+          description: The Owler companyId which user want to push to CRM
+          format: int64
+        userQuery:
+          type: string
+          description: Entire prompt entered by the user in the Chat UI
+      description: Unique Id of the Company that needs to be pushed
+    SimpleStringResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Information to be displayed by the assistant
+        Details about user for the assistant for personalization:
+          $ref: '#/components/schemas/UserData'
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+    CompanySearchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the company
+        domain:
+          type: string
+          description: website url of the company
+        userQuery:
+          type: string
+          description: Entire prompt entered by the user in the Chat UI
+      description: Details about the Company to be searched
+    CompanyDataResponse:
+      type: object
+      properties:
+        companyData:
+          $ref: '#/components/schemas/Company'
+        suggestedLinks:
+          type: array
+          description: List of links that assistant can use to suggest user the next
+            steps
+          items:
+            $ref: '#/components/schemas/SuggestedLinks'
+        USER_DETAILS_TO_ASSISTANT:
+          $ref: '#/components/schemas/UserData'
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+    SuggestedLinks:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title for the links that assistant can be use to suggest
+            user the next steps
+        link:
+          type: string
+          description: The links that assistant can be use to suggest user the next
+            steps
+      description: List related companies search link response
+    RelatedCompaniesResponse:
+      type: object
+      properties:
+        suggestedLinks:
+          type: array
+          description: List related companies search link response
+          items:
+            $ref: '#/components/schemas/SuggestedLinks'
+        Details about user for the assistant for personalization:
+          $ref: '#/components/schemas/UserData'
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+    CompanyListDataResponse:
+      type: object
+      properties:
+        companyData:
+          type: array
+          description: List of competitors for the company
+          items:
+            $ref: '#/components/schemas/Company'
+        suggestedLinks:
+          type: array
+          description: List of links that assistant can use to suggest user the next
+            steps
+          items:
+            $ref: '#/components/schemas/SuggestedLinks'
+        USER_DETAILS_TO_ASSISTANT:
+          $ref: '#/components/schemas/UserData'
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string
+    CompanyAdvanceSearchRequest:
+      type: object
+      properties:
+        industryOrSector:
+          type: string
+          description: The industry or sector name
+        location:
+          type: string
+          description: "Location Information like city, state, country"
+        companyType:
+          type: string
+          description: type of the company
+          enum:
+          - Private
+          - Product/Brand/Service
+          - Investment Company
+          - Government
+          - NGO/NPO/NFP/Organization/Association
+          - SPAC
+        revenueMinimum:
+          type: integer
+          description: Minimum annual revenue the company
+          format: int64
+        revenueMaximum:
+          type: integer
+          description: Maximum annual revenue the company
+          format: int64
+        employeeCountMinimum:
+          type: integer
+          description: Minimum employee count of the company
+          format: int64
+        employeeCountMaximum:
+          type: integer
+          description: Maximum employee count of the company
+          format: int64
+        includeEvents:
+          type: boolean
+          description: Include latest news and events in the response
+        userQuery:
+          type: string
+          description: Entire prompt entered by the user in the Chat UI
+      description: Search Parameters to get list of companies
+    AdvanceSearchResponse:
+      type: object
+      properties:
+        companies:
+          type: array
+          description: List company and its details
+          items:
+            $ref: '#/components/schemas/Company'
+        Details about user for the assistant for personalization:
+          $ref: '#/components/schemas/UserData'
+        EXTRA_INFORMATION_TO_ASSISTANT:
+          type: string

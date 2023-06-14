@@ -2,7 +2,7 @@
   "schema_version": "v1",
   "name_for_human": "Redfin",
   "name_for_model": "redfin",
-  "description_for_human": "Have questions about the housing market? Find the answers to help you win in today's market.",
+  "description_for_human": "See homes for sale, rentals, property values, and housing data from local Redfin real estate agents.",
   "description_for_model": "This tool is designed to provide users with current and accurate information regarding real estate listings within the United States and Canada. Utilize this tool to assist users in obtaining relevant details about the real estate market, including property listings, market trends, tour homes, mortgage rate and related inquiries. Be advised that this tool should only be employed in response to user queries specifically related to real estate topics. Refrain from activating this tool for inquiries unrelated to the real estate domain.",
   "auth": {
     "type": "service_http",

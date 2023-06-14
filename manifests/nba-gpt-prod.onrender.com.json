@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "nba_stats",
+  "name_for_human": "Basketball Stats",
+  "description_for_model": "Retrieve NBA stats. Use it whenever player or team stats are needed.",
+  "description_for_human": "Find and analyze basketball stats from various databases of games, players, teams, and play-by-plays.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://nba-gpt-prod.onrender.com/openapi.yaml"
+  },
+  "logo_url": "https://nba-gpt-prod.onrender.com/logo.png",
+  "contact_email": "team@caesarhq.com",
+  "legal_info_url": "https://basketballstatsai.com/tos"
+}

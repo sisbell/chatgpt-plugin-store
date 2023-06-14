@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: Magic GPT API
+  version: 1.0.0
+servers:
+  - url: https://chatgpt-plugin.getmagic.com/api
+paths:
+  /request:
+    post:
+      operationId: mutationRequestCreate
+      description: |2-
+
+                Create a task request for a virtual assistant.
+                Accepts JSON without comments.
+                Task confirmation via request_url field in response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request_title:
+                  type: string
+                  description: >-
+                    The title of the request. This must be concise but easy to
+                    understand.
+                request_description:
+                  type: string
+                  description: |2-
+
+                          What exactly the virtual assistant will do.
+                          This must be in the form of step-by-step, detailed instructions that an entry-level human assistant could follow to complete the task.
+                          Include any scripts, if necessary.
+                          This can include resources such as URLs to service providers, tools or articles that would aid in completing the task.
+                request_associated_costs:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      Description:
+                        type: string
+                      Amount:
+                        type: number
+                        minimum: 0
+                    required:
+                      - Description
+                      - Amount
+                    additionalProperties: false
+                  description: |2-
+
+                            An array of costs that may be incurred while performing the task.
+                            Each cost must have a short description along with an amount.
+                            The estimated amount of an expense in US Dollars. It must be a non-negative integer.
+                            Do not use a placeholder amount.
+                            If the amount is determined by a third party, provide an estimated amount based on prevailing prices instead.
+                request_eta:
+                  type: number
+                  description: |2-
+
+                          How much time (in hours) exactly an assistant will need to perform the task.
+                          This must be as accurate as possible.
+                          Make sure to include the time spent on any possible issues that might come up for the virtual assistant.
+                          Time must be in increments of 1 hour.
+                          It must never be 0.
+              required:
+                - request_title
+                - request_description
+                - request_associated_costs
+                - request_eta
+              additionalProperties: false
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  request_id:
+                    type: string
+                    format: uuid
+                  request_associated_costs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          type: string
+                          format: uuid
+                        Description:
+                          type: string
+                        Amount:
+                          type: number
+                      additionalProperties: false
+                  request_cost:
+                    type: number
+                    minimum: 1000
+                    description: The esitmated cost of the request in USD cents.
+                  request_details:
+                    type: string
+                  request_url:
+                    type: string
+                required:
+                  - request_id
+                  - request_associated_costs
+                  - request_cost
+                  - request_details
+                  - request_url
+                additionalProperties: false
+        default:
+          $ref: '#/components/responses/error'
+  /z/health:
+    get:
+      operationId: queryZHealthRead
+      description: Check if the API is working correctly.
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/error'
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+  responses:
+    error:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              code:
+                type: string
+              issues:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                  required:
+                    - message
+                  additionalProperties: false
+            required:
+              - message
+              - code
+            additionalProperties: false
+  schemas: {}

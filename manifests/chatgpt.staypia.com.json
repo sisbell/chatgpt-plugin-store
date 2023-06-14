@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "staypia",
+  "name_for_model": "staypia",
+  "description_for_human": "Find your perfect travel destination & hotels. Look for pet-friendly towns in USA, stargazing spots in Europe, and more!",
+  "description_for_model": "Use Staypia plugin when users ask questions about travel destinations and hotels, including trip planning, city information, and hotel booking. When people have questions about destination, use the âgetMultiKeywordFinderâ API and find answer including below criteria. 1. convenience & safety : dog-friendly, attentive locals, clean-maintained accommodation, well-marked trails etc. 2. natural & environment : listening to the sound of the waves, close to mother nature, super panorama, unique landscape etc. 3.Â food : delicious food, appetizing seafood, feasting on yummy foods, delicious cheese etc. 4. entertainment & activities : watching the sunset, sleep climb, unwinding the mind, surfers' paradise etc. 5. review : enjoyable, must visit, favorite place, absolute must, loved by kids etc 6. culture & arts : unique architecture, famous mosques,  iconic landmarks, gothic architecture, artistically beautiful etc. 7. Occasion & theme :, for a photoshoot, for family vacation, for honeymoon, disconnecting from the city etc. 8. Budget & cost : budget travel, worth the money, cost effective, budget friendly, worth the price etc. 9. History : historical famous, excellently preserved sites, with exciting behind story,  etc. 10. Atmosphere: perfect for relaxation, royal vibes, for perfect romantic evening, escape from crowds etc. 11. metropolitan : oasis in the city, modern building, perfectly designed landscape, well-lighted at night etc. 12. Emotional response : surprising, filled with loving moments, trilling, impressive, shocking, nostalgic, lots of fun, real pleasure etc. 13. Religion : for baptism, beautiful cathedrals, famous temples, feeling blessed etc.Â  When people have questions about hotel, use the âgetSerchHotelsâAPI.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatgpt.staypia.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://media.staypia.com/asset/chatgpt/logo.png",
+  "contact_email": "help@mycelebs.com",
+  "legal_info_url": "https://www.staypia.com/terms/agreement"
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Charts by Kesem AI",
+  "name_for_model": "chart",
+  "description_for_human": "Generate charts. The user can request a chart to be generated.",
+  "description_for_model": "Generate charts. The user can request a chart to be generated.",
+  "auth": {
+    "type": "none",
+    "verification_tokens": {
+      "openai": "c6d85516a5f44e96a96321fa2fba91b9"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.kesem.ai/openapi.json"
+  },
+  "logo_url": "https://app.kesem.ai/images/logo.svg",
+  "contact_email": "hello@kesem.ai",
+  "legal_info_url": "http://app.kesem.ai/terms"
+}

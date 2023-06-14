@@ -19,8 +19,8 @@ paths:
             type: string
         - name: sort
           in: query
-          description: The sort order for results, defaults to cited_by_count. Valid values are cited_by_count or publication_date.
-          required: true
+          description: The sort order for results. Valid values are cited_by_count or publication_date. Excluding this value does a relevance based search.
+          required: false
           schema:
             type: string
         - name: query

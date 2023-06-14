@@ -1,0 +1,102 @@
+openapi: 3.0.2
+info:
+  title: Research By Vector
+  description: For generating precise ArXiv paper matches via a semantic search using 'imaginary' title and abstract. Useful for literature reviews or finding recent research.
+  version: 1.1.0
+  servers:
+    - url: https://api.researchbyvector.com/
+paths:
+  /search/papers:
+    get:
+      summary: Search ArXiv Papers
+      description: >
+        Generates precise ArXiv paper matches via semantic search of a hypothetical title and abstract, provided by ChatGPT. A well-detailed, realistic title and abstract yield the most relevant results.
+      operationId: searchPapers
+      parameters:
+        - in: query
+          name: query_title
+          description: The hypothetical title of the desired paper, formulated by ChatGPT. The more detailed the query, the more accurate the search results will be.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: query_abstract
+          description: The hypothetical abstract of the desired paper, formulated by ChatGPT. The more detailed the query, the more accurate the search results will be.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: recency
+          description: Optional value (1-10) to favor recent papers. Best for rapidly developing fields. Higher values intensify skew. Use >7 only when explicitly asked for 'recent' research. Omit for no date consideration.
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: from_date
+          description: Optional parameter to specify the start date for the search. Use only when the user explicitly asks for "research after X date". If not provided, there is no lower bound on the publication date.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: to_date
+          description: Optional parameter to specify the end date for the search. Use only when the user explicitly asks for "research before X date". If not provided, there is no upper bound on the publication date.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PapersSearchQueryResponse"
+      security:
+        - HTTPBearer: []
+components:
+  schemas:
+    PapersSearchQueryResponse:
+      title: Papers Search Response
+      type: object
+      required:
+        - results
+      properties:
+        results:
+          title: Search Results
+          description: A list of papers ranked by similarity to the provided query. Each result includes the ArXiv paper ID, title, abstract, score, and published date.
+          type: array
+          items:
+            $ref: "#/components/schemas/PapersSearchQueryResult"
+    PapersSearchQueryResult:
+      title: Paper Search Result
+      type: object
+      required:
+        - id
+        - title
+        - abstract
+        - score
+        - published_at
+      properties:
+        id:
+          title: ArXiv Paper ID
+          description: The unique identifier of the paper in the ArXiv database.
+          type: string
+        title:
+          title: Paper Title
+          description: The title of the paper.
+          type: string
+        abstract:
+          title: Paper Abstract
+          description: The abstract of the paper, providing a summary of its content.
+          type: string
+        score:
+          title: Similarity Score
+          description: The similarity score of the paper in relation to the search query, higher score indicates closer match.
+          type: float
+        published_at:
+          title: Published At
+          description: The publication date of the paper in the ArXiv database.
+          type: string
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

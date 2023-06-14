@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Converter App",
+  "name_for_model": "converter_app",
+  "description_for_human": "Convert currencies or files like images and videos from web links and Google Drive to other formats, or work with PDFs.",
+  "description_for_model": "Convert currencies or files like images and videos from web links and Google Drive to other formats, or work with PDFs.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://converter-app-chat-gpt-plugin.vercel.app/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://converter-app-chat-gpt-plugin.vercel.app/logo.png",
+  "contact_email": "info@converter.app",
+  "legal_info_url": "https://converter.app/terms/"
+}

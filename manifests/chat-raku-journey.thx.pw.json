@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Chat Raku Journey",
+  "name_for_model": "chat_raku_journey",
+  "description_for_human": "Search for Rakuten services in Japan. You can easily search for products, facilities in travel, and more.",
+  "description_for_model": "Search for Rakuten services in Japan. You can easily search for products, facilities in travel, and more.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chat-raku-journey.thx.pw/openapi.yaml"
+  },
+  "logo_url": "https://chat-raku-journey.thx.pw/favicon.svg",
+  "contact_email": "contact@thx.pw",
+  "legal_info_url": "https://chat-raku-journey.thx.pw/legal-info"
+}

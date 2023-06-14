@@ -1,0 +1,54 @@
+openapi: 3.0.1
+info:
+  title: Domain Name Search API
+  description: An API to check for available domain names, search for domain names based on seed keywords, and search for domain names based on a business description.
+  version: 'v1'
+servers:
+  - url: https://ehodiexgqdfrfuvo2go5eumahm0fxjpz.lambda-url.us-west-2.on.aws
+paths:
+  /check-availability:
+    post:
+      operationId: checkAvailability
+      summary: Check domain name availability
+      description: Check if one or more domain names are available for registration.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domainNames:
+                  type: array
+                  items:
+                    type: string
+                  description: A list of domain names to check for availability.
+                  example: ["example.com", "mydomain.net"]
+      responses:
+        200:
+          description: A list of domain names and their availability status.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availableDomains:
+                    type: array
+                    items:
+                      type: string
+                    description: A list of available domain names.
+                  unavailableDomains:
+                    type: array
+                    items:
+                      type: string
+                    description: A list of unavailable domain names.
+                  domainPrices:
+                    type: array
+                    items:
+                      type: string
+                    description: A list of prices, ordered by availableDomains.
+                  purchaseLinks:
+                    type: array
+                    items:
+                      type: string
+                    description: A list of purchase links, ordered by availableDomains.

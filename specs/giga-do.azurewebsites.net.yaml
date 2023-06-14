@@ -75,7 +75,8 @@ paths:
     get:
       operationId: getLearningPrefs
       parameters:
-      - description: The Broad academic topic the user wants to learn.
+      - description: The Broad academic topic the user wants to learn like Computer
+          Science, Economics, Biology etc.
         in: path
         name: topic_name
         required: true
@@ -92,7 +93,8 @@ paths:
     post:
       operationId: updateLearningPrefs
       parameters:
-      - description: The Broad academic topic the user wants to learn.
+      - description: The Broad academic topic the user wants to learn like Computer
+          Science, Economics, Biology etc.
         in: path
         name: topic_name
         required: true

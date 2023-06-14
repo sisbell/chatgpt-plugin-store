@@ -203,7 +203,7 @@ info:
     and description, which can be used by ChatGPT to send a POST request to Mantium
     with the most relevant AppID based on the user query.
   title: Mantium Retriever Plugin for ChatGPT
-  version: 1.0.329
+  version: 1.0.358
 openapi: 3.0.2
 paths:
   /chatgpt-plugin/applications:

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Secretary Kim",
+  "name_for_model": "Weather_and_Train_and_in_Korea",
+  "description_for_human": "Korean weather, subway information! Enjoy a smart life with Secretary Kim.",
+  "description_for_model": "Korean weather, subway information.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://plugin.0rich.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://plugin.0rich.com/logo3.png",
+  "contact_email": "plugin@0rich.com",
+  "legal_info_url": "https://plugin.0rich.com/legal"
+}

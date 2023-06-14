@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "Free_Kiddie_Books",
+  "name_for_human": "Free Kiddie Books",
+  "description_for_model": "Searching through StoryBee books and find the right one for the user.",
+  "description_for_human": "Free Kiddie Books by www.storybee.space! Type 'Storybee Free Kiddie Books' to explore a world of imagination.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/openapi.json"
+  },
+  "logo_url": "https://images.squarespace-cdn.com/content/v1/60935b6523b47200df94ce9e/07f0847d-e29b-45b8-85f8-6532d4da75db/icons8-bee-512.png",
+  "contact_email": "support@storybee.space",
+  "legal_info_url": "https://www.storybee.space/openaipluginlegal"
+}

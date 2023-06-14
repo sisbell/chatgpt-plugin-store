@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Research By Vector",
+  "name_for_model": "researchbyvector",
+  "description_for_human": "Unearth precise academic research effortlessly with the power of vector embeddings for relevance and accuracy.",
+  "description_for_model": "This tool employs vector embeddings to search for relevant academic research papers on ArXiv. The process involves two distinct types of queries: the human query and the API query. The human query is what the user initially asks in natural language. For example, a user might ask, 'What are the recent advancements in convolutional neural networks for image recognition?' You, as the AI, then translate this human query into an API query.\nThe API query consists of a hypothetical title and abstract that you generate based on the human query. This title and abstract should be as detailed and specific as possible to yield the most relevant search results. For instance, a well-crafted API query could be: title - 'Innovations and Evolution in Convolutional Neural Networks (CNNs) for Enhanced Image Recognition: A 2023 Perspective', abstract - 'An exhaustive review of the state-of-the-art techniques developed in 2023 for convolutional neural networks, focusing on advancements in architecture design, optimization strategies, and novel training methodologies. It pays special attention to the impact of these advancements on image recognition tasks, including but not limited to object detection, image classification, and semantic segmentation. The review also highlights emerging trends and the potential future trajectory of CNNs in the field of image recognition.'\nIn essence, it's your job as the AI to translate the user's general interest expressed in the human query into a more specific and detailed API query. Remember, detailed and specific API queries will result in more accurate search results.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "51cb2206c54547089791433cb6bba12f"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://api.researchbyvector.com/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://api.researchbyvector.com/logo.png",
+  "contact_email": "researchbyvector@gmail.com",
+  "legal_info_url": "https://researchbyvector.com/legal"
+}

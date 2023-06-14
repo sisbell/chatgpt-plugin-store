@@ -1,0 +1,259 @@
+openapi: 3.0.0
+info:
+  title: TimeNavi API
+  version: 1.0.0
+paths:
+  /api/openai/events/list:
+    get:
+      summary: Get Calendar Events
+      description: Returns a list of events from the user's calendars. Returns events from all selected calendars in TimeNavi, which can be changed at https://timenavi.com/settings/calendars.
+      operationId: getCalendarEvents
+      parameters:
+        - in: query
+          name: startDate
+          description: Start date in ISO format (e.g., 2023-05-15)
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: endDate
+          description: End date in ISO format (e.g., 2023-05-16)
+          schema:
+            type: string
+            format: date
+          required: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    description: The list of all events in user's selected calendars. If the total number of events exceeds 20, the list contains only first 20 events.
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          example: Project Deadline
+                          description: Event title
+                        start:
+                          type: string
+                          format: date-time
+                          example: "2023-05-15T10:00:00Z"
+                          description: Start timestamp in ISO format
+                        end:
+                          type: string
+                          format: date-time
+                          example: "2023-05-15T11:00:00Z"
+                          description: End timestamp in ISO format
+                        description:
+                          type: string
+                          example: Project deadline meeting
+                          description: Event description
+                        location:
+                          type: string
+                          example: Conference Room 1
+                          description: Event location
+                        attendees:
+                          type: array
+                          items:
+                            type: string
+                            example: john.doe@example.com
+                            description: Email address of an attendee
+                        calendar:
+                          type: string
+                          example: john@example.com
+                          description: Name of the calendar
+                        isAllDay:
+                          type: boolean
+                          example: false
+                          description: If the event is all day
+                        color:
+                          type: string
+                          example: "Banana"
+                          description: Color of the event
+                  totalNumberOfEvents:
+                    type: number
+                    example: 15
+                    description: Total number of events
+                  moreInfoLink:
+                    type: string
+                    example: https://timenavi.com/dashboard
+                    description: Link to more information (TimeNavi Dashboard)
+        "401":
+          description: Unauthorized
+          content: {}
+        "403":
+          description: Invalid Credential
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  credential:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /api/openai/activities:
+    get:
+      summary: Get Total Time Spent On Activities
+      description: Returns a list of activities and their totals (time spent in hours, number of events)
+      operationId: getActivityTotalsData
+      parameters:
+        - in: query
+          name: startDate
+          description: Start date in ISO format (e.g., 2023-05-15)
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: endDate
+          description: End date in ISO format (e.g., 2023-05-16)
+          schema:
+            type: string
+            format: date
+          required: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activityTotals:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: "Work"
+                          description: Name of the activity
+                        total:
+                          type: number
+                          example: 6
+                          description: Total duration of events that belong to this activity in hours
+                        percentage:
+                          type: number
+                          example: 30
+                          description: Percentage of the time spent on all events registered in the calendar that this activity represents
+                        count:
+                          type: integer
+                          example: 5
+                          description: Number of events that belong to this activity
+                  moreInfoLink:
+                    type: string
+                    example: https://timenavi.com/dashboard
+                    description: Link to more information (TimeNavi Dashboard)
+        "401":
+          description: Unauthorized
+          content: {}
+        "403":
+          description: Invalid Credential
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  credential:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /api/openai/events/create:
+    post:
+      summary: Create Calendar Event
+      description: Creates a new event in the user's primary calendar.
+      operationId: createCalendarEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  required: true
+                start:
+                  type: string
+                  description: Start date and time in ISO format without timezone (e.g., 2023-05-15T00:00:00)
+                  required: true
+                end:
+                  type: string
+                  description: End date and time in ISO format without timezone (e.g., 2023-05-16T00:00:00)
+                timeZone:
+                  type: string
+                  description: IANA timezone for the start and end times. If not specified, the user's timezone will be used. Only specify this if you want to create an event in a different timezone than the user.
+                location:
+                  type: string
+                description:
+                  type: string
+                attendees:
+                  type: array
+                  items:
+                    type: string
+                    description: Email address of an attendee
+      responses:
+        "200":
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "401":
+          description: Unauthorized
+          content: {}
+        "403":
+          description: Invalid Credential
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  credential:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

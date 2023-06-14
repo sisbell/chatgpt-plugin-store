@@ -1,0 +1,110 @@
+openapi: 3.0.1
+info:
+  title: Etihad Airline APIs
+  description: APIs to search flights and answer other related questions of flights.
+servers:
+  - url: https://gpt-etihad.botim.me
+paths:
+  /plugin/openai/search/flights:
+    post:
+      operationId: searchFlightOffers
+      summary: Search flights on a flight route for certain dates.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/searchFlightsRequest'
+      responses:
+        "200":
+          description: OK.
+        "400":
+          description: Request parameters invalid.
+        "429":
+          description: Rate limited.
+        "500":
+          description: Server error.
+  /plugin/openai/search/questions:
+    post:
+      operationId: answerQuestionsOfFlights
+      summary: Answer other related questions of flights.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/answerQuestionsRequest'
+      responses:
+        "200":
+          description: OK.
+        "400":
+          description: Request parameters invalid.
+        "429":
+          description: Rate limited.
+        "500":
+          description: Server error.
+components:
+  schemas:
+    searchFlightsRequest:
+      type: object
+      properties:
+        originLocationCode:
+          type: string
+          description: The IATA code of origin airport from which the flight starts.
+          required: true
+        destinationLocationCode:
+          type: string
+          description: The IATA code of destination airport to which the flight goes.
+          required: true
+        departureDate:
+          type: string
+          format: date
+          description: Departure date of the flight at the origin, like YYYY-MM-DD.
+          required: true
+        travelClass:
+          type: string
+          description: Flight cabin class. This field must be entered by the user.
+          enum:
+            - ECONOMY
+            - BUSINESS
+            - FIRST
+          required: true
+        adults:
+          type: integer
+          description: The number of adult travelers, default is 1.
+          required: false
+        children:
+          type: integer
+          description: The number of child travelers, default is 0.
+          required: false
+        infants:
+          type: integer
+          description: The number of infant travelers, default is 0.
+          required: false
+        infantsWithSeat:
+          type: integer
+          description: The number of infant travelers with seat, default is 0.
+          required: false
+        nonStop:
+          type: string
+          description: If set to true, the search will find only flights going from the origin to the destination with no stop in between. Default value is false.
+          enum:
+            - 'true'
+            - 'false'
+          required: false
+        currencyCode:
+          type: string
+          description: The preferred currency for the flight offers. Currency is specified in the ISO 4217 format, e.g. EUR for Euro.
+          required: false
+        returnDate:
+          type: string
+          format: date
+          description: Return date of the flight. Only required for round trip flights, like YYYY-MM-DD.
+          required: false
+    answerQuestionsRequest:
+      type: object
+      properties:
+        question:
+          type: string
+          description: The question text about flight.
+          required: true

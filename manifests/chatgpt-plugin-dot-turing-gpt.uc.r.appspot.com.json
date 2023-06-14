@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Turing Developer",
+  "name_for_model": "turing_developer_search",
+  "description_for_human": "Search and hire the world's most deeply vetted developers from Turing.com.",
+  "description_for_model": "Search the world's most deeply vetted developers from Turing.com. You can specify criteria like skills, years of experience, budget, and location.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatgpt-plugin-dot-turing-gpt.uc.r.appspot.com/.well-known/openapi.yaml"
+  },
+  "logo_url": "https://chatgpt-plugin-dot-turing-gpt.uc.r.appspot.com/.well-known/logo.png",
+  "contact_email": "partnerships@turing.com",
+  "legal_info_url": "https://www.turing.com/terms-of-service"
+}

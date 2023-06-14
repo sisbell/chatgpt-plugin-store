@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "TimeNavi",
+  "name_for_model": "timenavi",
+  "description_for_human": "Interact with your calendar. Analyze and create events, understand and plan your time better.",
+  "description_for_model": "Plugin for analyzing events from a calendar. You can retrieve events and calculate how much time was spent on given activities. You can also add new events to the calendar.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://timenavi.com/auth/openai",
+    "scope": "read+write",
+    "authorization_url": "https://timenavi.com/api/openai/authorize",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "9b89c858fb0e4b0699ecf5320db0c6fa"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://timenavi.com/openapi.yaml",
+    "is_user_authenticated": true
+  },
+  "logo_url": "https://timenavi.com/images/brand/aiplugin/logo.png",
+  "contact_email": "team@timenavi.com",
+  "legal_info_url": "https://timenavi.com/terms-of-service"
+}
