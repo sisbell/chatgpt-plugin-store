@@ -112,7 +112,7 @@ paths:
                   minimum: 0
                 style:
                   type: string
-                  description: The style of the map, most of them are Mapbox styles. Defaults to 'chatGPT'.
+                  description: The style of the map, most of them are Mapbox styles. Defaults to 'light'.
                   example: 'satellite-streets'
                   default: 'chatGPT'
                   enum:
@@ -120,9 +120,9 @@ paths:
                     - dark # great for the night, easy on the eyes, dark mode
                     - streets # great for navigation
                     - outdoors # great for hiking, etc
-                    - satellite # great for satellite imagery, no road labels, most beautiful in our opinion
+                    - satellite # great for satellite imagery, no road labels - should be suggested to the user - most beautiful
                     - satellite-streets # great for satellite imagery, with road labels 
-                    - chatGPT # chatGPT, same colors as the interface of ChatGPT - the default when no style is provided
+                    - chatGPT # chatGPT, same colors as the interface of ChatGPT
       responses:
         '200':
           description: The URL for the generated map image.

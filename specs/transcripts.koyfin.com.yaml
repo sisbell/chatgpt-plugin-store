@@ -1,0 +1,251 @@
+openapi: 3.0.2
+info:
+  title: Koyfin Transcripts API
+  version: 0.1.0
+paths:
+  /api/v1/gpt/plugin/snippets/:
+    post:
+      summary: Search for relevant snippets, through all the latest earnings call
+        transcripts.
+      description: Use this endpoint to find relevant topics of conversation across
+        many companies.
+      operationId: search_snippets_api_v1_gpt_plugin_snippets__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchSnippetsRequest'
+        required: true
+      responses:
+        '200':
+          description: The most relevant snippets from the most relevant earnings
+            calls.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptSnippetsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/gpt/plugin/transcript/:
+    post:
+      summary: Get all the snippets for the given company's latest earnings call.
+      description: Use this endpoint to fetch data for only one transcript, for one
+        specific company.
+      operationId: search_transcript_api_v1_gpt_plugin_transcript__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranscriptRequest'
+        required: true
+      responses:
+        '200':
+          description: All the snippets are from the same earnings call.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptSnippetsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CompanyFilters:
+      title: CompanyFilters
+      type: object
+      properties:
+        companies:
+          title: Companies
+          type: array
+          items:
+            type: string
+          description: 'List of company names and/or ticker symbols, like: `MSFT`,
+            `Microsoft`, `AAPL`, `Apple`.'
+        industries_and_sectors:
+          title: Industries And Sectors
+          type: array
+          items:
+            type: string
+          description: List GICS industry and sector names.
+        company_sizes:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanySize'
+          description: 'List of company sizes in terms of marketcap, like: `Large
+            Cap`, `Mid Cap`, `Small Cap`.'
+        countries:
+          title: Countries
+          type: array
+          items:
+            type: string
+          description: List of ISO2 country codes where the companies are located.
+    CompanySize:
+      title: CompanySize
+      enum:
+      - Small Cap
+      - Mid Cap
+      - Large Cap
+      type: string
+      description: An enumeration.
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    SearchSnippetsRequest:
+      title: SearchSnippetsRequest
+      required:
+      - query
+      type: object
+      properties:
+        query:
+          title: Query
+          minLength: 2
+          type: string
+          description: Natural language question, phrase, or topic, relevant to the
+            returned snippets.
+        companyFilters:
+          title: Companyfilters
+          allOf:
+          - $ref: '#/components/schemas/CompanyFilters'
+          description: Filters limiting results based on properties of the transcripts'
+            companies.
+        transcriptFilters:
+          title: Transcriptfilters
+          allOf:
+          - $ref: '#/components/schemas/TranscriptFilters'
+          description: Filters limiting results based on properties of the transcripts.
+        limit:
+          title: Limit
+          type: integer
+          description: The requested number of snippets. Request more snippets to
+            find relevant companies, or answer broad questions about the market.
+          default: 30
+          gte: 1
+          lte: 50
+    TranscriptFilters:
+      title: TranscriptFilters
+      type: object
+      properties:
+        min_date:
+          title: Min Date
+          type: string
+          description: Minimum transcript datestamp, in YYYY-MM-DD format.
+        max_date:
+          title: Max Date
+          type: string
+          description: Maximum transcript datestamp, in YYYY-MM-DD format.
+    TranscriptRequest:
+      title: TranscriptRequest
+      required:
+      - company
+      type: object
+      properties:
+        company:
+          title: Company
+          type: string
+          description: 'Company name or ticker symbol, like: `MSFT` or `Microsoft`.'
+    TranscriptSnippet:
+      title: TranscriptSnippet
+      required:
+      - text
+      - company
+      - ticker
+      - industry
+      - sector
+      - country
+      - event_name
+      - date
+      - url
+      type: object
+      properties:
+        text:
+          title: Text
+          type: string
+          description: Text snippet from the transcript. The topics discussed in the
+            snippet are relevant to the natural language question or phrase provided
+            in the `query` parameter.
+        company:
+          title: Company
+          type: string
+          description: Company's name.
+        ticker:
+          title: Ticker
+          type: string
+          description: Company's ticker symbol.
+        industry:
+          title: Industry
+          type: string
+          description: Company's GICS industry classification.
+        sector:
+          title: Sector
+          type: string
+          description: Company's sector classification.
+        country:
+          title: Country
+          type: string
+          description: ISO2 country code of the company.
+        company_size:
+          allOf:
+          - $ref: '#/components/schemas/CompanySize'
+          description: Company's marketcap size.
+        event_name:
+          title: Event Name
+          type: string
+          description: Name of the transcript's event.
+        date:
+          title: Date
+          type: string
+          description: Date of the transcript's event, in YYYY-MM-DD format.
+        fiscal_quarter:
+          title: Fiscal Quarter
+          type: string
+          description: Transcript's fiscal quarter, in QQ-YYYY format.
+        url:
+          title: Url
+          type: string
+          description: User can read the full transcript at this url.
+    TranscriptSnippetsResponse:
+      title: TranscriptSnippetsResponse
+      required:
+      - snippets
+      type: object
+      properties:
+        snippets:
+          title: Snippets
+          type: array
+          items:
+            $ref: '#/components/schemas/TranscriptSnippet'
+          description: List of relevant transcript snippets.
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Pixellow",
+  "name_for_model": "PixellowChatWithImage",
+  "description_for_human": "Pixellow: Unveiling image insights, aiding understanding, and creating detailed captions and descriptions.",
+  "description_for_model": "Pixellow deciphers images, offering insightful details and automatically crafting captions and descriptions to enhance your image understanding.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://pixellow.ceylon.ai/oauth",
+    "scope": "",
+    "authorization_url": "https://pixellow.ceylon.ai/oauth/exchange",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "703243be439b4237a5eb35ba90eb8139"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://pixellow.ceylon.ai/openapi.json",
+    "is_user_authenticated": true
+  },
+  "logo_url": "https://pixellow.ceylon.ai/logo.png",
+  "contact_email": "info@ceylon.ai",
+  "legal_info_url": "https://pixellow.ceylon.ai/admin/legal"
+}

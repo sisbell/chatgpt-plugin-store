@@ -64,3 +64,4 @@ components:
           type: string
           description: The URL of the image. It must be displayed as an image in Markdown format.
 
+

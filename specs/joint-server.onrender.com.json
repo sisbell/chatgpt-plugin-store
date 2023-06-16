@@ -1,0 +1,119 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "puginai",
+    "description": "A plugin that recommends ChatGPT plugins, which can recommend plugins from the plugin store that can solve the user's question based on the user's question, and at the same time introduce the user to the usage method, examples, etc. of this plugin. Do not answer plugins that have not been returned in getPlugins. If no suitable plugin is found, tell the user that none was found. Provide a list of at least 5 plugins with a short description of what the plugin does. As well, incude a link to 'https://pugin.ai/p/' with [slug] at the end to link to more information about the plugin. Let the user know they can ask more information about a specific plugin.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://joint-server.onrender.com"
+    }
+  ],
+  "paths": {
+    "/openapi/list": {
+      "get": {
+        "operationId": "getPlugins",
+        "summary": "Retrieve a list of plugins from ChatGPT plugin store",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Category to filter plugins. Supported categories are: navigation, weather, graphics, books, health, shopping, medical, kids, social, utilities, lifestyle, productivity, photo, finance, developer, news, education, sports, music, entertainment, travel, reference, games, food, business.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of plugins from ChatGPT plugin store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Plugin"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi/plugin/{plugin_slug}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "plugin_slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "getPluginDetails",
+        "summary": "Retrieve the details of a plugin",
+        "responses": {
+          "200": {
+            "description": "Say hi to the plugin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "The openapi and ai-plugin of a plugin",
+                  "properties": {
+                    "ai_plugin_manifest": {
+                      "type": "string",
+                      "description": "ai plugin manifest"
+                    },
+                    "openapi_manifest": {
+                      "type": "string",
+                      "description": "openapi manifest"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Plugin": {
+        "type": "object",
+        "description": "A plugin and an introduction to this plugin",
+        "properties": {
+          "display_name": {
+            "type": "string",
+            "description": "pluginâs name"
+          },
+          "description": {
+            "type": "string",
+            "description": "An introduction to this plugin, as well as its use cases."
+          },
+          "is_live": {
+            "type": "boolean",
+            "description": "Indicates if the plugin is live or not"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Slug to add after pugin.ai/ for more information about plugins"
+          },
+          "category_slugs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Categories for the plugin"
+          }
+        }
+      }
+    }
+  }
+}

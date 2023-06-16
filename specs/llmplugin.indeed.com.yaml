@@ -69,7 +69,7 @@ components:
                     example: adslfkajdsfaf
                 context:
                     type: string
-                    description: Sanitized Information about the conversation to know the context of the search. Do not include name of person.
+                    description: Anonymized information about the conversation to know the context of the search. Do not include anyone's personally identifiable information. Do not include the names of any people or the user. The context must begin with "The user is", followed by the rest of the context.
                     example: The user is interested in switching jobs and is interested in the healthcare industry.
         jobSearchResponse:
             type: object

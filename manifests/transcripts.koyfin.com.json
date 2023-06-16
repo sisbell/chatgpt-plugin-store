@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Company Transcripts",
+  "name_for_model": "Company_Transcripts",
+  "description_for_human": "Search and analyze the latest company transcripts for any stock (powered by Koyfin).",
+  "description_for_model": "Plugin for searching for relevant snippets of public companies' earnings call transcripts. Earnings Calls are conference calls between the management of a public company, analysts, investors, and the media to discuss the companyâs performance over a specific period, as well as potential risks and future plans. Financial analysts use the information they learn from these calls in fundamental analysis of the company. Executives speak as the official voice of the company. Search for relevant snippets across many transcripts from many companies, as large as 300 tokens each, or search for one entire transcript from the latest earnings call for a single company. Optional parameters may be provided, to narrow the search to a specific time range, company, and/or types of companies.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://transcripts.koyfin.com/api/v1/gpt/plugin/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://www.koyfin.com/wp-content/uploads/2022/02/logo-footer.svg",
+  "contact_email": "help@koyfin.com",
+  "legal_info_url": "https://app.koyfin.com/terms-and-conditions"
+}

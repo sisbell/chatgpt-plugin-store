@@ -1,4 +1,28 @@
 # Plugin Store Listing Changelog
+## 2023-06-15
+### Newly Listed
+* [6yq93jqsc3.execute-api.us-west-1.amazonaws.com](manifests/6yq93jqsc3.execute-api.us-west-1.amazonaws.com.json)
+* [alaga-ai-h43cosb3ia-uc.a.run.app](manifests/alaga-ai-h43cosb3ia-uc.a.run.app.json)
+* [askthecode.dsomok.online](manifests/askthecode.dsomok.online.json)
+* [boxil.jp](manifests/boxil.jp.json)
+* [byby.ai](manifests/byby.ai.json)
+* [c-interview.copilot.us](manifests/c-interview.copilot.us.json)
+* [chatgpt.bubblegoods.com](manifests/chatgpt.bubblegoods.com.json)
+* [crypto-pulse-top.vercel.app](manifests/crypto-pulse-top.vercel.app.json)
+* [devui-qyrusbot.quinnox.info](manifests/devui-qyrusbot.quinnox.info.json)
+* [gift.pluginbuilders.repl.co](manifests/gift.pluginbuilders.repl.co.json)
+* [gpt.andocarbur.com](manifests/gpt.andocarbur.com.json)
+* [infojobs.andocarbur.com](manifests/infojobs.andocarbur.com.json)
+* [joint-server.onrender.com](manifests/joint-server.onrender.com.json)
+* [lighthouse.app](manifests/lighthouse.app.json)
+* [photomagic.mixerbox.com](manifests/photomagic.mixerbox.com.json)
+* [pixellow.ceylon.ai](manifests/pixellow.ceylon.ai.json)
+* [plugin-dtwewgpm2a-uc.a.run.app](manifests/plugin-dtwewgpm2a-uc.a.run.app.json)
+* [supercharger-958358-jexkai4vea-uc.a.run.app](manifests/supercharger-958358-jexkai4vea-uc.a.run.app.json)
+* [the-diet-record.automation.jp](manifests/the-diet-record.automation.jp.json)
+* [threesigma.ai](manifests/threesigma.ai.json)
+* [transcripts.koyfin.com](manifests/transcripts.koyfin.com.json)
+* [www.instabase.jp](manifests/www.instabase.jp.json)
 ## 2023-06-14
 ### Newly Listed
 * [api.kesem.ai](manifests/api.kesem.ai.json)

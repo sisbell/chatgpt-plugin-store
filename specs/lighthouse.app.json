@@ -1,0 +1,1653 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Texas Apartment Search Plugin",
+    "description": "A plugin that allows to query, filter apartments in Texas based on user's natural language input",
+    "version": "v1"
+  },
+  "paths": {
+    "/p/v1": {},
+    "/p/v1/properties/admin": {},
+    "/p/v1/properties/admin/external": {},
+    "/p/v1/properties/admin/search/{field}/{value}": {},
+    "/p/v1/properties/admin/list": {},
+    "/p/v1/properties/admin/{id}": {},
+    "/p/v1/properties/admin/{id}/request/sad-update": {},
+    "/p/v1/properties/admin/{id}/notes": {},
+    "/p/v1/properties/search": {
+      "get": {
+        "operationId": "PropertyController_search",
+        "summary": "Search properties based on many different filters",
+        "description": "Here is an example of correct request: https://api-next.lighthouse.app/p/v1/properties/search?ne[]=-96.60884713832931&ne[]=32.835531430282366&sw[]=-96.9851288616707&sw[]=32.717757600684024&limit=10&page=0&fields=id,nanoId,coordinates,minRent,cashback,name",
+        "parameters": [
+          {
+            "name": "minBeds",
+            "required": false,
+            "in": "query",
+            "description": "The minimum number of bedrooms in a unit",
+            "example": 1,
+            "schema": {
+              "nullable": true,
+              "type": "number"
+            }
+          },
+          {
+            "name": "maxBeds",
+            "required": false,
+            "in": "query",
+            "description": "The maximum number of bedrooms in a unit",
+            "example": 3,
+            "schema": {
+              "nullable": true,
+              "type": "number"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Specific fields desired in the property response. If not specified, all fields will be returned. For shorter response size include: id,nanoId,coordinates,minRent,cashback,name",
+            "example": "id,nanoId,coordinates,minRent,cashback,name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "The name of the property to match",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "required": false,
+            "in": "query",
+            "description": "The address of the property to match",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "builtAfter",
+            "required": false,
+            "in": "query",
+            "description": "The minimum year the property was built",
+            "example": 2010,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "minPrice",
+            "required": false,
+            "in": "query",
+            "description": "The min price of the property to match",
+            "example": 1000,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "maxPrice",
+            "required": false,
+            "in": "query",
+            "description": "The max price of the property to match",
+            "example": 2000,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "minSqft",
+            "required": false,
+            "in": "query",
+            "description": "The minimum square footage of the property to match",
+            "example": 1000,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "maxSqft",
+            "required": false,
+            "in": "query",
+            "description": "The maximum square footage of the property to match",
+            "example": 2000,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "filters",
+            "required": false,
+            "in": "query",
+            "description": "Amenity and policy filters",
+            "example": [
+              "senior housing",
+              "pool"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "promos",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "creditCheck",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "secondChance",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sw",
+            "required": false,
+            "in": "query",
+            "description": "South-west coordinates of the search area, first array item is longitude, second is latitude",
+            "example": [
+              -98.05992595,
+              30.09890904
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "ne",
+            "required": false,
+            "in": "query",
+            "description": "North-east coordinates of the search area, first array item is longitude, second is latitude",
+            "example": [
+              -97.451558,
+              30.51760968
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "hasLiveFeed",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "fetchOnEmpty",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "includeNoCashback",
+            "required": false,
+            "in": "query",
+            "description": "Whether to include properties that give $0 cashback",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Which page of results to return, page starts from 0",
+            "example": 0,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "How many items per page return",
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "order",
+            "required": false,
+            "in": "query",
+            "description": "Sorting order",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "Sorting field, can be: minRent",
+            "example": "minRent",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertiesSearchResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Properties",
+          "Public API"
+        ]
+      }
+    },
+    "/p/v1/properties/{id}": {
+      "get": {
+        "operationId": "PropertyController_getById",
+        "summary": "Find property by id or nanoId",
+        "description": "Fetch a property by id or nanoId",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "A property UUID or nano ID",
+            "example": "mp3JbzYg",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicPropertySchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Property not found"
+          }
+        },
+        "tags": [
+          "Properties",
+          "Public API"
+        ]
+      }
+    },
+    "/p/v1/properties/{id}/similar": {
+      "get": {
+        "operationId": "PropertyController_similar",
+        "summary": "",
+        "description": "Find other properties that are similar to the one found by the given ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "A property UUID or nano ID",
+            "example": "mp3JbzYg",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "The number of similar properties to return",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SimilarResponseSchema"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Property not found"
+          }
+        },
+        "tags": [
+          "Properties",
+          "Public API"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "https://api-next.lighthouse.app",
+      "description": "Production server (uses live data)"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "AmenityLike": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "popularity": {
+            "type": "number"
+          },
+          "level": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "category",
+          "popularity",
+          "level"
+        ]
+      },
+      "FloorplanLike": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "bedroomCount": {
+            "type": "number"
+          },
+          "bathroomCount": {
+            "type": "number"
+          },
+          "sqftRange": {
+            "type": "object"
+          },
+          "sqftAvg": {
+            "type": "number"
+          },
+          "rentRange": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rentAvg": {
+            "type": "number"
+          },
+          "availability": {
+            "type": "object"
+          },
+          "deposit": {
+            "type": "number"
+          },
+          "unitsAvailable": {
+            "type": "object"
+          },
+          "unitsCount": {
+            "type": "object"
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "units": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "bedroomCount",
+          "bathroomCount",
+          "sqftRange",
+          "sqftAvg",
+          "rentRange",
+          "rentAvg",
+          "availability",
+          "deposit",
+          "unitsAvailable",
+          "unitsCount",
+          "photos",
+          "units"
+        ]
+      },
+      "ParkingLike": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "assigned": {
+            "type": "boolean"
+          },
+          "spaces": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "fee",
+          "description",
+          "assigned",
+          "spaces"
+        ]
+      },
+      "PetPolicyLike": {
+        "type": "object",
+        "properties": {
+          "petType": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "monthlyFee": {
+            "type": "number"
+          },
+          "deposit": {
+            "type": "number"
+          },
+          "applicationFee": {
+            "type": "number"
+          },
+          "breedRestriction": {
+            "type": "boolean"
+          },
+          "interview": {
+            "type": "boolean"
+          },
+          "weight": {
+            "type": "object"
+          },
+          "count": {
+            "type": "object"
+          },
+          "allowed": {
+            "type": "boolean"
+          },
+          "thirdPartyScreening": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "petType",
+          "description",
+          "monthlyFee",
+          "deposit",
+          "applicationFee",
+          "breedRestriction",
+          "interview",
+          "weight",
+          "count",
+          "allowed",
+          "thirdPartyScreening"
+        ]
+      },
+      "PhotoLike": {
+        "type": "object",
+        "properties": {}
+      },
+      "PolicyLike": {
+        "type": "object",
+        "properties": {
+          "incomeRestriction": {
+            "type": "boolean"
+          },
+          "section8": {
+            "type": "boolean"
+          },
+          "taxCredit": {
+            "type": "boolean"
+          },
+          "studentHousing": {
+            "type": "boolean"
+          },
+          "seniorHousing": {
+            "type": "boolean"
+          },
+          "corporateHousing": {
+            "type": "boolean"
+          },
+          "secondChance": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "creditCheck": {
+            "type": "boolean"
+          },
+          "coSigners": {
+            "type": "boolean"
+          },
+          "acceptBrokenLeases": {
+            "type": "boolean"
+          },
+          "acceptBrokenLeasesNotes": {
+            "type": "string"
+          },
+          "acceptBankruptcies": {
+            "type": "boolean"
+          },
+          "acceptBankruptciesNotes": {
+            "type": "string"
+          },
+          "acceptFelons": {
+            "type": "boolean"
+          },
+          "acceptFelonsNotes": {
+            "type": "string"
+          },
+          "acceptMisdemeanors": {
+            "type": "boolean"
+          },
+          "acceptMisdemeanorsNotes": {
+            "type": "string"
+          },
+          "acceptForeclosures": {
+            "type": "boolean"
+          },
+          "acceptForeclosuresNotes": {
+            "type": "string"
+          },
+          "acceptEvictions": {
+            "type": "boolean"
+          },
+          "acceptEvictionsNotes": {
+            "type": "string"
+          },
+          "firstTimeRenters": {
+            "type": "boolean"
+          },
+          "computerizedPricing": {
+            "type": "boolean"
+          },
+          "registrationMethod": {
+            "type": "string"
+          },
+          "seniorDiscount": {
+            "type": "boolean"
+          },
+          "allBillsPaid": {
+            "type": "boolean"
+          },
+          "electricPaid": {
+            "type": "boolean"
+          },
+          "gasPaid": {
+            "type": "boolean"
+          },
+          "cablePaid": {
+            "type": "boolean"
+          },
+          "trashPaid": {
+            "type": "boolean"
+          },
+          "waterPaid": {
+            "type": "boolean"
+          },
+          "pestControlPaid": {
+            "type": "boolean"
+          },
+          "specials": {
+            "type": "string"
+          },
+          "paymentInDays": {
+            "type": "number"
+          },
+          "sixMonthLeasePremium": {
+            "type": "string"
+          },
+          "incomeRequirement": {
+            "type": "number"
+          },
+          "depositBasedOnCredit": {
+            "type": "boolean"
+          },
+          "depositMin": {
+            "type": "number"
+          },
+          "depositMax": {
+            "type": "number"
+          },
+          "depositPercentageOfRent": {
+            "type": "number"
+          },
+          "depositTimesRent": {
+            "type": "number"
+          },
+          "isSureDeposit": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "incomeRestriction",
+          "section8",
+          "taxCredit",
+          "studentHousing",
+          "seniorHousing",
+          "corporateHousing",
+          "secondChance",
+          "creditCheck",
+          "coSigners",
+          "acceptBrokenLeases",
+          "acceptBrokenLeasesNotes",
+          "acceptBankruptcies",
+          "acceptBankruptciesNotes",
+          "acceptFelons",
+          "acceptFelonsNotes",
+          "acceptMisdemeanors",
+          "acceptMisdemeanorsNotes",
+          "acceptForeclosures",
+          "acceptForeclosuresNotes",
+          "acceptEvictions",
+          "acceptEvictionsNotes",
+          "firstTimeRenters",
+          "computerizedPricing",
+          "registrationMethod",
+          "seniorDiscount",
+          "allBillsPaid",
+          "electricPaid",
+          "gasPaid",
+          "cablePaid",
+          "trashPaid",
+          "waterPaid",
+          "pestControlPaid",
+          "specials",
+          "paymentInDays",
+          "sixMonthLeasePremium",
+          "incomeRequirement",
+          "depositBasedOnCredit",
+          "depositMin",
+          "depositMax",
+          "depositPercentageOfRent",
+          "depositTimesRent",
+          "isSureDeposit"
+        ]
+      },
+      "SchoolLike": {
+        "type": "object",
+        "properties": {
+          "district": {
+            "type": "string"
+          },
+          "elementary": {
+            "type": "string"
+          },
+          "middle": {
+            "type": "string"
+          },
+          "high": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "district",
+          "elementary",
+          "middle",
+          "high"
+        ]
+      },
+      "PropertyEntity": {
+        "type": "object",
+        "properties": {
+          "nanoId": {
+            "type": "string",
+            "description": "Unique small ID to identify the property",
+            "example": "ugGAR6Nw"
+          },
+          "addressHash": {
+            "type": "string",
+            "description": "Hash created using the property's address information",
+            "example": "09b19c2933bc4b2acc6b920db23b5a56"
+          },
+          "pin": {
+            "type": "number",
+            "description": "Pin used for property calling phone redirection",
+            "example": 63710
+          },
+          "cashback": {
+            "type": "number",
+            "description": "The cashback that we can offer for this property",
+            "example": 150
+          },
+          "overview": {
+            "type": "object"
+          },
+          "amenities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmenityLike"
+            }
+          },
+          "commissions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "floorplans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FloorplanLike"
+            }
+          },
+          "parking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParkingLike"
+            }
+          },
+          "petPolicies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PetPolicyLike"
+            }
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhotoLike"
+            }
+          },
+          "policy": {
+            "$ref": "#/components/schemas/PolicyLike"
+          },
+          "school": {
+            "$ref": "#/components/schemas/SchoolLike"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "elastic": {
+            "type": "boolean",
+            "description": "Indicates if property data was synced to elastic search"
+          },
+          "searchable": {
+            "type": "boolean",
+            "description": "Whether the property can be found in a search"
+          },
+          "public": {
+            "type": "boolean",
+            "description": "Whether the property will show up in search or via direct navigation"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deletedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyNoteEntity"
+            }
+          },
+          "id": {
+            "type": "string",
+            "description": "UUID unique value",
+            "example": "2c864c72-be90-46a0-b6e6-f7587bda4240"
+          }
+        },
+        "required": [
+          "nanoId",
+          "addressHash",
+          "pin",
+          "cashback",
+          "overview",
+          "amenities",
+          "commissions",
+          "floorplans",
+          "parking",
+          "petPolicies",
+          "photos",
+          "policy",
+          "school",
+          "sources",
+          "tags",
+          "elastic",
+          "searchable",
+          "public",
+          "createdAt",
+          "updatedAt",
+          "deletedAt",
+          "id"
+        ]
+      },
+      "PropertyNoteEntity": {
+        "type": "object",
+        "properties": {
+          "propertyId": {
+            "type": "string"
+          },
+          "property": {
+            "$ref": "#/components/schemas/PropertyEntity"
+          },
+          "note": {
+            "type": "string"
+          },
+          "source": {
+            "enum": [
+              "LH",
+              "UMF"
+            ],
+            "type": "string"
+          },
+          "creatorId": {
+            "type": "string"
+          },
+          "creator": {
+            "type": "object"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "description": "UUID unique value",
+            "example": "2c864c72-be90-46a0-b6e6-f7587bda4240"
+          }
+        },
+        "required": [
+          "propertyId",
+          "property",
+          "note",
+          "source",
+          "creatorId",
+          "creator",
+          "createdAt",
+          "updatedAt",
+          "id"
+        ]
+      },
+      "ListResponseSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "PublicPropertySchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "UUID unique value",
+            "example": "2c864c72-be90-46a0-b6e6-f7587bda4240"
+          },
+          "public": {
+            "type": "boolean",
+            "description": "Whether the property will show up in search or via direct navigation"
+          },
+          "nanoId": {
+            "type": "string",
+            "description": "Unique small ID to identify the property",
+            "example": "ugGAR6Nw"
+          },
+          "pin": {
+            "type": "number",
+            "description": "Pin used for property calling phone redirection",
+            "example": 63710
+          },
+          "cashback": {
+            "type": "number",
+            "description": "The cashback that we can offer for this property",
+            "example": 150
+          },
+          "overview": {
+            "type": "object"
+          },
+          "amenities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmenityLike"
+            }
+          },
+          "floorplans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FloorplanLike"
+            }
+          },
+          "parking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParkingLike"
+            }
+          },
+          "petPolicies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PetPolicyLike"
+            }
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhotoLike"
+            }
+          },
+          "policy": {
+            "$ref": "#/components/schemas/PolicyLike"
+          },
+          "school": {
+            "$ref": "#/components/schemas/SchoolLike"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "public",
+          "nanoId",
+          "pin",
+          "cashback",
+          "overview",
+          "amenities",
+          "floorplans",
+          "parking",
+          "petPolicies",
+          "photos",
+          "policy",
+          "school",
+          "tags",
+          "updatedAt"
+        ]
+      },
+      "Geometry": {
+        "type": "object",
+        "properties": {}
+      },
+      "ElasticFloorplan": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "bedroomCount": {
+            "type": "number"
+          },
+          "bathroomCount": {
+            "type": "number"
+          },
+          "sqftRange": {
+            "type": "object"
+          },
+          "sqftAvg": {
+            "type": "number"
+          },
+          "rentRange": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rentAvg": {
+            "type": "number"
+          },
+          "availability": {
+            "type": "object"
+          },
+          "deposit": {
+            "type": "number"
+          },
+          "unitsAvailable": {
+            "type": "object"
+          },
+          "unitsCount": {
+            "type": "object"
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "units": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "minRent": {
+            "type": "number"
+          },
+          "maxRent": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "bedroomCount",
+          "bathroomCount",
+          "sqftRange",
+          "sqftAvg",
+          "rentRange",
+          "rentAvg",
+          "availability",
+          "deposit",
+          "unitsAvailable",
+          "unitsCount",
+          "photos",
+          "units",
+          "minRent",
+          "maxRent"
+        ]
+      },
+      "SecondChance": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "nonViolentOnly": {
+            "type": "boolean"
+          },
+          "backgroundCheck": {
+            "type": "boolean"
+          },
+          "maxOffenses": {
+            "type": "number"
+          },
+          "ageRequirement": {
+            "type": "number"
+          },
+          "discharged": {
+            "type": "boolean"
+          },
+          "paidOff": {
+            "type": "boolean"
+          },
+          "extraDeposit": {
+            "type": "boolean"
+          },
+          "corporateDiscretion": {
+            "type": "boolean"
+          },
+          "goodCreditScore": {
+            "type": "boolean"
+          },
+          "goodRentalHistory": {
+            "type": "boolean"
+          },
+          "coSigner": {
+            "type": "boolean"
+          },
+          "other": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "nonViolentOnly",
+          "backgroundCheck",
+          "maxOffenses",
+          "ageRequirement",
+          "discharged",
+          "paidOff",
+          "extraDeposit",
+          "corporateDiscretion",
+          "goodCreditScore",
+          "goodRentalHistory",
+          "coSigner",
+          "other"
+        ]
+      },
+      "SearchProperty": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main St"
+          },
+          "amenities": {
+            "example": [
+              {
+                "name": "parking",
+                "level": "BUILDING"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmenityLike"
+            }
+          },
+          "area": {
+            "type": "string"
+          },
+          "cashback": {
+            "type": "number",
+            "example": "1000"
+          },
+          "city": {
+            "type": "string",
+            "example": "Dallas"
+          },
+          "coordinates": {
+            "example": {
+              "type": "Point",
+              "coordinates": [
+                -96.7695,
+                32.8157
+              ]
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Geometry"
+              }
+            ]
+          },
+          "county": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "creditCheck": {
+            "type": "boolean"
+          },
+          "floorplans": {
+            "example": [
+              {
+                "minRent": 1000,
+                "maxRent": 2000
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElasticFloorplan"
+            }
+          },
+          "floors": {
+            "type": "number"
+          },
+          "id": {
+            "type": "string"
+          },
+          "info": {
+            "type": "string"
+          },
+          "lastUpdated": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "leaseLength": {
+            "type": "number"
+          },
+          "lighthouseScore": {
+            "type": "number",
+            "example": 350
+          },
+          "longDescription": {
+            "type": "string",
+            "example": "This is a long description"
+          },
+          "maxBed": {
+            "type": "number"
+          },
+          "maxRent": {
+            "type": "number"
+          },
+          "metro": {
+            "type": "string"
+          },
+          "minBed": {
+            "type": "number"
+          },
+          "minRent": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nanoId": {
+            "type": "string"
+          },
+          "nonRefundableFee": {
+            "type": "number"
+          },
+          "parkings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParkingLike"
+            }
+          },
+          "percentOccupancy": {
+            "type": "number"
+          },
+          "petPolicies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParkingLike"
+            }
+          },
+          "policy": {
+            "$ref": "#/components/schemas/PolicyLike"
+          },
+          "promos": {
+            "type": "string"
+          },
+          "school": {
+            "$ref": "#/components/schemas/SchoolLike"
+          },
+          "secondChance": {
+            "$ref": "#/components/schemas/SecondChance"
+          },
+          "shortDescription": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "object"
+          },
+          "uniqueFeatures": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "unitCount": {
+            "type": "number"
+          },
+          "yearBuilt": {
+            "type": "number"
+          },
+          "yearRenovated": {
+            "type": "number"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "active",
+          "address",
+          "amenities",
+          "area",
+          "cashback",
+          "city",
+          "coordinates",
+          "county",
+          "createdAt",
+          "creditCheck",
+          "floorplans",
+          "floors",
+          "id",
+          "info",
+          "lastUpdated",
+          "leaseLength",
+          "lighthouseScore",
+          "longDescription",
+          "maxBed",
+          "maxRent",
+          "metro",
+          "minBed",
+          "minRent",
+          "name",
+          "nanoId",
+          "nonRefundableFee",
+          "parkings",
+          "percentOccupancy",
+          "petPolicies",
+          "policy",
+          "school",
+          "secondChance",
+          "shortDescription",
+          "state",
+          "tags",
+          "uniqueFeatures",
+          "unitCount",
+          "yearBuilt",
+          "yearRenovated",
+          "zip",
+          "url"
+        ]
+      },
+      "Total": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number"
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "value",
+          "hasMore"
+        ]
+      },
+      "PropertiesSearchResponse": {
+        "type": "object",
+        "properties": {
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchProperty"
+            }
+          },
+          "total": {
+            "$ref": "#/components/schemas/Total"
+          }
+        },
+        "required": [
+          "properties",
+          "total"
+        ]
+      },
+      "UpdatePropertyRequest": {
+        "type": "object",
+        "properties": {
+          "pin": {
+            "type": "number"
+          }
+        }
+      },
+      "SimilarResponseSchema": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string",
+            "description": "The city the property is located in",
+            "example": "Dallas"
+          },
+          "state": {
+            "type": "string",
+            "description": "The state the property is located in",
+            "example": "TX"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the property",
+            "example": "Residences at The Grove"
+          },
+          "minBed": {
+            "type": "integer",
+            "description": "The minimum number of beds in available units",
+            "example": 1
+          },
+          "maxBed": {
+            "type": "integer",
+            "description": "The maximum number of beds in available units",
+            "example": 3
+          },
+          "minRent": {
+            "type": "integer",
+            "description": "The minimum rent in available units",
+            "example": 800
+          },
+          "maxRent": {
+            "type": "integer",
+            "description": "The maximum rent in available units",
+            "example": 1500
+          },
+          "propertyPhotos": {
+            "description": "The photos associated with the property",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "id": {
+            "type": "string",
+            "description": "UUID unique value",
+            "example": "2c864c72-be90-46a0-b6e6-f7587bda4240"
+          },
+          "nanoId": {
+            "type": "string",
+            "description": "Unique small ID to identify the property",
+            "example": "ugGAR6Nw"
+          },
+          "cashback": {
+            "type": "number",
+            "description": "The cashback that we can offer for this property",
+            "example": 150
+          }
+        },
+        "required": [
+          "city",
+          "state",
+          "name",
+          "propertyPhotos",
+          "id",
+          "nanoId",
+          "cashback"
+        ]
+      },
+      "StartsWithLetterResponse": {
+        "type": "object",
+        "properties": {
+          "nanoId": {
+            "type": "string",
+            "description": "Unique small ID to identify the property",
+            "example": "ugGAR6Nw"
+          },
+          "cashback": {
+            "type": "number",
+            "description": "The cashback that we can offer for this property",
+            "example": 150
+          },
+          "overview": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "nanoId",
+          "cashback",
+          "overview"
+        ]
+      },
+      "GetByCityResponse": {
+        "type": "object",
+        "properties": {
+          "nanoId": {
+            "type": "string",
+            "description": "Unique small ID to identify the property",
+            "example": "ugGAR6Nw"
+          },
+          "cashback": {
+            "type": "number",
+            "description": "The cashback that we can offer for this property",
+            "example": 150
+          },
+          "overview": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "nanoId",
+          "cashback",
+          "overview"
+        ]
+      },
+      "CreateRecommendationsResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateRecommendationsUserRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "maxBudget": {
+            "type": "number"
+          },
+          "minBudget": {
+            "type": "number"
+          },
+          "city": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId"
+        ]
+      },
+      "LocationEntity": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "propertyCount": {
+            "type": "number"
+          },
+          "center": {
+            "type": "object"
+          },
+          "gpid": {
+            "type": "string",
+            "nullable": true
+          },
+          "bounds": {
+            "type": "object",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "description": "UUID unique value",
+            "example": "2c864c72-be90-46a0-b6e6-f7587bda4240"
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "city",
+          "state",
+          "fullName",
+          "propertyCount",
+          "center",
+          "gpid",
+          "bounds",
+          "createdAt",
+          "updatedAt",
+          "id"
+        ]
+      },
+      "ListResponse": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

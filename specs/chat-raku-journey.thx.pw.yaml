@@ -13,7 +13,7 @@ paths:
       parameters:
         - name: keyword
           in: query
-          description: Search by keyword in Japanese translation.
+          description: Search by keywords translated into Japanese.
           required: true
           schema:
             type: string
@@ -22,7 +22,7 @@ paths:
           description: Number of items per page.
           required: true
           schema:
-            type: integer
+            type: number
             default: 3
             minimum: 1
             maximum: 30
@@ -31,7 +31,7 @@ paths:
           description: Page number.
           required: true
           schema:
-            type: integer
+            type: number
             default: 1
             minimum: 1
             maximum: 100
@@ -61,7 +61,7 @@ paths:
             1: items that can be shipped overseas only
           required: true
           schema:
-            type: integer
+            type: number
             default: 1
         - name: shipOverseasArea
           in: query
@@ -112,14 +112,14 @@ paths:
           in: query
           description: Minimum price.
           schema:
-            type: integer
+            type: number
             minimum: 1
             maximum: 999999999
         - name: maxPrice
           in: query
           description: Maximum price.
           schema:
-            type: integer
+            type: number
             minimum: 1
             maximum: 999999999
         - name: imageFlag
@@ -128,7 +128,7 @@ paths:
             0: Search all products
             1: Search only products with images
           schema:
-            type: integer
+            type: number
             default: 0
         - name: orFlag
           in: query
@@ -136,7 +136,7 @@ paths:
             0: AND search
             1: OR search
           schema:
-            type: integer
+            type: number
             default: 0
         - name: NGKeyword
           in: query
@@ -149,7 +149,7 @@ paths:
             0: All products
             1: Only items with postage included/free shipping
           schema:
-            type: integer
+            type: number
             default: 0
         - name: creditCardFlag
           in: query
@@ -157,7 +157,7 @@ paths:
             0: All products
             1: Only products purchaseable with credit cards
           schema:
-            type: integer
+            type: number
             default: 0
       responses:
         200:
@@ -185,7 +185,7 @@ paths:
           description: Number of items per page.
           required: true
           schema:
-            type: integer
+            type: number
             default: 3
             minimum: 1
             maximum: 30
@@ -194,7 +194,7 @@ paths:
           description: Page number.
           required: true
           schema:
-            type: integer
+            type: number
             default: 1
             minimum: 1
             maximum: 100
@@ -208,7 +208,7 @@ paths:
             40: 40-49
             50: 50 and up
           schema:
-            type: integer
+            type: number
             enum: [10, 20, 30, 40, 50]
         - name: sex
           in: query
@@ -217,7 +217,7 @@ paths:
             0: Male
             1: Female
           schema:
-            type: integer
+            type: number
             enum: [0, 1]
             default: 0
         - name: period
@@ -250,7 +250,7 @@ paths:
       parameters:
         - name: keyword
           in: query
-          description: Search by keyword in Japanese translation.
+          description: Search by keywords translated into Japanese.
           required: true
           schema:
             type: string
@@ -259,7 +259,7 @@ paths:
           description: Number of items per page.
           required: true
           schema:
-            type: integer
+            type: number
             default: 3
             minimum: 1
             maximum: 30
@@ -268,7 +268,7 @@ paths:
           description: Page number.
           required: true
           schema:
-            type: integer
+            type: number
             default: 1
             minimum: 1
             maximum: 100
@@ -303,7 +303,7 @@ paths:
             0: AND search
             1: OR search
           schema:
-            type: integer
+            type: number
             enum: [0, 1]
         - name: NGKeyword
           in: query
@@ -334,14 +334,14 @@ paths:
       operationId: getTravelKeywordHotelSearch
       tags:
         - TravelKeywordHotelSearch
-      summary: Search for hotels on Rakuten Travel by keyword in Japanese.
+      summary: Search for hotels on Rakuten Travel by keywords translated into Japanese.
       parameters:
         - name: hits
           in: query
           description: Number of items per page.
           required: true
           schema:
-            type: integer
+            type: number
             default: 3
             minimum: 1
             maximum: 30
@@ -350,13 +350,13 @@ paths:
           description: Page number.
           required: true
           schema:
-            type: integer
+            type: number
             default: 1
             minimum: 1
             maximum: 100
         - name: keyword
           in: query
-          description: Search by keyword in Japanese translation.
+          description: Search by keywords translated into Japanese.
           required: true
           schema:
             type: string
@@ -424,19 +424,37 @@ paths:
         503:
           description: Unavailable due to maintenance or overloaded
 
-  /Recipe/CategoryRanking:
+  /Recipe/Search:
     get:
-      operationId: getRecipeCategoryRanking
+      operationId: getRecipeSearch
       tags:
-        - RecipeCategoryRanking
-      summary: Get the ranking of Rakuten Recipes.
+        - RecipeSearch
+      summary: Search Rakuten Recipes.
       parameters:
         - name: keyword
           in: query
-          description: Search by keyword in Japanese translation.
+          description: Search by keywords translated into Japanese.
           required: true
           schema:
             type: string
+        - name: hits
+          in: query
+          description: Number of items per page.
+          required: true
+          schema:
+            type: number
+            default: 3
+            minimum: 1
+            maximum: 30
+        - name: page
+          in: query
+          description: Page number.
+          required: true
+          schema:
+            type: number
+            default: 1
+            minimum: 1
+            maximum: 100
       responses:
         200:
           description: A successful response
@@ -464,7 +482,7 @@ paths:
       parameters:
         - name: keyword
           in: query
-          description: Search by keyword in Japanese translation.
+          description: Search by keywords translated into Japanese.
           required: true
           schema:
             type: string
@@ -624,7 +642,7 @@ paths:
           description: Number of items per page.
           required: true
           schema:
-            type: integer
+            type: number
             default: 3
             minimum: 1
             maximum: 30
@@ -633,7 +651,7 @@ paths:
           description: Page number.
           required: true
           schema:
-            type: integer
+            type: number
             default: 1
             minimum: 1
             maximum: 100
@@ -668,7 +686,7 @@ paths:
             0: AND search
             1: OR search
           schema:
-            type: integer
+            type: number
             enum: [0, 1]
         - name: NGKeyword
           in: query
@@ -702,7 +720,7 @@ paths:
       parameters:
         - name: keyword
           in: query
-          description: Search by keyword in Japanese translation.
+          description: Search by keywords translated into Japanese.
           required: true
           schema:
             type: string
@@ -711,7 +729,7 @@ paths:
           description: Number of items per page.
           required: true
           schema:
-            type: integer
+            type: number
             default: 3
             minimum: 1
             maximum: 30
@@ -720,7 +738,7 @@ paths:
           description: Page number.
           required: true
           schema:
-            type: integer
+            type: number
             default: 1
             minimum: 1
             maximum: 100

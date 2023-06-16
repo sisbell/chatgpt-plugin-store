@@ -8,7 +8,7 @@ servers:
 
 paths:
 #--- GetCounterInfo Start ---
-  /GetCounterInfo/{name}:
+  /GetBrandLocation/{name}:
     get:
       # $ref: './paths/getCounterInfo.yaml'      
       operationId: getBrandLocation

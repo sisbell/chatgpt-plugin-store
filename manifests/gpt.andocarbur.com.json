@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Andorra",
+  "name_for_model": "andorra_news_flats_traffic_work__search",
+  "description_for_human": "All of Andorra with the power of AI.",
+  "description_for_model": "Integration with Andorra's news portal, traffic portal, flat search, and job portal.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gpt.andocarbur.com/openai.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://gpt.andocarbur.com/logo.png",
+  "contact_email": "erisco@icloud.com",
+  "legal_info_url": "https://ericrisco.github.io"
+}

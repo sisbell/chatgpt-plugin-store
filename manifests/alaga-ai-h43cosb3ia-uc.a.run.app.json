@@ -1,9 +1,9 @@
 {
   "schema_version": "v1",
   "name_for_human": "alaga.ai_PH",
-  "name_for_model": "knowledgebase",
-  "description_for_human": "An API for a knowledge base from the Philippine Department of Health website to produce health-related info.",
-  "description_for_model": "This knowledge base API has health-related info pertaining to the Philippines.",
+  "name_for_model": "alagaAI",
+  "description_for_human": "Get the latest info about the health programs and services in the Philippines.",
+  "description_for_model": "Provides a knowledge base of the programs and services from the Department of Health of the Philippines.",
   "auth": {
     "type": "none"
   },
@@ -13,5 +13,5 @@
   },
   "logo_url": "https://alaga-ai-h43cosb3ia-uc.a.run.app/logo.png",
   "contact_email": "rogene@1024technologies.ca",
-  "legal_info_url": "http://www.1024technologies.ca/legal"
+  "legal_info_url": "https://1024technologies.ca/legal/terms"
 }

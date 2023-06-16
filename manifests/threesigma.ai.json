@@ -1,0 +1,24 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "improved_semantic_search",
+  "name_for_human": "Document AI",
+  "description_for_model": "Plugin for answering questions about a user's documents.",
+  "description_for_human": "The only Document AI that shows you where it got your answer from.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://www.threesigma.ai/oauth-login",
+    "authorization_url": "https://www.threesigma.ai/api/v1/login/token",
+    "scope": "",
+    "authorization_content_type": "application/x-www-form-urlencoded",
+    "verification_tokens": {
+      "openai": "b018b1715478482aad686732b5f2e5a3"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://www.threesigma.ai/api/v1/plugin/openapi"
+  },
+  "logo_url": "https://www.threesigma.ai/.well-known/logo.png",
+  "contact_email": "sergey@threesigma.com",
+  "legal_info_url": "https://www.threesigma.ai/terms-of-service"
+}

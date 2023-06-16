@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "InfoJobs",
+  "name_for_model": "infojobs",
+  "description_for_human": "Search jobs on InfoJobs.",
+  "description_for_model": "Plugin for searching jobs on InfoJobs.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://infojobs.andocarbur.com/openai.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://infojobs.andocarbur.com/logo.png",
+  "contact_email": "erisco@icloud.com",
+  "legal_info_url": "https://ericrisco.github.io"
+}

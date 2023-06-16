@@ -2,12 +2,12 @@
   "openapi": "3.0.1",
   "info": {
     "title": "SEO",
-    "description": "A digital SEO assistant that can help with SEO content, keywords, audits and more.",
+    "description": "SEO Content creation assistant",
     "version": "1.0.5"
   },
   "servers": [
     {
-      "url": "https://smyth.seo.app"
+      "url": "https://smyth.dev.seo.app"
     }
   ],
   "paths": {

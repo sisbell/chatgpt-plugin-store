@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Code Runner",
+  "name_for_model": "code_runner",
+  "description_for_human": "Compile and save your code while creating visualizations (charts and graphs) supports upto 70 programming languages.",
+  "description_for_model": "Always use language codes in lowercase letters, such as 'python'.For saving code use 'save_code' endpoint and to save documents and files always use 'upload' endpoint and for download use 'download' endpoint.",
+  "auth": {
+    "authorization_content_type": "application/json",
+    "authorization_url": "https://auth.pluginlab.ai/oauth/token",
+    "client_url": "https://adbf46cbe372916cc21e69c1b6f44630.auth.portal-pluginlab.ai/oauth/authorize",
+    "scope": "all",
+    "type": "oauth",
+    "verification_tokens": {
+      "openai": "86befa4677cc4f8baf6cbdd6e317fe2b"
+    }
+  },
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://code-runner-plugin.vercel.app/openapi.json"
+  },
+  "logo_url": "https://code-runner-plugin.vercel.app/logo.png",
+  "contact_email": "haseebmir.hm@gmail.com",
+  "legal_info_url": "https://code-runner-plugin.vercel.app/privacy"
+}

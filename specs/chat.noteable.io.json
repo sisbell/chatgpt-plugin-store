@@ -3,7 +3,7 @@
   "info": {
     "title": "Origamist",
     "description": "ChatGPT Plugin server for creating computational notebooks (in Python!), allowing you to execute code, explore data, and visualize results.",
-    "version": "0.25.1"
+    "version": "0.26.0"
   },
   "servers": [
     {
@@ -12,17 +12,37 @@
     }
   ],
   "paths": {
-    "/api/origami/s/default": {
-      "get": {
-        "summary": "Get Default Space",
-        "description": "Get the user's configured default Space for creating new Projects in.",
-        "operationId": "get_default_space",
+    "/api/origami/p/": {
+      "post": {
+        "summary": "Create New Project",
+        "description": "Create a new project to store Notebooks and associated data files.",
+        "operationId": "create_project",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectOptions"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -35,29 +55,9 @@
       }
     },
     "/api/origami/p/default": {
-      "get": {
-        "summary": "Get Default Project",
-        "description": "Get the user's configured default project.",
-        "operationId": "get_default_project",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      },
       "put": {
         "summary": "Set Default Project",
-        "description": "Configure the user's default project (by UUID) for new notebooks.",
+        "description": "Configure the user's default project.",
         "operationId": "set_default_project",
         "parameters": [
           {
@@ -112,48 +112,6 @@
                 "schema": {
                   "title": "Response Clear Default Project",
                   "type": "object"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      }
-    },
-    "/api/origami/p/": {
-      "post": {
-        "summary": "Create New Project",
-        "description": "Create a new Project for the user in their default Space. Projects can be optionally created\nfrom a git repository, in which case users can sync changes from the Noteable UI. Private repos\ncan be created from the Noteable UI but",
-        "operationId": "create_project",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProjectOptions"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -338,14 +296,16 @@
     "/api/origami/f/{file_id}/datasources": {
       "get": {
         "summary": "Get Datasources",
-        "description": "Get the databases for a notebook.",
+        "description": "Get the databases for a notebook file by UUID.",
         "operationId": "get_datasources",
         "parameters": [
           {
+            "description": "The ID of the notebook to get the datasources for.",
             "required": true,
             "schema": {
               "title": "File Id",
               "type": "string",
+              "description": "The ID of the notebook to get the datasources for.",
               "format": "uuid"
             },
             "name": "file_id",

@@ -1,0 +1,171 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MixerBox PhotoMagic",
+    "description": "This plugin provides the functionality to enhance image resolution and remove noise. By increasing the resolution, you can achieve sharper, more detailed visuals, making your images more attractive and visually engaging.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://photomagic.mixerbox.com"
+    }
+  ],
+  "paths": {
+    "/api/gpt_plugins/photo_magic/super_resolution": {
+      "get": {
+        "operationId": "EnhanceResolution",
+        "summary": "Enhance image resolution with a powerful super-resolution API. Sharper details, improved quality. Seamless integration, customizable.",
+        "description": "This API enhances image resolution, producing sharper details, and removes noise for improved visual quality. It seamlessly integrates into applications and offers customization options.",
+        "parameters": [
+          {
+            "name": "image_url",
+            "in": "query",
+            "description": "URL of the image to be enhanced",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          {
+            "name": "scale",
+            "in": "query",
+            "description": "Scaling factor (optional)",
+            "schema": {
+              "type": "number",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gpt_plugins/photo_magic/edit": {
+      "get": {
+        "operationId": "EditImageByPrompt",
+        "summary": "Edit Image",
+        "description": "Edit an image using a text prompt",
+        "parameters": [
+          {
+            "name": "image_url",
+            "in": "query",
+            "description": "URL of the image to be edited",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          {
+            "name": "prompt",
+            "in": "query",
+            "description": "Text prompt for desired changes",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "image_guidance_scale",
+            "in": "query",
+            "description": "Image guidance scale (optional)",
+            "schema": {
+              "type": "number",
+              "default": 1
+            }
+          },
+          {
+            "name": "guidance_scale",
+            "in": "query",
+            "description": "Guidance scale (optional)",
+            "schema": {
+              "type": "number",
+              "default": 7.5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SuperResolutionResponse": {
+        "title": "SuperResolutionResponse",
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Generated images",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageGenItem"
+            },
+            "description": "Generated images based on descriptions."
+          },
+          "rules": {
+            "$ref": "#/components/schemas/Rules"
+          }
+        }
+      },
+      "EditImageResponse": {
+        "title": "EditImageResponse",
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "The image url after editing",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageGenItem"
+            },
+            "description": "Generated images based on descriptions."
+          },
+          "rules": {
+            "$ref": "#/components/schemas/Rules"
+          }
+        }
+      },
+      "ImageGenItem": {
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "title": "URL of the generated image",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "Rules": {
+        "title": "The array of rules which recommend gpt to follow.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The array of rules which recommend gpt to follow."
+      }
+    }
+  }
+}

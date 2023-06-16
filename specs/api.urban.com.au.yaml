@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: TODO Plugin
-  description: A plugin that allows the user to find apartments around Australia.
+  title: Urban Plugin
+  description: A plugin that allows the user to find new and off-the-plan apartments and townhome around Australia.
   version: "v1"
 servers:
   - url: https://api.urban.com.au/openai
@@ -16,25 +16,68 @@ paths:
           schema:
             type: string
           required: false
-          description: The address of the apartment
-        - in: query
-          name: suburbs
-          schema:
-            type: string
-          required: false
-          description: The suburbs of the apartment
+          description: The Address of the apartment
         - in: query
           name: suburb
           schema:
             type: string
           required: false
-          description: The suburb of the apartment
+          description: The Suburb of the apartment
         - in: query
           name: state
           schema:
             type: string
           required: false
-          description: The state of the apartment
+          description: The State of the apartment
+        - in: query
+          name: price_min
+          schema:
+            type: number
+          required: false
+          description: The Minimum Price of an Apartment
+        - in: query
+          name: price_max
+          schema:
+            type: number
+          required: false
+          description: The Maximum Price of an Apartment
+        - in: query
+          name: bedroom_min
+          schema:
+            type: number
+          required: false
+          description: The Minimum number of Bedroom of an Apartment
+        - in: query
+          name: bedroom_max
+          schema:
+            type: number
+          required: false
+          description: The Maximum number of Bedroom of an Apartment
+        - in: query
+          name: parking_min
+          schema:
+            type: number
+          required: false
+          description: The Minimum number of Parking slot of an Apartment
+        - in: query
+          name: parking_max
+          schema:
+            type: number
+          required: false
+          description: The Maximum number of Parking slot of an Apartment
+        - in: query
+          name: bathroom_min
+          schema:
+            type: number
+          required: false
+          description: The Minimum number of Bathroom of an Apartment
+        - in: query
+          name: bathroom_max
+          schema:
+            type: number
+          required: false
+          description: The Maximum number of Bathroom of an Apartment
+
       responses:
         "200":
           description: OK
@@ -42,7 +85,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/getApartmentsResponse"
-
 components:
   schemas:
     getApartmentsResponse:
@@ -58,16 +100,33 @@ components:
             description: The description of the apartment.
           floor_count:
             type: string
-            description: The Floor count of the apartment.
+            description: The Floor count of the apartment's building.
           address:
             type: string
             description: The Full address of the apartment.
-          suburbs:
-            type: string
-            description: The Suburb and State Code of the apartment.
           suburb:
             type: string
-            description: The Suburb and State of the apartment.
+            description: The Suburb of the apartment.
           state:
             type: string
-            description: The Suburb and State of the apartment.
+            description: The State of the apartment.
+          url:
+            type: string
+            description: The Website URL of the apartment.
+          apartments:
+            type: array
+            items:
+              type: object
+              properties:
+                bedrooms:
+                  type: string
+                  description: The Number of Bedrooms of the apartment.
+                bathrooms:
+                  type: string
+                  description: The Number of Bathrooms of the apartment.
+                parking:
+                  type: string
+                  description: The Number of Parking slot of the apartment.
+                price:
+                  type: string
+                  description: The Price of the apartment.

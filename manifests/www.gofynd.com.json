@@ -2,6 +2,7 @@
   "schema_version": "v1",
   "name_for_human": "GoFynd",
   "name_for_model": "gofynd",
+  "description_for_human": "Elevate your shopping experience with GoFynd.",
   "description_for_model": "This tool enables you to search for products, manage your cart, and display QR code for easy cart sharing within GoFynd's marketplace. undefined",
   "auth": {
     "type": "none"

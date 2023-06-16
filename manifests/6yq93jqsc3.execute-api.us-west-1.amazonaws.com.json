@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "FreshTech",
+  "name_for_model": "FreshTech",
+  "description_for_human": "Fetches and presents the latest tech documentation content.",
+  "description_for_model": "This plugin is designed to fetch and present the most recent documentation data from specified source. It can be used to retrieve updated documentation for various software, libraries, or APIs. The plugin works by making a request to the documentation source, parsing the data, and then formatting it for display. To use this plugin effectively, consider specifying the type of documentation you're looking for and the source. For example, you could ask for 'latest Python documentation' or 'updated ReactJS API documentation'. The plugin will then fetch the relevant data and present it in a readable format. Please note that the length of the documentation data returned can vary significantly depending on the source and the specific request. Some documentation might be quite brief, while others could be very detailed and lengthy. Therefore, it's important to consider the context length when using this plugin. If the documentation data is too long, it might exceed the token limit for a single response. In such cases, you might need to ask for a specific part of the documentation or use follow-up prompts to view the rest of the data. Remember, the goal of this plugin is to provide you with the most recent and relevant documentation data. So, make sure to specify your requests clearly to get the best results",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "is_user_authenticated": false,
+    "url": "https://6yq93jqsc3.execute-api.us-west-1.amazonaws.com/.well-known/openapi.yaml"
+  },
+  "contact_email": "thalesmdavila@gmail.com",
+  "legal_info_url": "https://www.freeprivacypolicy.com/live/3237ad68-f549-4fdb-b05f-cdd68cd75d66",
+  "logo_url": "https://6yq93jqsc3.execute-api.us-west-1.amazonaws.com/.well-known/logo.png"
+}

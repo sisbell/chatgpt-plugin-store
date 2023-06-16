@@ -105,9 +105,11 @@ components:
         departureDate:
           title: departureDate
           type: string
+          description: The format of the field should be yyyy-MM-dd
         returnDate:
           title: returnDate
           type: string
+          description: The format of the field should be yyyy-MM-dd
         locale:
           title: locale
           type: string
@@ -246,9 +248,11 @@ components:
         checkIn:
           title: checkIn
           type: date
+          description: The format of the field should be yyyy-MM-dd
         checkOut:
           title: checkOut
           type: date
+          description: The format of the field should be yyyy-MM-dd
         starList:
           title: starList
           description: |
@@ -554,6 +558,7 @@ components:
         checkIn:
           title: checkIn
           type: date
+          description: The format of the field should be yyyy-MM-dd
         days:
           title: days
           type: int

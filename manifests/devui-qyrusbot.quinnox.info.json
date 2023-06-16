@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "QyrusTestPilot",
+  "name_for_model": "QyrusTestPilot",
+  "description_for_human": "You can test your webapp without writing a single line of code by just giving the URL",
+  "description_for_model": "You can test your webapp without writing a single line of code by just giving the URL",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://devui-qyrusbot.quinnox.info/openapi.yaml"
+  },
+  "logo_url": "https://devui-qyrusbot.quinnox.info/logo.png",
+  "contact_email": "support@qyrus.com",
+  "legal_info_url": "https://www.qyrus.com/privacy-policy/"
+}

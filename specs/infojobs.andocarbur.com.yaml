@@ -1,0 +1,137 @@
+openapi: 3.0.1
+
+info:
+  title: Search jobs in InfoJobs using ChatGPT
+  version: 1.0.0
+  description: Search jobs in InfoJobs using ChatGPT
+
+paths:
+  /search:
+    get:
+      summary: Search Infojobs Job positions using a query
+      operationId: searchjobs
+      tags:
+        - infojobs
+      parameters:
+        - in: query
+          name: maxResults
+          required: false
+          description: Maximum number of results to return. Default and minimum value is 3.
+          schema:
+            type: integer
+            default: 3
+            minimum: 3
+        - in: query
+          name: keywords
+          required: false
+          description: Summarize the description with maximum 4 precise and concrete keywords without including geographic names. Keywords should be separated by an asterisk without spaces or the Spanish articles 'de', 'el', 'la'. Don't fill this field if you want to search for all job positions.
+          schema:
+            type: string
+            pattern: '^([^\s]*\*?){0,4}$'
+        - in: query
+          name: cities
+          required: false
+          description: List of cities for job search Input as an array of strings
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: category
+          required: false
+          description: Choose a value from the category list based on your judgment and the user's input text. Don't fill this field if you want to search for all job categories.
+          schema:
+            type: string
+            enum:
+              - administracion-publica
+              - administracion-empresas
+              - atencion-a-cliente
+              - calidad-produccion-id
+              - comercial-ventas
+              - compras-logistica-almacen
+              - diseno-artes-graficas
+              - educacion-formacion
+              - finanzas-banca
+              - informatica-telecomunicaciones
+              - ingenieros-tecnicos
+              - inmobiliario-construccion
+              - legal
+              - marketing-comunicacion
+              - profesiones-artes-oficios
+              - recursos-humanos
+              - sanidad-salud
+              - sector-farmaceutico
+              - turismo-restauracion
+              - venta-detalle
+              - otros
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  repos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/JobPosition'
+
+components:
+  schemas:
+    JobPosition:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique ID of the job offer
+        title:
+          type: string
+          description: Title of the job position
+        city:
+          type: string
+          description: City where the job is located
+        province:
+          type: string
+          description: Province where the job is located
+        experienceMin:
+          type: string
+          description: Minimum experience required for the job
+        category:
+          type: string
+          description: Category of the job
+        subcategory:
+          type: string
+          description: Subcategory of the job
+        country:
+          type: string
+          description: Country where the job is located
+        teleworking:
+          type: string
+          description: Indicates if the job offers teleworking options
+        companyName:
+          type: string
+          description: Name of the company offering the job
+        companyDescription:
+          type: string
+          description: Description of the company
+        description:
+          type: string
+          description: Description of the job position
+        maxPay:
+          type: string
+          description: Maximum salary for the job
+        minPay:
+          type: string
+          description: Minimum salary for the job
+        salaryDescription:
+          type: string
+          description: Description of the salary
+        link:
+          type: string
+          description: Link to the job offer
+        skills:
+          type: array
+          items:
+            type: string
+            description: Skills required for the job

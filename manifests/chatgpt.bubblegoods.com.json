@@ -1,0 +1,18 @@
+{
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://chatgpt.bubblegoods.com/openapi.yaml"
+  },
+  "auth": {
+    "type": "none"
+  },
+  "contact_email": "help@bubblegoods.com",
+  "description_for_human": "Marketplace of 1000+ tasty & healthy foods. Discover new Vegan, Keto, Gluten-Free products & more.",
+  "description_for_model": "Access Bubble Good's hand-curated, taste-tested product index of healthy foods with no refined sugars, preservatives, fillers or dyes. Bubble Goods has the highest and strictest ingredient requirements in the food industry. Our mission is to empower small, independent food makers across the United States by expanding their consumer audience and providing a platform that offers more opportunities to deliver delicious, high quality goods.",
+  "legal_info_url": "https://bubblegoods.com/pages/terms-conditions",
+  "logo_url": "https://chatgpt.bubblegoods.com/static/logo.png",
+  "name_for_human": "Bubble Goods",
+  "name_for_model": "BubbleGoods",
+  "schema_version": "v1"
+}

@@ -1,0 +1,514 @@
+openapi: 3.0.3
+
+info:
+  title: AndorraGPT
+  version: 1.0.0
+  description: AndorraGPT API
+
+paths:
+  /news:
+    get:
+      summary: Find and retrieve specific news items based on a search query and date
+      operationId: findNews
+      description: |
+        This endpoint allows users to search for specific news items using a search query and date. The query and date are
+        provided as parameters, and the API returns a list of items that match the query and were published on the given date.
+      parameters:
+        - in: query
+          name: q
+          description: >-
+            The search query to use for finding specific news items. Use double quotes
+            for an exact match (e.g., "eric risco"). Prepend a word with '-' to exclude it
+            from the search (e.g., "eric -risco"). Use '|' for OR and '&' for AND conditions
+            (e.g., "eric | risco", "eric & risco").
+            This text must be in Catalan, translate it from whatever language you want to use. Delete all Catalan articles de, el, la, l', les, d', una, unes, uns, and the preposition a. 
+          schema:
+            type: string
+        - in: query
+          name: date_init
+          description: The initial date of the range to use for finding specific news items
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: date_final
+          description: The final date of the range to use for finding specific news items
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: take
+          description: The number of items to take from the search results
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Successful retrieval of news items matching the search query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NewsItem'
+        '500':
+          description: An error occurred on the server while processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /incidences:
+    get:
+      summary: Retrieve real-time traffic incidences on Andorran roads
+      operationId: getIncidences
+      description: |
+        This endpoint allows users to retrieve real-time traffic incidences on Andorran roads. No parameters are
+        needed, and the API returns a list of incidents.
+      responses:
+        '200':
+          description: Successful retrieval of traffic incidences
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Incidence'
+        '500':
+          description: An error occurred on the server while processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /fuels/prices/today:
+    get:
+      summary: Retrieve real-time fuel prices in Andorra
+      operationId: getGasPrices
+      description: |
+        This endpoint allows users to retrieve real-time fuel prices in Andorra. No parameters are needed, and the API returns a list of fuel prices of today and yesterday.
+      responses:
+        '200':
+          description: Successful retrieval of fuel prices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FuelPrices'
+        '500':
+          description: An error occurred on the server while processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /pisos:
+    get:
+      summary: Search for apartments based on specified parameters
+      operationId: getPisos
+      description: |
+        This endpoint allows users to search for apartments based on specific parameters, pulling information from the pisos.ad website.
+      parameters:
+        - in: query
+          name: provincia
+          schema:
+            type: string
+          description: |
+            The province (parish) where to search for apartments. Expected values are "andorra-la-vella", "escaldes-engordany",
+            "sant-julia-de-loria", "la-massana", "encamp", "ordino", "canillo", or an empty string. These values correspond to the
+            parishes of Andorra, so they will need to be transformed into one of these values. If the user does not specify any particular
+            parish, the field should be sent empty.
+          examples:
+            andorra-la-vella:
+              summary: Search in Andorra la Vella
+              value: andorra-la-vella
+            escaldes-engordany:
+              summary: Search in Escaldes-Engordany
+              value: escaldes-engordany
+            sant-julia-de-loria:
+              summary: Search in Sant Julià de Lòria
+              value: sant-julia-de-loria
+            la-massana:
+              summary: Search in La Massana
+              value: la-massana
+            encamp:
+              summary: Search in Encamp
+              value: encamp
+            ordino:
+              summary: Search in Ordino
+              value: ordino
+            canillo:
+              summary: Search in Canillo
+              value: canillo
+            none:
+              summary: Search in all parishes
+              value: ''
+        - in: query
+          name: operacio
+          schema:
+            type: string
+          description: |
+            The operation to be carried out. For example, "venda". This corresponds to the possible operations allowed on the website. If the user does not request a specific operation, the field should be sent as "venda-i-lloguer". The expected values are "venda-i-lloguer", "venda", and "lloguer". If a different value is provided, it will be transformed into one of these.
+          examples:
+            example1:
+              value: 'venda'
+              summary: Sale operation
+            example2:
+              value: 'lloguer'
+              summary: Rent operation
+            example3:
+              value: 'venda-i-lloguer'
+              summary: Sale or rent operation
+        - in: query
+          name: tipus
+          schema:
+            type: string
+          description: |
+            The type of property. The expected values are the lower-case text from the website's select options,
+            replacing spaces with dashes (for example, "nau-industrial" for Nau Industrial).
+            Available types include: "tots-els-tipus", "pisos", "cases", "local-comercial",
+            "terreny", "aparcament", "traster", "nau-industrial", "despatx", "edifici", "altres".
+            If the user does not specify a property type, the value should be "tots-els-tipus".
+          example: 'nau-industrial'
+        - in: query
+          name: minHabitacions
+          schema:
+            type: integer
+            example: 2
+          description: The minimum number of bedrooms. Values can range from 0 to 6, where 0 indicates that the user did not specify the minimum number of bedrooms.
+        - in: query
+          name: maxHabitacions
+          schema:
+            type: integer
+            example: 4
+          description: The maximum number of bedrooms. Values can range from 0 to 6, where 0 indicates that the user did not specify the maximum number of bedrooms.
+        - in: query
+          name: preuMin
+          schema:
+            type: integer
+          description: |
+            The minimum price for the property. This is a user-defined parameter, which can be any integer from 0 to infinity. For example, if you are looking for properties that cost at least 100,000, you would set this parameter to 100000.
+        - in: query
+          name: preuMax
+          schema:
+            type: integer
+          description: |
+            The maximum price for the property. This is also a user-defined parameter and can be any integer from 0 to infinity. For example, if you are looking for properties that cost no more than 500,000, you would set this parameter to 500000.
+        - in: query
+          name: caracteristiques
+          schema:
+            type: string
+          description: |
+            The additional features required in the apartments. Each feature corresponds to a specific value. The user can provide these values in the query to filter the apartments according to their preferences. Here are the possible values:
+            - "Calefacció" (Heating): 36
+            - "Pàrquing" (Parking): 34
+            - "Traster" (Storage Room): 8
+            - "Piscina" (Pool): 35
+            - "Ascensor" (Elevator): 6
+            - "Terrassa" (Terrace): 2
+            - "Balcó" (Balcony): 33
+            - "Jardí" (Garden): 11
+            For example, to search for apartments with heating and a pool, the query parameter would be `caracteristiques=36,35`.
+      responses:
+        '200':
+          description: Successful search for apartments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: Title of the apartment
+                    url:
+                      type: string
+                      description: URL formed from the input parameters
+                    price:
+                      type: string
+                      description: Monthly rental price of the apartment
+                    squareMeters:
+                      type: string
+                      description: Size of the apartment in square meters
+                    rooms:
+                      type: string
+                      description: Number of rooms in the apartment
+                    bathrooms:
+                      type: string
+                      description: Number of bathrooms in the apartment
+                    image:
+                      type: string
+                      description: URL of the apartment's image
+        '500':
+          description: An error occurred on the server while processing the request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+
+  /infojobs:
+    get:
+      summary: Search Infojobs Job positions using a query
+      operationId: searchjobs
+      tags:
+        - infojobs
+      parameters:
+        - in: query
+          name: maxResults
+          required: false
+          description: Maximum number of results to return. Default and minimum value is 3. Dont fill this field if you want to search for all job positions.
+          schema:
+            type: integer
+            default: 3
+            minimum: 3
+        - in: query
+          name: keywords
+          required: false
+          description: Summarize the description with maximum 4 precise and concrete keywords without including geographic names. Keywords should be separated by an asterisk without spaces or the Spanish articles 'de', 'el', 'la'. Don't fill this field if you want to search for all job positions.
+          schema:
+            type: string
+            pattern: '^([^\s]*\*?){0,4}$'
+        - in: query
+          name: category
+          required: false
+          description: Choose a value from the category list based on your judgment and the user's input text. Don't fill this field if you want to search for all job categories.
+          schema:
+            type: string
+            enum:
+              - administracion-publica
+              - administracion-empresas
+              - atencion-a-cliente
+              - calidad-produccion-id
+              - comercial-ventas
+              - compras-logistica-almacen
+              - diseno-artes-graficas
+              - educacion-formacion
+              - finanzas-banca
+              - informatica-telecomunicaciones
+              - ingenieros-tecnicos
+              - inmobiliario-construccion
+              - legal
+              - marketing-comunicacion
+              - profesiones-artes-oficios
+              - recursos-humanos
+              - sanidad-salud
+              - sector-farmaceutico
+              - turismo-restauracion
+              - venta-detalle
+              - otros
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  repos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/JobPosition'
+        '500':
+          description: An error occurred on the server while processing the request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+
+components:
+  schemas:
+    NewsItem:
+      type: object
+      description: |
+        A NewsItem represents a single news or sports-related article. This schema includes properties for
+        the identifier, URL, version field, date, description, image, source, and title of the item.
+      properties:
+        _id:
+          type: string
+          description: The unique identifier of the news item
+        url:
+          type: string
+          description: The URL where the full news article can be read
+        __v:
+          type: integer
+          description: The version field of the news item
+        date:
+          type: string
+          description: The date and time when the news item was published, represented in ISO 8601 format
+          format: date-time
+        description:
+          type: string
+          description: A brief summary of the news item
+        image:
+          type: string
+          description: The URL of an image associated with the news item
+        source:
+          type: string
+          description: The source where the news item originated
+        title:
+          type: string
+          description: The title of the news item
+    Incidence:
+      type: object
+      description: |
+        An Incidence represents a single traffic incident on Andorran roads. This schema includes properties for the
+        id, category, title, initial and final date, importance, GPS availability, coordinates, image, and icon of the incident.
+      properties:
+        id:
+          type: integer
+          description: The unique identifier of the traffic incident
+        category:
+          type: string
+          description: The category of the traffic incident
+        title:
+          type: string
+          description: A description of the traffic incident
+        init_date:
+          type: string
+          description: The date and time when the traffic incident began, represented in ISO 8601 format
+          format: date-time
+        final_date:
+          type: string
+          description: The date and time when the traffic incident is expected to end, represented in ISO 8601 format
+          format: date-time
+        important:
+          type: boolean
+          description: Indicates whether the traffic incident is considered important
+        has_gps:
+          type: boolean
+          description: Indicates whether the traffic incident has GPS coordinates available
+        lat:
+          type: string
+          description: The latitude of the traffic incident
+        lng:
+          type: string
+          description: The longitude of the traffic incident
+        image:
+          type: string
+          description: The URL of an image associated with the traffic incident
+        icon:
+          type: string
+          description: The URL of an icon associated with the traffic incident
+    FuelPrices:
+      type: object
+      description: |
+        A FuelPrice represents a single entry of fuel price data in Andorra. This schema includes properties for
+        the date, fuel type, station location and details, price, and previous day's price.
+      properties:
+        date:
+          type: string
+          description: The date when the fuel price was recorded, represented in ISO 8601 format
+          format: date-time
+        fuel:
+          type: object
+          description: The fuel type for which the price has been recorded
+          properties:
+            id:
+              type: string
+              description: The unique identifier of the fuel type
+            name:
+              type: string
+              description: The name of the fuel type
+        station:
+          type: object
+          description: The station where the fuel price was recorded
+          properties:
+            id:
+              type: string
+              description: The unique identifier of the station
+            lat:
+              type: number
+              format: float
+              description: The latitude coordinate of the station
+            lng:
+              type: number
+              format: float
+              description: The longitude coordinate of the station
+            name:
+              type: string
+              description: The name of the station
+        parroquia:
+          type: string
+          description: The parish where the station is located
+        price:
+          type: string
+          description: The recorded price of the fuel
+        yesterday_price:
+          type: string
+          description: The recorded price of the fuel on the previous day
+
+    JobPosition:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique ID of the job offer
+        title:
+          type: string
+          description: Title of the job position
+        city:
+          type: string
+          description: City where the job is located
+        province:
+          type: string
+          description: Province where the job is located
+        experienceMin:
+          type: string
+          description: Minimum experience required for the job
+        category:
+          type: string
+          description: Category of the job
+        subcategory:
+          type: string
+          description: Subcategory of the job
+        country:
+          type: string
+          description: Country where the job is located
+        teleworking:
+          type: string
+          description: Indicates if the job offers teleworking options
+        companyName:
+          type: string
+          description: Name of the company offering the job
+        companyDescription:
+          type: string
+          description: Description of the company
+        description:
+          type: string
+          description: Description of the job position
+        maxPay:
+          type: string
+          description: Maximum salary for the job
+        minPay:
+          type: string
+          description: Minimum salary for the job
+        salaryDescription:
+          type: string
+          description: Description of the salary
+        link:
+          type: string
+          description: Link to the job offer
+        skills:
+          type: array
+          items:
+            type: string
+          description: Skills required for the job                    
+        Error:
+          type: object
+          description: |
+            An Error object represents an error that occurred on the server while processing a request. This schema can be
+            expanded with more properties as needed to provide more details about the error.
+          properties:
+            error:
+              type: string
+              description: Error message

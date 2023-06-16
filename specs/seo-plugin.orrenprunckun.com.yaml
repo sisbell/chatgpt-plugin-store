@@ -89,4 +89,10 @@ components:
           description: Name of image file tally           
         imageAltTally:
           type: string
-          description: Alt text of image tally   
+          description: Alt text of image tally  
+        protocol:
+          type: string
+          description: HTTPS or HTTP protocol being used
+        viewport:
+          type: string
+          description: Viewport of initial-scale=1.0 being used

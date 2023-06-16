@@ -1,0 +1,261 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "CeylonAI:pixellow",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://pixellow.ceylon.ai"
+    }
+  ],
+  "paths": {
+    "/api/image/text/query/": {
+      "get": {
+        "tags": [
+          "Api",
+          "Image Query"
+        ],
+        "summary": "Ask Question About Image",
+        "description": "The Image Query API uses an image URL and user's query to analyze and answer questions about an image.\nIdeal for AI research, content management, and boosting user engagement.",
+        "operationId": "ask_question_about_image_api_image_text_query__get",
+        "parameters": [
+          {
+            "description": "Enter the full URL of the image you wish to query. Ensure the URL's accuracy for an optimal response.",
+            "required": false,
+            "schema": {
+              "title": "image_url",
+              "minLength": 5,
+              "type": "string",
+              "description": "Enter the full URL of the image you wish to query. Ensure the URL's accuracy for an optimal response."
+            },
+            "name": "image_url",
+            "in": "query"
+          },
+          {
+            "description": "Mandatory field. To get a detailed image analysis, ask multiple questions focusing on diverse aspects. For instance, 'What color is the car? Is anyone inside? What model is it?' This approach yields a comprehensive image understanding.",
+            "required": false,
+            "schema": {
+              "title": "questions",
+              "minLength": 5,
+              "type": "array",
+              "items": {
+                "minLength": 5,
+                "type": "string"
+              },
+              "description": "Mandatory field. To get a detailed image analysis, ask multiple questions focusing on diverse aspects. For instance, 'What color is the car? Is anyone inside? What model is it?' This approach yields a comprehensive image understanding."
+            },
+            "name": "questions",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "418": {
+            "description": "Query Image by asking questions"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/image/text/description/": {
+      "get": {
+        "tags": [
+          "Api",
+          "Image Description"
+        ],
+        "summary": "Create Description About Image",
+        "description": "The Image Description API generates detailed descriptions for given images. By inputting an image URL,\nusers can obtain a comprehensive textual analysis of the image content.\nIt's an invaluable tool for tasks such as content management, accessibility improvement, and AI training.",
+        "operationId": "create_description_about_image_api_image_text_description__get",
+        "parameters": [
+          {
+            "description": "Please provide the complete URL of the image you wish to describe. Ensure the URL is accurate for optimal description generation.",
+            "required": false,
+            "schema": {
+              "title": "image_url",
+              "minLength": 5,
+              "type": "string",
+              "description": "Please provide the complete URL of the image you wish to describe. Ensure the URL is accurate for optimal description generation."
+            },
+            "name": "image_url",
+            "in": "query"
+          },
+          {
+            "description": "Supply a guiding text to influence the generation of the image description. This will guide the context and focus of the generated description.",
+            "required": false,
+            "schema": {
+              "title": "guide_text",
+              "type": "string",
+              "description": "Supply a guiding text to influence the generation of the image description. This will guide the context and focus of the generated description."
+            },
+            "name": "guide_text",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "418": {
+            "description": "Generate description from given image"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/select/detect-objects/": {
+      "get": {
+        "tags": [
+          "Api",
+          "Image Detect Objects"
+        ],
+        "summary": "Identify Objects In Image",
+        "description": "This API allows users to input an image URL and returns a list of detected objects in the image along with\n their respective positions represented as bounding boxes.",
+        "operationId": "identify_objects_in_image_api_select_detect_objects__get",
+        "parameters": [
+          {
+            "description": "Please provide the full URL of the image you want to ask a question about. Make sure the URL is complete and accurate to ensure the best response.",
+            "required": false,
+            "schema": {
+              "title": "image_url",
+              "minLength": 5,
+              "type": "string",
+              "description": "Please provide the full URL of the image you want to ask a question about. Make sure the URL is complete and accurate to ensure the best response."
+            },
+            "name": "image_url",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "418": {
+            "description": "Object detection"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "token"
+          }
+        }
+      }
+    }
+  }
+}

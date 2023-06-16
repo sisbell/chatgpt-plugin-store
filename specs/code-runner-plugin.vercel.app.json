@@ -1,0 +1,224 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Code Runner",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://code-runner-plugin.vercel.app",
+      "description": "Hosted server"
+    }
+  ],
+  "paths": {
+    "/run_code": {
+      "post": {
+        "summary": "Run code",
+        "operationId": "runCode",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Code"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Code output"
+          }
+        }
+      }
+    },
+    "/save_code": {
+      "post": {
+        "summary": "Save code",
+        "operationId": "saveCode",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CodeFile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Code saved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "download_link": {
+                      "type": "string",
+                      "example": "/download/hello_world.cpp"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/download/{filename}": {
+      "get": {
+        "summary": "Download file",
+        "operationId": "downloadFile",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "hello_world.cpp"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File downloaded"
+          }
+        }
+      }
+    },
+    "/help": {
+      "get": {
+        "summary": "Help",
+        "operationId": "help",
+        "responses": {
+          "200": {
+            "description": "Help",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/credit_limit": {
+      "get": {
+        "summary": "Get Credits limit",
+        "operationId": "creditLimit",
+        "responses": {
+          "200": {
+            "description": "Credits limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload": {
+      "post": {
+        "summary": "Upload file with filename and data",
+        "operationId": "uploadFile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded and saved in database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "download_link": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FileData": {
+        "type": "object",
+        "required": [
+          "filename",
+          "data"
+        ],
+        "properties": {
+          "filename": {
+            "type": "string",
+            "example": "test.csv"
+          },
+          "data": {
+            "type": "string",
+            "example": "this is some data"
+          }
+        }
+      },
+      "Code": {
+        "type": "object",
+        "required": [
+          "code",
+          "language"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "print('Hello, World!')"
+          },
+          "language": {
+            "type": "string",
+            "example": "python3"
+          },
+          "input": {
+            "type": "string",
+            "example": "50"
+          },
+          "compileOnly": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "CodeFile": {
+        "type": "object",
+        "required": [
+          "filename",
+          "code"
+        ],
+        "properties": {
+          "filename": {
+            "type": "string",
+            "example": "hello_world.cpp"
+          },
+          "code": {
+            "type": "string",
+            "example": "print('Hello, World!')"
+          }
+        }
+      }
+    }
+  }
+}

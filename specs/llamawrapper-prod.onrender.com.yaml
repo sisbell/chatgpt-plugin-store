@@ -64,7 +64,7 @@ paths:
               format: float
               example: 1000000
             required: false
-            description: The minimum TVL that a protocol should have to be included. Defaults to 0.
+            description: The minimum TVL that a protocol should have to be included. Defaults to 100000.
           - in: query
             name: time_period
             schema:
@@ -113,16 +113,23 @@ paths:
               example: liquid staking
             required: false
             description: Category to filter protocols by.
+          - name: chain
+            in: query
+            description: Name of the chain or L2 to filter protocols by.
+            required: false
+            schema:
+              type: string
+              example: ethereum
         responses:
           '200':
             description: OK
           '500':
             description: Error processing data or Could not retrieve protocols.            
 
-    /top_losers/{num_protocols}:
+    /top_growers/{num_protocols}:
       get:
-        operationId: getTopLosers
-        summary: Get the protocols that lost the most TVl.
+        operationId: getTopGrowers
+        summary: Get the protocols that had the highest percentage growth in TVL.
         parameters:
           - in: path
             name: num_protocols
@@ -138,7 +145,7 @@ paths:
               format: float
               example: 1000000
             required: false
-            description: The minimum TVL that a protocol should have to be included. Defaults to 0.
+            description: The minimum TVL that a protocol should have to be included. Defaults to 100000.
           - in: query
             name: time_period
             schema:
@@ -186,12 +193,181 @@ paths:
                 - "oracle"              
               example: liquid staking
             required: false
-            description: Category to filter protocols by.            
+            description: Category to filter protocols by.
+          - name: chain
+            in: query
+            description: Name of the chain or L2 to filter protocols by.
+            required: false
+            schema:
+              type: string
+              example: ethereum            
         responses:
           '200':
             description: OK
           '500':
-            description: Error processing data or Could not retrieve protocols.               
+            description: Error processing data or Could not retrieve protocols.      
+            
+    /top_losers/{num_protocols}:
+      get:
+        operationId: getTopLosers
+        summary: Get the protocols that lost the most TVl.
+        parameters:
+          - in: path
+            name: num_protocols
+            schema:
+              type: integer
+              example: 10
+            required: true
+            description: The number of top gainers you want to see. Default to 10.
+          - in: query
+            name: min_tvl
+            schema:
+              type: number
+              format: float
+              example: 1000000
+            required: false
+            description: The minimum TVL that a protocol should have to be included. Defaults to 100000.
+          - in: query
+            name: time_period
+            schema:
+              type: string
+              enum: ['hour', 'day', 'week']
+              example: 'day'
+            required: false
+            description: The time period in which the change occured. Can be 'hour', 'day', or 'week'. Defaults to 'week'.
+          - in: query
+            name: category
+            schema:
+              type: string
+              enum: 
+                - "liquid staking"
+                - "dexes"
+                - "lending"
+                - "bridge"
+                - "CDP"
+                - "yield"
+                - "services"
+                - "derivatives"
+                - "yield aggregator"
+                - "cross chain"
+                - "launchpad"
+                - "indexes"
+                - "synthetics"
+                - "RWA"
+                - "liquidity manager"
+                - "nft lending"
+                - "insurance"
+                - "algo-stables"
+                - "privacy"
+                - "payments"
+                - "leveraged farming"
+                - "nft marketplace"
+                - "options"
+                - "options vault"
+                - "staking pool"
+                - "prediction market"
+                - "farm"
+                - "uncollateralized lending"
+                - "reserve currency"
+                - "RWA lending"
+                - "gaming"
+                - "oracle"              
+              example: liquid staking
+            required: false
+            description: Category to filter protocols by.
+          - name: chain
+            in: query
+            description: Name of the chain or L2 to filter protocols by.
+            required: false
+            schema:
+              type: string
+              example: ethereum            
+        responses:
+          '200':
+            description: OK
+          '500':
+            description: Error processing data or Could not retrieve protocols.  
+
+    /top_shrinkers/{num_protocols}:
+      get:
+        operationId: getTopShrinkers
+        summary: Get the protocols that had the highest percentage loss in terms of TVl.
+        parameters:
+          - in: path
+            name: num_protocols
+            schema:
+              type: integer
+              example: 10
+            required: true
+            description: The number of top gainers you want to see. Default to 10.
+          - in: query
+            name: min_tvl
+            schema:
+              type: number
+              format: float
+              example: 1000000
+            required: false
+            description: The minimum TVL that a protocol should have to be included. Defaults to 100000.
+          - in: query
+            name: time_period
+            schema:
+              type: string
+              enum: ['hour', 'day', 'week']
+              example: 'day'
+            required: false
+            description: The time period in which the change occured. Can be 'hour', 'day', or 'week'. Defaults to 'week'.
+          - in: query
+            name: category
+            schema:
+              type: string
+              enum: 
+                - "liquid staking"
+                - "dexes"
+                - "lending"
+                - "bridge"
+                - "CDP"
+                - "yield"
+                - "services"
+                - "derivatives"
+                - "yield aggregator"
+                - "cross chain"
+                - "launchpad"
+                - "indexes"
+                - "synthetics"
+                - "RWA"
+                - "liquidity manager"
+                - "nft lending"
+                - "insurance"
+                - "algo-stables"
+                - "privacy"
+                - "payments"
+                - "leveraged farming"
+                - "nft marketplace"
+                - "options"
+                - "options vault"
+                - "staking pool"
+                - "prediction market"
+                - "farm"
+                - "uncollateralized lending"
+                - "reserve currency"
+                - "RWA lending"
+                - "gaming"
+                - "oracle"              
+              example: liquid staking
+            required: false
+            description: Category to filter protocols by. 
+          - name: chain
+            in: query
+            description: Name of the chain or L2 to filter protocols by.
+            required: false
+            schema:
+              type: string
+              example: ethereum            
+        responses:
+          '200':
+            description: OK
+          '500':
+            description: Error processing data or Could not retrieve protocols.            
 
     /historical_protocol_tvl/{slug}:
       get:
@@ -279,7 +455,7 @@ paths:
               enum: ["day", "week", "month"]
           - name: chain
             in: query
-            description: Name of the blockchain to filter protocol fees by.
+            description: Name of the blockchain or L2 to filter protocol fees by.
             required: false
             schema:
               type: string
@@ -399,7 +575,7 @@ paths:
               enum: ["day", "week", "month"]
           - name: chain
             in: query
-            description: Name of the blockchain to filter protocol revenue by.
+            description: Name of the blockchain or L2 to filter protocol revenue by.
             required: false
             schema:
               type: string
@@ -458,7 +634,7 @@ paths:
         parameters:
           - name: chain
             in: query
-            description: Name of the chain to retrieve TVL for.
+            description: Name of the chain or L2 to retrieve TVL for.
             required: false
             schema:
               type: string
@@ -478,7 +654,7 @@ paths:
         parameters:
           - name: chain
             in: query
-            description: Name of the chain to retrieve TVL change for.
+            description: Name of the chain or L2 to retrieve TVL change for.
             required: true
             schema:
               type: string
@@ -506,7 +682,7 @@ paths:
         parameters:
           - name: chain
             in: query
-            description: Name of the chain to retrieve net bridge flow for.
+            description: Name of the chain or L2 to retrieve net bridge flow for.
             required: true
             schema:
               type: string
@@ -559,7 +735,7 @@ paths:
               default: 10
           - name: chain
             in: query
-            description: Name of the chain to filter pools by.
+            description: Name of the chain or L2 to filter pools by.
             required: false
             schema:
               type: string
@@ -605,6 +781,14 @@ paths:
         responses:
           '200':
             description: OK
+
+    /get_feedback_form:
+      get:
+        operationId: getFeedbackForm
+        summary: Get link to a form where you can give feedback on the plugin.
+        responses:
+          '200':
+            description: OK            
             
     /top_chain_gainers:
       get:
@@ -623,7 +807,7 @@ paths:
             schema:
               type: number
               format: float
-              example: 10000
+              example: 1000000
             required: false
             description: The minimum TVL that a chain should have to be included. Defaults to 10000.
           - in: query
@@ -638,8 +822,42 @@ paths:
           '200':
             description: A list of the top chain gainers.
           '400':
-            description: Invalid time period provided            
+            description: Invalid time period provided      
 
+    /top_chain_growers:
+      get:
+        operationId: getTopChainGrowers
+        summary: Get the chains that have the highest percentage growth in TVL
+        parameters:
+          - in: query
+            name: num_chains
+            schema:
+              type: integer
+              example: 5
+            required: false
+            description: The number of top gainers you want to see. Defaults to 5.
+          - in: query
+            name: min_tvl
+            schema:
+              type: number
+              format: float
+              example: 1000000
+            required: false
+            description: The minimum TVL that a chain should have to be included. Defaults to 10000.
+          - in: query
+            name: time_period
+            schema:
+              type: string
+              enum: ['day', 'week', 'month']
+              example: 'week'
+            required: false
+            description: The time period in which the change occurred. Can be 'day', 'week', or 'month'. Defaults to 'week'.
+        responses:
+          '200':
+            description: A list of the top chain gainers.
+          '400':
+            description: Invalid time period provided             
+            
     /top_chain_losers:
       get:
         operationId: getTopChainLosers
@@ -657,7 +875,7 @@ paths:
             schema:
               type: number
               format: float
-              example: 10000
+              example: 1000000
             required: false
             description: The minimum TVL that a chain should have to be included. Defaults to 10000.
           - in: query
@@ -672,7 +890,41 @@ paths:
           '200':
             description: A list of the top chain losers.
           '400':
-            description: Invalid time period provided       
+            description: Invalid time period provided 
+
+    /top_chain_shrinkers:
+      get:
+        operationId: getTopChainLosers
+        summary: Get the chains that the highest percentage loss in TVL.
+        parameters:
+          - in: query
+            name: num_chains
+            schema:
+              type: integer
+              example: 5
+            required: false
+            description: The number of top losers you want to see. Defaults to 5.
+          - in: query
+            name: min_tvl
+            schema:
+              type: number
+              format: float
+              example: 1000000
+            required: false
+            description: The minimum TVL that a chain should have to be included. Defaults to 10000.
+          - in: query
+            name: time_period
+            schema:
+              type: string
+              enum: ['day', 'week', 'month']
+              example: 'week'
+            required: false
+            description: The time period in which the change occurred. Can be 'day', 'week', or 'month'. Defaults to 'week'.
+        responses:
+          '200':
+            description: A list of the top chain losers.
+          '400':
+            description: Invalid time period provided 
             
     /get_interesting:
       get:

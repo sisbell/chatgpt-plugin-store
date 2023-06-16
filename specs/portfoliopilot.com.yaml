@@ -214,8 +214,6 @@ paths:
                     A: 5000
                   - T: VTI
                     A: 4000
-                  - T: VWO
-                    A: 3000
                   - T: CUR:USD
                     A: 2000
       responses:
@@ -248,8 +246,6 @@ paths:
                 portfolio:
                   - T: AAPL
                     A: 5000
-                  - T: VTI
-                    A: 4000
                   - T: VWO
                     A: 3000
                   - T: CUR:USD
@@ -284,8 +280,6 @@ paths:
                     A: 5000
                   - T: VTI
                     A: 4000
-                  - T: VWO
-                    A: 3000
                   - T: CUR:USD
                     A: 2000
       responses:
@@ -352,8 +346,6 @@ paths:
                   - T: AAPL
                     A: 5000
                   - T: VTI
-                    A: 4000
-                  - T: VWO
                     A: 3000
                   - T: CUR:USD
                     A: 2000
@@ -402,8 +394,6 @@ paths:
                   A: 5000
                 - T: VTI
                   A: 4000
-                - T: VWO
-                  A: 3000
                 - T: CUR:USD
                   A: 2000
               risk_profile: "Moderately conservative"
@@ -455,18 +445,12 @@ components:
       properties:
         ticker:
           type: string
-          description: Ticker symbol of the stock
         display_name:
           type: string
-          description: Series name of the ticker
         returns:
           type: number
-          format: float
-          description: Returns of the stock in the portfolio
         weight:
           type: number
-          format: float
-          description: Weight of the stock in the portfolio
     PortfolioCumulativeReturns:
       type: object
       properties:
@@ -491,75 +475,47 @@ components:
       properties:
         ticker:
           type: string
-          description: The ticker symbol of the security
         series_type:
           type: string
-          description: The series type of the security
         total_return:
           type: number
-          description: The total expected return of the security
         excess_return:
           type: number
-          description: The excess return of the security
         volatility:
           type: number
-          description: The volatility of the security
         sharpe_ratio:
           type: number
-          description: The Sharpe ratio of the security
         beta:
           type: number
           description: The beta of the security (relative co-movement to the market as a whole)
         listed_exchange:
           type: string
-          description: The exchange where the security is listed
         issue_type:
           type: string
-          description: The issue type of the security
         price:
           type: number
-          description: The current price of the security
         revenue_per_share:
           type: number
-          nullable: true
-          description: The revenue per share of the security (nullable)
         earnings_per_share:
           type: number
-          nullable: true
-          description: The earnings per share of the security (nullable)
         dividend_per_share:
           type: number
-          description: The dividend per share of the security
         trading_volume_10_day:
           type: number
-          description: The 10-day trading volume of the security
         trading_volume_30_day:
           type: number
-          description: The 30-day trading volume of the security
         put_call_ratio:
           type: number
-          nullable: true
-          description: The put-call ratio of the security (nullable)
         enterprise_value:
           type: number
-          nullable: true
-          description: The enterprise value of the company
         revenue:
           type: number
-          nullable: true
-          description: The revenue of the company
         revenue_per_employee:
           type: number
-          nullable: true
-          description: The revenue per employee of the company
         profit_margin:
           type: number
-          nullable: true
-          description: The profit margin of the company
         debt_to_equity:
           type: number
-          nullable: true
-          description: The debt-to-equity ratio of the company
         growth:
           type: number
           description: The relative exposure of the security to changing macro growth conditions
@@ -580,19 +536,10 @@ components:
           description: The relative exposure of the security to changing macro interest rate conditions
         next_earnings_date:
           type: string
-          format: date
-          description: The next earnings date of the security
-          nullable: true
         next_dividend_date:
           type: string
-          format: date
-          description: The next dividend date of the security
-          nullable: true
         ex_dividend_date:
           type: string
-          format: date
-          description: The ex-dividend date of the security
-          nullable: true
         related_securities:
           type: array
           items:
@@ -605,113 +552,72 @@ components:
           description: A list of news articles related to the security
         ai_sentiment:
           type: number
-          nullable: true
           description: The AI-calculated news sentiment weighted by relevance
         description:
           type: string
-          nullable: true
-          description: A description of the security (nullable)
+          description: A description of the security
         sector:
           type: string
-          nullable: true
-          description: The sector to which the security belongs (nullable)
         industry:
           type: string
-          nullable: true
-          description: The industry to which the security belongs (nullable)
         website:
           type: string
-          nullable: true
-          description: The official website of the company (nullable)
         employees:
           type: integer
-          nullable: true
-          description: The number of employees in the company (nullable)
         market_cap:
           type: number
-          nullable: true
-          description: The market capitalization of the company (nullable)
         investing_method:
           type: string
-          nullable: true
-          description: The investing method of the security (nullable)
         diversified:
           type: string
-          nullable: true
-          description: Indicates whether the security is diversified (nullable)
         expense_ratio:
           type: number
-          nullable: true
-          description: The expense ratio of the security (nullable)
         asset_class:
           type: string
-          nullable: true
-          description: The asset class of the security (nullable)
         sector_exposures:
           type: array
-          nullable: true
           items:
             $ref: '#/components/schemas/SectorExposure'
-          description: A list of sector exposures for the security (nullable)
+          description: A list of sector exposures for the security
         country_exposures:
           type: array
-          nullable: true
           items:
             $ref: '#/components/schemas/CountryExposure'
-          description: A list of country exposures for the security (nullable)
+          description: A list of country exposures for the security
         holding_exposures:
           type: array
-          nullable: true
           items:
             $ref: '#/components/schemas/HoldingExposure'
-          description: A list of holding exposures for the security (nullable)
+          description: A list of holding exposures for the security
     NewsArticle:
       type: object
       properties:
         date:
           type: string
-          format: date
-          description: The date of the news article
         headline:
           type: string
-          description: The headline of the news article
         source:
           type: string
-          description: The source of the news article
         url:
           type: string
-          description: The URL of the news article
         summary:
           type: string
-          description: The summary of the news article
         image_url:
           type: string
-          description: The image URL of the news article
         api_source:
           type: string
-          description: The API source of the news article
         language:
           type: string
-          description: The language of the news article
         author:
           type: string
-          description: The author of the news article
-          nullable: true
         has_paywall:
           type: boolean
-          description: Indicates whether the news article has a paywall
         category:
           type: string
-          description: The category of the news article
-          nullable: true
         relevance:
           type: string
-          description: The relevance of the news article
-          nullable: true
         sentiment:
           type: string
-          description: The sentiment of the news article
-          nullable: true
         more_info:
           type: string
           description: url to the PortfolioPilot Security Explorer page providing more information (create link)
@@ -720,10 +626,9 @@ components:
       properties:
         series_name:
           type: string
-          description: The name of the sector series
         weight:
           type: number
-          description: The weight of the sector series in the security
+          description: The weight of the sector series in the fund
     CountryExposure:
       type: object
       properties:
@@ -732,19 +637,18 @@ components:
           description: The name of the country series
         weight:
           type: number
-          description: The weight of the country series in the security
+          description: The weight of the country series in the fund
     HoldingExposure:
       type: object
       properties:
         series_name:
           type: string
-          description: The name of the holding series
         weight:
           type: number
-          description: The weight of the holding series in the security
+          description: The weight of the holding series in the fund
     TopETFsResponse:
       type: object
-      description: Response object containing the top 20 ETFs based on the provided filters. A lot of ETF-specific information is also provided
+      description: Response object containing the top 10 ETFs based on the provided filters. A lot of ETF-specific information is also provided
       properties:
         top_etfs:
           type: array
@@ -752,108 +656,80 @@ components:
             $ref: '#/components/schemas/ETFDetails'
     ETFDetails:
       type: object
-      description: Detailed information about a specific ETF.
       properties:
         Ticker:
           type: string
-          description: The ticker symbol of the ETF.
         expected_return:
           type: number
-          format: double
-          description: The expected return of the ETF.
         expected_risk:
           type: number
-          format: double
-          description: The expected risk associated with the ETF.
         expected_sharpe:
           type: number
-          format: double
-          description: The expected Sharpe ratio of the ETF.
         beta:
           type: number
-          format: double
           description: The beta value of the ETF, indicating its sensitivity to market movements.
         security_type:
           type: string
-          description: The type of security (e.g., "ETFs").
         sub_asset_class:
           type: string
-          description: The sub-asset class to which the ETF belongs.
         philosophy:
           type: string
-          description: The investment philosophy of the ETF (e.g., "Actively Managed").
+          description: The investment philosophy of the ETF (e.g. "Actively Managed").
         expense_ratio:
           type: number
-          format: double
-          description: The expense ratio of the ETF.
         concentration_score:
           type: number
-          format: double
           description: A score representing the concentration of the ETF's holdings.
         is_diversified:
           type: boolean
           description: Indicates whether the ETF is sufficiently diversified.
         Company_Growth:
           type: number
-          format: double
           description: The company growth factor of the ETF.
         Company_Quality:
           type: number
-          format: double
           description: The company quality factor of the ETF.
         Company_Size:
           type: number
-          format: double
           description: The company size factor of the ETF.
         Company_Value:
           type: number
-          format: double
           description: The company value factor of the ETF.
         Credit_Conditions:
           type: number
-          format: double
           description: The credit conditions factor of the ETF.
         Economic_Growth:
           type: number
-          format: double
           description: The economic growth factor of the ETF.
         High_Dividend:
           type: number
-          format: double
           description: The high dividend factor of the ETF.
         Inflation_Surprises:
           type: number
-          format: double
           description: The inflation surprises factor of the ETF.
         Low_Volatility:
           type: number
-          format: double
           description: The low volatility factor of the ETF.
         Oil_Price:
           type: number
-          format: double
           description: The oil price factor of the ETF.
         Price_Momentum:
           type: number
-          format: double
           description: The price momentum factor of the ETF.
         Real_Yield:
           type: number
-          format: double
           description: The real yield factor of the ETF.
         VIX_Index:
           type: number
-          format: double
           description: The VIX index factor of the ETF.
         fundName:
           type: string
-          description: The name of the ETF fund.
         more_info:
           type: string
           description: url to the PortfolioPilot Security Explorer page providing more information (create link)
     TopStocksResponse:
       type: object
-      description: Response object containing the top 20 stocks based on the provided filters. A lot of stock-specific information is also provided.
+      description: Response object containing the top 10 stocks based on the provided filters. A lot of stock-specific information is also provided.
       properties:
         top_stocks:
           type: array
@@ -861,33 +737,23 @@ components:
             $ref: '#/components/schemas/StockDetails'
     StockDetails:
       type: object
-      description: Detailed information about a specific stock.
       properties:
         Ticker:
           type: string
-          description: The ticker symbol of the stock.
         expected_return:
           type: number
-          format: double
-          description: The expected return of the stock.
         expected_risk:
           type: number
-          format: double
-          description: The expected risk associated with the stock.
         expected_sharpe:
           type: number
-          format: double
-          description: The expected Sharpe ratio of the stock.
         beta:
           type: number
-          format: double
           description: The beta value of the stock, indicating its sensitivity to market movements.
         security_type:
           type: string
-          description: The type of security (e.g., "Companies").
+          description: The type of security (e.g. "Companies").
         sub_asset_class:
           type: string
-          description: The sub-asset class to which the stock belongs.
         name:
           type: string
           description: The name of the company.
@@ -896,94 +762,70 @@ components:
           description: The country where the company is headquartered.
         exchange:
           type: string
-          description: The stock exchange where the stock is listed.
         detailed_info:
           type: string
           description: Additional detailed information about the stock (if available).
         sector:
           type: string
-          description: The sector to which the company belongs.
         industry:
           type: string
-          description: The industry to which the company belongs.
         marketcap:
           type: number
-          format: double
-          description: The market capitalization of the company.
         employees:
           type: number
-          format: integer
-          description: The number of employees working for the company.
         ceo:
           type: string
-          description: The name of the CEO of the company.
         similar:
           type: string
           description: Similar stocks or companies (if available).
         logo:
           type: string
-          description: The logo of the company (if available).
+          description: The logo of the company as a url to a hosted image.
         url:
           type: string
-          description: The official website of the company.
         tags:
           type: string
-          description: Tags associated with the company.
         Company_Growth:
           type: number
-          format: double
-          description: The company growth factor of the stock (if available).
+          description: The company growth factor of the stock.
         Company_Quality:
           type: number
-          format: double
-          description: The company quality factor of the stock (if available).
+          description: The company quality factor of the stock.
         Company_Size:
           type: number
-          format: double
-          description: The company size factor of the stock (if available).
+          description: The company size factor of the stock.
         Company_Value:
           type: number
-          format: double
-          description: The company value factor of the stock (if available).
+          description: The company value factor of the stock.
         Credit_Conditions:
           type: number
-          format: double
-          description: The credit conditions factor of the stock (if available).
+          description: The credit conditions factor of the stock.
         Economic_Growth:
           type: number
-          format: double
-          description: The economic growth factor of the stock (if available).
+          description: The economic growth factor of the stock.
         High_Dividend:
           type: number
-          format: double
-          description: The high dividend factor of the stock (if available).
+          description: The high dividend factor of the stock.
         Inflation_Surprises:
           type: number
-          format: double
-          description: The inflation surprises factor of the stock (if available).
+          description: The inflation surprises factor of the stock.
         Low_Volatility:
           type: number
-          format: double
-          description: The low volatility factor of the stock (if available).
+          description: The low volatility factor of the stock.
         Oil_Price:
           type: number
-          format: double
-          description: The oil price factor of the stock (if available).
+          description: The oil price factor of the stock.
         Price_Momentum:
           type: number
-          format: double
-          description: The price momentum factor of the stock (if available).
+          description: The price momentum factor of the stock.
         Real_Yield:
           type: number
-          format: double
-          description: The real yield factor of the stock (if available).
+          description: The real yield factor of the stock.
         VIX_Index:
           type: number
-          format: double
-          description: The VIX index factor of the stock (if available).
+          description: The VIX index factor of the stock.
         seriesName:
           type: string
-          description: The name of the security (if applicable).
         more_info:
           type: string
           description: url to the PortfolioPilot Security Explorer page providing more information (create link)
@@ -1013,32 +855,24 @@ components:
             $ref: '#/components/schemas/PortfolioDetails'
         total_amount:
           type: number
-          format: float
           description: The total amount invested in the portfolio
         portfolio_expected_return:
           type: number
-          format: float
           description: The expected 1-year return for the entire portfolio
     PortfolioDetails:
       type: object
       properties:
         ticker:
           type: string
-          description: The security's ticker symbol
         weight:
           type: number
-          format: float
           description: The proportion of the security within the investment portfolio
         expected_return:
           type: number
-          description: The expected return for the given security
         expected_risk:
           type: number
-          format: float
-          description: The expected volatility of the given security
         market_beta:
           type: number
-          format: float
           description: The systemic risk of the security compared to the market as a whole
     getPortfolioExposuresResponse:
       type: object
@@ -1050,17 +884,14 @@ components:
               type: object
               additionalProperties:
                 type: number
-                format: float
             sector:
               type: object
               additionalProperties:
                 type: number
-                format: float
             holding:
               type: object
               additionalProperties:
                 type: number
-                format: float
         country_exposure_chart_markdown:
           type: string
           description: Markdown for displaying the country exposure pie chart
@@ -1073,8 +904,6 @@ components:
     Portfolio:
       type: array
       description: Provided portfolio for the user. Use ticker CUR:USD for cash, ticker Reserved.RealEstate for real estate, ticker Reserved.Crypto for cryptocurrencies, ticker Private.MoneyMarket for money market funds
-      x-examples:
-        Example: null
       items:
         $ref: '#/components/schemas/Investment'
     Investment:
@@ -1096,24 +925,14 @@ components:
       properties:
         total_return:
           type: number
-          format: float
-          nullable: true
-          description: The expected gain or loss of your investment portfolio over the next 12 months, expressed as a percentage.
+          description: The expected 12-month return including dividends, expressed as a percentage.
         excess_return:
           type: number
-          format: float
-          nullable: true
           description: The extra return your portfolio earned compared to a standard benchmark or a risk-free investment, such as a money market fund.
         volatility:
           type: number
-          format: float
-          nullable: true
-          description: A measure of risk indicating how much the value of your portfolio goes up and down over time. Higher volatility means more ups and downs, and therefore more risk.
         sharpe_ratio:
           type: number
-          format: float
-          nullable: true
-          description: A score that shows how well your portfolio performs compared to the risk you're taking. A higher score means better performance for the level of risk.
     PortfolioDownsideStatusFlag:
       type: string
       enum:
@@ -1126,10 +945,9 @@ components:
       properties:
         name:
           type: string
-          description: The name of the downside protection component being assessed (e.g., "Sector Diversification," "Inflation Risk").
+          description: The name of the downside protection component being assessed (e.g. "Sector Diversification, "Inflation Risk").
         score:
           type: number
-          format: float
           description: A numerical score representing the performance of the downside protection component. Higher scores are generally better.
         status:
           $ref: '#/components/schemas/PortfolioDownsideStatusFlag'
@@ -1147,18 +965,14 @@ components:
         title:
           type: string
           description: The title is like a headline that gives a quick idea of what the economic insight is all about. It summarizes the main topic, so you know what to expect when you read further.
-          nullable: false
         sub_title:
           type: string
-          description: The subtitle is like a supporting headline that gives you a bit more information about the economic insight
-          nullable: true
+          description: The subtitle is like a supporting headline that gives a bit more information about the economic insight
         chart_markdown:
           type: string
           description: Markdown for displaying an economic macro insight providing a visual representation of the insight's data or analysis
-          nullable: true
         tags:
           type: array
-          nullable: true
           items:
             type: string
             description: The "tags" of an economic macro insight are keywords that describe the insight's topic. They are used to help investors find the insight they are looking for.
@@ -1178,11 +992,9 @@ components:
           description: String representation of the improved portfolio
         original_score:
           type: number
-          format: float
           description: Score of the original portfolio
         new_score:
           type: number
-          format: float
           description: Score of the improved portfolio
         trade_made:
           type: object
@@ -1190,19 +1002,13 @@ components:
           properties:
             ticker:
               type: string
-              description: Ticker symbol of the trade made
             amount:
               type: number
-              format: float
               description: Amount of the trade made
             rationale:
               type: string
               description: Problem that the trade solved, and the rationale for the recommended trade used
         current_portfolio_risk:
           type: number
-          format: float
-          description: Risk of the existing portfolio
         target_risk:
           type: number
-          format: float
-          description: Target risk of the new portfolio

@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MixerBox PhotoMagic",
+  "name_for_model": "MixerBox_PhotoMagic_AI_image_enhancer",
+  "description_for_human": "Enhance photo resolution magically! Achieve clearer & more detailed visuals for your images!",
+  "description_for_model": "MixerBox PhotoMagic offers the capability to enhance photos, scanned documents, and address the loss of image quality resulting from file compression during conversion. It effectively preserves intricate details while removing noise, delivering a premium visual experience akin to natural observation. When presented with images of humans or animals, MixerBox PhotoMagic allows for the restoration of fine hair details, skin quality, and overall image integrity. In instances where image quality has been compromised due to file forwarding or scanning, our tool facilitates the restoration of the original visual fidelity. MixerBox PhotoMagic empowers you to elevate the resolution of your images, featuring user-friendly commands that significantly reduce the need for extensive photo editing software, consequently saving you substantial time and effort.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "e7bc25f8860b47fab67cf888f06c33ec"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://photomagic.mixerbox.com/.well-known/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://static.mixerbox.com/chatai/chatgpt-plugin/PhotoMagic_logo.png",
+  "contact_email": "support@photomagic.mixerbox.com",
+  "legal_info_url": "https://www.mixerbox.com"
+}

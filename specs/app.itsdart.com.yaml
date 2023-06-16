@@ -108,7 +108,7 @@ components:
           type: string
           minLength: 1
           example: 'Build the landing page for the notification feature'
-        dartboardTitle:
+        dartboard:
           description: 'The title of the dartboard that the task is in, which is a project or list of tasks. Active is the default for current tasks, Next is for later, and Backlog is for things to do in the far future. This can and should be null on creation and not otherwise.'
           type: string
           nullable: true
@@ -116,7 +116,7 @@ components:
             - Active
             - Next
             - Backlog
-        statusTitle:
+        status:
           description: "The status of the task from the list of available statuses. This can include things like 'To-do', 'Doing', and 'Done', although what is possible depends on the workspace. This can and should be null on creation and not otherwise."
           type: string
           nullable: true
@@ -138,7 +138,7 @@ components:
           nullable: true
           format: markdown
           example: 'We need to fit this into the existing website somehow'
-        tagTitles:
+        tags:
           description: 'Any tags that should be applied to the task, which can be used to filter and search for tasks. Tags are also known as labels or components and are strings that can be anything, but should be short and descriptive. For example, a tag could be ''website'' or ''marketing''. This list can be empty.'
           type: array
           items:
@@ -172,10 +172,10 @@ components:
         - duid
         - permalink
         - title
-        - dartboardTitle
-        - statusTitle
+        - dartboard
+        - status
         - description
-        - tagTitles
+        - tags
     WrappedTask:
       type: object
       properties:
