@@ -1,0 +1,501 @@
+openapi: 3.1.0
+info:
+  title: Chat Stack Search
+  description: Search and return results for sites, tags, questions and answers that can be used with the Stack Exchange API.
+  version: v1.0.0
+paths:
+  /search/advanced:
+    get:
+      operationId: getSearchAdvanced
+      tags:
+        - SearchAdvanced
+      summary: Search for errors and trouble questions.
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: Page number of search results.
+          schema:
+            type: number
+            default: 1
+        - name: pagesize
+          in: query
+          required: true
+          description: Number of search results displayed, 1 to 4.
+          schema:
+            type: number
+            default: 3
+        - name: sort
+          in: query
+          required: true
+          description: Sort Type, activity is last_activity_date, creation is creation_date, votes is score, relevance is relevance.
+          schema:
+            type: string
+            enum: [activity, creation, votes, relevance]
+            default: votes
+        - name: order
+          in: query
+          required: true
+          description: Sort desc or asc.
+          schema:
+            type: string
+            enum: [desc, asc]
+            default: desc
+        - name: fromdate
+          in: query
+          schema:
+            type: string
+            format: date
+          required: false
+          description: The start date in the format YYYY-MM-DD.
+        - name: todate
+          in: query
+          schema:
+            type: string
+            format: date
+          required: false
+          description: The end date in the format YYYY-MM-DD.
+        - name: min
+          in: query
+          required: false
+          description: When sort is votes, Lower Score Limit. When sort is activity or creation, The start date in the format YYYY-MM-DD. When sort is relevance, none.
+          schema:
+            type: string
+            default: '1'
+        - name: max
+          in: query
+          required: false
+          description: When sort is votes, Score Limit. When sort is activity or creation, The end date in the format YYYY-MM-DD. When sort is relevance, none.
+          schema:
+            type: string
+            default: '100000'
+        - name: site
+          in: query
+          required: true
+          description: Site Type.
+          schema:
+            type: string
+            enum: [askubuntu, cooking, cooking.meta, diy, diy.meta, gamedev, gamedev.meta, gaming, gaming.meta, gis, gis.meta, math, math.meta, meta, meta.askubuntu, meta.serverfault, meta.stackoverflow, meta.superuser, photo, photo.meta, serverfault, stackoverflow, stats, stats.meta, superuser, tex, tex.meta, webapps, webapps.meta, webmasters, webmasters.meta]
+            default: stackoverflow
+        - name: tagged
+          in: query
+          required: false
+          description: A semicolon delimited list of tags in English, of which at least one will be present on all returned questions.
+          schema:
+            type: string
+            default: ''
+        - name: nottagged
+          in: query
+          required: false
+          description: A semicolon delimited list of tags in English, none of which will be present on returned questions.
+          schema:
+            type: string
+            default: ''
+        - name: q
+          in: query
+          required: false
+          description: A free form text parameter in English, will match all question properties based on an undocumented algorithm.
+          schema:
+            type: string
+            default: ''
+        - name: title
+          in: query
+          required: false
+          description: Text which must appear in returned questions' titles in English.
+          schema:
+            type: string
+            default: ''
+        - name: body
+          in: query
+          required: false
+          description: Text which must appear in returned questions' bodies in English.
+          schema:
+            type: string
+            default: ''
+        - name: answers
+          in: query
+          required: false
+          description: The minimum number of answers above 1 returned questions must have.
+          schema:
+            type: number
+            default: 1
+        - name: views
+          in: query
+          required: false
+          description: The minimum number of views above 1 returned questions must have.
+          schema:
+            type: number
+            default: 1
+        - name: accepted
+          in: query
+          required: false
+          description: True to return only questions with accepted answers, false to return only those without. Omit to elide constraint.
+          schema:
+            type: boolean
+            default: true
+        - name: closed
+          in: query
+          required: false
+          description: True to return only closed questions, false to return only open ones. Omit to elide constraint.
+          schema:
+            type: boolean
+            default: true
+        - name: user
+          in: query
+          required: false
+          description: The id of the user who must own the questions returned.
+          schema:
+            type: number
+            default: 0
+        - name: url
+          in: query
+          required: false
+          description: A url which must be contained in a post, may include a wildcard.
+          schema:
+            type: string
+            default: https://stackoverflow.com/questions/*
+        - name: notice
+          in: query
+          required: false
+          description: True to return only questions with post notices, false to return only those without. Omit to elide constraint.
+          schema:
+            type: boolean
+            default: true
+        - name: migrated 
+          in: query
+          required: false
+          description: True to return only questions migrated away from a site, false to return only those not. Omit to elide constraint.
+          schema:
+            type: boolean
+            default: true
+        - name: wiki
+          in: query
+          required: false
+          description: True to return only community wiki questions, false to return only non-community wiki ones. Omit to elide constraint.
+          schema:
+            type: boolean
+            default: true
+      responses:
+        200:
+          description: List of questions and answers. Each question and answer includes title, details, link, score, and date created. Information such as the page is also included.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionResponse'
+  /tags:
+    get:
+      operationId: getTags
+      tags:
+        - Tags
+      summary: Get the tags on the site.
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: Page number of search results.
+          schema:
+            type: number
+            default: 1
+        - name: pagesize
+          in: query
+          required: true
+          description: Number of search results displayed, 1 to 20.
+          schema:
+            type: number
+            default: 10
+        - name: sort
+          in: query
+          required: true
+          description: Sort Type, popular is count, activity is creation_date, name is name.
+          schema:
+            type: string
+            enum: [popular, activity, name]
+            default: popular 
+        - name: order
+          in: query
+          required: true
+          description: Sort desc or asc.
+          schema:
+            type: string
+            enum: [desc, asc]
+            default: desc
+        - name: fromdate
+          in: query
+          schema:
+            type: string
+            format: date
+          required: false
+          description: The start date in the format YYYY-MM-DD.
+        - name: todate
+          in: query
+          schema:
+            type: string
+            format: date
+          required: false
+          description: The end date in the format YYYY-MM-DD.
+        - name: min
+          in: query
+          required: false
+          description: When sort is popular, Lower Count Limit. When sort is activity, The start date in the format YYYY-MM-DD. When sort is name, none.
+          schema:
+            type: string
+            default: '1'
+        - name: max
+          in: query
+          required: false
+          description: When sort is popular, Count Limit. When sort is activity, The end date in the format YYYY-MM-DD. When sort is name, none.
+          schema:
+            type: string
+            default: '100000'
+        - name: site
+          in: query
+          required: true
+          description: Site Type.
+          schema:
+            type: string
+            enum: [askubuntu, cooking, cooking.meta, diy, diy.meta, gamedev, gamedev.meta, gaming, gaming.meta, gis, gis.meta, math, math.meta, meta, meta.askubuntu, meta.serverfault, meta.stackoverflow, meta.superuser, photo, photo.meta, serverfault, stackoverflow, stats, stats.meta, superuser, tex, tex.meta, webapps, webapps.meta, webmasters, webmasters.meta]
+            default: stackoverflow
+        - name: inname
+          in: query
+          required: false
+          description: Substring in English to search for tags.
+          schema:
+            type: string
+            default: ''
+      responses:
+        200:
+          description: List of tags. Information such as the page is also included.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagResponse'
+  /sites:
+    get:
+      operationId: getSites
+      tags:
+        - Sites
+      summary: Get all the sites in the Stack Exchange network.
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: Page number of search results.
+          schema:
+            type: number
+            default: 1
+        - name: pagesize
+          in: query
+          required: true
+          description: Number of search results displayed, 1 to 20.
+          schema:
+            type: number
+            default: 10
+      responses:
+        200:
+          description: List of sites. Information such as the page is also included.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteResponse'
+
+components:
+  schemas:
+    QuestionResponse:
+      type: object
+      properties:
+        questions:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                example: Question title
+              body_markdown:
+                type: string
+                example: Question body\n
+              link:
+                type: string
+                example: https://stackoverflow.com/questions/00000000/question-link
+              score:
+                type: number
+                example: 1
+              creation_date:
+                type: string
+                format: date-time
+                example: '2000-01-01T12:34:56Z'
+              last_activity_date:
+                type: string
+                format: date-time
+                example: '2000-01-01T12:34:56Z'
+              answers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: Answer title
+                    body_markdown:
+                      type: string
+                      example: Answer body\n
+                    score:
+                      type: number
+                      example: 1
+                    creation_date:
+                      type: string
+                      format: date-time
+                      example: '2000-01-01T12:34:56Z'
+                    last_activity_date:
+                      type: string
+                      format: date-time
+                      example: '2000-01-01T12:34:56Z'
+                  required:
+                    - title
+                    - score
+                    - creation_date
+                    - last_activity_date
+                    - body_markdown
+            required:
+              - title
+              - link
+              - score
+              - creation_date
+              - last_activity_date
+              - body_markdown
+        has_more:
+          type: boolean
+          example: true
+        page:
+          type: number
+          example: 1
+        page_size: 
+          type: number
+          example: 4
+        total: 
+          type: number
+          example: 100
+        quota_remaining: 
+          type: number
+          example: 299
+        quota_max: 
+          type: number
+          example: 300
+        rules:
+          type: array
+          items:
+            type: string
+      required:
+        - questions
+        - has_more
+        - page
+        - page_size
+        - total
+        - quota_remaining
+        - quota_max
+        - rules
+    TagResponse:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Tag name
+              count:
+                type: number
+                example: 1
+              last_activity_date:
+                type: string
+                format: date-time
+                example: '2000-01-01T12:34:56Z'
+            required:
+              - name
+              - count
+              - last_activity_date
+        has_more:
+          type: boolean
+          example: true
+        page:
+          type: number
+          example: 1
+        page_size: 
+          type: number
+          example: 10
+        total: 
+          type: number
+          example: 100
+        quota_remaining: 
+          type: number
+          example: 299
+        quota_max: 
+          type: number
+          example: 300
+        rules:
+          type: array
+          items:
+            type: string
+      required:
+        - tags
+        - has_more
+        - page
+        - page_size
+        - total
+        - quota_remaining
+        - quota_max
+        - rules
+    SiteResponse:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Stack Overflow
+              api_site_parameter:
+                type: string
+                example: stackoverflow
+              site_url:
+                type: string
+                example: https://stackoverflow.com
+            required:
+              - name
+              - api_site_parameter
+              - site_url
+        has_more:
+          type: boolean
+          example: true
+        page:
+          type: number
+          example: 1
+        page_size: 
+          type: number
+          example: 10
+        total: 
+          type: number
+          example: 100
+        quota_remaining: 
+          type: number
+          example: 299
+        quota_max: 
+          type: number
+          example: 300
+        rules:
+          type: array
+          items:
+            type: string
+      required:
+        - tags
+        - has_more
+        - page
+        - page_size
+        - total
+        - quota_remaining
+        - quota_max
+        - rules

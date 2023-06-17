@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "MediaReady",
+  "name_for_model": "mediaready",
+  "description_for_human": "Identify sources and experts for journalists.",
+  "description_for_model": "Identify sources and experts for journalists.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatgpt.mediareadyai.com/openai.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://chatgpt.mediareadyai.com/logo.png",
+  "contact_email": "ejbrisson@gmail.com",
+  "legal_info_url": "https://www.sourcescoutai.com/legal"
+}

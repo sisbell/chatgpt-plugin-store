@@ -208,7 +208,35 @@
       "get": {
         "summary": "Get statistical information of available Tesla superchargers open to non-Tesla owners/vehicles for use. Includes data like count and relevant supercharger information by city, state/province and country based on the user request.",
         "operationId": "checkOverallTotalAvailableNonTeslaVehicleSuperchargersUsingGET",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "description": "City for which to retrieve statistical Tesla supercharger location information. E.g. Reno, Toronto, Berlin, New York, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "State (or province) for which to retrieve statistical Tesla supercharger location information. E.g NV, CA, NY, etc.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "Country for which to retrieve statistical Tesla supercharger location information. E.g US, MX, CA, etc.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Provides statistical information of available Tesla superchargers open to non-Tesla owners/vehicles for use. Includes data like count and relevant supercharger information by city, state/province and country based on the user request.",
@@ -222,17 +250,13 @@
                       "description": "General metadata about the supercharger request",
                       "$ref": "#/components/schemas/Meta"
                     },
-                    "count": {
-                      "type": "number",
-                      "description": "Overall count of available superchargers globally for non-Tesla vehicles"
-                    },
                     "items": {
                       "type": "object",
                       "description": "The relevant supercharger information based on the user request, organized by country, state/province and city names.",
                       "properties": {
                         "byCity": {
                           "type": "object",
-                          "description": "The relevant state/province information of supercharger locations based on the user request",
+                          "description": "The relevant count and city names of supercharger locations based on the user request",
                           "properties": {
                             "count": {
                               "type": "number",
@@ -249,7 +273,7 @@
                         },
                         "byProvinceState": {
                           "type": "object",
-                          "description": "The relevant state/province information of supercharger locations based on the user request.",
+                          "description": "The relevant count and state/province names of supercharger locations based on the user request.",
                           "properties": {
                             "count": {
                               "type": "number",
@@ -259,14 +283,14 @@
                               "type": "array",
                               "description": "The relevant state/province names of supercharger locations based on the user request",
                               "items": {
-                                "type": "string"
+                                "$ref": "#/components/schemas/ProvincesStates"
                               }
                             }
                           }
                         },
                         "byCountry": {
                           "type": "object",
-                          "description": "The relevant country information of supercharger locations based on the user request",
+                          "description": "The relevant count and country names of supercharger locations based on the user request",
                           "properties": {
                             "count": {
                               "type": "number",
@@ -462,6 +486,10 @@
   },
   "components": {
     "schemas": {
+      "NumOfLocations": {
+        "type": "integer",
+        "description": "Number of available charging station locations returned based on the user criteria, e.g. 861 would mean 861 charging stations are available based on the user's request"
+      },
       "Count": {
         "type": "integer",
         "description": "Number of available superchargers returned"
@@ -533,6 +561,9 @@
       "Meta": {
         "type": "object",
         "properties": {
+          "numOfLocations": {
+            "$ref": "#/components/schemas/NumOfLocations"
+          },
           "error": {
             "$ref": "#/components/schemas/Error"
           },
@@ -662,9 +693,13 @@
             "type": "string",
             "description": "Standard country code, e.g US for United States"
           },
+          "nonTeslaEnabled": {
+            "type": "boolean",
+            "description": "If the provider is Tesla, whether the charging station is available to non-Tesla vehicles or not."
+          },
           "provider": {
             "type": "string",
-            "description": "The vendor/provider of the charging station"
+            "description": "The vendor/provider of the charging station, e.g. Tesla, ChargePoint, Rivian, etc."
           },
           "pricing": {
             "type": "string",
@@ -762,6 +797,10 @@
             "type": "string",
             "description": "Contitent the supercharger is located in"
           },
+          "nonTeslaEnabled": {
+            "type": "boolean",
+            "description": "If the provider is Tesla, whether the charging station is available to non-Tesla vehicles or not."
+          },
           "sales_phone": {
             "type": "array",
             "items": {
@@ -827,6 +866,10 @@
           "userTip": {
             "type": "string",
             "description": "An optional tip for the user when their location request returns no results or is too broad"
+          },
+          "availabilityCount": {
+            "type": "integer",
+            "description": "The number of available charging stations based on the user's criteria, e.g. 861 would mean 861 charging stations are available based on the user's request"
           },
           "chargers": {
             "type": "array",

@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: PL 2630 Plugin
+  description: The user can inquire and extract pertinent information about laws and bills being considered in Brazil. It is essential to first execute the get_laws_dict function to acquire the keys that can be utilized in the law_key parameter.
+  version: 'v1'
+servers:
+  - url: https://talklawbrazil.leonardodameto.repl.co
+paths:
+  /dict_laws:
+    get:
+      operationId: get_laws_dict
+      summary: This function returns a dictionary containing the available bills, along with general information about them.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dict_laws_response'
+
+  /law/{law_key}/{question}:
+    get:
+      operationId: get_law_info
+      summary: This function returns detailed text information about a specific bill, as requested by the user.
+      parameters:
+      - in: path
+        name: law_key
+        schema:
+            type: string
+        required: true
+        description: Key from 'dict_laws_dict' dictionary that corresponds to the user's question.
+      - in: path
+        name: question
+        schema:
+          type: string
+        required: true
+        description: An objective question in Portuguese should be asked about the bill. Do not include the name of the project in the question.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_pl_info_Response'
+
+
+
+
+components:
+  schemas:
+    get_pl_info_Response:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: This refers to the relevant content pertaining to the bill, designed to align with the specific question posed by the user.
+    dict_laws_response:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: This is a dictionary containing available laws, along with general information about them.

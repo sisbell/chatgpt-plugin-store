@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Copywriter
-  description: Send a URL and get sales copywriting suggestions for any page!
+  description: Enter any URL and get sales copywriting suggestions for the page!
   version: 'v1'
 servers:
   - url: https://copywriter.orrenprunckun.com

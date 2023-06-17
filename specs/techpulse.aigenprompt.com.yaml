@@ -99,6 +99,9 @@ components:
         generate_image_url:
           type: string
           description: The generate image URL
+        tp_command:
+          type: string
+          description: instructions
         stories:
           type: array
           description: stories

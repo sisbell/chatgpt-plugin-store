@@ -17,7 +17,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The search keyword, in english. Translate it in english before submitting it to the API. 
+          description: The search keyword, in english. Only one product at the time, ignore all additional products. Translate it in english before submitting it to the API. 
         - name: userMessage
           in: path
           required: true

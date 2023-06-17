@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Chabad Centers",
+  "name_for_model": "chabadCenters",
+  "description_for_human": "Find information about Chabad Centers worldwide and their events.",
+  "description_for_model": "This tool is used for finding and getting information about Chabad Centers worldwide and their events.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chabadplugin.reshapecreative.com/openapi.yaml"
+  },
+  "logo_url": "https://chabadplugin.reshapecreative.com/logo.png",
+  "contact_email": "hello@reshapecreative.com",
+  "legal_info_url": "https://reshapecreative.com/chabad-centers-chatgpt-plugin-info"
+}

@@ -1,4 +1,24 @@
 # Plugin Store Listing Changelog
+## 2023-06-16
+### Newly Listed
+* [ai-news.orrenprunckun.com](manifests/ai-news.orrenprunckun.com.json)
+* [app.eraser.io](manifests/app.eraser.io.json)
+* [chabadplugin.reshapecreative.com](manifests/chabadplugin.reshapecreative.com.json)
+* [chat-stack-search.thx.pw](manifests/chat-stack-search.thx.pw.json)
+* [chatgpt.mediareadyai.com](manifests/chatgpt.mediareadyai.com.json)
+* [dt1m15-5003.csb.app](manifests/dt1m15-5003.csb.app.json)
+* [talklawbrazil.leonardodameto.repl.co](manifests/talklawbrazil.leonardodameto.repl.co.json)
+* [www.isotonix.com](manifests/www.isotonix.com.json)
+### Delisted
+* [941p7w-5003.csb.app](manifests/941p7w-5003.csb.app.json)
+* [api.deployscript.com](manifests/api.deployscript.com.json)
+* [api.replypdf.com](manifests/api.replypdf.com.json)
+* [api.substackiq.com](manifests/api.substackiq.com.json)
+* [chatmap.mixerbox.com](manifests/chatmap.mixerbox.com.json)
+* [chattovideo.mixerbox.com](manifests/chattovideo.mixerbox.com.json)
+* [plugin.daizy.com](manifests/plugin.daizy.com.json)
+* [simplycodes.com](manifests/simplycodes.com.json)
+* [techpulse.aigenprompt.com](manifests/techpulse.aigenprompt.com.json)
 ## 2023-06-15
 ### Newly Listed
 * [6yq93jqsc3.execute-api.us-west-1.amazonaws.com](manifests/6yq93jqsc3.execute-api.us-west-1.amazonaws.com.json)

@@ -61,6 +61,57 @@
           }
         }
       }
+    },
+    "/api/gpt_plugins/video/query": {
+      "get": {
+        "summary": "This api can only be used if the 'searchVideo' API returns 'useQuery' as true. The plugin enables users to query information of a video by video id.",
+        "description": "When users query a video, the plugin delivers answers based on the video and users' question.",
+        "operationId": "queryVideo",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Queried video id, use the same id of the 'searchVideo' api.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "src",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "youtube"
+              ]
+            },
+            "description": "The source of the url, please parse it from the url provided by the user. If there is no valid source, tell the user that this is not supported.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "question",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The question to ask about the video.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryVideoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -107,6 +158,10 @@
           "subtitlesSupported": {
             "type": "boolean",
             "description": "Flag indicating if subtitles are supported."
+          },
+          "useQuery": {
+            "type": "boolean",
+            "description": "Flag indicating if you should use the 'queryVideo' API to get more information. Only call the 'queryVideo' API afterwards if this is true. Tell the user he/she can ask further questions, and do not tell the user that subtitles are not supported."
           }
         }
       },
@@ -145,10 +200,6 @@
             "format": "date",
             "description": "The publish date of the video"
           },
-          "shortDescription": {
-            "type": "string",
-            "description": "The short description of the video"
-          },
           "title": {
             "type": "string",
             "description": "The title of the video"
@@ -156,6 +207,28 @@
           "viewCount": {
             "type": "string",
             "description": "The number of views the video has"
+          }
+        }
+      },
+      "QueryVideoResponse": {
+        "title": "QueryVideoResponse",
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Query answers.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The queried answers based on the video and users' question."
+          },
+          "rules": {
+            "title": "The array of rules which recommend gpt to follow.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The array of rules which recommend gpt to follow."
           }
         }
       }

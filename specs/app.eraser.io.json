@@ -1,0 +1,78 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Eraser",
+    "version": "v1.0"
+  },
+  "servers": [
+    {
+      "url": "https://app.eraser.io",
+      "description": "Eraser Server for ChatGPT"
+    }
+  ],
+  "paths": {
+    "/api/render/prompt": {
+      "post": {
+        "operationId": "generateDiagramFromPrompt",
+        "externalDocs": {
+          "description": "API documentation for DiagramGPT",
+          "url": "https://docs.eraser.io/reference"
+        },
+        "summary": "Generate diagram from code or natural language",
+        "responses": {
+          "200": {
+            "description": "The result of the diagram generation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "imageUrl": {
+                      "type": "string",
+                      "description": "URL of the generated diagram as a PNG image"
+                    },
+                    "createEraserFileUrl": {
+                      "type": "string",
+                      "description": "URL to edit the generated diagram"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Eraser was unable to generate a result"
+          },
+          "400": {
+            "description": "The request is missing the 'text' parameter"
+          },
+          "403": {
+            "description": "Unauthorized"
+          },
+          "503": {
+            "description": "Service temporarily unavailable. This may be the result of too many requests."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "text"
+                ],
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "The input code or natural langauge which describes a diagram. When the user is asking for a specific type of diagram, make that clear. Use '/n' in place of new lines."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

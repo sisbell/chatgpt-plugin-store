@@ -1,0 +1,24 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Chat Stack Search",
+  "name_for_model": "chat_stack_search",
+  "description_for_human": "Use the Stack Exchange API to search sites such as Stack Overflow and return questions, answers, and other information.",
+  "description_for_model": "Use the Stack Exchange API to search sites such as Stack Overflow and return questions, answers, and other information.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://chat-stack-search.thx.pw/oauth/authorize",
+    "scope": "no_expiry",
+    "authorization_url": "https://chat-stack-search.thx.pw/oauth/token",
+    "authorization_content_type": "application/json",
+    "verification_tokens": {
+      "openai": "9edfbecc205e496fa6b92643c49f5232"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chat-stack-search.thx.pw/openapi.yaml"
+  },
+  "logo_url": "https://chat-stack-search.thx.pw/favicon.svg",
+  "contact_email": "contact@thx.pw",
+  "legal_info_url": "https://chat-stack-search.thx.pw/legal-info"
+}

@@ -76,7 +76,7 @@ paths:
                 
   /set_public_ip/{address}:
     post:
-      summary: Set the user's address in the format username@ip_address, and their port if they specify it
+      summary: Set the user's address in the format username@ip_address, and their port if they specify it. 
       description: This endpoint allows the user to set their custom address in the format username@ip_address as well as their port
       operationId: setPublicIP
       parameters:

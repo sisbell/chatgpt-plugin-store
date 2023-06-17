@@ -30,13 +30,35 @@ paths:
                 $ref: '#/components/schemas/PromoCodeLookupResponseDTO'
       tags: &ref_0
         - ai-plugin
-  /v1/ai-plugin/best-sitewide-code-lookup:
+  /v1/ai-plugin/best-code-lookup:
     get:
       operationId: AIPluginController_lookupBestMerchantCode
       summary: ''
       description: >-
-        Search for a retailer by official website domain and return the single
-        best storewide code
+        Search for retailers by official website domain and return the single
+        highest, most reliable discount code for each of them
+      parameters:
+        - name: domains
+          required: true
+          in: query
+          description: The list of domains for the promo code lookups
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Single best working code for each retailer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BestCodeRequestDTO'
+      tags: *ref_0
+  /v1/ai-plugin/best-sitewide-code-lookup:
+    get:
+      operationId: AIPluginController_lookupBestSitewideMerchantCode
+      summary: ''
+      description: >-
+        Search for a single retailer by official website domain and return the
+        single best storewide code
       parameters:
         - name: domain
           required: true
@@ -51,31 +73,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BestStorewideCodeResponseDTO'
-      tags: *ref_0
-  /v1/ai-plugin/best-sitewide-code-lookup-multiple-retailers:
-    get:
-      operationId: AIPluginController_lookupBestMerchantCode_MultipleMerchants
-      summary: ''
-      description: >-
-        Search with a list of retailers' official website domains and return the
-        single best storewide code for each retailer
-      parameters:
-        - name: domains
-          required: true
-          in: query
-          description: The list of domains for the promo code lookups
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        '200':
-          description: Single best storewide code for each retailer
-          content:
-            application/json:
-              schema:
-                $ref: >-
-                  #/components/schemas/BestMultipleRetailerStorewideCodeResponseDTO
       tags: *ref_0
 info:
   title: SimplyCodes AI Plugin
@@ -222,6 +219,14 @@ components:
       required:
         - merchant
         - codes
+    BestCodeRequestDTO:
+      type: object
+      properties:
+        domains:
+          type: string
+          description: The list of domains for the promo code lookups
+      required:
+        - domains
     BestStorewideCodeResponseDTO:
       type: object
       properties:
@@ -256,19 +261,10 @@ components:
           type: string
           description: The probability of the promo code working
       required:
+        - domain
         - title
         - code
         - url
         - lastWorkedOn
         - promotionDetails
         - successProbability
-    BestMultipleRetailerStorewideCodeResponseDTO:
-      type: object
-      properties:
-        codes:
-          description: The list of promo codes for the domains
-          type: array
-          items:
-            $ref: '#/components/schemas/BestStorewideCodeResponseDTO'
-      required:
-        - codes

@@ -42,6 +42,57 @@
               "$ref": "#/components/schemas/LanguageCode"
             },
             "description": "The language of response contents.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "minprice",
+            "schema": {
+              "$ref": "#/components/schemas/Price"
+            },
+            "description": "The minimum price level of the places to search.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "maxprice",
+            "schema": {
+              "$ref": "#/components/schemas/Price"
+            },
+            "description": "The maximum price level of the places to search.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "opennow",
+            "schema": {
+              "type": "string",
+              "format": "boolean",
+              "enum": [
+                "false",
+                "true"
+              ]
+            },
+            "description": "The maximum price level of the places to search.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "region",
+            "schema": {
+              "type": "string",
+              "format": "ccTLD"
+            },
+            "description": "The region to search, please provide ccTLD (country code top-level domain).",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "$ref": "#/components/schemas/Type"
+            },
+            "description": "The type of places to search, please provide at most one type.",
             "required": false
           }
         ],
@@ -90,7 +141,7 @@
               "$ref": "#/components/schemas/LanguageCode"
             },
             "description": "The language of response contents.",
-            "required": false
+            "required": true
           },
           {
             "in": "query",
@@ -184,6 +235,117 @@
           "vi",
           "zh-CN",
           "zh-TW"
+        ]
+      },
+      "Price": {
+        "type": "string",
+        "format": "integer",
+        "enum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "Type": {
+        "type": "string",
+        "enum": [
+          "accounting",
+          "airport",
+          "amusement_park",
+          "aquarium",
+          "art_gallery",
+          "atm",
+          "bakery",
+          "bank",
+          "bar",
+          "beauty_salon",
+          "bicycle_store",
+          "book_store",
+          "bowling_alley",
+          "bus_station",
+          "cafe",
+          "campground",
+          "car_dealer",
+          "car_rental",
+          "car_repair",
+          "car_wash",
+          "casino",
+          "cemetery",
+          "church",
+          "city_hall",
+          "clothing_store",
+          "convenience_store",
+          "courthouse",
+          "dentist",
+          "department_store",
+          "doctor",
+          "drugstore",
+          "electrician",
+          "electronics_store",
+          "embassy",
+          "fire_station",
+          "florist",
+          "funeral_home",
+          "furniture_store",
+          "gas_station",
+          "gym",
+          "hair_care",
+          "hardware_store",
+          "hindu_temple",
+          "home_goods_store",
+          "hospital",
+          "insurance_agency",
+          "jewelry_store",
+          "laundry",
+          "lawyer",
+          "library",
+          "light_rail_station",
+          "liquor_store",
+          "local_government_office",
+          "locksmith",
+          "lodging",
+          "meal_delivery",
+          "meal_takeaway",
+          "mosque",
+          "movie_rental",
+          "movie_theater",
+          "moving_company",
+          "museum",
+          "night_club",
+          "painter",
+          "park",
+          "parking",
+          "pet_store",
+          "pharmacy",
+          "physiotherapist",
+          "plumber",
+          "police",
+          "post_office",
+          "real_estate_agency",
+          "restaurant",
+          "roofing_contractor",
+          "rv_park",
+          "school",
+          "secondary_school",
+          "shoe_store",
+          "shopping_mall",
+          "spa",
+          "stadium",
+          "storage",
+          "store",
+          "subway_station",
+          "supermarket",
+          "synagogue",
+          "taxi_stand",
+          "tourist_attraction",
+          "train_station",
+          "transit_station",
+          "travel_agency",
+          "university",
+          "veterinary_care",
+          "zoo"
         ]
       },
       "TravingMode": {

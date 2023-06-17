@@ -1,0 +1,22 @@
+openapi: 3.0.1
+info:
+  title: AI News Roundup
+  description: Get Today's AI News Headlines As A Clickable Link Roundup!
+  version: 'v1'
+servers:
+  - url: https://ai-news.orrenprunckun.com/
+paths:
+  /:
+    get:
+      summary: Give user headlines for AI from today
+      operationId: getHeadline       
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

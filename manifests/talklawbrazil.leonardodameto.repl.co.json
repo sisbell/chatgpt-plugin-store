@@ -1,0 +1,21 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Talk Law Brazil ",
+  "name_for_model": "Talk_Laws_Brazil",
+  "description_for_human": "Interact with laws and bills in progress in the Brazilian Congress.",
+  "description_for_model": "Returns relevant information about laws and bills currently in progress in the Brazilian Congress.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "openai": "ed79a3c6f67a488d8a48a7a6d6afacb7"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://talklawbrazil.leonardodameto.repl.co/openapi.yaml"
+  },
+  "logo_url": "https://talklawbrazil.leonardodameto.repl.co/logo.png",
+  "contact_email": "dametodata@gmail.com",
+  "legal_info_url": "https://www.dametodata.com/law-talk-brazil"
+}

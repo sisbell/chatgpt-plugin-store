@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: PDF Exporter
+  title: Export to PDF
   description: A ChatGPT plugin API
   version: 'v1'
 servers:

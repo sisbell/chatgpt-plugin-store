@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SEO
-  description: Send a URL and keyword and get a On Page SEO analysis & insights!
+  description: Enter any URL and keyword and get an On-Page SEO analysis & insights!
   version: 'v1'
 servers:
   - url: https://seo-plugin.orrenprunckun.com/

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "IsotonixProducts",
+  "name_for_human": "Isotonix",
+  "description_for_human": "Isotonix products search.",
+  "description_for_model": "Use the Isotonix plugin to get relevant Isotonix product suggestions for shopping or learning purpose. The query to be sent should not include stopwords like articles, prepositions and determinants. The api works best when searching for words that are related to product names or description. Links will always be returned and should be shown to the user. An image of each product will always be returned and should be shown to the user.",
+  "api": {
+    "type": "openapi",
+    "url": "https://www.isotonix.com/.well-known/api-docs.json",
+    "has_user_authentication": false
+  },
+  "auth": {
+    "type": "none"
+  },
+  "logo_url": "https://images.marketamerica.com/site/ix/responsive/images/icons/favicons/apple-touch-icon.png",
+  "contact_email": "jason@shop.com",
+  "legal_info_url": "https://www.isotonix.com/policies/privacy-policy"
+}
