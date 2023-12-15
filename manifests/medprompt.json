@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "wujihan",
+  "name_for_model": "wujihan",
+  "description_for_human": " The Best Medical GPT .",
+  "description_for_model": "Microsoft showed how the composition of several prompting strategies into a method that we refer to as Medprompt. Medprompt composes three distinct strategies together -- including dynamic few-shot selection, self-generated chain of thought, and choice-shuffle ensembling.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chat.openai.com/g/g-9JnUkxOis-medprompt",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://imgse.com/i/pi4ddjf",
+  "contact_email": "xuqingchai@outlook.com",
+  "legal_info_url": "https://www.avalara.com/us/en/legal.html"
+}
